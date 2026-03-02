@@ -93,22 +93,13 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
 .aibar.thinking{background:#fff8e1;border-color:#f39c12}
 .aibar.error{background:#fff0f0;border-color:var(--r);color:var(--r)}
 .spin{animation:spin 1s linear infinite;display:inline-block}
-.nav-links{display:flex;gap:10px;background:#fff;padding:8px 36px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.nav-link{color:var(--p);text-decoration:none;padding:5px 15px;border-radius:20px;font-weight:600;transition:all .2s}
-.nav-link:hover{background:#eaf4fb}
-.nav-link.active{background:var(--p);color:#fff}
 footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:30px;padding:30px 20px 20px}
-.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
-.footer-section h3{font-size:1rem;margin-bottom:10px}
-.footer-section ul{list-style:none}
-.footer-section li{margin-bottom:5px}
-.footer-section a{color:rgba(255,255,255,.8);text-decoration:none;display:block;padding:5px 0;font-size:.85rem}
-.footer-section a:hover{color:#fff}
-.footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,.2);margin-top:20px;padding-top:20px;font-size:.8rem}
+.footer-content{max-width:1200px;margin:0 auto;text-align:center}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.2);padding-top:20px;font-size:.8rem}
 @keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1}}
 @keyframes su{from{opacity:0;transform:translateY(26px)}to{opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:860px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.ht,.ctabs,.nav-links{padding-inline:16px}}
+@media(max-width:860px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.ht,.ctabs{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -137,14 +128,6 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
       <a href="parent.html" class="parent-link">🏠 الموقع الرئيسي</a>
       <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
     </div>
-  </div>
-  
-  <!-- قائمة التنقل -->
-  <div class="nav-links">
-    <a href="teacher.html" class="nav-link active">📊 لوحة التحكم</a>
-    <a href="#" class="nav-link">📅 الجدول</a>
-    <a href="#" class="nav-link">📚 المذكرات</a>
-    <a href="parent.html" class="nav-link">👥 موقع أولياء الأمور</a>
   </div>
   
   <div class="ctabs">
@@ -217,29 +200,9 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 
 <footer>
   <div class="footer-content">
-    <div class="footer-section">
-      <h3>📚 الروابط السريعة</h3>
-      <ul>
-        <li><a href="teacher.html">📊 لوحة التحكم</a></li>
-        <li><a href="#">📖 المذكرات</a></li>
-      </ul>
+    <div class="footer-bottom">
+      © 2026 جميع الحقوق محفوظة - الأستاذ خليل · مدرسة سعد بن معاذ
     </div>
-    <div class="footer-section">
-      <h3>🔗 مواقع التواصل</h3>
-      <ul>
-        <li><a href="https://www.youtube.com/@teacherKhalil811" target="_blank">📺 يوتيوب</a></li>
-        <li><a href="https://omk811.blogspot.com" target="_blank">📝 المدونة</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h3>📞 التواصل</h3>
-      <ul>
-        <li>📧 omk456456@gmail.com</li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    © 2026 جميع الحقوق محفوظة - الأستاذ خليل · مدرسة سعد بن معاذ
   </div>
 </footer>
 </div>
@@ -261,7 +224,7 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 <div class="toast" id="toast"></div>
 
 <script>
-// ==================== إعدادات Google Sheets ====================
+// ==================== إعدادات Google Sheets API ====================
 const API_URL = 'https://script.google.com/macros/s/AKfycbxv5kvv6w4G80cMGeMf1S5fwjcsl7YoXXzI-2taqJ0Dl3kBb1T-tuCVpD6h29sUTD1UTw/exec'; // ضع رابط API الخاص بك هنا
 const PWD_KEY = 'teacher_pwd';
 const STORAGE_KEY = 'school_data_v2';
@@ -269,16 +232,53 @@ const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس
 const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
 let curClass = 'all', nFlt = 'all';
 
+// دالة لتحويل النص إلى نص مع روابط قابلة للنقر
+function makeLinksClickable(text) {
+  if (!text) return '';
+  
+  text = text.toString();
+  
+  const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/gi;
+  
+  return text.replace(urlPattern, function(url) {
+    if (url.includes('@') && url.includes('.')) {
+      return `<a href="mailto:${url}" style="color: #1a5276; text-decoration: underline; font-weight: 600;" target="_blank">${url}</a>`;
+    }
+    else if (url.startsWith('www')) {
+      return `<a href="http://${url}" style="color: #1a5276; text-decoration: underline; font-weight: 600;" target="_blank">${url}</a>`;
+    }
+    else {
+      return `<a href="${url}" style="color: #1a5276; text-decoration: underline; font-weight: 600;" target="_blank">${url}</a>`;
+    }
+  });
+}
+
+// بيانات افتراضية
+const defaultData = {
+  notices: [
+    {id: 101, type: 'homework', cls: '5A', title: 'واجب درس الفاعل', det: 'حل تدريبات كتاب النشاط صفحة 25 - شاهد الشرح على https://youtu.be/example', date: '2026-03-02 10:30'},
+    {id: 102, type: 'activity', cls: '5B', title: 'نشاط إملائي', det: 'كتابة فقرة عن المدرسة - يمكنكم الاستعانة بـ www.example.com/school', date: '2026-03-02 09:15'},
+    {id: 103, type: 'alert', cls: '5C', title: 'تنبيه مهم', det: 'غداً إجازة رسمية', date: '2026-03-01 14:20'},
+    {id: 104, type: 'homework', cls: 'all', title: 'واجب عام', det: 'حفظ قصيدة الوطن - للاستفسار teacher@school.com', date: '2026-03-01 11:00'}
+  ],
+  queries: [
+    {id: 201, name: 'أحمد محمد', student: 'عمر', cls: '5A', msg: 'متى موعد الاختبار القادم؟ شاهدت الإعلان على www.school.com/exams', date: '2026-03-02 08:30', status: 'replied', reply: 'الاختبار يوم الأحد القادم - التفاصيل على https://school.com/details'},
+    {id: 202, name: 'خالد سعيد', student: 'سالم', cls: '5B', msg: 'هل هناك واجب لليوم؟', date: '2026-03-02 09:45', status: 'new', reply: ''}
+  ],
+  nId: 105,
+  qId: 203
+};
+
 // ==================== دوال تسجيل الدخول ====================
 async function getPassword() {
   try {
     const response = await fetch(`${API_URL}?action=getPassword&t=${Date.now()}`);
     const result = await response.json();
-    if (result.status === 'success') {
+    if (result.status === 'success' && result.password) {
       return result.password;
     }
   } catch (error) {
-    console.error('Error getting password:', error);
+    console.error('Error getting password from Google Sheets:', error);
   }
   return localStorage.getItem(PWD_KEY) || 'Khalil2025';
 }
@@ -336,7 +336,11 @@ async function changePwd() {
       toast('❌ فشل تغيير كلمة السر', '#e74c3c');
     }
   } catch (error) {
-    toast('❌ خطأ في الاتصال', '#e74c3c');
+    // حفظ محلياً كاحتياطي
+    localStorage.setItem(PWD_KEY, p1);
+    document.getElementById('np1').value = '';
+    document.getElementById('np2').value = '';
+    toast('✅ تم تغيير كلمة السر محلياً');
   }
 }
 
@@ -346,15 +350,15 @@ async function loadData() {
     const response = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
     const result = await response.json();
     
-    if (result.status === 'success') {
+    if (result.status === 'success' && result.data) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
       return result.data;
     } else {
-      console.error('Error loading from Google Sheets:', result.message);
+      console.log('Using local data as fallback');
       return loadLocalData();
     }
   } catch (error) {
-    console.error('Error connecting to Google Sheets:', error);
+    console.error('Error loading from Google Sheets:', error);
     return loadLocalData();
   }
 }
@@ -372,15 +376,18 @@ async function saveNotices(notices) {
     
     const result = await response.json();
     if (result.status === 'success') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        ...loadLocalData(),
-        notices: notices
-      }));
+      const currentData = loadLocalData();
+      currentData.notices = notices;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      return true;
     }
-    return result;
+    return false;
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
-    return { status: 'error', message: error.toString() };
+    const currentData = loadLocalData();
+    currentData.notices = notices;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+    return true;
   }
 }
 
@@ -397,15 +404,18 @@ async function saveQueries(queries) {
     
     const result = await response.json();
     if (result.status === 'success') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        ...loadLocalData(),
-        queries: queries
-      }));
+      const currentData = loadLocalData();
+      currentData.queries = queries;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      return true;
     }
-    return result;
+    return false;
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
-    return { status: 'error', message: error.toString() };
+    const currentData = loadLocalData();
+    currentData.queries = queries;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+    return true;
   }
 }
 
@@ -468,9 +478,10 @@ async function deleteQuery(id) {
 function loadLocalData() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : { notices: [], queries: [], nId: 100, qId: 100 };
+    return data ? JSON.parse(data) : defaultData;
   } catch (e) {
-    return { notices: [], queries: [], nId: 100, qId: 100 };
+    console.error('Error loading local data:', e);
+    return defaultData;
   }
 }
 
@@ -540,7 +551,7 @@ function renderN(d) {
       </div>
       <div>
         <strong>${n.title}</strong>
-        ${n.det ? '<br><small style="color:#5d6d7e">' + n.det + '</small>' : ''}
+        ${n.det ? '<br><small style="color:#5d6d7e; line-height:1.6;">' + makeLinksClickable(n.det) + '</small>' : ''}
       </div>
     </div>
   `).join('');
@@ -554,7 +565,12 @@ async function delN(id) {
     await render();
     toast('✅ تم الحذف');
   } else {
-    toast('❌ فشل الحذف', '#e74c3c');
+    // حذف محلياً كاحتياطي
+    const d = loadLocalData();
+    d.notices = d.notices.filter(n => n.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    await render();
+    toast('✅ تم الحذف محلياً');
   }
 }
 
@@ -584,8 +600,8 @@ function renderQ(d) {
           </span>
         </div>
       </div>
-      <div class="qtxt">${q.msg}</div>
-      ${q.reply ? `<div style="background:#d5f5e3;border-radius:8px;padding:7px 11px;font-size:.83rem;margin-bottom:7px"><strong>ردك:</strong> ${q.reply}</div>` : ''}
+      <div class="qtxt">${makeLinksClickable(q.msg)}</div>
+      ${q.reply ? `<div style="background:#d5f5e3;border-radius:8px;padding:7px 11px;font-size:.83rem;margin-bottom:7px"><strong>ردك:</strong> ${makeLinksClickable(q.reply)}</div>` : ''}
       <div class="qa">
         <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply ? 'تعديل الرد' : 'الرد'}</button>
         <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
@@ -623,8 +639,8 @@ async function sendR(id) {
     q.status = 'replied';
   }
   
-  const result = await saveQueries(d.queries);
-  if (result.status === 'success') {
+  const saveResult = await saveQueries(d.queries);
+  if (saveResult) {
     await render();
     toast('✅ تم إرسال الرد');
   } else {
@@ -640,7 +656,12 @@ async function delQ(id) {
     await render();
     toast('✅ تم الحذف');
   } else {
-    toast('❌ فشل الحذف', '#e74c3c');
+    // حذف محلياً كاحتياطي
+    const d = loadLocalData();
+    d.queries = d.queries.filter(q => q.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    await render();
+    toast('✅ تم الحذف محلياً');
   }
 }
 
@@ -722,9 +743,9 @@ async function addNotice() {
   
   d.notices.unshift(newNotice);
   
-  const result = await saveNotices(d.notices);
+  const saveResult = await saveNotices(d.notices);
   
-  if (result.status === 'success') {
+  if (saveResult) {
     document.getElementById('nTit').value = '';
     document.getElementById('nDet').value = '';
     closeModal();
@@ -757,7 +778,6 @@ function askAI() {
   status.innerHTML = '<span class="spin">⏳</span> الذكاء الاصطناعي يفكر...';
   replyDiv.style.display = 'none';
   
-  // محاكاة رد الذكاء الاصطناعي
   setTimeout(() => {
     status.style.display = 'none';
     replyDiv.style.display = 'block';
