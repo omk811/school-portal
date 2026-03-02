@@ -80,6 +80,18 @@ main { max-width: 1150px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
 .psbtn:not(:disabled):hover { background: #e67e22; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(230,126,34,0.3); }
 .psbtn:disabled { opacity: 0.7; cursor: not-allowed; }
 
+  /* الحفاظ على الأسطر والفراغات في النصوص */
+.n-det {
+  font-size: 0.9rem;
+  color: var(--mu);
+  margin-top: 8px;
+  white-space: pre-wrap; /* هذا السطر هو السحر الذي يحفظ المسافات والأسطر */
+  line-height: 1.7;
+}
+.msg-txt, .rep-box {
+  white-space: pre-wrap;
+}
+  
 /* My Messages */
 .my-msg { background: #fafbfc; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-right: 4px solid var(--a); border: 1px solid #eee; border-right-width: 4px; }
 .msg-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
@@ -270,7 +282,10 @@ function renderN() {
   el.innerHTML = filtered.map(n => `
     <div class="ni ${n.type}">
       <div class="nm"><div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">${n.date}</span></div>
-      <div><strong>${n.title}</strong>${n.det ? `<br><div style="font-size:0.85rem;color:var(--mu);margin-top:6px">${makeLinksClickable(n.det)}</div>` : ''}</div>
+      <div>
+        <strong>${n.title}</strong>
+        ${n.det ? `<div class="n-det">${makeLinksClickable(n.det)}</div>` : ''}
+      </div>
     </div>`).join('');
 }
 
@@ -288,11 +303,11 @@ function renderMyMsg() {
         <span class="sbdg ${q.status==='replied'?'srep':q.status==='new'?'snew':'sread'}">${q.status==='replied'?'✅ تم الرد':q.status==='new'?'⏳ في الانتظار':'مقروء'}</span>
       </div>
       <div class="msg-txt">${makeLinksClickable(q.msg)}</div>
-      <div style="font-size:0.75rem;color:var(--mu)">${q.date}</div>
-      ${q.reply ? `<div class="rep-box"><strong>رد الأستاذ:</strong> ${makeLinksClickable(q.reply)}</div>` : ''}
+      <div style="font-size:0.75rem;color:var(--mu);margin-bottom:8px;">${q.date}</div>
+      ${q.reply ? `<div class="rep-box"><strong>رد الأستاذ:</strong>\n${makeLinksClickable(q.reply)}</div>` : ''}
     </div>`).join('');
 }
-
+  
 function updBadges() {
   if(!cachedData || !cachedData.notices) return;
   ['5A','5B','5C'].forEach(c => document.getElementById('b'+c).textContent = cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length);
