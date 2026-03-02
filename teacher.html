@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم المعلم — الأستاذ خليل</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap');
+:root{--p:#1a5276;--s:#2e86c1;--a:#f39c12;--g:#27ae60;--r:#e74c3c;--bd:#d5e8f5;--sh:0 4px 24px rgba(26,82,118,.1);--mu:#7f8c8d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#eaf4fb,#d6eaf8);min-height:100vh}
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.lbox{background:#fff;border-radius:24px;padding:44px 40px;width:420px;max-width:100%;box-shadow:0 20px 60px rgba(26,82,118,.2);text-align:center}
+.llogo{width:80px;height:80px;background:linear-gradient(135deg,var(--p),var(--s));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px}
+.lbox h1{font-size:1.5rem;font-weight:800;color:var(--p);margin-bottom:6px}
+.lbox p{color:var(--mu);font-size:.9rem;margin-bottom:28px}
+.linput{width:100%;padding:13px 16px;border:2px solid var(--bd);border-radius:12px;font-family:'Tajawal',sans-serif;font-size:1rem;text-align:center;letter-spacing:4px;margin-bottom:14px}
+.linput:focus{outline:none;border-color:var(--s)}
+.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;cursor:pointer}
+.lerr{color:var(--r);font-size:.88rem;margin-top:10px;display:none}
+.lhint{margin-top:16px;font-size:.8rem;color:var(--mu);background:#f8f9fa;border-radius:8px;padding:8px}
+#app{display:none}
+header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(26,82,118,.3)}
+.ht{display:flex;align-items:center;justify-content:space-between;padding:16px 36px;border-bottom:1px solid rgba(255,255,255,.15)}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(255,255,255,.4)}
+.brand h1{font-size:1.25rem;font-weight:800}
+.brand p{font-size:.8rem;opacity:.8;margin-top:2px}
+.hright{display:flex;align-items:center;gap:12px}
+.hdate{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 14px;font-size:.8rem;text-align:center;line-height:1.6}
+.outbtn{padding:7px 16px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;font-family:'Tajawal',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer}
+.ctabs{display:flex;padding:0 36px;background:rgba(0,0,0,.12)}
+.ctab{padding:11px 24px;background:transparent;color:rgba(255,255,255,.7);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.92rem;font-weight:600;border-bottom:3px solid transparent;transition:all .2s}
+.ctab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.ctab.active{color:#fff;border-bottom-color:var(--a);background:rgba(255,255,255,.12)}
+.cbdg{display:inline-flex;align-items:center;justify-content:center;background:var(--a);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.65rem;margin-right:5px;font-weight:700}
+main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template-columns:1fr 390px;gap:20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;grid-column:1/-1}
+.stat{background:#fff;border-radius:14px;padding:15px 18px;box-shadow:var(--sh);display:flex;align-items:center;gap:12px}
+.si{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.si.bl{background:#d6eaf8}.si.gr{background:#d5f5e3}.si.or{background:#fdebd0}.si.rd{background:#fadbd8}
+.stat h3{font-size:1.45rem;font-weight:800;color:var(--p)}.stat p{font-size:.76rem;color:var(--mu)}
+.card{background:#fff;border-radius:18px;box-shadow:var(--sh);overflow:hidden}
+.ch{padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd)}
+.ct{display:flex;align-items:center;gap:9px;font-size:1rem;font-weight:700;color:var(--p)}
+.ci{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.cb{padding:18px 20px}
+.ntabs{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap}
+.ntab{padding:5px 13px;border-radius:18px;border:2px solid var(--bd);background:#fff;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.82rem;font-weight:600;color:var(--mu);transition:all .2s}
+.ntab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.ni{border-radius:11px;padding:12px 14px;border-right:4px solid transparent;position:relative;margin-bottom:9px;animation:fi .25s ease}
+.ni.homework{background:#eaf4fb;border-color:var(--s)}.ni.activity{background:#d5f5e3;border-color:var(--g)}.ni.alert{background:#fdebd0;border-color:var(--a)}
+.nm{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ctag{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--p);color:#fff;margin-left:4px}
+.ttag{font-size:.68rem;padding:2px 8px;border-radius:8px;background:rgba(0,0,0,.07);font-weight:600}
+.ndate{font-size:.7rem;color:var(--mu)}
+.ndel{position:absolute;top:8px;left:9px;background:none;border:none;cursor:pointer;color:#bbb;font-size:14px}
+.ndel:hover{color:var(--r)}
+.abtn{padding:7px 15px;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-weight:600;font-size:.86rem;margin-bottom:4px;color:var(--p)}
+.fc{width:100%;padding:9px 12px;border:2px solid var(--bd);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:.9rem;color:#1c2833;resize:vertical}
+.fc:focus{outline:none;border-color:var(--s)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sbtn{width:100%;padding:10px;background:linear-gradient(135deg,var(--g),#1e8449);color:#fff;border:none;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;margin-top:4px}
+.sbtn:disabled{opacity:.6;cursor:not-allowed}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:18px;padding:26px;width:460px;max-width:95vw;animation:su .25s ease}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mt{font-size:1.1rem;font-weight:800;color:var(--p)}
+.mc{width:28px;height:28px;border-radius:50%;background:#f0f3f4;border:none;cursor:pointer;font-size:15px}
+.qi{background:#f8f9fa;border-radius:11px;padding:13px;margin-bottom:9px;border-right:4px solid var(--a);animation:fi .25s ease}
+.qh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:5px}
+.qsend{font-weight:700;font-size:.9rem}
+.qtxt{font-size:.87rem;line-height:1.6;color:#2c3e50;margin-bottom:8px}
+.qa{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rbtn{padding:5px 12px;border-radius:7px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.78rem;font-weight:600}
+.dbtn{padding:5px 12px;border-radius:7px;background:#fadbd8;color:var(--r);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.78rem;font-weight:600}
+.sbdg{font-size:.68rem;padding:2px 8px;border-radius:12px;font-weight:700}
+.snew{background:#d5f5e3;color:#1e8449}.srep{background:#d6eaf8;color:var(--p)}.sread{background:#eaecee;color:var(--mu)}
+.ra{margin-top:8px;display:none}
+.ra textarea{width:100%;padding:7px 10px;border-radius:7px;border:2px solid var(--bd);font-family:'Tajawal',sans-serif;font-size:.87rem;resize:none;margin-bottom:6px}
+.ra textarea:focus{outline:none;border-color:var(--s)}
+.srbtn{padding:6px 15px;border-radius:7px;background:var(--g);color:#fff;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.8rem;font-weight:700}
+.empty{text-align:center;padding:26px;color:var(--mu)}.eicon{font-size:36px;margin-bottom:8px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--g);color:#fff;padding:10px 24px;border-radius:26px;font-weight:700;font-size:.9rem;box-shadow:0 6px 22px rgba(0,0,0,.18);transition:transform .3s;z-index:400}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.info-row{display:flex;gap:10px;align-items:center;padding:10px;border-radius:9px;margin-bottom:9px}
+.aibar{display:flex;align-items:center;gap:8px;background:#f0f8ff;border:1px solid var(--bd);border-radius:10px;padding:8px 12px;margin-bottom:14px;font-size:.82rem;color:var(--p)}
+.aibar.thinking{background:#fff8e1;border-color:#f39c12}
+.aibar.error{background:#fff0f0;border-color:var(--r);color:var(--r)}
+.spin{animation:spin 1s linear infinite;display:inline-block}
+@keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1}}
+@keyframes su{from{opacity:0;transform:translateY(26px)}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:860px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.ht,.ctabs{padding-inline:16px}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="lbox">
+    <div class="llogo">🔐</div>
+    <h1>لوحة تحكم المعلم</h1>
+    <p>مركز التواصل مع أولياء الأمور<br>الأستاذ خليل — اللغة العربية</p>
+    <input type="password" class="linput" id="pwdInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lbtn" onclick="doLogin()">🔓 دخول</button>
+    <div class="lerr" id="loginErr">❌ كلمة السر غير صحيحة</div>
+    <div class="lhint">💡 هذه الصفحة خاصة بالمعلم فقط</div>
+  </div>
+</div>
+
+<div id="app">
+<header>
+  <div class="ht">
+    <div class="brand">
+      <div class="logo">📚</div>
+      <div><h1>لوحة تحكم المعلم</h1><p>الأستاذ خليل — اللغة العربية · الصف الخامس</p></div>
+    </div>
+    <div class="hright">
+      <div class="hdate" id="hdate"></div>
+      <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
+    </div>
+  </div>
+  <div class="ctabs">
+    <button class="ctab active" onclick="setClass('all')">📋 جميع الشعب</button>
+    <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span>الخامس 1</button>
+    <button class="ctab" onclick="setClass('5B')"><span class="cbdg" id="b5B">0</span>الخامس 2</button>
+    <button class="ctab" onclick="setClass('5C')"><span class="cbdg" id="b5C">0</span>الخامس 3</button>
+  </div>
+</header>
+
+<main>
+  <div class="stats">
+    <div class="stat"><div class="si bl">📌</div><div><h3 id="sN">0</h3><p>إجمالي الملاحظات</p></div></div>
+    <div class="stat"><div class="si or">💬</div><div><h3 id="sQ">0</h3><p>الاستفسارات</p></div></div>
+    <div class="stat"><div class="si gr">✅</div><div><h3 id="sR">0</h3><p>تمت الإجابة</p></div></div>
+    <div class="stat"><div class="si rd">🔔</div><div><h3 id="sNw">0</h3><p>جديدة</p></div></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div class="card">
+      <div class="ch">
+        <div class="ct"><div class="ci" style="background:#d6eaf8">📋</div>إدارة الملاحظات</div>
+        <button class="abtn" onclick="openModal()">➕ إضافة</button>
+      </div>
+      <div class="cb">
+        <div class="ntabs">
+          <button class="ntab active" onclick="flt('all',this)">الكل</button>
+          <button class="ntab" onclick="flt('homework',this)">📝 واجبات</button>
+          <button class="ntab" onclick="flt('activity',this)">🎯 أنشطة</button>
+          <button class="ntab" onclick="flt('alert',this)">🔔 تنبيهات</button>
+        </div>
+        <div id="nList"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#fdebd0">💬</div>استفسارات أولياء الأمور</div></div>
+      <div class="cb"><div id="qList"></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#d5f5e3">🤖</div>مساعد الذكاء الاصطناعي</div></div>
+      <div class="cb">
+        <p style="font-size:.82rem;color:var(--mu);margin-bottom:10px">اطرح سؤالاً أو اطلب مساعدة في إعداد ملاحظة</p>
+        <div id="aiStatus" class="aibar" style="display:none"></div>
+        <div class="fg"><textarea class="fc" id="aiPrompt" rows="3" placeholder="مثال: اقترح لي ملاحظة واجب لدرس الفاعل للصف الخامس..."></textarea></div>
+        <button class="sbtn" id="aiBtn" onclick="askAI()" style="background:linear-gradient(135deg,#8e44ad,#6c3483)">✨ اسأل الذكاء الاصطناعي</button>
+        <div id="aiReply" style="margin-top:12px;display:none;background:#f3e5f5;border-radius:9px;padding:12px;font-size:.88rem;line-height:1.7;color:#1c2833"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#fadbd8">⚙️</div>إعدادات</div></div>
+      <div class="cb">
+        <div class="info-row" style="background:#eaf4fb"><span style="font-size:20px">🏫</span><div style="font-size:.87rem"><strong>مدرسة سعد بن معاذ</strong><br><span style="color:var(--mu)">شمال الباطنة — سلطنة عُمان</span></div></div>
+        <div class="info-row" style="background:#d5f5e3"><span style="font-size:20px">📺</span><div style="font-size:.87rem"><strong><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" style="color:var(--p);text-decoration:none">@teacherKhalil811</a></strong><br><a href="https://omk811.blogspot.com" target="_blank" style="color:var(--s);font-size:.85rem">omk811.blogspot.com</a></div></div>
+        <hr style="border:none;border-top:1px solid var(--bd);margin:14px 0">
+        <p style="font-size:.82rem;color:var(--mu);margin-bottom:10px">🔑 تغيير كلمة السر:</p>
+        <div class="fg"><input type="password" class="fc" id="np1" placeholder="كلمة السر الجديدة"></div>
+        <div class="fg"><input type="password" class="fc" id="np2" placeholder="تأكيد كلمة السر"></div>
+        <button class="sbtn" onclick="changePwd()" style="background:linear-gradient(135deg,#8e44ad,#6c3483)">🔒 تغيير كلمة السر</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#d6eaf8">📊</div>إحصائيات الشعب</div></div>
+      <div class="cb" id="classStats"></div>
+    </div>
+  </div>
+</main>
+</div>
+
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="mh"><span class="mt">➕ إضافة ملاحظة جديدة</span><button class="mc" onclick="closeModal()">✕</button></div>
+    <div class="fr">
+      <div class="fg"><label>النوع *</label>
+        <select class="fc" id="nType"><option value="homework">📝 واجب</option><option value="activity">🎯 نشاط</option><option value="alert">🔔 تنبيه</option></select></div>
+      <div class="fg"><label>الشعبة *</label>
+        <select class="fc" id="nCls"><option value="all">جميع الشعب</option><option value="5A">الخامس 1</option><option value="5B">الخامس 2</option><option value="5C">الخامس 3</option></select></div>
+    </div>
+    <div class="fg"><label>العنوان *</label><input type="text" class="fc" id="nTit" placeholder="مثال: واجب درس الفاعل"></div>
+    <div class="fg"><label>التفاصيل</label><textarea class="fc" id="nDet" rows="3" placeholder="التفاصيل..."></textarea></div>
+    <button class="sbtn" id="saveBtn" onclick="addNotice()">💾 حفظ</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PWD_KEY='teacher_pwd';
+const STORAGE_KEY='school_data_v2';
+const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
+const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
+let curClass='all', nFlt='all';
+
+// ── PASSWORD ──
+function getPwd(){return localStorage.getItem(PWD_KEY)||'Khalil2025';}
+function doLogin(){
+  if(document.getElementById('pwdInput').value===getPwd()){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('loginErr').style.display='none';
+    initApp();
+  }else{
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('pwdInput').value='';
+    document.getElementById('pwdInput').focus();
+  }
+}
+function doLogout(){document.getElementById('app').style.display='none';document.getElementById('loginScreen').style.display='flex';document.getElementById('pwdInput').value='';}
+function changePwd(){
+  const p1=document.getElementById('np1').value.trim(),p2=document.getElementById('np2').value.trim();
+  if(!p1){toast('أدخل كلمة السر الجديدة','#e74c3c');return;}
+  if(p1!==p2){toast('كلمتا السر غير متطابقتين','#e74c3c');return;}
+  localStorage.setItem(PWD_KEY,p1);
+  document.getElementById('np1').value='';document.getElementById('np2').value='';
+  toast('✅ تم تغيير كلمة السر');
+}
+
+// ── DATA (Claude AI Storage) ──
+async function loadData(){
+  try{
+    const r=await window.storage.get(STORAGE_KEY,true);
+    if(r&&r.value){return JSON.parse(r.value);}
+  }catch(e){}
+  return{notices:[],queries:[],nId:100,qId:100};
+}
+async function saveData(d){
+  try{await window.storage.set(STORAGE_KEY,JSON.stringify(d),true);}
+  catch(e){console.error('Save error',e);}
+}
+
+// ── DATE ──
+function upDate(){const d=new Date();document.getElementById('hdate').innerHTML=d.toLocaleDateString('ar-OM',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'<br><small>'+d.toLocaleTimeString('ar-OM')+'</small>';}
+
+// ── INIT ──
+async function initApp(){
+  upDate();setInterval(upDate,1000);
+  await render();
+  setInterval(render,15000);
+}
+
+// ── TABS ──
+function setClass(c){curClass=c;document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i]));render();}
+function flt(f,btn){nFlt=f;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderN();}
+
+async function render(){
+  const d=await loadData();
+  renderN(d);renderQ(d);renderCStat(d);updStats(d);
+}
+
+// ── NOTICES ──
+function renderN(d){
+  if(!d)return;
+  const el=document.getElementById('nList');
+  let f=d.notices.filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));
+  if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات</p></div>';return;}
+  el.innerHTML=f.map(n=>`<div class="ni ${n.type}"><button class="ndel" onclick="delN(${n.id})">✕</button>
+    <div class="nm"><div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">🕐 ${n.date}</span></div>
+    <div><strong>${n.title}</strong>${n.det?'<br><small style="color:#5d6d7e">'+n.det+'</small>':''}</div></div>`).join('');
+}
+async function delN(id){
+  const d=await loadData();d.notices=d.notices.filter(n=>n.id!==id);
+  await saveData(d);render();toast('تم الحذف');
+}
+
+// ── MODAL ──
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal();}
+
+async function addNotice(){
+  const t=document.getElementById('nTit').value.trim();
+  if(!t){toast('الرجاء كتابة العنوان','#e74c3c');return;}
+  const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='⏳ جاري الحفظ...';
+  const d=await loadData();
+  const now=new Date();
+  const ds=now.toLocaleDateString('ar-OM',{day:'numeric',month:'short'})+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'});
+  d.notices.unshift({id:++d.nId,type:document.getElementById('nType').value,cls:document.getElementById('nCls').value,title:t,det:document.getElementById('nDet').value.trim(),date:ds});
+  await saveData(d);
+  document.getElementById('nTit').value='';document.getElementById('nDet').value='';
+  btn.disabled=false;btn.textContent='💾 حفظ';
+  closeModal();render();toast('✅ تمت الإضافة');
+}
+
+// ── QUERIES ──
+function renderQ(d){
+  if(!d)return;
+  const el=document.getElementById('qList');
+  let f=d.queries.filter(q=>curClass==='all'||q.cls===curClass).sort((a,b)=>a.status==='new'?-1:1);
+  if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات</p></div>';return;}
+  el.innerHTML=f.map(q=>`<div class="qi"><div class="qh">
+    <div><span class="qsend">👤 ${q.name}</span><span style="font-size:.75rem;color:var(--mu);margin-right:5px">— ${q.student}</span></div>
+    <div><span class="ctag">${CN[q.cls]}</span><span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'جديد':q.status==='replied'?'تمت الإجابة':'مقروء'}</span></div>
+    </div><div class="qtxt">${q.msg}</div>
+    ${q.reply?`<div style="background:#d5f5e3;border-radius:8px;padding:7px 11px;font-size:.83rem;margin-bottom:7px"><strong>ردك:</strong> ${q.reply}</div>`:''}
+    <div class="qa">
+      <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply?'تعديل الرد':'الرد'}</button>
+      <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
+      <span style="font-size:.7rem;color:var(--mu);margin-right:auto;align-self:center">🕐 ${q.date}</span>
+    </div>
+    <div class="ra" id="ra${q.id}"><textarea rows="2" placeholder="اكتب ردك..." id="rt${q.id}">${q.reply||''}</textarea>
+    <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال</button></div></div>`).join('');
+}
+
+async function togR(id){
+  const a=document.getElementById('ra'+id);a.style.display=a.style.display==='block'?'none':'block';
+  const d=await loadData();const q=d.queries.find(x=>x.id===id);
+  if(q&&q.status==='new'){q.status='read';await saveData(d);render();}
+}
+async function sendR(id){
+  const t=document.getElementById('rt'+id).value.trim();if(!t)return;
+  const d=await loadData();const q=d.queries.find(x=>x.id===id);
+  if(q){q.reply=t;q.status='replied';}
+  await saveData(d);render();toast('✅ تم إرسال الرد');
+}
+async function delQ(id){
+  const d=await loadData();d.queries=d.queries.filter(q=>q.id!==id);
+  await saveData(d);render();toast('تم الحذف');
+}
+
+// ── STATS ──
+function updStats(d){
+  if(!d)return;
+  document.getElementById('sN').textContent=d.notices.length;
+  document.getElementById('sQ').textContent=d.queries.length;
+  document.getElementById('sR').textContent=d.queries.filter(q=>q.status==='replied').length;
+  document.getElementById('sNw').textContent=d.queries.filter(q=>q.status==='new').length;
+  ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=d.notices.filter(n=>n.cls===c||n.cls==='all').length);
+}
+function renderCStat(d){
+  if(!d)return;
+  const el=document.getElementById('classStats');if(!el)return;
+  el.innerHTML=['5A','5B','5C'].map(c=>{
+    const nC=d.notices.filter(n=>n.cls===c||n.cls==='all').length;
+    const qC=d.queries.filter(q=>q.cls===c).length;
+    const nwC=d.queries.filter(q=>q.cls===c&&q.status==='new').length;
+    return`<div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between">
+      <strong style="color:var(--p)">${CN[c]}</strong>
+      <div style="display:flex;gap:8px;font-size:.8rem">
+        <span style="background:#d6eaf8;padding:2px 8px;border-radius:7px">📌 ${nC}</span>
+        <span style="background:#fdebd0;padding:2px 8px;border-radius:7px">💬 ${qC}</span>
+        ${nwC?`<span style="background:#d5f5e3;padding:2px 8px;border-radius:7px;font-weight:700">🔔 ${nwC} جديد</span>`:''}
+      </div></div>`;
+  }).join('');
+}
+
+// ── AI ASSISTANT ──
+async function askAI(){
+  const prompt=document.getElementById('aiPrompt').value.trim();
+  if(!prompt){toast('اكتب سؤالك أولاً','#e74c3c');return;}
+  const btn=document.getElementById('aiBtn');
+  const status=document.getElementById('aiStatus');
+  const replyDiv=document.getElementById('aiReply');
+  btn.disabled=true;btn.textContent='⏳ جاري التفكير...';
+  status.style.display='flex';status.className='aibar thinking';
+  status.innerHTML='<span class="spin">⏳</span> الذكاء الاصطناعي يفكر...';
+  replyDiv.style.display='none';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:'أنت مساعد لمعلم اللغة العربية الأستاذ خليل في مدرسة سعد بن معاذ بسلطنة عُمان، تساعده في إعداد ملاحظات وواجبات وأنشطة وتنبيهات لطلاب الصف الخامس. ردودك باللغة العربية فقط، موجزة ومفيدة.',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    const txt=data.content&&data.content[0]&&data.content[0].text?data.content[0].text:'لم أتمكن من الحصول على رد.';
+    status.style.display='none';
+    replyDiv.style.display='block';
+    replyDiv.innerHTML='<strong style="color:#8e44ad">🤖 الذكاء الاصطناعي:</strong><br><br>'+txt.replace(/\n/g,'<br>');
+  }catch(e){
+    status.className='aibar error';status.innerHTML='❌ تعذّر الاتصال. حاول مجدداً.';
+  }
+  btn.disabled=false;btn.textContent='✨ اسأل الذكاء الاصطناعي';
+}
+
+// ── TOAST ──
+function toast(msg,bg='#27ae60'){const t=document.getElementById('toast');t.style.background=bg;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body>
+</html>
