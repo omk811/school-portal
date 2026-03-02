@@ -137,6 +137,57 @@ main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
   border: 1px solid #bce8d1;
   white-space: pre-wrap;
 }
+
+  /* تحسين عام للنصوص لزيادة الوضوح */
+body {
+    -webkit-font-smoothing: antialiased; /* تنعيم الخط على أجهزة آيفون */
+    text-rendering: optimizeLegibility;
+}
+
+/* تكبير عناوين الملاحظات والواجبات */
+.ni strong {
+    font-size: 1.15rem !important; /* حجم أكبر للعنوان */
+    color: #000; /* أسود صريح لزيادة التباين */
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* تحسين نص المحتوى (الواجب أو التنبيه) */
+.n-det, .qtxt, .reply-preview, .msg-txt {
+    font-size: 1.05rem !important; /* حجم مريح جداً للقراءة على الجوال */
+    line-height: 1.8 !important; /* مسافة كافية بين السطور لمنع تداخل الكلام */
+    color: #2c3e50; /* لون غامق وواضح */
+    font-weight: 500; /* سماكة متوسطة للخط */
+}
+
+/* تحسين ظهور التوقيت والتاجات */
+.ndate, .ttag, .ctag {
+    font-size: 0.85rem !important;
+    font-weight: 700;
+}
+
+/* تحسين حقول الكتابة لسهولة الإدخال من الجوال */
+.fc {
+    font-size: 16px !important; /* يمنع متصفح Safari من عمل Zoom تلقائي عند الكتابة */
+}
+
+@media (max-width: 600px) {
+    /* زيادة التباعد في الجوال لإعطاء "مساحة تنفس" للعين */
+    .ni, .qi, .my-msg {
+        padding: 20px !important;
+        margin-bottom: 16px !important;
+    }
+    
+    .welcome h2 {
+        font-size: 1.3rem !important;
+    }
+    
+    .welcome p {
+        font-size: 1rem !important;
+        line-height: 1.6;
+    }
+}
   
 /* Modal & Toast */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
