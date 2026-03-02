@@ -165,6 +165,7 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
       <h3>📚 الروابط السريعة</h3>
       <ul>
         <li><a href="parent.html">🏠 الرئيسية</a></li>
+        <li><a href="teacher.html">👨‍🏫 لوحة المعلم</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -189,94 +190,256 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_KEY='school_data_v2';
-const MY_KEY='my_query_ids';
-const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
-const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
-let curClass='all', nFlt='all';
+// ==================== إعدادات Google Sheets ====================
+const API_URL = 'https://script.google.com/macros/s/AKfycbxv5kvv6w4G80cMGeMf1S5fwjcsl7YoXXzI-2taqJ0Dl3kBb1T-tuCVpD6h29sUTD1UTw/exec'; // ضع رابط API الخاص بك هنا
+const STORAGE_KEY = 'school_data_v2';
+const MY_KEY = 'my_query_ids';
+const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
+const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
+let curClass = 'all', nFlt = 'all';
+let cachedData = null;
 
-// استخدام localStorage للتخزين المحلي (لأن GitHub Pages لا يدعم window.storage)
-async function loadData(){
-  try{
+// ==================== دوال Google Sheets ====================
+async function loadData() {
+  try {
+    const response = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      // حفظ نسخة احتياطية في localStorage
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+      return result.data;
+    } else {
+      console.error('Error loading from Google Sheets:', result.message);
+      return loadLocalData();
+    }
+  } catch (error) {
+    console.error('Error connecting to Google Sheets:', error);
+    return loadLocalData();
+  }
+}
+
+async function saveQueries(queries) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'saveQueries',
+        data: JSON.stringify(queries)
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        ...loadLocalData(),
+        queries: queries
+      }));
+    }
+    return result;
+  } catch (error) {
+    console.error('Error saving to Google Sheets:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+function loadLocalData() {
+  try {
     const data = localStorage.getItem(STORAGE_KEY);
-    if(data) return JSON.parse(data);
-  }catch(e){}
-  return{notices:[],queries:[],nId:100,qId:100};
-}
-async function saveData(d){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}
-  catch(e){console.error('Save error',e);}
-}
-function getMyIds(){try{return JSON.parse(localStorage.getItem(MY_KEY))||[];}catch(e){return[];}}
-function saveMyIds(ids){localStorage.setItem(MY_KEY,JSON.stringify(ids));}
-
-function upDate(){const d=new Date();document.getElementById('hdate').innerHTML=d.toLocaleDateString('ar-OM',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'<br><small>'+d.toLocaleTimeString('ar-OM')+'</small>';}
-upDate();setInterval(upDate,1000);
-
-function setClass(c){curClass=c;document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i]));render();}
-function flt(f,btn){nFlt=f;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderN();}
-let cachedData=null;
-
-async function render(){
-  cachedData=await loadData();
-  renderN();renderMyMsg();updBadges();
+    return data ? JSON.parse(data) : { notices: [], queries: [], nId: 100, qId: 100 };
+  } catch (e) {
+    return { notices: [], queries: [], nId: 100, qId: 100 };
+  }
 }
 
-function renderN(){
-  const d=cachedData;
-  const el=document.getElementById('nList');
-  if(!d || !d.notices){el.innerHTML='<div class="loading">⏳ جاري التحميل...</div>';return;}
-  let f=d.notices.filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));
-  if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات حالياً</p></div>';return;}
-  el.innerHTML=f.map(n=>`<div class="ni ${n.type}">
-    <div class="nm"><div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">🕐 ${n.date}</span></div>
-    <div><strong>${n.title}</strong>${n.det?'<br><small style="color:#5d6d7e">'+n.det+'</small>':''}</div></div>`).join('');
+function getMyIds() {
+  try { return JSON.parse(localStorage.getItem(MY_KEY)) || []; } 
+  catch(e) { return []; }
 }
 
-function renderMyMsg(){
-  const d=cachedData;if(!d || !d.queries)return;
-  const myIds=getMyIds();
-  const myQ=d.queries.filter(q=>myIds.includes(q.id));
-  const card=document.getElementById('myCard'),el=document.getElementById('myList');
-  if(!myQ.length){card.style.display='none';return;}
-  card.style.display='block';
-  el.innerHTML=myQ.map(q=>`<div class="my-msg">
-    <div class="msg-top">
-      <span class="msg-student">👤 ${q.student} — ${CN[q.cls]}</span>
-      <span class="sbdg ${q.status==='replied'?'srep':q.status==='new'?'snew':'sread'}">${q.status==='replied'?'✅ تم الرد':q.status==='new'?'⏳ في الانتظار':'مقروء'}</span>
+function saveMyIds(ids) {
+  localStorage.setItem(MY_KEY, JSON.stringify(ids));
+}
+
+// ==================== دوال التاريخ ====================
+function upDate() {
+  const d = new Date();
+  document.getElementById('hdate').innerHTML = 
+    d.toLocaleDateString('ar-OM', {weekday:'long', year:'numeric', month:'long', day:'numeric'}) + 
+    '<br><small>' + d.toLocaleTimeString('ar-OM') + '</small>';
+}
+upDate();
+setInterval(upDate, 1000);
+
+// ==================== دوال التبويبات ====================
+function setClass(c) {
+  curClass = c;
+  document.querySelectorAll('.ctab').forEach((b, i) => 
+    b.classList.toggle('active', [c==='all', c==='5A', c==='5B', c==='5C'][i])
+  );
+  render();
+}
+
+function flt(f, btn) {
+  nFlt = f;
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderN();
+}
+
+// ==================== دوال العرض ====================
+async function render() {
+  cachedData = await loadData();
+  renderN();
+  renderMyMsg();
+  updBadges();
+}
+
+function renderN() {
+  const d = cachedData;
+  const el = document.getElementById('nList');
+  
+  if (!d || !d.notices || d.notices.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات حالياً</p></div>';
+    return;
+  }
+  
+  let filtered = d.notices.filter(n => 
+    (curClass === 'all' || n.cls === 'all' || n.cls === curClass) && 
+    (nFlt === 'all' || n.type === nFlt)
+  );
+  
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات</p></div>';
+    return;
+  }
+  
+  el.innerHTML = filtered.map(n => `
+    <div class="ni ${n.type}">
+      <div class="nm">
+        <div>
+          <span class="ctag">${CN[n.cls]}</span>
+          <span class="ttag">${TN[n.type]}</span>
+        </div>
+        <span class="ndate">🕐 ${n.date}</span>
+      </div>
+      <div>
+        <strong>${n.title}</strong>
+        ${n.det ? '<br><small style="color:#5d6d7e">' + n.det + '</small>' : ''}
+      </div>
     </div>
-    <div class="msg-txt">${q.msg}</div>
-    <div style="font-size:.7rem;color:var(--mu)">🕐 ${q.date}</div>
-    ${q.reply?`<div class="rep-box"><strong>رد الأستاذ:</strong> ${q.reply}</div>`:''}
-  </div>`).join('');
+  `).join('');
 }
 
-async function submitQ(){
-  const n=document.getElementById('pN').value.trim(),s=document.getElementById('pS').value.trim();
-  const c=document.getElementById('pC').value,m=document.getElementById('pM').value.trim();
-  if(!n||!s||!c||!m){toast('الرجاء تعبئة جميع الحقول *','#e74c3c');return;}
-  const btn=document.getElementById('sendBtn');
-  btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';
-  const d=await loadData();
-  const now=new Date();
-  const ds=now.toLocaleDateString('ar-OM',{day:'numeric',month:'short'})+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'});
-  const newId=++d.qId;
-  d.queries.unshift({id:newId,name:n,student:s,cls:c,msg:m,date:ds,status:'new',reply:''});
-  await saveData(d);
-  const myIds=getMyIds();myIds.push(newId);saveMyIds(myIds);
-  ['pN','pS','pM'].forEach(i=>document.getElementById(i).value='');document.getElementById('pC').value='';
-  btn.disabled=false;btn.textContent='📤 إرسال';
-  await render();toast('✅ تم الإرسال — شكراً لتواصلكم!');
+function renderMyMsg() {
+  const d = cachedData;
+  if (!d || !d.queries) return;
+  
+  const myIds = getMyIds();
+  const myQ = d.queries.filter(q => myIds.includes(q.id));
+  const card = document.getElementById('myCard');
+  const el = document.getElementById('myList');
+  
+  if (!myQ.length) {
+    card.style.display = 'none';
+    return;
+  }
+  
+  card.style.display = 'block';
+  el.innerHTML = myQ.map(q => `
+    <div class="my-msg">
+      <div class="msg-top">
+        <span class="msg-student">👤 ${q.student} — ${CN[q.cls]}</span>
+        <span class="sbdg ${q.status === 'replied' ? 'srep' : q.status === 'new' ? 'snew' : 'sread'}">
+          ${q.status === 'replied' ? '✅ تم الرد' : q.status === 'new' ? '⏳ في الانتظار' : 'مقروء'}
+        </span>
+      </div>
+      <div class="msg-txt">${q.msg}</div>
+      <div style="font-size:.7rem;color:var(--mu)">🕐 ${q.date}</div>
+      ${q.reply ? `<div class="rep-box"><strong>رد الأستاذ:</strong> ${q.reply}</div>` : ''}
+    </div>
+  `).join('');
 }
 
-function updBadges(){
-  if(!cachedData || !cachedData.notices)return;
-  ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length);
+function updBadges() {
+  if (!cachedData || !cachedData.notices) return;
+  ['5A', '5B', '5C'].forEach(c => 
+    document.getElementById('b' + c).textContent = 
+      cachedData.notices.filter(n => n.cls === c || n.cls === 'all').length
+  );
 }
-function toast(msg,bg='#27ae60'){const t=document.getElementById('toast');t.style.background=bg;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
+// ==================== دوال الإرسال ====================
+async function submitQ() {
+  const n = document.getElementById('pN').value.trim();
+  const s = document.getElementById('pS').value.trim();
+  const c = document.getElementById('pC').value;
+  const m = document.getElementById('pM').value.trim();
+  
+  if (!n || !s || !c || !m) {
+    toast('الرجاء تعبئة جميع الحقول *', '#e74c3c');
+    return;
+  }
+  
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الإرسال...';
+  
+  const d = await loadData();
+  const now = new Date();
+  const ds = now.toLocaleDateString('ar-OM', {day:'numeric', month:'short'}) + ' ' + 
+            now.toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'});
+  
+  const newId = ++d.qId;
+  const newQuery = {
+    id: newId,
+    name: n,
+    student: s,
+    cls: c,
+    msg: m,
+    date: ds,
+    status: 'new',
+    reply: ''
+  };
+  
+  d.queries.unshift(newQuery);
+  
+  // حفظ في Google Sheets
+  const saveResult = await saveQueries(d.queries);
+  
+  if (saveResult.status === 'success') {
+    // حفظ معرف الرسالة للمستخدم
+    const myIds = getMyIds();
+    myIds.push(newId);
+    saveMyIds(myIds);
+    
+    // تفريغ الحقول
+    ['pN', 'pS', 'pM'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('pC').value = '';
+    
+    toast('✅ تم الإرسال — شكراً لتواصلكم!');
+  } else {
+    toast('❌ فشل الإرسال، حاول مرة أخرى', '#e74c3c');
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '📤 إرسال';
+  await render();
+}
+
+// ==================== دوال مساعدة ====================
+function toast(msg, bg = '#27ae60') {
+  const t = document.getElementById('toast');
+  t.style.background = bg;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// بدء التطبيق
 render();
-setInterval(render,15000);
+setInterval(render, 30000); // تحديث كل 30 ثانية
 </script>
 </body>
 </html>
