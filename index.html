@@ -15,7 +15,10 @@ header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;box-shado
 .logo{width:52px;height:52px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,.4)}
 .brand h1{font-size:1.3rem;font-weight:800}
 .brand p{font-size:.8rem;opacity:.82;margin-top:2px}
+.hright{display:flex;align-items:center;gap:12px}
 .hdate{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 14px;font-size:.8rem;text-align:center;line-height:1.6}
+.teacher-link{color:#fff;text-decoration:none;padding:7px 16px;background:rgba(255,255,255,.2);border-radius:20px;font-size:.8rem;border:1px solid rgba(255,255,255,.3);transition:all .2s}
+.teacher-link:hover{background:rgba(255,255,255,.3);transform:scale(1.05)}
 .ctabs{display:flex;padding:0 36px;background:rgba(0,0,0,.12)}
 .ctab{padding:11px 24px;background:transparent;color:rgba(255,255,255,.7);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:600;border-bottom:3px solid transparent;transition:all .2s}
 .ctab:hover{color:#fff;background:rgba(255,255,255,.08)}
@@ -61,8 +64,20 @@ main{max-width:1150px;margin:0 auto;padding:24px 16px;display:grid;grid-template
 .empty{text-align:center;padding:26px;color:var(--mu)}.eicon{font-size:36px;margin-bottom:8px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--g);color:#fff;padding:10px 24px;border-radius:26px;font-weight:700;font-size:.9rem;transition:transform .3s;z-index:400;box-shadow:0 6px 22px rgba(0,0,0,.18)}
 .toast.show{transform:translateX(-50%) translateY(0)}
+.nav-links{display:flex;gap:10px;background:#fff;padding:8px 36px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.nav-link{color:var(--p);text-decoration:none;padding:5px 15px;border-radius:20px;font-weight:600;transition:all .2s}
+.nav-link:hover{background:#eaf4fb}
+.nav-link.active{background:var(--p);color:#fff}
+footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:30px;padding:30px 20px 20px}
+.footer-content{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.footer-section h3{font-size:1rem;margin-bottom:10px}
+.footer-section ul{list-style:none}
+.footer-section li{margin-bottom:5px}
+.footer-section a{color:rgba(255,255,255,.8);text-decoration:none;display:block;padding:5px 0;font-size:.85rem}
+.footer-section a:hover{color:#fff}
+.footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,.2);margin-top:20px;padding-top:20px;font-size:.8rem}
 @keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1}}
-@media(max-width:860px){main{grid-template-columns:1fr}.ht,.ctabs{padding-inline:16px}}
+@media(max-width:860px){main{grid-template-columns:1fr}.ht,.ctabs,.nav-links{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -72,8 +87,20 @@ main{max-width:1150px;margin:0 auto;padding:24px 16px;display:grid;grid-template
       <div class="logo">📚</div>
       <div><h1>التواصل مع الأستاذ خليل</h1><p>اللغة العربية · الصف الخامس · مدرسة سعد بن معاذ</p></div>
     </div>
-    <div class="hdate" id="hdate"></div>
+    <div class="hright">
+      <div class="hdate" id="hdate"></div>
+      <a href="teacher.html" class="teacher-link">👨‍🏫 دخول المعلم</a>
+    </div>
   </div>
+  
+  <!-- قائمة التنقل -->
+  <div class="nav-links">
+    <a href="parent.html" class="nav-link active">📱 التواصل</a>
+    <a href="#" class="nav-link">📅 الجدول</a>
+    <a href="#" class="nav-link">📚 المذكرات</a>
+    <a href="#" class="nav-link">📊 الدرجات</a>
+  </div>
+  
   <div class="ctabs">
     <button class="ctab active" onclick="setClass('all')">📋 جميع الشعب</button>
     <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span>الخامس 1</button>
@@ -125,11 +152,44 @@ main{max-width:1150px;margin:0 auto;padding:24px 16px;display:grid;grid-template
       <div class="ch"><div class="ct"><div class="ci" style="background:#d5f5e3">ℹ️</div>معلومات التواصل</div></div>
       <div class="cb">
         <div class="info-row" style="background:#eaf4fb"><span style="font-size:20px">📅</span><div style="font-size:.87rem"><strong>أوقات الرد</strong><br><span style="color:var(--mu)">الأحد — الخميس · ٨ص — ٢م</span></div></div>
-        <div class="info-row" style="background:#d5f5e3"><span style="font-size:20px">📺</span><div style="font-size:.87rem"><strong><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" style="color:#fff;text-decoration:none">@teacherKhalil811 ↗</a></strong><br><a href="https://omk811.blogspot.com" target="_blank" style="color:rgba(255,255,255,.8);font-size:.85rem">omk811.blogspot.com ↗</a></div></div>
+        <div class="info-row" style="background:#d5f5e3"><span style="font-size:20px">📺</span><div style="font-size:.87rem"><strong>قناة اليوتيوب</strong><br><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" style="color:var(--s);text-decoration:none">@teacherKhalil811</a></div></div>
+        <div class="info-row" style="background:#fdebd0"><span style="font-size:20px">📝</span><div style="font-size:.87rem"><strong>المدونة</strong><br><a href="https://omk811.blogspot.com" target="_blank" style="color:var(--s);text-decoration:none">omk811.blogspot.com</a></div></div>
       </div>
     </div>
   </div>
 </main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>📚 الروابط السريعة</h3>
+      <ul>
+        <li><a href="parent.html">🏠 الرئيسية</a></li>
+        <li><a href="#">📅 جدول الحصص</a></li>
+        <li><a href="#">📖 المذكرات</a></li>
+        <li><a href="teacher.html">👨‍🏫 لوحة المعلم</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>🔗 مواقع التواصل</h3>
+      <ul>
+        <li><a href="https://www.youtube.com/@teacherKhalil811" target="_blank">📺 يوتيوب</a></li>
+        <li><a href="https://omk811.blogspot.com" target="_blank">📝 المدونة</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>📞 التواصل</h3>
+      <ul>
+        <li>📧 teacher.khalil@school.om</li>
+        <li>📱 9665xxxxxxx</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 جميع الحقوق محفوظة - الأستاذ خليل · مدرسة سعد بن معاذ · شمال الباطنة
+  </div>
+</footer>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -139,15 +199,17 @@ const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2',
 const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
 let curClass='all', nFlt='all';
 
+// استخدام localStorage للتخزين المحلي (لأن GitHub Pages لا يدعم window.storage)
 async function loadData(){
   try{
-    const r=await window.storage.get(STORAGE_KEY,true);
-    if(r&&r.value)return JSON.parse(r.value);
+    const data = localStorage.getItem(STORAGE_KEY);
+    if(data) return JSON.parse(data);
   }catch(e){}
   return{notices:[],queries:[],nId:100,qId:100};
 }
 async function saveData(d){
-  try{await window.storage.set(STORAGE_KEY,JSON.stringify(d),true);}catch(e){}
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}
+  catch(e){console.error('Save error',e);}
 }
 function getMyIds(){try{return JSON.parse(localStorage.getItem(MY_KEY))||[];}catch(e){return[];}}
 function saveMyIds(ids){localStorage.setItem(MY_KEY,JSON.stringify(ids));}
@@ -167,7 +229,7 @@ async function render(){
 function renderN(){
   const d=cachedData;
   const el=document.getElementById('nList');
-  if(!d){el.innerHTML='<div class="loading">⏳ جاري التحميل...</div>';return;}
+  if(!d || !d.notices){el.innerHTML='<div class="loading">⏳ جاري التحميل...</div>';return;}
   let f=d.notices.filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));
   if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات حالياً</p></div>';return;}
   el.innerHTML=f.map(n=>`<div class="ni ${n.type}">
@@ -176,7 +238,7 @@ function renderN(){
 }
 
 function renderMyMsg(){
-  const d=cachedData;if(!d)return;
+  const d=cachedData;if(!d || !d.queries)return;
   const myIds=getMyIds();
   const myQ=d.queries.filter(q=>myIds.includes(q.id));
   const card=document.getElementById('myCard'),el=document.getElementById('myList');
@@ -212,7 +274,7 @@ async function submitQ(){
 }
 
 function updBadges(){
-  if(!cachedData)return;
+  if(!cachedData || !cachedData.notices)return;
   ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length);
 }
 function toast(msg,bg='#27ae60'){const t=document.getElementById('toast');t.style.background=bg;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
