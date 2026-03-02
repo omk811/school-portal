@@ -138,55 +138,57 @@ main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
   white-space: pre-wrap;
 }
 
-  /* تحسين عام للنصوص لزيادة الوضوح */
+ /* تحسين عام لخطوط لوحة المعلم */
 body {
-    -webkit-font-smoothing: antialiased; /* تنعيم الخط على أجهزة آيفون */
+    -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    line-height: 1.6;
 }
 
-/* تكبير عناوين الملاحظات والواجبات */
+/* تباين ووضوح عناوين الملاحظات والواجبات */
 .ni strong {
     font-size: 1.15rem !important; /* حجم أكبر للعنوان */
-    color: #000; /* أسود صريح لزيادة التباين */
+    color: #000; /* أسود كامل للتباين */
     display: block;
-    margin-bottom: 8px;
-    line-height: 1.4;
+    margin-bottom: 10px;
+    font-weight: 800; /* خط عريض */
 }
 
-/* تحسين نص المحتوى (الواجب أو التنبيه) */
-.n-det, .qtxt, .reply-preview, .msg-txt {
-    font-size: 1.05rem !important; /* حجم مريح جداً للقراءة على الجوال */
-    line-height: 1.8 !important; /* مسافة كافية بين السطور لمنع تداخل الكلام */
+/* محتوى الملاحظة أو الاستفسار أو الرد */
+.ni div, .qtxt, .ra textarea, .reply-preview {
+    font-size: 1.05rem !important; /* حجم مريح جداً للعين */
+    line-height: 1.8 !important; /* مسافة كافية بين الأسطر */
+    white-space: pre-wrap; /* أهم خاصية للحفاظ على الأسطر والفراغات */
+    word-wrap: break-word;
     color: #2c3e50; /* لون غامق وواضح */
-    font-weight: 500; /* سماكة متوسطة للخط */
 }
 
-/* تحسين ظهور التوقيت والتاجات */
-.ndate, .ttag, .ctag {
-    font-size: 0.85rem !important;
-    font-weight: 700;
-}
-
-/* تحسين حقول الكتابة لسهولة الإدخال من الجوال */
-.fc {
-    font-size: 16px !important; /* يمنع متصفح Safari من عمل Zoom تلقائي عند الكتابة */
-}
-
+/* تحسين شكل البطاقات على الهاتف */
 @media (max-width: 600px) {
-    /* زيادة التباعد في الجوال لإعطاء "مساحة تنفس" للعين */
-    .ni, .qi, .my-msg {
+    .ni, .qi {
         padding: 20px !important;
-        margin-bottom: 16px !important;
+        margin-bottom: 15px !important;
+        border-radius: 18px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
     }
     
-    .welcome h2 {
-        font-size: 1.3rem !important;
+    /* منع تصغير الخط التلقائي في حقول الكتابة على الآيفون */
+    .fc, textarea {
+        font-size: 16px !important;
     }
     
-    .welcome p {
-        font-size: 1rem !important;
-        line-height: 1.6;
+    .nm {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
+}
+
+/* تمييز الروابط في صفحة المعلم */
+.ni a, .qtxt a {
+    color: var(--s);
+    text-decoration: underline;
+    font-weight: bold;
 }
   
 /* Modal & Toast */
@@ -472,10 +474,13 @@ function renderN(d) {
   el.innerHTML = filtered.map(n => `
     <div class="ni ${n.type}">
       <button class="ndel" onclick="delN(${n.id})" title="حذف">✕</button>
-      <div class="nm"><div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">${n.date}</span></div>
-      <div>
+      <div class="nm">
+        <div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div>
+        <span class="ndate">${n.date}</span>
+      </div>
+      <div style="margin-top:10px;">
         <strong>${n.title}</strong>
-        ${n.det ? `<div style="font-size:0.85rem; color:var(--mu); margin-top:4px; white-space: pre-wrap;">${makeLinksClickable(n.det)}</div>` : ''}
+        <div class="n-body-text">${makeLinksClickable(n.det)}</div>
       </div>
     </div>`).join('');
 }
@@ -488,18 +493,17 @@ function renderQ(d) {
   el.innerHTML = filtered.map(q => `
     <div class="qi">
       <div class="qh">
-        <div><span class="qsend">👤 ${q.name}</span> <span style="font-size:0.8rem;color:var(--mu)">(${q.student})</span></div>
-        <div><span class="ctag">${CN[q.cls]}</span><span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'جديد':q.status==='replied'?'تم الرد':'مقروء'}</span></div>
+        <div><span class="qsend">👤 ${q.name}</span> <br><small style="color:var(--mu)">طالب: ${q.student}</small></div>
+        <div><span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'جديد':q.status==='replied'?'تم الرد':'مقروء'}</span></div>
       </div>
-      <div class="qtxt">${makeLinksClickable(q.msg)}</div>
-      ${q.reply ? `<div class="reply-preview"><strong>ردك الحالي:</strong>\n${makeLinksClickable(q.reply)}</div>` : ''}
+      <div class="qtxt" style="margin: 15px 0; border-right: 3px solid var(--s); padding-right: 10px;">${makeLinksClickable(q.msg)}</div>
+      ${q.reply ? `<div class="reply-preview"><strong>ردك الحالي:</strong><br>${makeLinksClickable(q.reply)}</div>` : ''}
       <div class="qa">
         <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply?'تعديل الرد':'إضافة رد'}</button>
         <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
-        <span style="font-size:0.75rem;color:var(--mu);margin-right:auto">${q.date}</span>
       </div>
       <div class="ra" id="ra${q.id}">
-        <textarea class="fc" rows="3" placeholder="اكتب ردك هنا مستخدماً الأسطر كما تشاء..." id="rt${q.id}">${q.reply||''}</textarea>
+        <textarea class="fc" rows="4" id="rt${q.id}">${q.reply||''}</textarea>
         <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال الرد</button>
       </div>
     </div>`).join('');
