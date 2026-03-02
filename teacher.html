@@ -28,6 +28,8 @@ header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;position:
 .brand p{font-size:.8rem;opacity:.8;margin-top:2px}
 .hright{display:flex;align-items:center;gap:12px}
 .hdate{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 14px;font-size:.8rem;text-align:center;line-height:1.6}
+.parent-link{color:#fff;text-decoration:none;padding:7px 16px;background:rgba(255,255,255,.15);border-radius:20px;font-size:.8rem;border:1px solid rgba(255,255,255,.3);transition:all .2s}
+.parent-link:hover{background:rgba(255,255,255,.25)}
 .outbtn{padding:7px 16px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;font-family:'Tajawal',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer}
 .ctabs{display:flex;padding:0 36px;background:rgba(0,0,0,.12)}
 .ctab{padding:11px 24px;background:transparent;color:rgba(255,255,255,.7);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.92rem;font-weight:600;border-bottom:3px solid transparent;transition:all .2s}
@@ -91,10 +93,22 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
 .aibar.thinking{background:#fff8e1;border-color:#f39c12}
 .aibar.error{background:#fff0f0;border-color:var(--r);color:var(--r)}
 .spin{animation:spin 1s linear infinite;display:inline-block}
+.nav-links{display:flex;gap:10px;background:#fff;padding:8px 36px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.nav-link{color:var(--p);text-decoration:none;padding:5px 15px;border-radius:20px;font-weight:600;transition:all .2s}
+.nav-link:hover{background:#eaf4fb}
+.nav-link.active{background:var(--p);color:#fff}
+footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:30px;padding:30px 20px 20px}
+.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.footer-section h3{font-size:1rem;margin-bottom:10px}
+.footer-section ul{list-style:none}
+.footer-section li{margin-bottom:5px}
+.footer-section a{color:rgba(255,255,255,.8);text-decoration:none;display:block;padding:5px 0;font-size:.85rem}
+.footer-section a:hover{color:#fff}
+.footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,.2);margin-top:20px;padding-top:20px;font-size:.8rem}
 @keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1}}
 @keyframes su{from{opacity:0;transform:translateY(26px)}to{opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:860px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.ht,.ctabs{padding-inline:16px}}
+@media(max-width:860px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.ht,.ctabs,.nav-links{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -107,7 +121,7 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
     <input type="password" class="linput" id="pwdInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="lbtn" onclick="doLogin()">🔓 دخول</button>
     <div class="lerr" id="loginErr">❌ كلمة السر غير صحيحة</div>
-    <div class="lhint">💡 هذه الصفحة خاصة بالمعلم فقط</div>
+    <div class="lhint">💡 كلمة السر الافتراضية: Khalil2025</div>
   </div>
 </div>
 
@@ -120,9 +134,19 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
     </div>
     <div class="hright">
       <div class="hdate" id="hdate"></div>
+      <a href="parent.html" class="parent-link">🏠 الموقع الرئيسي</a>
       <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
     </div>
   </div>
+  
+  <!-- قائمة التنقل -->
+  <div class="nav-links">
+    <a href="teacher.html" class="nav-link active">📊 لوحة التحكم</a>
+    <a href="#" class="nav-link">📅 الجدول</a>
+    <a href="#" class="nav-link">📚 المذكرات</a>
+    <a href="parent.html" class="nav-link">👥 موقع أولياء الأمور</a>
+  </div>
+  
   <div class="ctabs">
     <button class="ctab active" onclick="setClass('all')">📋 جميع الشعب</button>
     <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span>الخامس 1</button>
@@ -176,7 +200,7 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
       <div class="ch"><div class="ct"><div class="ci" style="background:#fadbd8">⚙️</div>إعدادات</div></div>
       <div class="cb">
         <div class="info-row" style="background:#eaf4fb"><span style="font-size:20px">🏫</span><div style="font-size:.87rem"><strong>مدرسة سعد بن معاذ</strong><br><span style="color:var(--mu)">شمال الباطنة — سلطنة عُمان</span></div></div>
-        <div class="info-row" style="background:#d5f5e3"><span style="font-size:20px">📺</span><div style="font-size:.87rem"><strong><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" style="color:var(--p);text-decoration:none">@teacherKhalil811</a></strong><br><a href="https://omk811.blogspot.com" target="_blank" style="color:var(--s);font-size:.85rem">omk811.blogspot.com</a></div></div>
+        <div class="info-row" style="background:#d5f5e3"><span style="font-size:20px">📺</span><div style="font-size:.87rem"><strong>قناة اليوتيوب</strong><br><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" style="color:var(--s);text-decoration:none">@teacherKhalil811</a></div></div>
         <hr style="border:none;border-top:1px solid var(--bd);margin:14px 0">
         <p style="font-size:.82rem;color:var(--mu);margin-bottom:10px">🔑 تغيير كلمة السر:</p>
         <div class="fg"><input type="password" class="fc" id="np1" placeholder="كلمة السر الجديدة"></div>
@@ -190,6 +214,34 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
     </div>
   </div>
 </main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>📚 الروابط السريعة</h3>
+      <ul>
+        <li><a href="teacher.html">📊 لوحة التحكم</a></li>
+        <li><a href="#">📖 المذكرات</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>🔗 مواقع التواصل</h3>
+      <ul>
+        <li><a href="https://www.youtube.com/@teacherKhalil811" target="_blank">📺 يوتيوب</a></li>
+        <li><a href="https://omk811.blogspot.com" target="_blank">📝 المدونة</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>📞 التواصل</h3>
+      <ul>
+        <li>📧 omk456456@gmail.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 جميع الحقوق محفوظة - الأستاذ خليل · مدرسة سعد بن معاذ
+  </div>
+</footer>
 </div>
 
 <div class="overlay" id="modal">
@@ -209,199 +261,524 @@ main{max-width:1200px;margin:0 auto;padding:26px 18px;display:grid;grid-template
 <div class="toast" id="toast"></div>
 
 <script>
-const PWD_KEY='teacher_pwd';
-const STORAGE_KEY='school_data_v2';
-const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
-const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
-let curClass='all', nFlt='all';
+// ==================== إعدادات Google Sheets ====================
+const API_URL = 'https://script.google.com/macros/s/AKfycbxv5kvv6w4G80cMGeMf1S5fwjcsl7YoXXzI-2taqJ0Dl3kBb1T-tuCVpD6h29sUTD1UTw/exec'; // ضع رابط API الخاص بك هنا
+const PWD_KEY = 'teacher_pwd';
+const STORAGE_KEY = 'school_data_v2';
+const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
+const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
+let curClass = 'all', nFlt = 'all';
 
-// ── PASSWORD ──
-function getPwd(){return localStorage.getItem(PWD_KEY)||'Khalil2025';}
-function doLogin(){
-  if(document.getElementById('pwdInput').value===getPwd()){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('app').style.display='block';
-    document.getElementById('loginErr').style.display='none';
+// ==================== دوال تسجيل الدخول ====================
+async function getPassword() {
+  try {
+    const response = await fetch(`${API_URL}?action=getPassword&t=${Date.now()}`);
+    const result = await response.json();
+    if (result.status === 'success') {
+      return result.password;
+    }
+  } catch (error) {
+    console.error('Error getting password:', error);
+  }
+  return localStorage.getItem(PWD_KEY) || 'Khalil2025';
+}
+
+async function doLogin() {
+  const correctPwd = await getPassword();
+  if (document.getElementById('pwdInput').value === correctPwd) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('loginErr').style.display = 'none';
     initApp();
-  }else{
-    document.getElementById('loginErr').style.display='block';
-    document.getElementById('pwdInput').value='';
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwdInput').value = '';
     document.getElementById('pwdInput').focus();
   }
 }
-function doLogout(){document.getElementById('app').style.display='none';document.getElementById('loginScreen').style.display='flex';document.getElementById('pwdInput').value='';}
-function changePwd(){
-  const p1=document.getElementById('np1').value.trim(),p2=document.getElementById('np2').value.trim();
-  if(!p1){toast('أدخل كلمة السر الجديدة','#e74c3c');return;}
-  if(p1!==p2){toast('كلمتا السر غير متطابقتين','#e74c3c');return;}
-  localStorage.setItem(PWD_KEY,p1);
-  document.getElementById('np1').value='';document.getElementById('np2').value='';
-  toast('✅ تم تغيير كلمة السر');
+
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwdInput').value = '';
 }
 
-// ── DATA (Claude AI Storage) ──
-async function loadData(){
-  try{
-    const r=await window.storage.get(STORAGE_KEY,true);
-    if(r&&r.value){return JSON.parse(r.value);}
-  }catch(e){}
-  return{notices:[],queries:[],nId:100,qId:100};
-}
-async function saveData(d){
-  try{await window.storage.set(STORAGE_KEY,JSON.stringify(d),true);}
-  catch(e){console.error('Save error',e);}
+async function changePwd() {
+  const p1 = document.getElementById('np1').value.trim();
+  const p2 = document.getElementById('np2').value.trim();
+  
+  if (!p1) {
+    toast('أدخل كلمة السر الجديدة', '#e74c3c');
+    return;
+  }
+  if (p1 !== p2) {
+    toast('كلمتا السر غير متطابقتين', '#e74c3c');
+    return;
+  }
+  
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'changePassword',
+        newPassword: p1
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === 'success') {
+      localStorage.setItem(PWD_KEY, p1);
+      document.getElementById('np1').value = '';
+      document.getElementById('np2').value = '';
+      toast('✅ تم تغيير كلمة السر');
+    } else {
+      toast('❌ فشل تغيير كلمة السر', '#e74c3c');
+    }
+  } catch (error) {
+    toast('❌ خطأ في الاتصال', '#e74c3c');
+  }
 }
 
-// ── DATE ──
-function upDate(){const d=new Date();document.getElementById('hdate').innerHTML=d.toLocaleDateString('ar-OM',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'<br><small>'+d.toLocaleTimeString('ar-OM')+'</small>';}
+// ==================== دوال Google Sheets ====================
+async function loadData() {
+  try {
+    const response = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+      return result.data;
+    } else {
+      console.error('Error loading from Google Sheets:', result.message);
+      return loadLocalData();
+    }
+  } catch (error) {
+    console.error('Error connecting to Google Sheets:', error);
+    return loadLocalData();
+  }
+}
 
-// ── INIT ──
-async function initApp(){
-  upDate();setInterval(upDate,1000);
+async function saveNotices(notices) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'saveNotices',
+        data: JSON.stringify(notices)
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        ...loadLocalData(),
+        notices: notices
+      }));
+    }
+    return result;
+  } catch (error) {
+    console.error('Error saving to Google Sheets:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+async function saveQueries(queries) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'saveQueries',
+        data: JSON.stringify(queries)
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        ...loadLocalData(),
+        queries: queries
+      }));
+    }
+    return result;
+  } catch (error) {
+    console.error('Error saving to Google Sheets:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+async function updateQueryStatus(id, status, reply) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'updateQuery',
+        id: id,
+        status: status,
+        reply: reply || ''
+      })
+    });
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating query:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+async function deleteNotice(id) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'deleteNotice',
+        id: id
+      })
+    });
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error deleting notice:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+async function deleteQuery(id) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        action: 'deleteQuery',
+        id: id
+      })
+    });
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error deleting query:', error);
+    return { status: 'error', message: error.toString() };
+  }
+}
+
+function loadLocalData() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : { notices: [], queries: [], nId: 100, qId: 100 };
+  } catch (e) {
+    return { notices: [], queries: [], nId: 100, qId: 100 };
+  }
+}
+
+// ==================== دوال التاريخ ====================
+function upDate() {
+  const d = new Date();
+  document.getElementById('hdate').innerHTML = 
+    d.toLocaleDateString('ar-OM', {weekday:'long', year:'numeric', month:'long', day:'numeric'}) + 
+    '<br><small>' + d.toLocaleTimeString('ar-OM') + '</small>';
+}
+
+// ==================== دوال التبويبات ====================
+function setClass(c) {
+  curClass = c;
+  document.querySelectorAll('.ctab').forEach((b, i) => 
+    b.classList.toggle('active', [c==='all', c==='5A', c==='5B', c==='5C'][i])
+  );
+  render();
+}
+
+function flt(f, btn) {
+  nFlt = f;
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderN();
+}
+
+// ==================== دوال العرض ====================
+async function initApp() {
+  upDate();
+  setInterval(upDate, 1000);
   await render();
-  setInterval(render,15000);
+  setInterval(render, 30000);
 }
 
-// ── TABS ──
-function setClass(c){curClass=c;document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i]));render();}
-function flt(f,btn){nFlt=f;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderN();}
-
-async function render(){
-  const d=await loadData();
-  renderN(d);renderQ(d);renderCStat(d);updStats(d);
+async function render() {
+  const d = await loadData();
+  renderN(d);
+  renderQ(d);
+  renderCStat(d);
+  updStats(d);
 }
 
-// ── NOTICES ──
-function renderN(d){
-  if(!d)return;
-  const el=document.getElementById('nList');
-  let f=d.notices.filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));
-  if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات</p></div>';return;}
-  el.innerHTML=f.map(n=>`<div class="ni ${n.type}"><button class="ndel" onclick="delN(${n.id})">✕</button>
-    <div class="nm"><div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">🕐 ${n.date}</span></div>
-    <div><strong>${n.title}</strong>${n.det?'<br><small style="color:#5d6d7e">'+n.det+'</small>':''}</div></div>`).join('');
-}
-async function delN(id){
-  const d=await loadData();d.notices=d.notices.filter(n=>n.id!==id);
-  await saveData(d);render();toast('تم الحذف');
-}
-
-// ── MODAL ──
-function openModal(){document.getElementById('modal').classList.add('open');}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
-document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal();}
-
-async function addNotice(){
-  const t=document.getElementById('nTit').value.trim();
-  if(!t){toast('الرجاء كتابة العنوان','#e74c3c');return;}
-  const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='⏳ جاري الحفظ...';
-  const d=await loadData();
-  const now=new Date();
-  const ds=now.toLocaleDateString('ar-OM',{day:'numeric',month:'short'})+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'});
-  d.notices.unshift({id:++d.nId,type:document.getElementById('nType').value,cls:document.getElementById('nCls').value,title:t,det:document.getElementById('nDet').value.trim(),date:ds});
-  await saveData(d);
-  document.getElementById('nTit').value='';document.getElementById('nDet').value='';
-  btn.disabled=false;btn.textContent='💾 حفظ';
-  closeModal();render();toast('✅ تمت الإضافة');
-}
-
-// ── QUERIES ──
-function renderQ(d){
-  if(!d)return;
-  const el=document.getElementById('qList');
-  let f=d.queries.filter(q=>curClass==='all'||q.cls===curClass).sort((a,b)=>a.status==='new'?-1:1);
-  if(!f.length){el.innerHTML='<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات</p></div>';return;}
-  el.innerHTML=f.map(q=>`<div class="qi"><div class="qh">
-    <div><span class="qsend">👤 ${q.name}</span><span style="font-size:.75rem;color:var(--mu);margin-right:5px">— ${q.student}</span></div>
-    <div><span class="ctag">${CN[q.cls]}</span><span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'جديد':q.status==='replied'?'تمت الإجابة':'مقروء'}</span></div>
-    </div><div class="qtxt">${q.msg}</div>
-    ${q.reply?`<div style="background:#d5f5e3;border-radius:8px;padding:7px 11px;font-size:.83rem;margin-bottom:7px"><strong>ردك:</strong> ${q.reply}</div>`:''}
-    <div class="qa">
-      <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply?'تعديل الرد':'الرد'}</button>
-      <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
-      <span style="font-size:.7rem;color:var(--mu);margin-right:auto;align-self:center">🕐 ${q.date}</span>
+function renderN(d) {
+  if (!d || !d.notices) return;
+  
+  const el = document.getElementById('nList');
+  let filtered = d.notices.filter(n => 
+    (curClass === 'all' || n.cls === 'all' || n.cls === curClass) && 
+    (nFlt === 'all' || n.type === nFlt)
+  );
+  
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات</p></div>';
+    return;
+  }
+  
+  el.innerHTML = filtered.map(n => `
+    <div class="ni ${n.type}">
+      <button class="ndel" onclick="delN(${n.id})">✕</button>
+      <div class="nm">
+        <div>
+          <span class="ctag">${CN[n.cls]}</span>
+          <span class="ttag">${TN[n.type]}</span>
+        </div>
+        <span class="ndate">🕐 ${n.date}</span>
+      </div>
+      <div>
+        <strong>${n.title}</strong>
+        ${n.det ? '<br><small style="color:#5d6d7e">' + n.det + '</small>' : ''}
+      </div>
     </div>
-    <div class="ra" id="ra${q.id}"><textarea rows="2" placeholder="اكتب ردك..." id="rt${q.id}">${q.reply||''}</textarea>
-    <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال</button></div></div>`).join('');
+  `).join('');
 }
 
-async function togR(id){
-  const a=document.getElementById('ra'+id);a.style.display=a.style.display==='block'?'none':'block';
-  const d=await loadData();const q=d.queries.find(x=>x.id===id);
-  if(q&&q.status==='new'){q.status='read';await saveData(d);render();}
-}
-async function sendR(id){
-  const t=document.getElementById('rt'+id).value.trim();if(!t)return;
-  const d=await loadData();const q=d.queries.find(x=>x.id===id);
-  if(q){q.reply=t;q.status='replied';}
-  await saveData(d);render();toast('✅ تم إرسال الرد');
-}
-async function delQ(id){
-  const d=await loadData();d.queries=d.queries.filter(q=>q.id!==id);
-  await saveData(d);render();toast('تم الحذف');
+async function delN(id) {
+  if (!confirm('هل أنت متأكد من حذف هذه الملاحظة؟')) return;
+  
+  const result = await deleteNotice(id);
+  if (result.status === 'success') {
+    await render();
+    toast('✅ تم الحذف');
+  } else {
+    toast('❌ فشل الحذف', '#e74c3c');
+  }
 }
 
-// ── STATS ──
-function updStats(d){
-  if(!d)return;
-  document.getElementById('sN').textContent=d.notices.length;
-  document.getElementById('sQ').textContent=d.queries.length;
-  document.getElementById('sR').textContent=d.queries.filter(q=>q.status==='replied').length;
-  document.getElementById('sNw').textContent=d.queries.filter(q=>q.status==='new').length;
-  ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=d.notices.filter(n=>n.cls===c||n.cls==='all').length);
+function renderQ(d) {
+  if (!d || !d.queries) return;
+  
+  const el = document.getElementById('qList');
+  let filtered = d.queries.filter(q => curClass === 'all' || q.cls === curClass)
+                          .sort((a, b) => a.status === 'new' ? -1 : 1);
+  
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات</p></div>';
+    return;
+  }
+  
+  el.innerHTML = filtered.map(q => `
+    <div class="qi">
+      <div class="qh">
+        <div>
+          <span class="qsend">👤 ${q.name}</span>
+          <span style="font-size:.75rem;color:var(--mu);margin-right:5px">— ${q.student}</span>
+        </div>
+        <div>
+          <span class="ctag">${CN[q.cls]}</span>
+          <span class="sbdg ${q.status === 'new' ? 'snew' : q.status === 'replied' ? 'srep' : 'sread'}">
+            ${q.status === 'new' ? 'جديد' : q.status === 'replied' ? 'تمت الإجابة' : 'مقروء'}
+          </span>
+        </div>
+      </div>
+      <div class="qtxt">${q.msg}</div>
+      ${q.reply ? `<div style="background:#d5f5e3;border-radius:8px;padding:7px 11px;font-size:.83rem;margin-bottom:7px"><strong>ردك:</strong> ${q.reply}</div>` : ''}
+      <div class="qa">
+        <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply ? 'تعديل الرد' : 'الرد'}</button>
+        <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
+        <span style="font-size:.7rem;color:var(--mu);margin-right:auto;align-self:center">🕐 ${q.date}</span>
+      </div>
+      <div class="ra" id="ra${q.id}">
+        <textarea rows="2" placeholder="اكتب ردك..." id="rt${q.id}">${q.reply || ''}</textarea>
+        <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال</button>
+      </div>
+    </div>
+  `).join('');
 }
-function renderCStat(d){
-  if(!d)return;
-  const el=document.getElementById('classStats');if(!el)return;
-  el.innerHTML=['5A','5B','5C'].map(c=>{
-    const nC=d.notices.filter(n=>n.cls===c||n.cls==='all').length;
-    const qC=d.queries.filter(q=>q.cls===c).length;
-    const nwC=d.queries.filter(q=>q.cls===c&&q.status==='new').length;
-    return`<div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between">
-      <strong style="color:var(--p)">${CN[c]}</strong>
-      <div style="display:flex;gap:8px;font-size:.8rem">
-        <span style="background:#d6eaf8;padding:2px 8px;border-radius:7px">📌 ${nC}</span>
-        <span style="background:#fdebd0;padding:2px 8px;border-radius:7px">💬 ${qC}</span>
-        ${nwC?`<span style="background:#d5f5e3;padding:2px 8px;border-radius:7px;font-weight:700">🔔 ${nwC} جديد</span>`:''}
-      </div></div>`;
+
+async function togR(id) {
+  const a = document.getElementById('ra' + id);
+  a.style.display = a.style.display === 'block' ? 'none' : 'block';
+  
+  const d = await loadData();
+  const q = d.queries.find(x => x.id === id);
+  if (q && q.status === 'new') {
+    q.status = 'read';
+    await saveQueries(d.queries);
+    await render();
+  }
+}
+
+async function sendR(id) {
+  const t = document.getElementById('rt' + id).value.trim();
+  if (!t) return;
+  
+  const d = await loadData();
+  const q = d.queries.find(x => x.id === id);
+  if (q) {
+    q.reply = t;
+    q.status = 'replied';
+  }
+  
+  const result = await saveQueries(d.queries);
+  if (result.status === 'success') {
+    await render();
+    toast('✅ تم إرسال الرد');
+  } else {
+    toast('❌ فشل إرسال الرد', '#e74c3c');
+  }
+}
+
+async function delQ(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الاستفسار؟')) return;
+  
+  const result = await deleteQuery(id);
+  if (result.status === 'success') {
+    await render();
+    toast('✅ تم الحذف');
+  } else {
+    toast('❌ فشل الحذف', '#e74c3c');
+  }
+}
+
+function updStats(d) {
+  if (!d || !d.notices || !d.queries) return;
+  
+  document.getElementById('sN').textContent = d.notices.length;
+  document.getElementById('sQ').textContent = d.queries.length;
+  document.getElementById('sR').textContent = d.queries.filter(q => q.status === 'replied').length;
+  document.getElementById('sNw').textContent = d.queries.filter(q => q.status === 'new').length;
+  
+  ['5A', '5B', '5C'].forEach(c => 
+    document.getElementById('b' + c).textContent = 
+      d.notices.filter(n => n.cls === c || n.cls === 'all').length
+  );
+}
+
+function renderCStat(d) {
+  if (!d || !d.notices || !d.queries) return;
+  
+  const el = document.getElementById('classStats');
+  if (!el) return;
+  
+  el.innerHTML = ['5A', '5B', '5C'].map(c => {
+    const nC = d.notices.filter(n => n.cls === c || n.cls === 'all').length;
+    const qC = d.queries.filter(q => q.cls === c).length;
+    const nwC = d.queries.filter(q => q.cls === c && q.status === 'new').length;
+    
+    return `
+      <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between">
+        <strong style="color:var(--p)">${CN[c]}</strong>
+        <div style="display:flex;gap:8px;font-size:.8rem">
+          <span style="background:#d6eaf8;padding:2px 8px;border-radius:7px">📌 ${nC}</span>
+          <span style="background:#fdebd0;padding:2px 8px;border-radius:7px">💬 ${qC}</span>
+          ${nwC ? `<span style="background:#d5f5e3;padding:2px 8px;border-radius:7px;font-weight:700">🔔 ${nwC} جديد</span>` : ''}
+        </div>
+      </div>
+    `;
   }).join('');
 }
 
-// ── AI ASSISTANT ──
-async function askAI(){
-  const prompt=document.getElementById('aiPrompt').value.trim();
-  if(!prompt){toast('اكتب سؤالك أولاً','#e74c3c');return;}
-  const btn=document.getElementById('aiBtn');
-  const status=document.getElementById('aiStatus');
-  const replyDiv=document.getElementById('aiReply');
-  btn.disabled=true;btn.textContent='⏳ جاري التفكير...';
-  status.style.display='flex';status.className='aibar thinking';
-  status.innerHTML='<span class="spin">⏳</span> الذكاء الاصطناعي يفكر...';
-  replyDiv.style.display='none';
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:'أنت مساعد لمعلم اللغة العربية الأستاذ خليل في مدرسة سعد بن معاذ بسلطنة عُمان، تساعده في إعداد ملاحظات وواجبات وأنشطة وتنبيهات لطلاب الصف الخامس. ردودك باللغة العربية فقط، موجزة ومفيدة.',
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data=await resp.json();
-    const txt=data.content&&data.content[0]&&data.content[0].text?data.content[0].text:'لم أتمكن من الحصول على رد.';
-    status.style.display='none';
-    replyDiv.style.display='block';
-    replyDiv.innerHTML='<strong style="color:#8e44ad">🤖 الذكاء الاصطناعي:</strong><br><br>'+txt.replace(/\n/g,'<br>');
-  }catch(e){
-    status.className='aibar error';status.innerHTML='❌ تعذّر الاتصال. حاول مجدداً.';
-  }
-  btn.disabled=false;btn.textContent='✨ اسأل الذكاء الاصطناعي';
+// ==================== دوال الملاحظات ====================
+function openModal() {
+  document.getElementById('modal').classList.add('open');
 }
 
-// ── TOAST ──
-function toast(msg,bg='#27ae60'){const t=document.getElementById('toast');t.style.background=bg;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+document.getElementById('modal').onclick = e => {
+  if (e.target.id === 'modal') closeModal();
+};
+
+async function addNotice() {
+  const t = document.getElementById('nTit').value.trim();
+  if (!t) {
+    toast('الرجاء كتابة العنوان', '#e74c3c');
+    return;
+  }
+  
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الحفظ...';
+  
+  const d = await loadData();
+  const now = new Date();
+  const ds = now.toLocaleDateString('ar-OM', {day:'numeric', month:'short'}) + ' ' + 
+            now.toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'});
+  
+  const newNotice = {
+    id: ++d.nId,
+    type: document.getElementById('nType').value,
+    cls: document.getElementById('nCls').value,
+    title: t,
+    det: document.getElementById('nDet').value.trim(),
+    date: ds
+  };
+  
+  d.notices.unshift(newNotice);
+  
+  const result = await saveNotices(d.notices);
+  
+  if (result.status === 'success') {
+    document.getElementById('nTit').value = '';
+    document.getElementById('nDet').value = '';
+    closeModal();
+    await render();
+    toast('✅ تمت الإضافة');
+  } else {
+    toast('❌ فشلت الإضافة', '#e74c3c');
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '💾 حفظ';
+}
+
+// ==================== دوال الذكاء الاصطناعي ====================
+function askAI() {
+  const prompt = document.getElementById('aiPrompt').value.trim();
+  if (!prompt) {
+    toast('اكتب سؤالك أولاً', '#e74c3c');
+    return;
+  }
+  
+  const btn = document.getElementById('aiBtn');
+  const status = document.getElementById('aiStatus');
+  const replyDiv = document.getElementById('aiReply');
+  
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التفكير...';
+  status.style.display = 'flex';
+  status.className = 'aibar thinking';
+  status.innerHTML = '<span class="spin">⏳</span> الذكاء الاصطناعي يفكر...';
+  replyDiv.style.display = 'none';
+  
+  // محاكاة رد الذكاء الاصطناعي
+  setTimeout(() => {
+    status.style.display = 'none';
+    replyDiv.style.display = 'block';
+    replyDiv.innerHTML = '<strong style="color:#8e44ad">🤖 الذكاء الاصطناعي:</strong><br><br>' + 
+      'يمكنك إضافة ملاحظة جديدة للصف الخامس. مثال:\n\n' +
+      '📝 واجب: حل تدريبات الفاعل من كتاب النشاط صفحة ٢٥\n' +
+      '🎯 نشاط: استخراج الفاعل من خمس جمل من القرآن الكريم\n' +
+      '🔔 تنبيه: اختبار قصير في درس الفاعل يوم الأحد القادم';
+    btn.disabled = false;
+    btn.textContent = '✨ اسأل الذكاء الاصطناعي';
+  }, 1500);
+}
+
+// ==================== دالة التوست ====================
+function toast(msg, bg = '#27ae60') {
+  const t = document.getElementById('toast');
+  t.style.background = bg;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
 </script>
 </body>
 </html>
