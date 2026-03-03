@@ -173,10 +173,13 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; p
       <div><h1>لوحة تحكم المعلم</h1><p>الأستاذ خليل — اللغة العربية · الصف الخامس</p></div>
     </div>
     <div class="hright">
-      <div class="hdate" id="hdate"></div>
-      <a href="index.html" class="parent-link">🏠 الموقع الرئيسي</a>
-      <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
-    </div>
+  <div class="hdate" id="hdate"></div>
+  <button id="refreshBtn" class="parent-link" onclick="manualRefresh()" style="background: var(--a); border:none;">
+    🔄 تحديث البيانات
+  </button>
+  <a href="index.html" class="parent-link">🏠 الموقع الرئيسي</a>
+  <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
+</div>
   </div>
   
   <div class="ctabs">
@@ -280,16 +283,14 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; p
 
 <div class="toast" id="toast"></div>
 
-<script>
-// ==================== إعدادات Google Sheets ====================
-const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; // ضع رابط Google Script هنا
+<script>// ==================== إعدادات Google Sheets ====================
+const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; 
 const PWD_KEY = 'teacher_pwd';
 const STORAGE_KEY = 'school_data_v2';
 const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
 const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
 let curClass = 'all', nFlt = 'all';
-let pollingInterval = null;
-let currentBase64Image = ''; // متغير لتخزين الصورة
+let isUpdating = false; // متغير لمنع التحديث المتكرر في نفس الوقت
 
 // تحويل الروابط لنصوص قابلة للنقر
 function makeLinksClickable(text) {
@@ -303,17 +304,6 @@ function makeLinksClickable(text) {
   });
 }
 
-// بيانات افتراضية
-const defaultData = {
-  notices: [
-    {id: 101, type: 'homework', cls: '5A', title: 'واجب درس الفاعل', det: 'كتاب النشاط صفحة 25', date: '2026-03-02 10:30', img: ''}
-  ],
-  queries: [
-    {id: 201, name: 'أحمد محمد', student: 'عمر', cls: '5A', msg: 'متى موعد الاختبار؟', date: '2026-03-02 08:30', status: 'new', reply: ''}
-  ],
-  nId: 105, qId: 203
-};
-
 // ==================== دوال الدخول ====================
 async function getPassword() {
   try {
@@ -321,7 +311,7 @@ async function getPassword() {
     const json = await res.json();
     if(json.data && json.data.settings && json.data.settings.password) return json.data.settings.password;
   } catch(e) {}
-  return localStorage.getItem(PWD_KEY) || 'aysha123';
+  return localStorage.getItem(PWD_KEY) || 'test2025';
 }
 
 async function doLogin() {
@@ -339,22 +329,9 @@ function doLogout() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('pwdInput').value = '';
-  stopPolling();
 }
 
-async function changePwd() {
-  const p1 = document.getElementById('np1').value;
-  const p2 = document.getElementById('np2').value;
-  if(!p1) return toast('أدخل كلمة المرور', '#e74c3c');
-  if(p1 !== p2) return toast('غير متطابقتين', '#e74c3c');
-  
-  localStorage.setItem(PWD_KEY, p1);
-  document.getElementById('np1').value = ''; document.getElementById('np2').value = '';
-  toast('✅ تم التغيير');
-  fetch(API_URL, { method:'POST', body: new URLSearchParams({action:'changePassword', newPassword:p1})}).catch(e=>console.log(e));
-}
-
-// ==================== دوال البيانات ====================
+// ==================== دوال البيانات (تم إلغاء التحديث التلقائي) ====================
 async function loadData() {
   try {
     const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
@@ -364,28 +341,42 @@ async function loadData() {
       return result.data;
     }
   } catch(e) {}
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {notices:[], queries:[], nId:100, qId:100};
 }
 
 async function initApp() {
-  upDate(); setInterval(upDate, 60000);
-  await render();
-  startPolling();
+  upDate(); 
+  setInterval(upDate, 60000); // تحديث الساعة فقط كل دقيقة
+  render(); // أول تحديث عند الفتح
 }
 
-function startPolling() { if(!pollingInterval) pollingInterval = setInterval(render, 30000); }
-function stopPolling() { if(pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; } }
+// دالة التحديث اليدوي (مرتبطة بالأيقونة الجديدة)
+async function manualRefresh() {
+  if(isUpdating) return;
+  isUpdating = true;
+  
+  const btn = document.getElementById('refreshBtn');
+  btn.innerHTML = '<span class="spin">🔄</span> جاري التحديث...';
+  btn.style.opacity = '0.7';
 
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) stopPolling();
-  else { render(); startPolling(); }
-});
+  await render();
+  
+  setTimeout(() => {
+    btn.innerHTML = '🔄 تحديث البيانات';
+    btn.style.opacity = '1';
+    isUpdating = false;
+    toast('✅ تم تحديث البيانات بنجاح');
+  }, 500);
+}
 
 async function render() {
   const d = await loadData();
-  renderN(d); renderQ(d); renderCStat(d); updStats(d);
+  renderN(d); 
+  renderQ(d); 
+  renderCStat(d); 
+  updStats(d);
 }
-
+  
 function renderN(d) {
   const el = document.getElementById('nList');
   let filtered = d.notices.filter(n => (curClass==='all' || n.cls==='all' || n.cls===curClass) && (nFlt==='all' || n.type===nFlt));
