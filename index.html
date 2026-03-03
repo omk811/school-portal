@@ -142,6 +142,70 @@ body {
         line-height: 1.6;
     }
 }
+  /* ===== صندوق التواصل - نسخة مصغرة ===== */
+.pf {
+  background: linear-gradient(135deg, #2c3e50, var(--p));
+  border-radius: 20px;
+  padding: 18px 20px; /* كان 26px -> 18px */
+  box-shadow: var(--sh);
+  color: #fff;
+  margin-bottom: 20px; /* تقليل المسافة السفلية قليلاً */
+}
+
+.pf h2 {
+  font-size: 1.1rem; /* كان 1.2rem */
+  font-weight: 800;
+  margin-bottom: 4px; /* تقليل المسافة تحت العنوان */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* تقليل الفجوة */
+}
+
+.pf > p {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.8rem; /* كان 0.85rem */
+  margin-bottom: 16px; /* تقليل المسافة */
+}
+
+.fg {
+  margin-bottom: 10px; /* كان 14px */
+}
+
+.fg label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.8rem; /* تصغير الخط */
+  margin-bottom: 4px; /* تقليل المسافة */
+  color: rgba(255,255,255,0.9);
+}
+
+.fc {
+  width: 100%;
+  padding: 10px 12px; /* كان 12px -> 10px عمودي */
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  resize: vertical;
+  background: rgba(255,255,255,0.95);
+  transition: 0.2s;
+}
+
+.psbtn {
+  width: 100%;
+  padding: 12px; /* كان 14px */
+  background: var(--a);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem; /* تصغير طفيف */
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 6px; /* تقليل المسافة */
+  transition: 0.2s;
+}
   
 /* My Messages */
 .my-msg { background: #fafbfc; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-right: 4px solid var(--a); border: 1px solid #eee; border-right-width: 4px; }
