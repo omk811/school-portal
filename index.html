@@ -263,25 +263,38 @@ async function renderUI() {
 }
 
 function renderMyMsg() {
-  const myIds = JSON.parse(localStorage.getItem(MY_KEY)) || [];
-  const myQ = cachedData.queries.filter(q => myIds.includes(q.id));
-  const card = document.getElementById('myCard');
-  if(!myQ.length) return card.style.display = 'none';
+  const d = cachedData; 
+  if(!d || !d.queries) return;
+
+  // جلب جميع الرسائل التي قام المعلم بالرد عليها فقط (ليراها الجميع)
+  const answeredQ = d.queries.filter(q => q.status === 'replied');
+  
+  const card = document.getElementById('myCard'); 
+  const el = document.getElementById('myList');
+  
+  // إذا لم تكن هناك ردود بعد، أخفِ القسم
+  if(!answeredQ.length) {
+      card.style.display = 'none';
+      return;
+  }
+
   card.style.display = 'block';
-  document.getElementById('myList').innerHTML = myQ.map(q => `
-    <div style="border:1px solid #eee; padding:15px; border-radius:12px; margin-bottom:12px; border-right:5px solid var(--a); line-height:1.6;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <b style="color:var(--p)">${q.student}</b>
-        <span style="font-size:0.8rem; padding:2px 8px; border-radius:5px; background:${q.status==='replied'?'#e8f8f0':'#fef5e6'}; color:${q.status==='replied'?'green':'#d35400'}">
-          ${q.status==='replied'?'تم الرد':'بانتظار الرد'}
-        </span>
+  // تغيير العنوان ليكون عاماً
+  document.querySelector('#myCard .ch').innerHTML = '<div class="ct"><div class="ci" style="background:#fef5e6">💬</div> استفسارات مجاب عليها</div>';
+
+  el.innerHTML = answeredQ.map(q => `
+    <div class="my-msg" style="border-right: 4px solid var(--g); background: #fff; margin-bottom:15px; border: 1px solid #eee; border-right-width:4px; padding:15px; border-radius:12px;">
+      <div class="msg-top" style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span class="msg-student" style="font-weight:bold; color:var(--p);">❓ استفسار من ولي أمر (${CN[q.cls]})</span>
+        <span class="ndate" style="font-size:0.8rem; color:var(--mu);">${q.date}</span>
       </div>
-      <p style="font-size:0.95rem;">${q.msg}</p>
-      ${q.reply ? `<div style="background:#f4f9fd; padding:12px; margin-top:10px; border-radius:8px; font-size:0.95rem; border:1px solid #d5e8f5;">
-        <b style="color:var(--g)">رد الأستاذ:</b><br>${makeLinksClickable(q.reply)}
-      </div>` : ''}
+      <div class="msg-txt" style="font-size:0.95rem; margin-bottom:10px; color:#555;">${makeLinksClickable(q.msg)}</div>
+      <div class="rep-box" style="background:#e8f8f0; border:1px solid #bce8d1; padding:12px; border-radius:8px; color:#1e8449;">
+        <strong style="display:block; margin-bottom:5px;">✅ رد الأستاذ خليل:</strong>
+        <div style="line-height:1.6;">${makeLinksClickable(q.reply)}</div>
+      </div>
     </div>`).join('');
-}
+}}
 
 async function submitQ() {
   const n = document.getElementById('pN').value.trim();
