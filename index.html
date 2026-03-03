@@ -3,473 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة أولياء الأمور - الأستاذ خليل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>بوابة أولياء الأمور | الأستاذ خليل</title>
+    <!-- خطوط جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card-hover: #334155;
-            --accent-gold: #eab308;
-            --accent-gold-hover: #facc15;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            
-            /* Status Colors */
-            --hw: #3b82f6;      /* Homework */
-            --act: #10b981;     /* Activity */
-            --alrt: #f59e0b;    /* Alert */
-            --imp: #ef4444;     /* Important */
-            
-            --radius: 16px;
-            --transition: 0.3s ease;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
         
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            background-image: 
-                radial-gradient(circle at top left, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.05) 0%, transparent 40%);
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 4px; }
-
         /* Header */
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-        }
+        header { background: var(--card-bg); padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+        header h1 { color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        header p { color: var(--text-light); font-size: 0.9rem; }
         
-        .header-content {
-            max-width: 1000px; margin: 0 auto;
-            padding: 16px 24px;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 16px;
-        }
-
-        .brand { display: flex; align-items: center; gap: 16px; }
-        .logo {
-            width: 48px; height: 48px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; box-shadow: 0 4px 20px rgba(234, 179, 8, 0.2);
-        }
-        .brand h1 { font-size: 1.1rem; font-weight: 900; color: #fff; }
-        .brand p { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-
-        .time-badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-size: 0.75rem; color: var(--text-muted);
-        }
-
-        /* Tabs */
-        .tabs-container { border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.2); }
-        .tabs {
-            max-width: 1000px; margin: 0 auto;
-            display: flex; overflow-x: auto; padding: 0 24px;
-            scrollbar-width: none;
-        }
-        .tabs::-webkit-scrollbar { display: none; }
-        .tab {
-            padding: 12px 20px; background: transparent; border: none;
-            color: var(--text-muted); font-family: inherit; font-size: 0.9rem; font-weight: 700;
-            border-bottom: 2px solid transparent; cursor: pointer; transition: var(--transition);
-            display: flex; align-items: center; gap: 8px; white-space: nowrap;
-        }
-        .tab:hover { color: var(--text-light); }
-        .tab.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
-        .badge {
-            background: rgba(234, 179, 8, 0.15); color: var(--accent-gold);
-            border-radius: 20px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800;
-        }
-        .tab.active .badge { background: var(--accent-gold); color: var(--bg-main); }
-
-        /* Main Content */
-        main { max-width: 1000px; margin: 24px auto; padding: 0 24px; }
+        /* Container */
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
         
-        .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-        .chip {
-            padding: 6px 16px; border-radius: 30px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card); color: var(--text-muted);
-            font-family: inherit; font-size: 0.8rem; font-weight: 700;
-            cursor: pointer; transition: var(--transition); white-space: nowrap;
+        /* Filters */
+        .filters { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 1rem; margin-bottom: 1rem; scrollbar-width: none; }
+        .filter-btn {
+            background: var(--card-bg); border: 1px solid var(--border);
+            padding: 0.5rem 1rem; border-radius: 50px; cursor: pointer;
+            white-space: nowrap; transition: all 0.3s; font-size: 0.9rem;
         }
-        .chip:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
-        .chip.active { background: var(--accent-gold); color: var(--bg-main); border-color: var(--accent-gold); }
-        .chip.important.active { background: var(--imp); color: #fff; border-color: var(--imp); }
-
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         
+        /* Class Selector */
+        .class-selector { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center; flex-wrap: wrap; }
+        .class-btn {
+            background: white; border: 1px solid var(--border); padding: 0.5rem 1rem;
+            border-radius: 8px; cursor: pointer; font-weight: 600;
+        }
+        .class-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Cards */
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 20px; position: relative; overflow: hidden;
-            transition: var(--transition);
-            animation: fadeIn 0.4s ease both;
+            background: var(--card-bg); border-radius: 12px; padding: 1.5rem;
+            margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-right: 4px solid var(--primary); transition: transform 0.2s;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.15); }
+        .card:hover { transform: translateY(-2px); }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.85rem; color: var(--text-light); }
+        .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text); }
+        .card-body { color: var(--text-light); font-size: 0.95rem; }
+        .card-tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .tag-واجب { background: #fee2e2; color: #991b1b; }
+        .tag-نشاط { background: #dbeafe; color: #1e40af; }
+        .tag-تنبيه { background: #fef3c7; color: #92400e; }
         
-        .card::before {
-            content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%;
-        }
-        .card.homework::before { background: var(--hw); }
-        .card.activity::before { background: var(--act); }
-        .card.alert::before { background: var(--alrt); }
+        /* Loading */
+        .loading { text-align: center; padding: 2rem; color: var(--text-light); }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem; color: var(--text-light); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+        .links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+        .links a { color: var(--primary); text-decoration: none; font-weight: 600; }
         
-        .card.is-important {
-            border-color: rgba(239, 68, 68, 0.4);
-            background: rgba(239, 68, 68, 0.05);
-        }
-        .card.is-important::before { background: var(--imp); }
-
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;}
-        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag {
-            font-size: 0.7rem; font-weight: 800; padding: 2px 8px;
-            border-radius: 6px; border: 1px solid transparent;
-        }
-        .tag-class { background: rgba(255,255,255,0.05); border-color: var(--border-color); color: var(--text-light); }
-        .tag-hw { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-        .tag-act { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .tag-alrt { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-        .tag-imp { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171; }
-        
-        .card-date { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; white-space: nowrap;}
-        
-        .card-title { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.5; }
-        .card-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); white-space: pre-wrap; word-wrap: break-word; }
-        .card-desc a { color: var(--accent-gold); font-weight: 700; text-decoration: none; }
-        .card-desc a:hover { text-decoration: underline; }
-        
-        .card-img-wrapper {
-            margin-top: 16px; border-radius: 8px; overflow: hidden;
-            cursor: zoom-in; display: block;
-        }
-        .card-img {
-            width: 100%; max-height: 220px; object-fit: cover; display: block;
-            border: 1px solid var(--border-color); transition: transform 0.3s;
-        }
-        .card-img-wrapper:hover .card-img { transform: scale(1.03); }
-
-        /* Links Section */
-        .links-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color);
-        }
-        .link-card {
-            display: flex; align-items: center; gap: 16px;
-            padding: 16px; border-radius: 12px; background: var(--bg-card);
-            border: 1px solid var(--border-color); transition: var(--transition);
-        }
-        .link-card:hover { background: var(--bg-card-hover); }
-        .link-icon { font-size: 28px; }
-        .link-info strong { display: block; font-size: 0.9rem; color: #fff; margin-bottom: 4px; }
-        .link-info a, .link-info span { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; }
-        .link-info a { color: var(--accent-gold); font-weight: 600; }
-        .link-info a:hover { text-decoration: underline; }
-
-        /* States */
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1/-1; }
-        .empty-icon { font-size: 48px; opacity: 0.3; display: block; margin-bottom: 16px; }
-        
-        .loading { display: flex; flex-direction: column; align-items: center; padding: 60px; color: var(--text-muted); grid-column: 1/-1; font-weight: 700; }
-        .spinner {
-            width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-gold); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 12px;
-        }
-
-        /* Lightbox */
-        .lightbox {
-            display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);
-            align-items: center; justify-content: center; padding: 24px;
-        }
-        .lightbox.open { display: flex; }
-        .lightbox img { max-width: 100%; max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-        .lightbox-close {
-            position: fixed; top: 24px; left: 24px;
-            width: 44px; height: 44px; background: rgba(255,255,255,0.1);
-            border: none; border-radius: 50%; color: #fff; font-size: 20px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .lightbox-close:hover { background: rgba(239, 68, 68, 0.8); }
-
-        footer {
-            text-align: center; padding: 24px; border-top: 1px solid var(--border-color);
-            margin-top: 40px; color: var(--text-muted); font-size: 0.8rem;
-        }
-        footer a { color: var(--accent-gold); text-decoration: none; font-weight: 700; margin: 0 12px; }
-        footer a:hover { text-decoration: underline; }
-        .footer-copy { margin-top: 16px; opacity: 0.5; font-size: 0.75rem; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        @media(max-width: 640px) {
-            .header-content { flex-direction: column; align-items: flex-start; }
-            main { padding: 0 16px; }
-            .grid { grid-template-columns: 1fr; }
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.2rem; }
+            .card { padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-content">
-        <div class="brand">
-            <div class="logo">📚</div>
-            <div>
-                <h1>بوابة أولياء الأمور</h1>
-                <p>الأستاذ خليل · اللغة العربية · الصف الخامس · مدرسة سعد بن معاذ</p>
-            </div>
-        </div>
-        <div class="time-badge" id="hdate">جاري التحميل...</div>
-    </div>
-    <div class="tabs-container">
-        <div class="tabs">
-            <button class="tab active" onclick="setTab('all', this)">📋 جميع الشعب</button>
-            <button class="tab" onclick="setTab('5A', this)"><span class="badge" id="b5A">0</span> الخامس 1</button>
-            <button class="tab" onclick="setTab('5B', this)"><span class="badge" id="b5B">0</span> الخامس 2</button>
-            <button class="tab" onclick="setTab('5C', this)"><span class="badge" id="b5C">0</span> الخامس 3</button>
-        </div>
-    </div>
-</header>
+    <header>
+        <h1><i class="fas fa-book-open"></i> بوابة أولياء الأمور</h1>
+        <p>الأستاذ خليل البلوشي · اللغة العربية · الصف الخامس</p>
+        <p style="font-size: 0.8rem; margin-top: 5px;">مدرسة سعد بن معاذ — شمال الباطنة</p>
+    </header>
 
-<main>
-    <div class="filters">
-        <button class="chip active" onclick="setFilter('all', this)">الكل</button>
-        <button class="chip" onclick="setFilter('homework', this)">📝 واجبات</button>
-        <button class="chip" onclick="setFilter('activity', this)">🎯 أنشطة</button>
-        <button class="chip" onclick="setFilter('alert', this)">🔔 تنبيهات</button>
-        <button class="chip important" onclick="setFilter('important', this)">⭐ المهمة</button>
-    </div>
+    <div class="container">
+        <!-- اختيار الشعبة -->
+        <div class="class-selector" id="classSelector">
+            <button class="class-btn active" onclick="selectClass('all')">جميع الشعب</button>
+            <button class="class-btn" onclick="selectClass('الخامس 1')">الخامس 1</button>
+            <button class="class-btn" onclick="selectClass('الخامس 2')">الخامس 2</button>
+            <button class="class-btn" onclick="selectClass('الخامس 3')">الخامس 3</button>
+        </div>
 
-    <div id="list">
-        <div class="loading">
-            <div class="spinner"></div>
-            جاري جلب البيانات...
+        <!-- فلترة المحتوى -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterContent('all')">الكل</button>
+            <button class="filter-btn" onclick="filterContent('واجب')"><i class="fas fa-pen"></i> واجبات</button>
+            <button class="filter-btn" onclick="filterContent('نشاط')"><i class="fas fa-bullseye"></i> أنشطة</button>
+            <button class="filter-btn" onclick="filterContent('تنبيه')"><i class="fas fa-bell"></i> تنبيهات</button>
         </div>
-    </div>
 
-    <div class="links-grid">
-        <div class="link-card">
-            <span class="link-icon">📅</span>
-            <div class="link-info">
-                <strong>أوقات الرد</strong>
-                <span>الأحد — الخميس · ٨ص – ٢م</span>
-            </div>
-        </div>
-        <div class="link-card">
-            <span class="link-icon">📺</span>
-            <div class="link-info">
-                <strong>قناة اليوتيوب التعليمية</strong>
-                <a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">@teacherKhalil811 ↗</a>
-            </div>
-        </div>
-        <div class="link-card">
-            <span class="link-icon">📝</span>
-            <div class="link-info">
-                <strong>المدوّنة التعليمية</strong>
-                <a href="https://omk811.blogspot.com" target="_blank" rel="noopener">omk811.blogspot.com ↗</a>
+        <!-- منطقة العرض -->
+        <div id="contentArea">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>جاري تحميل البيانات...</p>
             </div>
         </div>
     </div>
-</main>
 
-<footer>
-    <a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">📺 القناة</a>
-    <a href="https://omk811.blogspot.com" target="_blank" rel="noopener">📝 المدوّنة</a>
-    <a href="teacher.html">🔐 دخول المعلم</a>
-    <div class="footer-copy">© 2026 · الأستاذ خليل البلوشي · مدرسة سعد بن معاذ للتعليم الأساسي · شمال الباطنة</div>
-</footer>
+    <footer>
+        <div class="links">
+            <a href="https://www.youtube.com/@teacherKhalil811" target="_blank"><i class="fab fa-youtube"></i> القناة التعليمية</a>
+            <a href="https://omk811.blogspot.com" target="_blank"><i class="fas fa-blog"></i> المدوّنة</a>
+            <a href="teacher.html"><i class="fas fa-lock"></i> دخول المعلم</a>
+        </div>
+        <p>© 2026 · الأستاذ خليل البلوشي · مدرسة سعد بن معاذ للتعليم الأساسي</p>
+        <p style="margin-top: 5px; font-size: 0.75rem;">📅 أوقات الرد: الأحد — الخميس · ٨ص – ٢م</p>
+    </footer>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
-    <img id="lightbox-img" src="" alt="صورة مكبرة">
-</div>
+    <script>
+        // ==========================================
+        // إعدادات جوجل سكريبت (ضع رابط الويب آب هنا)
+        // ==========================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; 
+        
+        let currentClass = 'all';
+        let currentFilter = 'all';
+        let allData = [];
 
-<script>
-    const API = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
-    const SK = 'school_data_v2';
-    const classNames = { all: 'جميع الشعب', '5A': 'الخامس 1', '5B': 'الخامس 2', '5C': 'الخامس 3' };
-    const typeNames = { homework: 'واجب 📝', activity: 'نشاط 🎯', alert: 'تنبيه 🔔' };
-    const typeTags = { homework: 'tag-hw', activity: 'tag-act', alert: 'tag-alrt' };
-    
-    let currentClass = 'all';
-    let currentFilter = 'all';
-    let appData = null;
+        // دالة جلب البيانات من جوجل سكريبت
+        async function fetchData() {
+            try {
+                // ملاحظة: في وضع التطوير قد تحتاج لاستخدام no-cors أو إعدادات CORS في السكريبت
+                const response = await fetch(SCRIPT_URL + '?action=getData&class=' + currentClass);
+                const data = await response.json();
+                allData = data; // افترض أن السكريبت يعيد مصفوفة JSON
+                renderData();
+            } catch (error) {
+                // بيانات تجريبية في حال فشل الاتصال (للعرض فقط)
+                console.error("Error fetching data:", error);
+                document.getElementById('contentArea').innerHTML = '<div class="loading">تعذر تحميل البيانات، تأكد من اتصال الإنترنت.</div>';
+            }
+        }
 
-    // Format text with safe HTML links
-    function linkify(text) {
-        if (!text) return '';
-        return String(text)
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi, match => {
-                let href = match.startsWith('www') ? 'http://' + match : match;
-                if (match.includes('@') && !match.startsWith('http')) href = 'mailto:' + match;
-                return `<a href="${href}" target="_blank" rel="noopener">${match}</a>`;
+        // عرض البيانات
+        function renderData() {
+            const container = document.getElementById('contentArea');
+            container.innerHTML = '';
+
+            const filtered = allData.filter(item => {
+                const matchClass = currentClass === 'all' || item.class === currentClass;
+                const matchType = currentFilter === 'all' || item.type === currentFilter;
+                return matchClass && matchType;
             });
-    }
 
-    // Update time
-    function updateDate() {
-        const d = new Date();
-        const options = { weekday: 'long', month: 'short', day: 'numeric' };
-        document.getElementById('hdate').innerHTML = 
-            d.toLocaleDateString('ar-OM', options) + ' · ' + 
-            d.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' });
-    }
-    updateDate();
-    setInterval(updateDate, 60000);
-
-    // Fetch data from API
-    async function loadData() {
-        try {
-            const response = await fetch(API + '?action=loadData&t=' + Date.now());
-            const json = await response.json();
-            if (json.status === 'success') {
-                localStorage.setItem(SK, JSON.stringify(json.data));
-                return json.data;
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="loading">لا توجد بيانات لعرضها حالياً</div>';
+                return;
             }
-        } catch (e) {
-            console.error("Fetch error, using local data.");
-        }
-        const saved = localStorage.getItem(SK);
-        return saved ? JSON.parse(saved) : { notices: [] };
-    }
 
-    // Handle Tab Selection
-    function setTab(cls, element) {
-        currentClass = cls;
-        document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-        renderList();
-    }
-
-    // Handle Filter Selection
-    function setFilter(flt, element) {
-        currentFilter = flt;
-        document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-        renderList();
-    }
-
-    // Render Data onto the screen
-    function renderList() {
-        const listContainer = document.getElementById('list');
-        
-        if (!appData || !appData.notices || !appData.notices.length) {
-            listContainer.innerHTML = '<div class="empty-state"><span class="empty-icon">📋</span><p>لا توجد ملاحظات حالياً</p></div>';
-            return;
-        }
-
-        // Filter out completed tasks, then filter by class, then by type
-        let filtered = appData.notices.filter(n => !n.isDone && (currentClass === 'all' || n.cls === 'all' || n.cls === currentClass));
-        
-        if (currentFilter === 'important') filtered = filtered.filter(n => n.isImp);
-        else if (currentFilter !== 'all') filtered = filtered.filter(n => n.type === currentFilter);
-        
-        if (!filtered.length) {
-            listContainer.innerHTML = '<div class="empty-state"><span class="empty-icon">🔍</span><p>لا توجد ملاحظات بهذا التصنيف</p></div>';
-            return;
-        }
-
-        // Sort: important ones first
-        filtered.sort((a, b) => (b.isImp ? 1 : 0) - (a.isImp ? 1 : 0));
-
-        let html = '<div class="grid">';
-        filtered.forEach((notice, index) => {
-            let delay = index * 0.05;
-            let classString = `card ${notice.type} ${notice.isImp ? 'is-important' : ''}`;
-            
-            html += `
-                <div class="${classString}" style="animation-delay: ${delay}s">
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
                     <div class="card-header">
-                        <div class="tags">
-                            <span class="tag tag-class">${classNames[notice.cls]}</span>
-                            <span class="tag ${typeTags[notice.type]}">${typeNames[notice.type]}</span>
-                            ${notice.isImp ? '<span class="tag tag-imp">⭐ مهمة</span>' : ''}
-                        </div>
-                        <span class="card-date">${notice.date}</span>
+                        <span><i class="far fa-clock"></i> ${item.date || 'today'}</span>
+                        <span class="card-tag tag-${item.type}">${item.type}</span>
                     </div>
-                    <span class="card-title">${notice.title}</span>
-                    ${notice.det ? `<div class="card-desc">${linkify(notice.det)}</div>` : ''}
-                    ${notice.img ? `
-                        <div class="card-img-wrapper" onclick="openLightbox(this)">
-                            <img src="${notice.img}" class="card-img" alt="مرفق">
-                        </div>` : ''}
-                </div>
-            `;
-        });
-        html += '</div>';
-        listContainer.innerHTML = html;
-        updateBadges();
-    }
-
-    // Update numbers on tabs
-    function updateBadges() {
-        if (!appData) return;
-        ['5A', '5B', '5C'].forEach(c => {
-            const badgeEl = document.getElementById('b' + c);
-            if (badgeEl) {
-                const count = appData.notices.filter(n => !n.isDone && (n.cls === c || n.cls === 'all')).length;
-                badgeEl.textContent = count;
-            }
-        });
-    }
-
-    // Lightbox Control (Safe for Base64)
-    function openLightbox(element) {
-        const img = element.querySelector('img');
-        if (img) {
-            document.getElementById('lightbox-img').src = img.src;
-            document.getElementById('lightbox').classList.add('open');
+                    <div class="card-title">${item.title}</div>
+                    <div class="card-body">${item.details || ''}</div>
+                    ${item.image ? `<div style="margin-top:10px;"><img src="${item.image}" style="max-width:100%; border-radius:8px;"></div>` : ''}
+                `;
+                container.appendChild(card);
+            });
         }
-    }
-    
-    function closeLightbox(event) {
-        if (event.target.id === 'lightbox' || event.target.tagName === 'BUTTON') {
-            document.getElementById('lightbox').classList.remove('open');
-        }
-    }
-    
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-            document.getElementById('lightbox').classList.remove('open');
-        }
-    });
 
-    // Initialize the app
-    async function initApp() {
-        appData = await loadData();
-        renderList();
-        updateBadges();
-    }
-    initApp();
+        // اختيار الشعبة
+        function selectClass(cls) {
+            currentClass = cls;
+            document.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            fetchData();
+        }
 
-    // Auto-refresh mechanism
-    setInterval(initApp, 30000); // 30 seconds
-    document.addEventListener('visibilitychange', () => { 
-        if (!document.hidden) initApp(); 
-    });
-</script>
+        // فلترة المحتوى
+        function filterContent(type) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderData();
+        }
+
+        // تشغيل عند البدء
+        window.onload = fetchData;
+    </script>
 </body>
 </html>
