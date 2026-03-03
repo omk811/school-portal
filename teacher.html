@@ -345,7 +345,7 @@ async function getPwd(){
     const j=await res.json();
     if(j.data?.settings?.password)return j.data.settings.password;
   }catch(e){}
-  return localStorage.getItem(PWD_KEY)||'Khalil2025';
+  return localStorage.getItem(PWD_KEY)||'aysha123';
 }
 
 async function doLogin(){
