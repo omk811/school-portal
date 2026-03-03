@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
+<meta name="apple-mobile-web-app-title" content="الأستاذ خليل البلوشي">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 <style>
@@ -277,8 +277,9 @@ async function loadData(){
   }catch(e){}
   return JSON.parse(localStorage.getItem(STORAGE_KEY))||{notices:[],queries:[],qId:100};
 }
-function getMyIds(){return JSON.parse(localStorage.getItem(MY_KEY))||[];}
-function saveMyIds(ids){localStorage.setItem(MY_KEY,JSON.stringify(ids));}
+function getMyIds(){return (JSON.parse(localStorage.getItem(MY_KEY))||[]).map(x=>String(x));}
+function saveMyIds(ids){localStorage.setItem(MY_KEY,JSON.stringify(ids.map(x=>String(x))));}
+
 
 function setClass(c){
   curClass=c;
@@ -312,9 +313,10 @@ function renderN(){
 }
 
 function renderMyMsg(){
-  const d=cachedData;if(!d||!d.queries)return;
+  const d=cachedData||JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if(!d||!d.queries)return;
   const myIds=getMyIds();
-  const myQ=d.queries.filter(q=>myIds.includes(q.id));
+  const myQ=d.queries.filter(q=>myIds.includes(String(q.id)));
   const card=document.getElementById('myCard'),el=document.getElementById('myList');
   if(!myQ.length){card.style.display='none';return;}
   card.style.display='block';
@@ -351,11 +353,14 @@ async function submitQ(){
   const local=JSON.parse(localStorage.getItem(STORAGE_KEY))||{notices:[],queries:[],qId:100};
   local.queries.unshift(newQ);local.qId=newId;
   localStorage.setItem(STORAGE_KEY,JSON.stringify(local));
-  const myIds=getMyIds();myIds.push(newId);saveMyIds(myIds);
+  const myIds=getMyIds();myIds.push(String(newId));saveMyIds(myIds);
   ['pN','pS','pM'].forEach(i=>document.getElementById(i).value='');
   document.getElementById('pC').value='';
-  renderUI();toast('✅ تم إرسال رسالتك بنجاح!');
+  // أظهر الرسالة فوراً من الذاكرة المحلية بدون انتظار الـ API
+  renderMyMsg();
+  toast('✅ تم إرسال رسالتك بنجاح!');
   btn.disabled=false;btn.innerHTML='📤 إرسال الرسالة';
+  // أرسل للـ Sheets في الخلفية
   fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(local.queries)})}).catch(()=>{});
 }
 
