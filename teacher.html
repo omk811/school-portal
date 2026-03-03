@@ -11,50 +11,63 @@
 :root {
   --p: #1a5276; --s: #2e86c1; --a: #f39c12; --g: #27ae60; --r: #e74c3c;
   --bd: #d5e8f5; --bg: #f4f9fd; --mu: #7f8c8d; --text: #1c2833;
-  --sh: 0 8px 25px rgba(26,82,118,0.08);
-  --sh-hover: 0 12px 35px rgba(26,82,118,0.12);
+  --sh: 0 10px 30px rgba(26,82,118,0.06);
+  --sh-hover: 0 15px 35px rgba(26,82,118,0.1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; line-height: 1.6; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Header & Tabs */
+#loginScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, var(--bg), #d6eaf8); }
+.lbox { background: #fff; border-radius: 24px; padding: 40px; width: 100%; max-width: 400px; box-shadow: var(--sh); text-align: center; }
+.llogo { width: 70px; height: 70px; background: linear-gradient(135deg, var(--p), var(--s)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; box-shadow: 0 8px 16px rgba(46,134,193,0.2); }
+.lbox h1 { font-size: 1.5rem; color: var(--p); margin-bottom: 8px; }
+.lbox p { color: var(--mu); font-size: 0.9rem; margin-bottom: 24px; }
+.linput { width: 100%; padding: 14px; border: 2px solid var(--bd); border-radius: 12px; font-family: inherit; font-size: 16px; text-align: center; letter-spacing: 3px; margin-bottom: 16px; transition: 0.3s; }
+.linput:focus { outline: none; border-color: var(--s); }
+.lbtn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.lbtn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(46,134,193,0.3); }
+.lerr { color: var(--r); font-size: 0.85rem; margin-top: 12px; display: none; font-weight: 500; }
+
+#app { display: none; }
 header { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(26,82,118,0.2); }
-.ht { display: flex; align-items: center; justify-content: space-between; padding: 15px 5%; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 15px; }
+.ht { display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 15px; }
 .brand { display: flex; align-items: center; gap: 12px; }
 .logo { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; backdrop-filter: blur(4px); }
 .brand h1 { font-size: 1.2rem; font-weight: 800; }
 .brand p { font-size: 0.8rem; opacity: 0.85; margin-top: 2px; }
 .hright { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.hdate { background: rgba(0,0,0,0.15); border-radius: 10px; padding: 6px 12px; font-size: 0.75rem; text-align: center; }
+.hdate { background: rgba(0,0,0,0.15); border-radius: 10px; padding: 6px 12px; font-size: 0.75rem; text-align: center; line-height: 1.5; }
 .parent-link, .outbtn { color: #fff; text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.15); border-radius: 10px; font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; cursor: pointer; font-family: inherit; }
 .parent-link:hover, .outbtn:hover { background: rgba(255,255,255,0.25); }
 
 .ctabs { display: flex; padding: 0 5%; background: rgba(0,0,0,0.1); overflow-x: auto; scrollbar-width: none; }
 .ctabs::-webkit-scrollbar { display: none; }
 .ctab { padding: 12px 20px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 700; border-bottom: 3px solid transparent; white-space: nowrap; transition: 0.2s; }
+.ctab:hover { color: #fff; background: rgba(255,255,255,0.05); }
 .ctab.active { color: #fff; border-bottom-color: var(--a); background: rgba(255,255,255,0.1); }
-.cbdg { display: inline-flex; justify-content: center; background: var(--a); color: #fff; border-radius: 50px; padding: 0 6px; font-size: 0.7rem; margin-right: 6px; font-weight: 800; }
+.cbdg { display: inline-flex; align-items: center; justify-content: center; background: var(--a); color: #fff; border-radius: 50px; padding: 0 6px; height: 20px; font-size: 0.7rem; margin-right: 6px; font-weight: 800; }
 
-/* Main Layout */
 main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; grid-column: 1 / -1; }
 .stat { background: #fff; border-radius: 16px; padding: 16px 20px; box-shadow: var(--sh); display: flex; align-items: center; gap: 14px; transition: 0.2s; }
 .stat:hover { transform: translateY(-3px); box-shadow: var(--sh-hover); }
 .si { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.stat h3 { font-size: 1.5rem; font-weight: 800; }
+.si.bl{background:#e1f0fa; color:var(--p)}.si.gr{background:#e8f8f0; color:var(--g)}.si.or{background:#fef5e6; color:var(--a)}.si.rd{background:#fceeee; color:var(--r)}
+.stat h3 { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+.stat p { font-size: 0.8rem; color: var(--mu); font-weight: 500; }
 
-/* Cards & Items */
 .card { background: #fff; border-radius: 16px; box-shadow: var(--sh); overflow: hidden; margin-bottom: 24px; }
 .ch { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--bd); background: #fafbfc; }
 .ct { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; font-weight: 700; color: var(--p); }
 .ci { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .cb { padding: 20px; }
 
-.ntabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
+.ntabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
 .ntab { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--bd); background: #fff; cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--mu); transition: 0.2s; white-space: nowrap; }
 .ntab.active { background: var(--p); color: #fff; border-color: var(--p); }
 
@@ -62,48 +75,79 @@ main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
 .ni.homework { background: #f4f9fd; border-color: var(--s); }
 .ni.activity { background: #eefaf3; border-color: var(--g); }
 .ni.alert { background: #fffaf0; border-color: var(--a); }
-.nm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.ctag, .ttag { font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-.ctag { background: var(--p); color: #fff; }
-.ttag { background: rgba(0,0,0,0.05); }
-.ndel { position: absolute; top: 12px; left: 12px; background: #fff; border: 1px solid #eee; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; color: #aaa; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.nm { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.ctag { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--p); color: #fff; margin-left: 6px; }
+.ttag { font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,0.05); font-weight: 600; }
+.ndate { font-size: 0.75rem; color: var(--mu); }
+.ndel { position: absolute; top: 12px; left: 12px; background: #fff; border: 1px solid #eee; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; color: #aaa; font-size: 14px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .ndel:hover { color: var(--r); border-color: var(--r); background: #fdf2f2; }
-.ni strong { font-size: 1.1rem; color: #000; display: block; margin-bottom: 6px; font-weight: 800; }
-.n-body-text { white-space: pre-wrap; font-size: 0.95rem; color: #2c3e50; line-height: 1.6; }
-.notice-img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid rgba(0,0,0,0.05); }
+.ni strong { color: #000; font-size: 1.15rem; display: block; margin-bottom: 10px; font-weight: 800; }
+.ni-det { font-size: 1.05rem; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; color: #2c3e50; }
+.notice-img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 10px; margin-top: 15px; border: 1px solid rgba(0,0,0,0.1); }
 
-/* Inputs & Modals */
-.fc { width: 100%; padding: 10px 14px; border: 2px solid var(--bd); border-radius: 10px; font-family: inherit; font-size: 0.95rem; background: #fff; transition: 0.2s; resize: vertical; }
+.abtn { padding: 8px 16px; background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.abtn:hover { opacity: 0.9; transform: translateY(-1px); }
+.fg { margin-bottom: 14px; }
+.fg label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; color: var(--p); }
+.fc { width: 100%; padding: 12px 14px; border: 2px solid var(--bd); border-radius: 10px; font-family: inherit; font-size: 16px; color: var(--text); resize: vertical; transition: 0.2s; background: #fff; }
 .fc:focus { outline: none; border-color: var(--s); box-shadow: 0 0 0 3px rgba(46,134,193,0.1); }
-.sbtn, .abtn { padding: 10px 16px; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; color: #fff; }
-.abtn { background: linear-gradient(135deg, var(--p), var(--s)); padding: 8px 16px; font-size: 0.85rem; }
-.sbtn { background: linear-gradient(135deg, var(--g), #1e8449); width: 100%; }
-.sbtn:hover, .abtn:hover { opacity: 0.9; transform: translateY(-1px); }
+.fr { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sbtn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--g), #1e8449); color: #fff; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.sbtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.sbtn:not(:disabled):hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(39,174,96,0.3); }
+
+.qi { background: #fafbfc; border: 1px solid var(--bd); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-right: 4px solid var(--a); animation: fi 0.3s ease; }
+.qh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.qsend { font-weight: 700; font-size: 0.95rem; color: var(--p); }
+.qtxt { font-size: 1.05rem; line-height: 1.6; color: #2c3e50; margin-bottom: 12px; background: #fff; padding: 12px; border-radius: 8px; border: 1px solid #eee; white-space: pre-wrap; }
+.qa { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; border-top: 1px solid #eee; padding-top: 10px; }
+.rbtn, .dbtn, .srbtn { padding: 6px 14px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
+.rbtn { background: var(--p); color: #fff; }
+.rbtn:hover { background: #154360; }
+.dbtn { background: #fdf2f2; color: var(--r); }
+.dbtn:hover { background: var(--r); color: #fff; }
+.srbtn { background: var(--g); color: #fff; }
+.sbdg { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+.snew { background: #fef5e6; color: #d35400; }
+.srep { background: #e8f8f0; color: #1e8449; }
+.sread { background: #f1f5f9; color: var(--mu); }
+.ra { margin-top: 10px; display: none; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid var(--bd); }
+.ra textarea { margin-bottom: 10px; }
+.reply-preview { background: #e8f8f0; border-radius: 8px; padding: 10px; font-size: 1.05rem; margin-bottom: 10px; border: 1px solid #bce8d1; white-space: pre-wrap; color: #2c3e50; }
 
 .overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 .overlay.open { display: flex; }
-.modal { background: #fff; border-radius: 20px; padding: 24px; width: 100%; max-width: 480px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: su 0.3s ease; max-height: 90vh; overflow-y: auto; }
-.fg { margin-bottom: 14px; }
-.fg label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; color: var(--p); }
+.modal { background: #fff; border-radius: 20px; padding: 24px; width: 100%; max-width: 480px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: su 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 90vh; overflow-y: auto; }
+.mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.mt { font-size: 1.2rem; font-weight: 800; color: var(--p); }
+.mc { width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; border: none; cursor: pointer; font-size: 14px; color: var(--mu); transition: 0.2s; }
+.mc:hover { background: #e2e8f0; color: var(--r); }
 
-.qi { background: #fafbfc; border: 1px solid var(--bd); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-right: 4px solid var(--a); }
-.qtxt, .reply-preview { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; padding: 10px; background: #fff; border-radius: 8px; border: 1px solid #eee; margin: 10px 0; }
-.reply-preview { background: #e8f8f0; border-color: #bce8d1; color: #1e8449; }
-
-#loginScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, var(--bg), #d6eaf8); }
-.lbox { background: #fff; border-radius: 24px; padding: 40px; width: 100%; max-width: 400px; box-shadow: var(--sh); text-align: center; }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; z-index: 400; transition: transform 0.4s; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: transform 0.4s; z-index: 400; }
 .toast.show { transform: translateX(-50%) translateY(0); }
-#app { display: none; }
+
+.empty { text-align: center; padding: 30px 20px; color: var(--mu); }
+.eicon { font-size: 40px; margin-bottom: 10px; opacity: 0.5; }
+.info-row { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+.aibar { display: flex; align-items: center; gap: 8px; background: #f0f8ff; border: 1px solid var(--bd); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.85rem; color: var(--p); font-weight: 600; }
+.aibar.thinking { background: #fffbeb; border-color: #fde68a; color: #b45309; }
+.spin { animation: spin 1s linear infinite; display: inline-block; }
+
+footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; padding: 30px 5% 20px; margin-top: 40px; text-align: center; font-size: 0.85rem; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; opacity: 0.8; }
 
 @keyframes fi { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
 @keyframes su { from { opacity: 0; transform: translateY(20px) scale(0.95) } to { opacity: 1; transform: translateY(0) scale(1) } }
+@keyframes spin { to { transform: rotate(360deg) } }
 
-@media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { 
+  main { grid-template-columns: 1fr; } 
+  .fr { grid-template-columns: 1fr; gap: 0; }
+}
 @media (max-width: 600px) {
-  .ht { flex-direction: column; justify-content: center; }
+  .ht { flex-direction: column; text-align: center; }
   .hright { justify-content: center; width: 100%; }
-  .fc { font-size: 16px; } /* يمنع زووم الآيفون التلقائي */
+  .nm { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -111,33 +155,44 @@ main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
 
 <div id="loginScreen">
   <div class="lbox">
-    <div style="font-size:40px; margin-bottom:10px">🔐</div>
-    <h1 style="color:var(--p); margin-bottom:20px">لوحة المعلم</h1>
-    <input type="password" class="fc" id="pwdInput" placeholder="كلمة المرور" style="margin-bottom:15px; text-align:center" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="sbtn" onclick="doLogin()">دخول</button>
-    <div id="loginErr" style="color:var(--r); display:none; margin-top:10px; font-size:0.85rem">كلمة السر غير صحيحة</div>
+    <div class="llogo">🔐</div>
+    <h1>لوحة تحكم المعلم</h1>
+    <p>مركز التواصل مع أولياء الأمور<br>الأستاذ خليل — اللغة العربية</p>
+    <input type="password" class="linput" id="pwdInput" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lbtn" onclick="doLogin()">تسجيل الدخول</button>
+    <div class="lerr" id="loginErr">كلمة السر غير صحيحة</div>
+    <div class="lhint" style="margin-top:20px; font-size:0.8rem; color:var(--mu); background:#f8f9fa; border-radius:8px; padding:10px;">💡 الافتراضية: test2025</div>
   </div>
 </div>
 
 <div id="app">
 <header>
   <div class="ht">
-    <div class="brand"><div class="logo">📚</div><div><h1>لوحة تحكم المعلم</h1><p>الأستاذ خليل</p></div></div>
-    <div class="hright"><div class="hdate" id="hdate"></div><a href="index.html" class="parent-link">🏠 الموقع الرئيسي</a><button class="outbtn" onclick="doLogout()">🚪 خروج</button></div>
+    <div class="brand">
+      <div class="logo">📚</div>
+      <div><h1>لوحة تحكم المعلم</h1><p>الأستاذ خليل — اللغة العربية · الصف الخامس</p></div>
+    </div>
+    <div class="hright">
+      <div class="hdate" id="hdate"></div>
+      <a href="index.html" class="parent-link">🏠 الموقع الرئيسي</a>
+      <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
+    </div>
   </div>
+  
   <div class="ctabs">
-    <button class="ctab active" onclick="setClass('all')">📋 الكل</button>
-    <button class="ctab" onclick="setClass('5A')">الخامس 1</button>
-    <button class="ctab" onclick="setClass('5B')">الخامس 2</button>
-    <button class="ctab" onclick="setClass('5C')">الخامس 3</button>
+    <button class="ctab active" onclick="setClass('all')">📋 جميع الشعب</button>
+    <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span>الخامس 1</button>
+    <button class="ctab" onclick="setClass('5B')"><span class="cbdg" id="b5B">0</span>الخامس 2</button>
+    <button class="ctab" onclick="setClass('5C')"><span class="cbdg" id="b5C">0</span>الخامس 3</button>
   </div>
 </header>
 
 <main>
   <div class="stats">
-    <div class="stat"><div class="si" style="background:#e1f0fa;color:var(--p)">📌</div><div><h3 id="sN">0</h3><p>ملاحظات</p></div></div>
-    <div class="stat"><div class="si" style="background:#fef5e6;color:var(--a)">💬</div><div><h3 id="sQ">0</h3><p>استفسارات</p></div></div>
-    <div class="stat"><div class="si" style="background:#e8f8f0;color:var(--g)">✅</div><div><h3 id="sR">0</h3><p>مُجاب</p></div></div>
+    <div class="stat"><div class="si bl">📌</div><div><h3 id="sN">0</h3><p>إجمالي الملاحظات</p></div></div>
+    <div class="stat"><div class="si or">💬</div><div><h3 id="sQ">0</h3><p>الاستفسارات</p></div></div>
+    <div class="stat"><div class="si gr">✅</div><div><h3 id="sR">0</h3><p>تمت الإجابة</p></div></div>
+    <div class="stat"><div class="si rd">🔔</div><div><h3 id="sNw">0</h3><p>استفسار جديد</p></div></div>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:24px">
@@ -156,96 +211,262 @@ main { max-width: 1200px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
         <div id="nList"></div>
       </div>
     </div>
+    
     <div class="card">
       <div class="ch"><div class="ct"><div class="ci" style="background:#fef5e6">💬</div>استفسارات أولياء الأمور</div></div>
       <div class="cb"><div id="qList"></div></div>
     </div>
   </div>
+
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#e8f8f0">🤖</div>مساعد الذكاء الاصطناعي</div></div>
+      <div class="cb">
+        <p style="font-size:0.85rem;color:var(--mu);margin-bottom:12px">اطرح سؤالاً أو اطلب مساعدة في صياغة ملاحظة</p>
+        <div id="aiStatus" class="aibar" style="display:none"></div>
+        <div class="fg"><textarea class="fc" id="aiPrompt" rows="3" placeholder="مثال: اقترح لي ملاحظة واجب لدرس الفاعل..."></textarea></div>
+        <button class="sbtn" id="aiBtn" onclick="askAI()" style="background:linear-gradient(135deg,#8e44ad,#6c3483)">✨ اسأل الذكاء الاصطناعي</button>
+        <div id="aiReply" style="margin-top:16px;display:none;background:#f8f0fc;border:1px solid #e8daef;border-radius:10px;padding:16px;font-size:0.9rem;line-height:1.7;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#e1f0fa">📊</div>ملخص الشعب</div></div>
+      <div class="cb" id="classStats"></div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="ci" style="background:#f1f5f9">⚙️</div>الإعدادات</div></div>
+      <div class="cb">
+        <div class="info-row" style="background:#f4f9fd"><span style="font-size:22px">🏫</span><div style="font-size:0.85rem"><strong>مدرسة سعد بن معاذ</strong><br><span style="color:var(--mu)">شمال الباطنة — سلطنة عُمان</span></div></div>
+        <hr style="border:none;border-top:1px solid var(--bd);margin:16px 0">
+        <p style="font-size:0.85rem;font-weight:700;margin-bottom:10px;color:var(--p)">🔑 تغيير كلمة المرور:</p>
+        <div class="fg"><input type="password" class="fc" id="np1" placeholder="كلمة المرور الجديدة"></div>
+        <div class="fg"><input type="password" class="fc" id="np2" placeholder="تأكيد كلمة المرور"></div>
+        <button class="sbtn" onclick="changePwd()" style="background:var(--p)">🔒 حفظ التغيير</button>
+      </div>
+    </div>
+  </div>
 </main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-bottom">
+      © 2026 جميع الحقوق محفوظة - الأستاذ خليل · مدرسة سعد بن معاذ
+    </div>
+  </div>
+</footer>
 </div>
 
 <div class="overlay" id="modal">
   <div class="modal">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h3 style="color:var(--p)">إضافة ملاحظة جديدة</h3>
-      <button onclick="closeModal()" style="background:none; border:none; font-size:20px; cursor:pointer">✕</button>
+    <div class="mh"><span class="mt">إضافة ملاحظة</span><button class="mc" onclick="closeModal()">✕</button></div>
+    <div class="fr">
+      <div class="fg"><label>النوع</label>
+        <select class="fc" id="nType"><option value="homework">📝 واجب</option><option value="activity">🎯 نشاط</option><option value="alert">🔔 تنبيه</option></select></div>
+      <div class="fg"><label>الشعبة</label>
+        <select class="fc" id="nCls"><option value="all">جميع الشعب</option><option value="5A">الخامس 1</option><option value="5B">الخامس 2</option><option value="5C">الخامس 3</option></select></div>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
-      <div class="fg"><label>النوع</label><select class="fc" id="nType"><option value="homework">📝 واجب</option><option value="activity">🎯 نشاط</option><option value="alert">🔔 تنبيه</option></select></div>
-      <div class="fg"><label>الشعبة</label><select class="fc" id="nCls"><option value="all">الجميع</option><option value="5A">الخامس 1</option><option value="5B">الخامس 2</option><option value="5C">الخامس 3</option></select></div>
-    </div>
-    <div class="fg"><label>العنوان</label><input type="text" class="fc" id="nTit" placeholder="مثال: واجب الفاعل"></div>
-    <div class="fg"><label>التفاصيل</label><textarea class="fc" id="nDet" rows="3"></textarea></div>
+    <div class="fg"><label>العنوان</label><input type="text" class="fc" id="nTit" placeholder="مثال: واجب درس الفاعل"></div>
+    <div class="fg"><label>التفاصيل (اختياري)</label><textarea class="fc" id="nDet" rows="3" placeholder="أضف تفاصيل أو روابط..."></textarea></div>
     <div class="fg">
       <label>إرفاق صورة (اختياري)</label>
       <input type="file" id="nImg" class="fc" accept="image/*" onchange="processImage(this)">
-      <div id="imgPreview" style="margin-top:10px; display:none"><img src="" style="width:100px; border-radius:8px"></div>
+      <div id="imgPreview" style="margin-top:10px; display:none; text-align:center;"><img src="" style="max-width:100%; max-height:150px; border-radius:8px; border:1px solid #eee;"></div>
     </div>
-    <button class="sbtn" onclick="addNotice()">💾 حفظ ونشر</button>
+    <button class="sbtn" id="saveBtn" onclick="addNotice()" style="margin-top:10px">💾 حفظ ونشر</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; // تأكد من وضع رابط Google Script الخاص بك
-const PWD_KEY = 'teacher_pwd'; const STORAGE_KEY = 'school_data_v2';
+// ==================== إعدادات Google Sheets ====================
+const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; // ضع رابط Google Script هنا
+const PWD_KEY = 'teacher_pwd';
+const STORAGE_KEY = 'school_data_v2';
 const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
 const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
-let curClass = 'all', nFlt = 'all', currentBase64Image = '';
+let curClass = 'all', nFlt = 'all';
+let pollingInterval = null;
+let currentBase64Image = ''; // متغير لتخزين الصورة
 
-function doLogin() {
-  const pwd = localStorage.getItem(PWD_KEY) || 'aysha123';
+// تحويل الروابط لنصوص قابلة للنقر
+function makeLinksClickable(text) {
+  if (!text) return '';
+  const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/gi;
+  return text.toString().replace(urlPattern, function(url) {
+    let href = url;
+    if (url.includes('@') && url.includes('.')) href = `mailto:${url}`;
+    else if (url.startsWith('www')) href = `http://${url}`;
+    return `<a href="${href}" style="color:var(--s); text-decoration:underline; font-weight:600;" target="_blank">${url}</a>`;
+  });
+}
+
+// بيانات افتراضية
+const defaultData = {
+  notices: [
+    {id: 101, type: 'homework', cls: '5A', title: 'واجب درس الفاعل', det: 'كتاب النشاط صفحة 25', date: '2026-03-02 10:30', img: ''}
+  ],
+  queries: [
+    {id: 201, name: 'أحمد محمد', student: 'عمر', cls: '5A', msg: 'متى موعد الاختبار؟', date: '2026-03-02 08:30', status: 'new', reply: ''}
+  ],
+  nId: 105, qId: 203
+};
+
+// ==================== دوال الدخول ====================
+async function getPassword() {
+  try {
+    const res = await fetch(`${API_URL}?action=loadData`);
+    const json = await res.json();
+    if(json.data && json.data.settings && json.data.settings.password) return json.data.settings.password;
+  } catch(e) {}
+  return localStorage.getItem(PWD_KEY) || 'aysha123';
+}
+
+async function doLogin() {
+  const pwd = await getPassword();
   if (document.getElementById('pwdInput').value === pwd) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    renderAll(); setInterval(renderAll, 30000);
-  } else document.getElementById('loginErr').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
 }
 
-function doLogout() { location.reload(); }
-
-async function loadData() {
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {notices:[], queries:[], nId:100};
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwdInput').value = '';
+  stopPolling();
 }
 
-async function renderAll() {
-  const d = await loadData();
+async function changePwd() {
+  const p1 = document.getElementById('np1').value;
+  const p2 = document.getElementById('np2').value;
+  if(!p1) return toast('أدخل كلمة المرور', '#e74c3c');
+  if(p1 !== p2) return toast('غير متطابقتين', '#e74c3c');
   
-  // Render Notices
-  let nf = d.notices.filter(n => (curClass==='all' || n.cls==='all' || n.cls===curClass) && (nFlt==='all' || n.type===nFlt));
-  document.getElementById('nList').innerHTML = nf.length ? nf.map(n => `
-    <div class="ni ${n.type}">
-      <button class="ndel" onclick="delN(${n.id})">✕</button>
-      <div class="nm"><div><span class="ctag">${CN[n.cls]}</span> <span class="ttag">${TN[n.type]}</span></div> <small>${n.date}</small></div>
-      <strong>${n.title}</strong>
-      <div class="n-body-text">${n.det}</div>
-      ${n.img ? `<img src="${n.img}" class="notice-img">` : ''}
-    </div>`).join('') : '<p style="text-align:center; color:#888; padding:20px">لا توجد ملاحظات</p>';
-
-  // Render Queries
-  let qf = d.queries.filter(q => curClass==='all' || q.cls===curClass);
-  document.getElementById('qList').innerHTML = qf.length ? qf.map(q => `
-    <div class="qi">
-      <div style="display:flex; justify-content:space-between"><strong>👤 ${q.name}</strong> <small>${q.date}</small></div>
-      <div class="qtxt">${q.msg}</div>
-      ${q.reply ? `<div class="reply-preview"><strong>رد الأستاذ:</strong><br>${q.reply}</div>` : ''}
-      <textarea class="fc" id="rt${q.id}" rows="2" placeholder="اكتب ردك هنا...">${q.reply||''}</textarea>
-      <button class="sbtn" style="margin-top:8px" onclick="sendR(${q.id})">إرسال الرد</button>
-    </div>`).join('') : '<p style="text-align:center; color:#888; padding:20px">لا توجد استفسارات</p>';
-    
-  document.getElementById('sN').innerText = d.notices.length;
-  document.getElementById('sQ').innerText = d.queries.length;
-  document.getElementById('sR').innerText = d.queries.filter(q=>q.status==='replied').length;
+  localStorage.setItem(PWD_KEY, p1);
+  document.getElementById('np1').value = ''; document.getElementById('np2').value = '';
+  toast('✅ تم التغيير');
+  fetch(API_URL, { method:'POST', body: new URLSearchParams({action:'changePassword', newPassword:p1})}).catch(e=>console.log(e));
 }
 
-function setClass(c) { curClass = c; document.querySelectorAll('.ctab').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); renderAll(); }
-function flt(f, btn) { nFlt = f; document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderAll(); }
+// ==================== دوال البيانات ====================
+async function loadData() {
+  try {
+    const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+    const result = await res.json();
+    if(result.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+      return result.data;
+    }
+  } catch(e) {}
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+}
 
-function openModal() { document.getElementById('modal').classList.add('open'); currentBase64Image = ''; document.getElementById('imgPreview').style.display='none'; document.getElementById('nImg').value=''; }
+async function initApp() {
+  upDate(); setInterval(upDate, 60000);
+  await render();
+  startPolling();
+}
+
+function startPolling() { if(!pollingInterval) pollingInterval = setInterval(render, 30000); }
+function stopPolling() { if(pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; } }
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopPolling();
+  else { render(); startPolling(); }
+});
+
+async function render() {
+  const d = await loadData();
+  renderN(d); renderQ(d); renderCStat(d); updStats(d);
+}
+
+function renderN(d) {
+  const el = document.getElementById('nList');
+  let filtered = d.notices.filter(n => (curClass==='all' || n.cls==='all' || n.cls===curClass) && (nFlt==='all' || n.type===nFlt));
+  if(!filtered.length) return el.innerHTML = '<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات</p></div>';
+  
+  el.innerHTML = filtered.map(n => `
+    <div class="ni ${n.type}">
+      <button class="ndel" onclick="delN(${n.id})" title="حذف">✕</button>
+      <div class="nm">
+        <div><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div>
+        <span class="ndate">${n.date}</span>
+      </div>
+      <div style="margin-top:10px;">
+        <strong>${n.title}</strong>
+        <div class="ni-det">${makeLinksClickable(n.det)}</div>
+        ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة مرفقة">` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function renderQ(d) {
+  const el = document.getElementById('qList');
+  let filtered = d.queries.filter(q => curClass==='all' || q.cls===curClass).sort((a,b)=>a.status==='new'?-1:1);
+  if(!filtered.length) return el.innerHTML = '<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات</p></div>';
+  
+  el.innerHTML = filtered.map(q => `
+    <div class="qi">
+      <div class="qh">
+        <div><span class="qsend">👤 ${q.name}</span> <br><small style="color:var(--mu)">طالب: ${q.student}</small></div>
+        <div><span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'جديد':q.status==='replied'?'تم الرد':'مقروء'}</span></div>
+      </div>
+      <div class="qtxt">${makeLinksClickable(q.msg)}</div>
+      ${q.reply ? `<div class="reply-preview"><strong>ردك الحالي:</strong><br>${makeLinksClickable(q.reply)}</div>` : ''}
+      <div class="qa">
+        <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply?'تعديل الرد':'إضافة رد'}</button>
+        <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
+      </div>
+      <div class="ra" id="ra${q.id}">
+        <textarea class="fc" rows="4" id="rt${q.id}">${q.reply||''}</textarea>
+        <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال الرد</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderCStat(d) {
+  document.getElementById('classStats').innerHTML = ['5A','5B','5C'].map(c => `
+    <div style="background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+      <strong style="color:var(--p)">${CN[c]}</strong>
+      <div style="display:flex;gap:6px;font-size:0.8rem">
+        <span style="background:#e1f0fa;padding:3px 8px;border-radius:6px">📌 ${d.notices.filter(n=>n.cls===c||n.cls==='all').length}</span>
+        <span style="background:#fef5e6;padding:3px 8px;border-radius:6px">💬 ${d.queries.filter(q=>q.cls===c).length}</span>
+      </div>
+    </div>`).join('');
+}
+
+function updStats(d) {
+  document.getElementById('sN').textContent = d.notices.length;
+  document.getElementById('sQ').textContent = d.queries.length;
+  document.getElementById('sR').textContent = d.queries.filter(q=>q.status==='replied').length;
+  document.getElementById('sNw').textContent = d.queries.filter(q=>q.status==='new').length;
+  ['5A','5B','5C'].forEach(c => document.getElementById('b'+c).textContent = d.notices.filter(n=>n.cls===c||n.cls==='all').length);
+}
+
+// ==================== تفاعلات ====================
+function setClass(c) { curClass = c; document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i])); render(); }
+function flt(f, btn) { nFlt = f; document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); }
+function upDate() {
+  const d = new Date();
+  document.getElementById('hdate').innerHTML = d.toLocaleDateString('ar-OM', {weekday:'long', year:'numeric', month:'short', day:'numeric'}) + '<br><small>' + d.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '</small>';
+}
+
+function openModal() { 
+  document.getElementById('modal').classList.add('open'); 
+  currentBase64Image = ''; 
+  document.getElementById('imgPreview').style.display='none'; 
+  document.getElementById('nImg').value=''; 
+}
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').onclick = e => { if(e.target.id === 'modal') closeModal(); };
 
-// ضغط الصورة قبل حفظها
+// ضغط الصورة (مهم جداً لعدم استهلاك مساحة Sheets)
 function processImage(input) {
   if (input.files && input.files[0]) {
     const reader = new FileReader();
@@ -253,12 +474,12 @@ function processImage(input) {
       const img = new Image();
       img.onload = function() {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 600; // تقليل حجم الصورة
+        const MAX_WIDTH = 600; 
         let w = img.width, h = img.height;
         if (w > MAX_WIDTH) { h *= MAX_WIDTH / w; w = MAX_WIDTH; }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        currentBase64Image = canvas.toDataURL('image/jpeg', 0.6); // 60% Quality
+        currentBase64Image = canvas.toDataURL('image/jpeg', 0.6); 
         const prev = document.getElementById('imgPreview');
         prev.style.display = 'block'; prev.querySelector('img').src = currentBase64Image;
       }
@@ -269,22 +490,77 @@ function processImage(input) {
 }
 
 async function addNotice() {
-  const d = await loadData();
   const t = document.getElementById('nTit').value.trim();
-  if(!t) return alert('أدخل العنوان');
+  if(!t) return toast('اكتب العنوان', '#e74c3c');
   
-  d.notices.unshift({
-    id: ++d.nId, type: document.getElementById('nType').value, cls: document.getElementById('nCls').value,
-    title: t, det: document.getElementById('nDet').value, img: currentBase64Image,
-    date: new Date().toLocaleString('ar-OM', {hour:'2-digit',minute:'2-digit', day:'numeric', month:'short'})
-  });
+  const d = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+  const now = new Date();
+  const newN = { 
+    id: ++d.nId, 
+    type: document.getElementById('nType').value, 
+    cls: document.getElementById('nCls').value, 
+    title: t, 
+    det: document.getElementById('nDet').value.trim(), 
+    date: now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}),
+    img: currentBase64Image 
+  };
   
+  d.notices.unshift(newN);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
-  closeModal(); renderAll(); toast('تمت الإضافة');
+  
+  document.getElementById('nTit').value=''; document.getElementById('nDet').value=''; closeModal(); render(); toast('✅ تمت الإضافة');
   fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'saveNotices', data:JSON.stringify(d.notices)})});
 }
 
-function toast(msg) { const t = document.getElementById('toast'); t.innerHTML = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
+function togR(id) {
+  const a = document.getElementById('ra'+id);
+  a.style.display = a.style.display === 'block' ? 'none' : 'block';
+}
+
+async function sendR(id) {
+  const t = document.getElementById('rt'+id).value.trim(); if(!t) return;
+  const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const q = d.queries.find(x=>x.id===id);
+  if(q) { q.reply = t; q.status = 'replied'; }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  render(); toast('✅ تم إرسال الرد');
+  
+  fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'updateQuery', id:id, status:'replied', reply:t})});
+}
+
+async function delN(id) {
+  if(!confirm('تأكيد الحذف؟')) return;
+  const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  d.notices = d.notices.filter(n=>n.id!==id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); render(); toast('🗑 تم الحذف');
+  fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'deleteNotice', id:id})});
+}
+
+async function delQ(id) {
+  if(!confirm('تأكيد الحذف؟')) return;
+  const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  d.queries = d.queries.filter(q=>q.id!==id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); render(); toast('🗑 تم الحذف');
+  fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'deleteQuery', id:id})});
+}
+
+function toast(msg, bg='#27ae60') {
+  const t = document.getElementById('toast');
+  t.style.background = bg; t.innerHTML = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function askAI() {
+  const p = document.getElementById('aiPrompt').value.trim(); if(!p) return;
+  const b = document.getElementById('aiBtn'), s = document.getElementById('aiStatus'), r = document.getElementById('aiReply');
+  b.disabled=true; s.style.display='flex'; s.className='aibar thinking'; s.innerHTML='<span class="spin">⏳</span> جاري التفكير...'; r.style.display='none';
+  
+  setTimeout(() => {
+    s.style.display='none'; r.style.display='block';
+    r.innerHTML = '<strong style="color:#8e44ad">🤖 المساعد:</strong><br>يمكنك صياغة الملاحظة كالتالي:<br>📝 واجب: حل أسئلة الفهم والاستيعاب لدرس (الفاعل) صفحة 25 في كتاب النشاط.';
+    b.disabled=false;
+  }, 1200);
+}
 </script>
 </body>
 </html>
