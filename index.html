@@ -14,7 +14,7 @@
   --sh: 0 10px 30px rgba(26,82,118,0.06);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; line-height: 1.6;}
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -62,157 +62,32 @@ main { max-width: 1150px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
 .ni.homework { background: #f4f9fd; border-color: var(--s); }
 .ni.activity { background: #eefaf3; border-color: var(--g); }
 .ni.alert { background: #fffaf0; border-color: var(--a); }
-.nm { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.nm { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
 .ctag { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--p); color: #fff; margin-left: 6px; }
 .ttag { font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,0.05); font-weight: 600; }
-.ndate { font-size: 0.75rem; color: var(--mu); }
-.ni strong { color: var(--text); font-size: 1rem; }
+.ndate { font-size: 0.75rem; color: var(--mu); font-weight: 700; }
+.ni strong { color: #000; font-size: 1.15rem; display: block; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+.n-det { font-size: 1.05rem; color: #2c3e50; margin-top: 8px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6; font-weight: 500; }
+.notice-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; margin-top: 15px; border: 1px solid rgba(0,0,0,0.05); }
 
 /* Form */
-.pf { background: linear-gradient(135deg, #2c3e50, var(--p)); border-radius: 20px; padding: 26px; box-shadow: var(--sh); color: #fff; margin-bottom: 24px; }
-.pf h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-.pf > p { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 20px; }
-.fg { margin-bottom: 14px; }
-.fg label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; color: rgba(255,255,255,0.9); }
-.fc { width: 100%; padding: 12px; border: 2px solid transparent; border-radius: 10px; font-family: inherit; font-size: 0.95rem; color: var(--text); resize: vertical; background: rgba(255,255,255,0.95); transition: 0.2s; }
+.pf { background: linear-gradient(135deg, #2c3e50, var(--p)); border-radius: 20px; padding: 18px 20px; box-shadow: var(--sh); color: #fff; margin-bottom: 20px; }
+.pf h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.pf > p { color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-bottom: 16px; }
+.fg { margin-bottom: 10px; }
+.fg label { display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 4px; color: rgba(255,255,255,0.9); }
+.fc { width: 100%; padding: 10px 12px; border: 2px solid transparent; border-radius: 10px; font-family: inherit; font-size: 16px; color: var(--text); resize: vertical; background: rgba(255,255,255,0.95); transition: 0.2s; }
 .fc:focus { outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.3); }
-.psbtn { width: 100%; padding: 14px; background: var(--a); color: #fff; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 8px; transition: 0.2s; }
+.psbtn { width: 100%; padding: 12px; background: var(--a); color: #fff; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; margin-top: 6px; transition: 0.2s; }
 .psbtn:not(:disabled):hover { background: #e67e22; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(230,126,34,0.3); }
 .psbtn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-  /* الحفاظ على الأسطر والفراغات في النصوص */
-.n-det {
-  font-size: 0.9rem;
-  color: var(--mu);
-  margin-top: 8px;
-  white-space: pre-wrap; /* هذا السطر هو السحر الذي يحفظ المسافات والأسطر */
-  line-height: 1.7;
-}
-.msg-txt, .rep-box {
-  white-space: pre-wrap;
-}
-
-  /* تحسين عام للنصوص لزيادة الوضوح */
-body {
-    -webkit-font-smoothing: antialiased; /* تنعيم الخط على أجهزة آيفون */
-    text-rendering: optimizeLegibility;
-}
-
-/* تكبير عناوين الملاحظات والواجبات */
-.ni strong {
-    font-size: 1.15rem !important; /* حجم أكبر للعنوان */
-    color: #000; /* أسود صريح لزيادة التباين */
-    display: block;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-/* تحسين نص المحتوى (الواجب أو التنبيه) */
-.n-det, .qtxt, .reply-preview, .msg-txt {
-    font-size: 1.05rem !important; /* حجم مريح جداً للقراءة على الجوال */
-    line-height: 1.8 !important; /* مسافة كافية بين السطور لمنع تداخل الكلام */
-    color: #2c3e50; /* لون غامق وواضح */
-    font-weight: 500; /* سماكة متوسطة للخط */
-}
-
-/* تحسين ظهور التوقيت والتاجات */
-.ndate, .ttag, .ctag {
-    font-size: 0.85rem !important;
-    font-weight: 700;
-}
-
-/* تحسين حقول الكتابة لسهولة الإدخال من الجوال */
-.fc {
-    font-size: 16px !important; /* يمنع متصفح Safari من عمل Zoom تلقائي عند الكتابة */
-}
-
-@media (max-width: 600px) {
-    /* زيادة التباعد في الجوال لإعطاء "مساحة تنفس" للعين */
-    .ni, .qi, .my-msg {
-        padding: 20px !important;
-        margin-bottom: 16px !important;
-    }
-    
-    .welcome h2 {
-        font-size: 1.3rem !important;
-    }
-    
-    .welcome p {
-        font-size: 1rem !important;
-        line-height: 1.6;
-    }
-}
-  /* ===== صندوق التواصل - نسخة مصغرة ===== */
-.pf {
-  background: linear-gradient(135deg, #2c3e50, var(--p));
-  border-radius: 20px;
-  padding: 18px 20px; /* كان 26px -> 18px */
-  box-shadow: var(--sh);
-  color: #fff;
-  margin-bottom: 20px; /* تقليل المسافة السفلية قليلاً */
-}
-
-.pf h2 {
-  font-size: 1.1rem; /* كان 1.2rem */
-  font-weight: 800;
-  margin-bottom: 4px; /* تقليل المسافة تحت العنوان */
-  display: flex;
-  align-items: center;
-  gap: 6px; /* تقليل الفجوة */
-}
-
-.pf > p {
-  color: rgba(255,255,255,0.8);
-  font-size: 0.8rem; /* كان 0.85rem */
-  margin-bottom: 16px; /* تقليل المسافة */
-}
-
-.fg {
-  margin-bottom: 10px; /* كان 14px */
-}
-
-.fg label {
-  display: block;
-  font-weight: 600;
-  font-size: 0.8rem; /* تصغير الخط */
-  margin-bottom: 4px; /* تقليل المسافة */
-  color: rgba(255,255,255,0.9);
-}
-
-.fc {
-  width: 100%;
-  padding: 10px 12px; /* كان 12px -> 10px عمودي */
-  border: 2px solid transparent;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  color: var(--text);
-  resize: vertical;
-  background: rgba(255,255,255,0.95);
-  transition: 0.2s;
-}
-
-.psbtn {
-  width: 100%;
-  padding: 12px; /* كان 14px */
-  background: var(--a);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.95rem; /* تصغير طفيف */
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 6px; /* تقليل المسافة */
-  transition: 0.2s;
-}
-  
 /* My Messages */
 .my-msg { background: #fafbfc; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-right: 4px solid var(--a); border: 1px solid #eee; border-right-width: 4px; }
 .msg-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
 .msg-student { font-weight: 700; font-size: 0.9rem; color: var(--p); }
-.msg-txt { font-size: 0.9rem; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
-.rep-box { background: #e8f8f0; border: 1px solid #bce8d1; border-radius: 8px; padding: 10px; font-size: 0.85rem; margin-top: 10px; color: #1e8449; }
+.msg-txt { font-size: 1.05rem; line-height: 1.6; color: #2c3e50; margin-bottom: 8px; white-space: pre-wrap; font-weight: 500; }
+.rep-box { background: #e8f8f0; border: 1px solid #bce8d1; border-radius: 8px; padding: 10px; font-size: 1.05rem; margin-top: 10px; color: #1e8449; white-space: pre-wrap; font-weight: 500;}
 .sbdg { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
 .snew { background: #fef5e6; color: #d35400; }
 .srep { background: #e8f8f0; color: #1e8449; }
@@ -236,6 +111,10 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; m
   .ht { flex-direction: column; text-align: center; }
   .hright { justify-content: center; width: 100%; }
   .welcome { flex-direction: column; text-align: center; }
+  .ni, .qi, .my-msg { padding: 20px !important; margin-bottom: 16px !important; }
+  .welcome h2 { font-size: 1.3rem !important; }
+  .welcome p { font-size: 1rem !important; }
+  .nm { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -324,7 +203,7 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; m
 
 <script>
 // ==================== الإعدادات ====================
-const API_URL = 'https://script.google.com/macros/s/AKfycbxv5kvv6w4G80cMGeMf1S5fwjcsl7YoXXzI-2taqJ0Dl3kBb1T-tuCVpD6h29sUTD1UTw/exec'; 
+const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; // ضع رابط Google Script هنا
 const STORAGE_KEY = 'school_data_v2';
 const MY_KEY = 'my_query_ids';
 const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
@@ -378,7 +257,6 @@ async function fetchAndRender() {
   renderUI();
 }
 
-// Page Visibility API - لإيقاف الجلب التلقائي لتوفير البيانات والبطارية
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) stopPolling();
   else { fetchAndRender(); startPolling(); }
@@ -400,6 +278,7 @@ function renderN() {
       <div>
         <strong>${n.title}</strong>
         ${n.det ? `<div class="n-det">${makeLinksClickable(n.det)}</div>` : ''}
+        ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة مرفقة">` : ''}
       </div>
     </div>`).join('');
 }
@@ -447,11 +326,9 @@ async function submitQ() {
   
   const myIds = getMyIds(); myIds.push(newId); saveMyIds(myIds);
   
-  // Update UI immediately
   ['pN','pS','pM'].forEach(i => document.getElementById(i).value=''); document.getElementById('pC').value='';
   toast('✅ تم الإرسال بنجاح'); renderUI(); btn.disabled = false; btn.innerHTML = '📤 إرسال الرسالة';
   
-  // Send to Server
   fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'saveQueries', data:JSON.stringify(cachedData.queries)})});
 }
 
@@ -461,7 +338,6 @@ function toast(msg, bg='#27ae60') {
   setTimeout(()=>t.classList.remove('show'), 3000);
 }
 
-// بدء التشغيل
 fetchAndRender(); startPolling();
 </script>
 </body>
