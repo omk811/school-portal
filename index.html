@@ -10,8 +10,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Cairo,sans-serif;background:var(--ink);color:var(--ice);min-height:100vh;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 55% at 15% 5%,rgba(52,152,219,.13) 0%,transparent 65%),radial-gradient(ellipse 55% 45% at 85% 85%,rgba(200,168,75,.09) 0%,transparent 60%)}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:40px 40px}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 55% at 15% 5%,rgba(52,152,219,.13) 0%,transparent 65%),radial-gradient(ellipse 55% 45% at 85% 85%,rgba(200,168,75,.09) 0%,transparent 60%)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:40px 40px}
 header{position:sticky;top:0;z-index:100;background:rgba(8,17,28,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .ht{max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:12px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:11px}
@@ -33,7 +33,7 @@ main{max-width:920px;margin:0 auto;padding:20px 24px;position:relative;z-index:1
 .chip.xi.on{background:var(--imp);border-color:var(--imp);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .ni{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:16px 17px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:up .3s cubic-bezier(.16,1,.3,1) both}
-.ni::after{content:"";position:absolute;top:0;right:0;width:3px;height:100%}
+.ni::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
 .ni.homework::after{background:linear-gradient(180deg,var(--hw),#1a6fa3)}
 .ni.activity::after{background:linear-gradient(180deg,var(--act),#1e9155)}
 .ni.alert::after{background:linear-gradient(180deg,var(--alrt),#c87000)}
@@ -86,7 +86,7 @@ footer a:hover{text-decoration:underline}
 <header>
   <div class="ht">
     <div class="brand">
-      <div class="logo">&#x1F4DA;</div>
+      <div class="logo">📚</div>
       <div>
         <h1>بوابة أولياء الأمور</h1>
         <p>الأستاذ خليل · اللغة العربية · الصف الخامس · مدرسة سعد بن معاذ</p>
@@ -111,7 +111,7 @@ footer a:hover{text-decoration:underline}
     <button class="chip"     onclick="sf('alert',this)">🔔 تنبيهات</button>
     <button class="chip xi"  onclick="sf('important',this)">⭐ المهمة</button>
   </div>
-  <div class="grid" id="list">
+  <div id="list">
     <div class="ld"><div class="sp"></div>جاري التحميل...</div>
   </div>
   <div class="ig">
@@ -132,26 +132,101 @@ footer a:hover{text-decoration:underline}
   <span class="lh">انقر للإغلاق · ESC</span>
 </div>
 <script>
-const API="https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec";
-const SK="school_data_v2";
-const CN={all:"جميع الشعب","5A":"الخامس 1","5B":"الخامس 2","5C":"الخامس 3"};
-const TN={homework:"واجب 📝",activity:"نشاط 🎯",alert:"تنبيه 🔔"};
-const TG={homework:"th",activity:"ta",alert:"tl"};
-let cls="all",flt="all",data=null;
-function lnk(t){if(!t)return"";return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi,u=>{let h=u.startsWith("www")?"http://"+u:u;if(u.includes("@")&&!u.startsWith("http"))h="mailto:"+u;return"<a href=""+h+"" target="_blank" rel="noopener">"+u+"</a>";});}
-function ud(){const d=new Date();document.getElementById("hdate").innerHTML=d.toLocaleDateString("ar-OM",{weekday:"short",month:"short",day:"numeric"})+" · "+d.toLocaleTimeString("ar-OM",{hour:"2-digit",minute:"2-digit"});}
-ud();setInterval(ud,60000);
-async function ld(){try{const r=await fetch(API+"?action=loadData&t="+Date.now());const j=await r.json();if(j.status==="success"){localStorage.setItem(SK,JSON.stringify(j.data));return j.data;}}catch(e){}const s=localStorage.getItem(SK);return s?JSON.parse(s):{notices:[]};}
-function sc(c,el){cls=c;document.querySelectorAll(".tab").forEach(b=>b.classList.remove("on"));el.classList.add("on");draw();bdg();}
-function sf(f,el){flt=f;document.querySelectorAll(".chip").forEach(b=>b.classList.remove("on"));el.classList.add("on");draw();}
-function draw(){const el=document.getElementById("list");if(!data||!data.notices||!data.notices.length){el.innerHTML="<div class="emp"><span class="ei">📋</span><p>لا توجد ملاحظات حالياً</p></div>";return;}let f=data.notices.filter(n=>!n.isDone&&(cls==="all"||n.cls==="all"||n.cls===cls));if(flt==="important")f=f.filter(n=>n.isImp);else if(flt!=="all")f=f.filter(n=>n.type===flt);if(!f.length){el.innerHTML="<div class="emp"><span class="ei">🔍</span><p>لا توجد ملاحظات لهذا التصنيف</p></div>";return;}f.sort((a,b)=>(b.isImp?1:0)-(a.isImp?1:0));el.innerHTML=f.map((n,i)=>"<div class="ni "+n.type+(n.isImp?" xm":"")+"" style="animation-delay:"+i*.05+"s"><div class="nh"><div class="tgs"><span class="tg tc">"+CN[n.cls]+"</span><span class="tg "+TG[n.type]+"">"+TN[n.type]+"</span>"+(n.isImp?"<span class="tg tm">⭐ مهمة</span>":"")+"</div><span class="nd">"+n.date+"</span></div><span class="nt">"+n.title+"</span>"+(n.det?"<div class="nb">"+lnk(n.det)+"</div>":"")+(n.img?"<div class="iw" onclick="oLB(\'"+(n.img.replace(/'/g,"\\'"))+"\'))"><img src=""+n.img+"" class="im"></div>":"")+"</div>").join("");}
-function bdg(){if(!data)return;["5A","5B","5C"].forEach(c=>{const e=document.getElementById("b"+c);if(e)e.textContent=data.notices.filter(n=>!n.isDone&&(n.cls===c||n.cls==="all")).length;});}
-function oLB(s){document.getElementById("lbi").src=s;document.getElementById("lb").classList.add("open");}
-function cLB(){document.getElementById("lb").classList.remove("open");}
-document.addEventListener("keydown",e=>{if(e.key==="Escape")cLB();});
-async function init(){data=await ld();draw();bdg();}
-init();setInterval(init,30000);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)init();});
-<\/script>
+const API = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+const SK  = 'school_data_v2';
+const CN  = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3' };
+const TN  = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔' };
+const TG  = { homework:'th', activity:'ta', alert:'tl' };
+let cls = 'all', flt = 'all', data = null;
+
+function lnk(t) {
+  if (!t) return '';
+  return String(t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi, u => {
+      let h = u.startsWith('www') ? 'http://' + u : u;
+      if (u.includes('@') && !u.startsWith('http')) h = 'mailto:' + u;
+      return '<a href="' + h + '" target="_blank" rel="noopener">' + u + '</a>';
+    });
+}
+
+function ud() {
+  const d = new Date();
+  document.getElementById('hdate').innerHTML =
+    d.toLocaleDateString('ar-OM', {weekday:'short',month:'short',day:'numeric'}) +
+    ' · ' + d.toLocaleTimeString('ar-OM', {hour:'2-digit',minute:'2-digit'});
+}
+ud(); setInterval(ud, 60000);
+
+async function ld() {
+  try {
+    const r = await fetch(API + '?action=loadData&t=' + Date.now());
+    const j = await r.json();
+    if (j.status === 'success') { localStorage.setItem(SK, JSON.stringify(j.data)); return j.data; }
+  } catch(e) {}
+  const s = localStorage.getItem(SK);
+  return s ? JSON.parse(s) : { notices: [] };
+}
+
+function sc(c, el) {
+  cls = c;
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  draw(); bdg();
+}
+
+function sf(f, el) {
+  flt = f;
+  document.querySelectorAll('.chip').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  draw();
+}
+
+function draw() {
+  const el = document.getElementById('list');
+  if (!data || !data.notices || !data.notices.length) {
+    el.innerHTML = '<div class="emp"><span class="ei">📋</span><p>لا توجد ملاحظات حالياً</p></div>';
+    return;
+  }
+  let f = data.notices.filter(n => !n.isDone && (cls === 'all' || n.cls === 'all' || n.cls === cls));
+  if (flt === 'important')  f = f.filter(n => n.isImp);
+  else if (flt !== 'all')   f = f.filter(n => n.type === flt);
+  if (!f.length) {
+    el.innerHTML = '<div class="emp"><span class="ei">🔍</span><p>لا توجد ملاحظات لهذا التصنيف</p></div>';
+    return;
+  }
+  f.sort((a, b) => (b.isImp ? 1 : 0) - (a.isImp ? 1 : 0));
+  el.innerHTML = '<div class="grid">' + f.map((n, i) => {
+    const imgSafe = n.img ? n.img.replace(/'/g, "\\'") : '';
+    return '<div class="ni ' + n.type + (n.isImp ? ' xm' : '') + '" style="animation-delay:' + (i * .05) + 's">' +
+      '<div class="nh"><div class="tgs">' +
+      '<span class="tg tc">' + CN[n.cls] + '</span>' +
+      '<span class="tg ' + TG[n.type] + '">' + TN[n.type] + '</span>' +
+      (n.isImp ? '<span class="tg tm">⭐ مهمة</span>' : '') +
+      '</div><span class="nd">' + n.date + '</span></div>' +
+      '<span class="nt">' + n.title + '</span>' +
+      (n.det ? '<div class="nb">' + lnk(n.det) + '</div>' : '') +
+      (n.img ? '<div class="iw" onclick="oLB(\'' + imgSafe + '\')"><img src="' + n.img + '" class="im" alt="صورة"></div>' : '') +
+      '</div>';
+  }).join('') + '</div>';
+}
+
+function bdg() {
+  if (!data) return;
+  ['5A','5B','5C'].forEach(c => {
+    const e = document.getElementById('b' + c);
+    if (e) e.textContent = data.notices.filter(n => !n.isDone && (n.cls === c || n.cls === 'all')).length;
+  });
+}
+
+function oLB(s) { document.getElementById('lbi').src = s; document.getElementById('lb').classList.add('open'); }
+function cLB()  { document.getElementById('lb').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cLB(); });
+
+async function init() { data = await ld(); draw(); bdg(); }
+init();
+setInterval(init, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) init(); });
+</script>
 </body>
 </html>
