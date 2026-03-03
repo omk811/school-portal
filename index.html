@@ -78,8 +78,11 @@ main{max-width:1100px;margin:0 auto;padding:28px 5%;display:flex;flex-direction:
 .ndate{font-size:.72rem;color:var(--mu);font-weight:600;white-space:nowrap}
 .ni strong{color:#12141a;font-size:1.05rem;display:block;margin-bottom:6px;font-weight:800;line-height:1.45}
 .n-det{font-size:.97rem;color:#2c3e50;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;font-weight:500}
-.notice-img{width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s}
-.notice-img:hover{opacity:.9}
+.notice-img{width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s,transform .2s}
+.notice-img:hover{opacity:.88;transform:scale(1.01)}
+.img-wrap{position:relative;margin-top:12px;display:inline-block;width:100%}
+.img-wrap::after{content:'🔍';position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;padding:4px 9px;border-radius:8px;font-size:.78rem;pointer-events:none;opacity:0;transition:opacity .2s}
+.img-wrap:hover::after{opacity:1}
 
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .info-row{display:flex;gap:13px;align-items:center;padding:16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s}
@@ -90,9 +93,13 @@ main{max-width:1100px;margin:0 auto;padding:28px 5%;display:flex;flex-direction:
 .info-text a:hover{text-decoration:underline}
 .info-text span{font-size:.85rem;color:var(--mu);font-weight:600}
 
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;animation:lbIn .2s ease}
 .lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:90vh;border-radius:12px;object-fit:contain}
+.lightbox img{max-width:100%;max-height:82vh;border-radius:14px;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-close{position:fixed;top:18px;left:18px;width:40px;height:40px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;backdrop-filter:blur(4px)}
+.lb-close:hover{background:rgba(255,255,255,.28)}
+.lb-hint{color:rgba(255,255,255,.5);font-size:.78rem;font-family:'Tajawal',sans-serif}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
 
 .empty{text-align:center;padding:40px 20px;color:var(--mu)}
 .eicon{font-size:48px;margin-bottom:12px;opacity:.35;display:block}
@@ -200,7 +207,9 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 </footer>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lbImg" src="" alt="">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lbImg" src="" alt="صورة مكبّرة">
+  <span class="lb-hint">انقر في أي مكان للإغلاق</span>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -214,11 +223,22 @@ let curClass = 'all', nFlt = 'all', cachedData = null;
 // ── روابط قابلة للنقر ──
 function linkify(t) {
   if (!t) return '';
-  return String(t).replace(/(https?:\/\/[^\s<]+)|(www\.[^\s<]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi, u => {
-    let h = u.startsWith('www') ? 'http://' + u : u;
-    if (u.includes('@') && !u.startsWith('http')) h = 'mailto:' + u;
-    return `<a href="${h}" target="_blank" rel="noopener" style="color:var(--s);font-weight:700;text-decoration:underline">${u}</a>`;
-  });
+  // escape HTML first to avoid XSS
+  const escaped = String(t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // then linkify URLs, www, emails
+  return escaped.replace(
+    /(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi,
+    u => {
+      let h = u.startsWith('www') ? 'http://' + u : u;
+      if (u.includes('@') && !u.startsWith('http')) h = 'mailto:' + u;
+      const icon = u.includes('@') ? '✉️ ' : '🔗 ';
+      return `<a href="${h}" target="_blank" rel="noopener"
+        style="color:var(--s);font-weight:700;text-decoration:none;background:rgba(36,113,163,.08);padding:2px 7px;border-radius:6px;border:1px solid rgba(36,113,163,.2);display:inline-flex;align-items:center;gap:3px;word-break:break-all"
+        onmouseover="this.style.textDecoration='underline'"
+        onmouseout="this.style.textDecoration='none'">${icon}${u}</a>`;
+    }
+  );
 }
 
 // ── التاريخ ──
@@ -286,7 +306,7 @@ function renderN() {
       </div>
       <strong>${n.title}</strong>
       ${n.det ? `<div class="n-det">${linkify(n.det)}</div>` : ''}
-      ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة" onclick="openLB(this.src)">` : ''}
+      ${n.img ? `<div class="img-wrap" onclick="openLB('${n.img.replace(/'/g,"\\'")}')" ><img src="${n.img}" class="notice-img" alt="صورة مرفقة"></div>` : ''}
     </div>`).join('') + '</div>';
 }
 
@@ -309,6 +329,7 @@ async function fetchAndRender() {
 // ── Lightbox ──
 function openLB(src) { document.getElementById('lbImg').src = src; document.getElementById('lightbox').classList.add('open'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
 
 // ── Toast ──
 function toast(msg, bg = '#1e8449') {
