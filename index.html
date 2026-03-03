@@ -1,170 +1,405 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>التواصل مع الأستاذ خليل البلوشي</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بوابة أولياء الأمور · الأستاذ خليل</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 <style>
+/* ══ DESIGN SYSTEM — مطابق للوحة المعلم ══ */
 :root{
-  --p:#1a4f7a;--s:#2471a3;--a:#e67e22;--a2:#f39c12;
-  --g:#1e8449;--g2:#27ae60;--r:#c0392b;
-  --bd:#d0e8f5;--bg:#f0f6fb;--mu:#85929e;--text:#17202a;
-  --sh:0 2px 16px rgba(26,79,122,.07);--sh2:0 8px 32px rgba(26,79,122,.13);
-  --rad:18px;--rad-s:11px;
+  --ink:#08111c;--ink2:#0e1e2e;--ink3:#152840;
+  --gold:#c8a84b;--gold2:#e8c96a;
+  --ice:#e2edf8;--ice2:#9ab8d4;
+  --imp:#e74c3c;
+  --hw:#3498db;--act:#2ecc71;--alrt:#f39c12;
+  --sh:0 4px 24px rgba(0,0,0,.4);--sh2:0 16px 48px rgba(0,0,0,.55);
+  --r:14px;--rs:9px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.65}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#c5d8e8;border-radius:3px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--ink);color:var(--ice);
+  min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
-header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(26,79,122,.22)}
-.ht{display:flex;align-items:center;justify-content:space-between;padding:14px 5%;border-bottom:1px solid rgba(255,255,255,.12);flex-wrap:wrap;gap:12px}
+/* ══ BACKGROUND — نفس لوحة المعلم ══ */
+body::before{
+content:’’;position:fixed;inset:0;pointer-events:none;z-index:0;
+background:
+radial-gradient(ellipse 70% 55% at 15% 5%,rgba(52,152,219,.13) 0%,transparent 65%),
+radial-gradient(ellipse 55% 45% at 85% 85%,rgba(200,168,75,.09) 0%,transparent 60%),
+radial-gradient(ellipse 40% 30% at 50% 50%,rgba(14,30,46,.8) 0%,transparent 100%);
+}
+body::after{
+content:’’;position:fixed;inset:0;pointer-events:none;z-index:0;
+background-image:
+linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),
+linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+/* ══ HEADER ══ */
+header{
+position:sticky;top:0;z-index:200;
+background:rgba(8,17,28,.9);backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(200,168,75,.15);
+box-shadow:0 4px 24px rgba(0,0,0,.4);
+}
+.ht{
+display:flex;align-items:center;justify-content:space-between;
+padding:13px 5%;border-bottom:1px solid rgba(255,255,255,.055);
+flex-wrap:wrap;gap:12px;max-width:1200px;margin:0 auto;
+}
 .brand{display:flex;align-items:center;gap:13px}
-.logo{width:50px;height:50px;background:rgba(255,255,255,.18);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid rgba(255,255,255,.25);flex-shrink:0}
-.brand h1{font-size:1.15rem;font-weight:800}
-.brand p{font-size:.77rem;opacity:.82;margin-top:1px}
-.hright{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.hdate{background:rgba(0,0,0,.18);border-radius:var(--rad-s);padding:6px 12px;font-size:.74rem;text-align:center;line-height:1.55}
-.hbtn{color:#fff;text-decoration:none;padding:7px 15px;background:rgba(255,255,255,.15);border-radius:var(--rad-s);font-size:.82rem;font-weight:700;border:1px solid rgba(255,255,255,.22);transition:.2s}
-.hbtn:hover{background:rgba(255,255,255,.26)}
+.h-logo{
+width:46px;height:46px;flex-shrink:0;
+background:linear-gradient(135deg,var(–gold),var(–gold2));
+border-radius:13px;display:flex;align-items:center;justify-content:center;
+font-size:21px;box-shadow:0 5px 16px rgba(200,168,75,.3);
+}
+.brand h1{font-size:1.08rem;font-weight:900;color:#fff;letter-spacing:-.2px}
+.brand p{font-size:.72rem;color:var(–ice2);margin-top:2px}
+.hright{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.hdate{
+background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);
+border-radius:30px;padding:5px 13px;font-size:.72rem;color:var(–ice2);text-align:center;line-height:1.55;
+}
+.hbtn{
+color:var(–gold);text-decoration:none;padding:7px 15px;
+background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.28);
+border-radius:30px;font-size:.79rem;font-weight:700;transition:.2s;
+}
+.hbtn:hover{background:rgba(200,168,75,.2)}
 
-.ctabs{display:flex;padding:0 5%;background:rgba(0,0,0,.14);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+/* CLASS TABS */
+.ctabs-wrap{background:rgba(0,0,0,.18);border-bottom:1px solid rgba(255,255,255,.055)}
+.ctabs{
+display:flex;max-width:1200px;margin:0 auto;padding:0 5%;
+overflow-x:auto;scrollbar-width:none;
+}
 .ctabs::-webkit-scrollbar{display:none}
-.ctab{padding:11px 18px;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:6px}
-.ctab:hover{color:#fff;background:rgba(255,255,255,.07)}
-.ctab.active{color:#fff;border-bottom-color:var(--a2);background:rgba(255,255,255,.1)}
-.cbdg{display:inline-flex;align-items:center;justify-content:center;background:var(--a2);color:#fff;border-radius:30px;padding:0 7px;height:19px;font-size:.68rem;font-weight:800;min-width:19px}
+.ctab{
+padding:11px 19px;background:transparent;border:none;
+color:rgba(226,237,248,.5);font-family:‘Cairo’,sans-serif;
+font-size:.85rem;font-weight:700;
+border-bottom:2px solid transparent;white-space:nowrap;
+cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px;
+}
+.ctab:hover{color:var(–ice)}
+.ctab.active{color:var(–gold);border-bottom-color:var(–gold)}
+.cbdg{
+background:rgba(200,168,75,.2);color:var(–gold);
+border-radius:20px;padding:1px 7px;font-size:.64rem;font-weight:800;
+}
+.ctab.active .cbdg{background:var(–gold);color:var(–ink)}
 
-main{max-width:1100px;margin:0 auto;padding:28px 5%;display:flex;flex-direction:column;gap:22px}
+/* ══ MAIN ══ */
+main{
+max-width:1200px;margin:0 auto;
+padding:24px 5%;display:flex;flex-direction:column;gap:20px;
+position:relative;z-index:1;
+}
 
-.welcome{background:linear-gradient(135deg,var(--s),var(--p));border-radius:var(--rad);padding:26px 32px;color:#fff;box-shadow:var(--sh2);display:flex;align-items:center;gap:22px;position:relative;overflow:hidden}
-.welcome::before{content:'';position:absolute;top:-40px;left:-40px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
-.welcome::after{content:'';position:absolute;bottom:-60px;right:10%;width:240px;height:240px;background:rgba(255,255,255,.04);border-radius:50%}
-.wicon{font-size:42px;background:rgba(255,255,255,.18);width:76px;height:76px;display:flex;align-items:center;justify-content:center;border-radius:18px;flex-shrink:0;border:2px solid rgba(255,255,255,.2);z-index:1}
-.welcome div{z-index:1}
-.welcome h2{font-size:1.3rem;font-weight:800;margin-bottom:6px}
-.welcome p{opacity:.9;font-size:.92rem;line-height:1.65}
+/* ══ WELCOME BANNER ══ */
+.welcome{
+background:linear-gradient(135deg,rgba(21,40,64,.95),rgba(14,30,46,.98));
+border:1px solid rgba(200,168,75,.2);
+border-radius:var(–r);padding:28px 32px;
+display:flex;align-items:center;gap:22px;
+position:relative;overflow:hidden;
+box-shadow:var(–sh);
+}
+.welcome::before{content:’’;position:absolute;top:-70px;left:-70px;width:260px;height:260px;background:rgba(200,168,75,.055);border-radius:50%}
+.welcome::after{content:’’;position:absolute;bottom:-80px;right:8%;width:300px;height:300px;background:rgba(52,152,219,.04);border-radius:50%}
+.w-icon{
+width:70px;height:70px;flex-shrink:0;z-index:1;
+background:linear-gradient(135deg,var(–gold),var(–gold2));
+border-radius:18px;display:flex;align-items:center;justify-content:center;
+font-size:30px;box-shadow:0 8px 24px rgba(200,168,75,.35);
+}
+.w-text{z-index:1}
+.w-text h2{font-size:1.28rem;font-weight:900;color:#fff;margin-bottom:7px;letter-spacing:-.3px}
+.w-text p{color:var(–ice2);font-size:.88rem;line-height:1.7}
+.w-imp-note{
+display:inline-flex;align-items:center;gap:5px;
+margin-top:10px;padding:5px 12px;
+background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.25);
+border-radius:20px;font-size:.78rem;font-weight:700;color:#e74c3c;
+}
 
-.card{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);overflow:hidden}
-.ch{padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef3f8;background:#fafcfe}
-.ct{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:800;color:var(--p)}
-.ci{width:36px;height:36px;border-radius:var(--rad-s);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-.cb{padding:20px}
+/* ══ STATS ROW ══ */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.s-card{
+background:rgba(255,255,255,.038);
+border:1px solid rgba(255,255,255,.07);
+border-radius:var(–r);padding:15px 17px;
+display:flex;align-items:center;gap:12px;transition:.2s;
+}
+.s-card:hover{background:rgba(255,255,255,.065);transform:translateY(-2px);box-shadow:var(–sh)}
+.s-ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.s-num{font-size:1.45rem;font-weight:900;color:#fff;display:block;line-height:1.1}
+.s-lbl{font-size:.69rem;color:var(–ice2);font-weight:600;margin-top:2px}
 
-.ntabs{display:flex;gap:7px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+/* ══ CARD ══ */
+.card{
+background:rgba(255,255,255,.038);
+border:1px solid rgba(255,255,255,.07);
+border-radius:var(–r);overflow:hidden;box-shadow:var(–sh);
+}
+.ch{
+padding:13px 19px;display:flex;align-items:center;justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.028);
+}
+.ct{display:flex;align-items:center;gap:9px;font-size:.95rem;font-weight:900;color:#fff}
+.ci{width:33px;height:33px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.cb{padding:18px 19px}
+
+/* FILTER CHIPS */
+.ntabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;flex-wrap:wrap}
 .ntabs::-webkit-scrollbar{display:none}
-.ntab{padding:5px 14px;border-radius:30px;border:1.5px solid var(--bd);background:#fff;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:700;color:var(--mu);transition:.2s;white-space:nowrap}
-.ntab:hover{border-color:var(--s);color:var(--s)}
-.ntab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.ntab{
+padding:5px 13px;border-radius:30px;
+border:1.5px solid rgba(255,255,255,.1);
+background:transparent;color:var(–ice2);
+font-family:‘Cairo’,sans-serif;font-size:.78rem;font-weight:700;
+cursor:pointer;transition:.18s;white-space:nowrap;
+}
+.ntab:hover{border-color:var(–gold);color:var(–gold)}
+.ntab.active{background:var(–gold);color:var(–ink);border-color:var(–gold)}
+.ntab.imp-t.active{background:var(–imp);border-color:var(–imp);color:#fff}
 
+/* ══ NOTICES GRID ══ */
 .notices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.ni{border-radius:13px;padding:16px 18px;border-right:4px solid transparent;animation:fi .3s ease;transition:transform .15s,box-shadow .15s}
-.ni:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
-.ni.homework{background:#f4f9fd;border-color:var(--s)}
-.ni.activity{background:#edfaf3;border-color:var(--g2)}
-.ni.alert{background:#fffbf0;border-color:var(--a2)}
-.nm{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px;flex-wrap:wrap;gap:7px}
-.nm-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.ctag{font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:7px;background:var(--p);color:#fff}
-.ttag{font-size:.68rem;padding:3px 9px;border-radius:7px;background:rgba(0,0,0,.06);font-weight:700;color:#444}
-.ndate{font-size:.72rem;color:var(--mu);font-weight:600;white-space:nowrap}
-.ni strong{color:#12141a;font-size:1.05rem;display:block;margin-bottom:6px;font-weight:800;line-height:1.45}
-.n-det{font-size:.97rem;color:#2c3e50;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;font-weight:500}
-.notice-img{width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s,transform .2s}
-.notice-img:hover{opacity:.88;transform:scale(1.01)}
-.img-wrap{position:relative;margin-top:12px;display:inline-block;width:100%}
-.img-wrap::after{content:'🔍';position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;padding:4px 9px;border-radius:8px;font-size:.78rem;pointer-events:none;opacity:0;transition:opacity .2s}
+
+/* ══ NOTICE CARD — نفس أسلوب لوحة المعلم ══ */
+.ni{
+background:rgba(255,255,255,.038);
+border:1px solid rgba(255,255,255,.07);
+border-radius:var(–r);padding:18px;
+position:relative;overflow:hidden;
+transition:transform .2s,box-shadow .2s,border-color .2s;
+animation:cardIn .32s cubic-bezier(.16,1,.3,1) both;
+}
+/* الشريط الجانبي الملون */
+.ni::after{
+content:’’;position:absolute;top:0;right:0;
+width:3px;height:100%;border-radius:0 var(–r) var(–r) 0;
+}
+.ni.homework::after{background:linear-gradient(180deg,var(–hw),#1a6fa3)}
+.ni.activity::after{background:linear-gradient(180deg,var(–act),#1e9155)}
+.ni.alert::after{background:linear-gradient(180deg,var(–alrt),#d07b0a)}
+.ni:hover{transform:translateY(-3px);box-shadow:var(–sh);border-color:rgba(255,255,255,.12)}
+
+/* ── مهمة ومستمرة ── */
+.ni.is-imp{
+border-color:rgba(231,76,60,.32)!important;
+background:rgba(231,76,60,.06)!important;
+box-shadow:0 0 0 1px rgba(231,76,60,.12),0 6px 22px rgba(0,0,0,.35);
+}
+.ni.is-imp::after{background:linear-gradient(180deg,#e74c3c,#c0392b)!important}
+
+/* ── منتهية — مخفية عن ولي الأمر ── */
+.ni.is-done{display:none!important}
+
+/* ── tags ── */
+.ni-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:11px}
+.ni-tags{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.tg{font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:6px;border:1px solid;letter-spacing:.2px}
+.tg-cls{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:var(–ice)}
+.tg-hw {background:rgba(52,152,219,.13);border-color:rgba(52,152,219,.28);color:#74b9ff}
+.tg-act{background:rgba(46,204,113,.1); border-color:rgba(46,204,113,.28);color:#55efc4}
+.tg-alt{background:rgba(243,156,18,.1); border-color:rgba(243,156,18,.28);color:#fdcb6e}
+.tg-imp{
+background:rgba(231,76,60,.12);border-color:rgba(231,76,60,.3);color:#e74c3c;
+animation:blink 2s ease infinite;
+}
+.ni-dt{font-size:.66rem;color:var(–ice2);font-weight:600;white-space:nowrap;flex-shrink:0}
+
+/* ── body ── */
+.ni-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:7px;line-height:1.45;display:block}
+.ni-det{font-size:.87rem;line-height:1.72;color:rgba(226,237,248,.7);white-space:pre-wrap;word-wrap:break-word}
+.ni-det a{color:var(–gold);font-weight:700;text-decoration:none}
+.ni-det a:hover{text-decoration:underline}
+
+/* ── image ── */
+.img-wrap{
+position:relative;margin-top:12px;display:block;
+border-radius:10px;overflow:hidden;cursor:zoom-in;
+}
+.img-wrap::after{
+content:‘🔍 اضغط للتكبير’;
+position:absolute;bottom:0;left:0;right:0;
+background:linear-gradient(transparent,rgba(0,0,0,.65));
+color:#fff;font-size:.71rem;font-weight:700;font-family:‘Cairo’,sans-serif;
+padding:22px 10px 9px;text-align:center;
+opacity:0;transition:opacity .2s;pointer-events:none;
+}
 .img-wrap:hover::after{opacity:1}
+.notice-img{
+width:100%;max-height:210px;object-fit:cover;display:block;
+border:1px solid rgba(255,255,255,.07);
+transition:transform .22s;
+}
+.img-wrap:hover .notice-img{transform:scale(1.02)}
 
-.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.info-row{display:flex;gap:13px;align-items:center;padding:16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s}
-.info-row:hover{box-shadow:var(--sh)}
-.info-icon{font-size:28px;flex-shrink:0}
-.info-text strong{display:block;font-size:.92rem;margin-bottom:3px;color:var(--text)}
-.info-text a{font-size:.85rem;color:var(--s);text-decoration:none;font-weight:700}
-.info-text a:hover{text-decoration:underline}
-.info-text span{font-size:.85rem;color:var(--mu);font-weight:600}
+/* ══ INFO CARDS ══ */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px}
+.info-card{
+display:flex;align-items:center;gap:12px;padding:14px;
+border-radius:12px;background:rgba(255,255,255,.038);
+border:1px solid rgba(255,255,255,.07);transition:.2s;
+}
+.info-card:hover{background:rgba(255,255,255,.065);transform:translateY(-2px)}
+.info-ic{font-size:24px;flex-shrink:0}
+.info-card strong{display:block;font-size:.86rem;color:#fff;margin-bottom:3px;font-weight:700}
+.info-card a{font-size:.79rem;color:var(–gold);text-decoration:none;font-weight:700}
+.info-card a:hover{text-decoration:underline}
+.info-card span{font-size:.79rem;color:var(–ice2);font-weight:600}
 
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;animation:lbIn .2s ease}
-.lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:82vh;border-radius:14px;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.lb-close{position:fixed;top:18px;left:18px;width:40px;height:40px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;backdrop-filter:blur(4px)}
-.lb-close:hover{background:rgba(255,255,255,.28)}
-.lb-hint{color:rgba(255,255,255,.5);font-size:.78rem;font-family:'Tajawal',sans-serif}
-@keyframes lbIn{from{opacity:0}to{opacity:1}}
+/* ══ LIGHTBOX ══ */
+.lightbox{
+display:none;position:fixed;inset:0;z-index:9999;
+background:rgba(0,0,0,.94);backdrop-filter:blur(12px);
+align-items:center;justify-content:center;
+padding:20px;flex-direction:column;gap:14px;
+}
+.lightbox.open{display:flex;animation:lbIn .22s ease}
+.lightbox img{max-width:100%;max-height:84vh;border-radius:14px;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-close{
+position:fixed;top:18px;left:18px;width:40px;height:40px;
+background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);
+border-radius:50%;color:#fff;font-size:17px;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:.2s;backdrop-filter:blur(4px);
+}
+.lb-close:hover{background:rgba(255,255,255,.24)}
+.lb-hint{color:rgba(255,255,255,.4);font-size:.74rem;font-family:‘Cairo’,sans-serif}
 
-.empty{text-align:center;padding:40px 20px;color:var(--mu)}
-.eicon{font-size:48px;margin-bottom:12px;opacity:.35;display:block}
-.empty p{font-size:.92rem;font-weight:600}
-.loading{text-align:center;padding:40px;color:var(--mu);font-weight:700;font-size:.95rem;display:flex;flex-direction:column;align-items:center;gap:14px}
-.spinner{width:38px;height:38px;border:3px solid #d0e8f5;border-top-color:var(--s);border-radius:50%;animation:spin .8s linear infinite}
+/* ══ EMPTY / LOADING ══ */
+.empty{text-align:center;padding:50px 20px;color:var(–ice2)}
+.eicon{font-size:48px;opacity:.22;display:block;margin-bottom:12px}
+.empty p{font-size:.88rem;font-weight:600}
+.loading{text-align:center;padding:50px;color:var(–ice2);font-weight:700;font-size:.9rem;display:flex;flex-direction:column;align-items:center;gap:14px}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.07);border-top-color:var(–gold);border-radius:50%;animation:spin .8s linear infinite}
 
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#1c2833;color:#fff;padding:12px 26px;border-radius:30px;font-weight:700;font-size:.9rem;box-shadow:0 8px 28px rgba(0,0,0,.22);transition:transform .4s cubic-bezier(.175,.885,.32,1.275);z-index:400;max-width:90vw;text-align:center}
+/* ══ TOAST ══ */
+.toast{
+position:fixed;bottom:26px;left:50%;
+transform:translateX(-50%) translateY(120px);
+background:rgba(14,30,46,.96);border:1px solid rgba(200,168,75,.2);
+color:#fff;padding:11px 22px;border-radius:30px;
+font-weight:700;font-size:.86rem;box-shadow:var(–sh);
+transition:transform .4s cubic-bezier(.175,.885,.32,1.275);
+z-index:400;max-width:88vw;text-align:center;backdrop-filter:blur(12px);
+}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:40px;padding:26px 5% 20px;text-align:center}
-.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:14px;flex-wrap:wrap}
-.footer-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:700}
-.footer-links a:hover{color:#fff;text-decoration:underline}
-.footer-copy{font-size:.78rem;opacity:.65;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+/* ══ FOOTER ══ */
+footer{
+position:relative;z-index:1;
+background:rgba(255,255,255,.025);
+border-top:1px solid rgba(200,168,75,.12);
+padding:22px 5% 18px;text-align:center;
+}
+.f-links{display:flex;justify-content:center;gap:22px;margin-bottom:13px;flex-wrap:wrap}
+.f-links a{color:var(–gold);text-decoration:none;font-size:.82rem;font-weight:700;transition:.2s}
+.f-links a:hover{opacity:.7}
+.f-copy{font-size:.72rem;color:var(–ice2);opacity:.55;border-top:1px solid rgba(255,255,255,.06);padding-top:13px}
 
-@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* ══ ANIMATIONS ══ */
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
 
-@media(max-width:620px){
-  .ht{flex-direction:column;text-align:center}
-  .hright{justify-content:center;width:100%}
-  .welcome{flex-direction:column;text-align:center;padding:20px}
-  .wicon{width:64px;height:64px;font-size:32px}
-  main{padding:16px 4%}
-  .notices-grid{grid-template-columns:1fr}
+/* ══ RESPONSIVE ══ */
+@media(max-width:700px){
+.ht{flex-direction:column;align-items:flex-start;gap:10px}
+.hright{width:100%;justify-content:space-between}
+.welcome{flex-direction:column;text-align:center;padding:22px}
+.w-icon{width:60px;height:60px;font-size:26px}
+main{padding:16px 4%}
+.notices-grid,.stats-row{grid-template-columns:1fr}
 }
 </style>
+
 </head>
 <body>
 
 <header>
   <div class="ht">
     <div class="brand">
-      <div class="logo">📚</div>
+      <div class="h-logo">📚</div>
       <div>
-        <h1>التواصل مع الأستاذ خليل البلوشي</h1>
-        <p>اللغة العربية · الصف الخامس (1 – 2 – 3) · مدرسة سعد بن معاذ</p>
+        <h1>بوابة أولياء الأمور · الأستاذ خليل</h1>
+        <p>اللغة العربية · الصف الخامس (1–2–3) · مدرسة سعد بن معاذ</p>
       </div>
     </div>
     <div class="hright">
       <div class="hdate" id="hdate"></div>
-      <a href="teacher.html" class="hbtn">👨‍🏫 دخول المعلم</a>
+      <a href="teacher.html" class="hbtn">🔐 دخول المعلم</a>
     </div>
   </div>
-  <div class="ctabs">
-    <button class="ctab active" onclick="setClass('all')">📋 جميع الشعب</button>
-    <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span> الخامس 1</button>
-    <button class="ctab" onclick="setClass('5B')"><span class="cbdg" id="b5B">0</span> الخامس 2</button>
-    <button class="ctab" onclick="setClass('5C')"><span class="cbdg" id="b5C">0</span> الخامس 3</button>
+  <div class="ctabs-wrap">
+    <div class="ctabs">
+      <button class="ctab active" onclick="setClass('all',this)">📋 جميع الشعب</button>
+      <button class="ctab" onclick="setClass('5A',this)"><span class="cbdg" id="b5A">0</span> الخامس 1</button>
+      <button class="ctab" onclick="setClass('5B',this)"><span class="cbdg" id="b5B">0</span> الخامس 2</button>
+      <button class="ctab" onclick="setClass('5C',this)"><span class="cbdg" id="b5C">0</span> الخامس 3</button>
+    </div>
   </div>
 </header>
 
 <main>
+
+  <!-- WELCOME -->
+
   <div class="welcome">
-    <div class="wicon">👋</div>
-    <div>
+    <div class="w-icon">👋</div>
+    <div class="w-text">
       <h2>أهلاً وسهلاً بأولياء الأمور الكرام</h2>
       <p>يمكنكم الاطلاع على الواجبات والأنشطة والتنبيهات الخاصة بشعبة ابنكم أو ابنتكم.</p>
+      <div class="w-imp-note">⭐ الملاحظات المميزة باللون الأحمر مهمة ومستمرة وتستحق المتابعة</div>
     </div>
   </div>
 
+  <!-- STATS -->
+
+  <div class="stats-row">
+    <div class="s-card">
+      <div class="s-ic" style="background:rgba(52,152,219,.15)">📌</div>
+      <div><span class="s-num" id="s-total">0</span><div class="s-lbl">إجمالي الملاحظات</div></div>
+    </div>
+    <div class="s-card">
+      <div class="s-ic" style="background:rgba(231,76,60,.15)">⭐</div>
+      <div><span class="s-num" id="s-imp" style="color:#e74c3c">0</span><div class="s-lbl">مهمة ومستمرة</div></div>
+    </div>
+    <div class="s-card">
+      <div class="s-ic" style="background:rgba(200,168,75,.15)">🔄</div>
+      <div><span class="s-num" id="s-act" style="color:var(--gold)">0</span><div class="s-lbl">نشطة حالياً</div></div>
+    </div>
+  </div>
+
+  <!-- NOTICES -->
+
   <div class="card">
     <div class="ch">
-      <div class="ct"><div class="ci" style="background:#deeefb">📋</div>الملاحظات والتنبيهات</div>
+      <div class="ct">
+        <div class="ci" style="background:rgba(52,152,219,.15)">📋</div>
+        الملاحظات والتنبيهات
+      </div>
     </div>
     <div class="cb">
       <div class="ntabs">
@@ -172,176 +407,177 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
         <button class="ntab" onclick="flt('homework',this)">📝 واجبات</button>
         <button class="ntab" onclick="flt('activity',this)">🎯 أنشطة</button>
         <button class="ntab" onclick="flt('alert',this)">🔔 تنبيهات</button>
+        <button class="ntab imp-t" onclick="flt('important',this)">⭐ المهمة</button>
       </div>
       <div id="nList"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
     </div>
   </div>
 
+  <!-- INFO -->
+
   <div class="card">
-    <div class="ch"><div class="ct"><div class="ci" style="background:#daf4e8">ℹ️</div>معلومات التواصل</div></div>
+    <div class="ch">
+      <div class="ct"><div class="ci" style="background:rgba(46,204,113,.15)">ℹ️</div>معلومات التواصل</div>
+    </div>
     <div class="cb">
-      <div class="info-cards">
-        <div class="info-row" style="background:#f4f9fd">
-          <span class="info-icon">📅</span>
-          <div class="info-text"><strong>أوقات الرد</strong><span>الأحد — الخميس · ٨ص — ٢م</span></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <span class="info-ic">📅</span>
+          <div><strong>أوقات الرد</strong><span>الأحد — الخميس · ٨ص – ٢م</span></div>
         </div>
-        <div class="info-row" style="background:#fff5f0">
-          <span class="info-icon">📺</span>
-          <div class="info-text"><strong>قناة اليوتيوب</strong><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">@teacherKhalil811 ↗</a></div>
+        <div class="info-card">
+          <span class="info-ic">📺</span>
+          <div><strong>قناة اليوتيوب</strong><a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">@teacherKhalil811 ↗</a></div>
         </div>
-        <div class="info-row" style="background:#f4f9fd">
-          <span class="info-icon">📝</span>
-          <div class="info-text"><strong>المدوّنة التعليمية</strong><a href="https://omk811.blogspot.com" target="_blank" rel="noopener">omk811.blogspot.com ↗</a></div>
+        <div class="info-card">
+          <span class="info-ic">📝</span>
+          <div><strong>المدوّنة التعليمية</strong><a href="https://omk811.blogspot.com" target="_blank" rel="noopener">omk811.blogspot.com ↗</a></div>
         </div>
       </div>
     </div>
   </div>
+
 </main>
 
 <footer>
-  <div class="footer-links">
+  <div class="f-links">
     <a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">📺 القناة التعليمية</a>
     <a href="https://omk811.blogspot.com" target="_blank" rel="noopener">📝 المدوّنة</a>
   </div>
-  <div class="footer-copy">© 2026 جميع الحقوق محفوظة · الأستاذ خليل البلوشي · مدرسة سعد بن معاذ للتعليم الأساسي · شمال الباطنة</div>
+  <div class="f-copy">© 2026 جميع الحقوق محفوظة · الأستاذ خليل البلوشي · مدرسة سعد بن معاذ للتعليم الأساسي · شمال الباطنة</div>
 </footer>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lb-close" onclick="closeLightbox()">✕</button>
+<!-- LIGHTBOX -->
+
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <button class="lb-close" onclick="closeLB()">✕</button>
   <img id="lbImg" src="" alt="صورة مكبّرة">
-  <span class="lb-hint">انقر في أي مكان للإغلاق</span>
+  <span class="lb-hint">انقر في أي مكان للإغلاق · ESC</span>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
-const STORAGE_KEY = 'school_data_v2';
-const CN = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3' };
-const TN = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔' };
-let curClass = 'all', nFlt = 'all', cachedData = null;
+const API='https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+const SK='school_data_v2';
+const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
+const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
+const TMAP={homework:'tg-hw',activity:'tg-act',alert:'tg-alt'};
+let cls='all', flt_='all', data=null;
 
-// ── روابط قابلة للنقر ──
-function linkify(t) {
-  if (!t) return '';
-  // escape HTML first to avoid XSS
-  const escaped = String(t)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // then linkify URLs, www, emails
-  return escaped.replace(
-    /(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi,
-    u => {
-      let h = u.startsWith('www') ? 'http://' + u : u;
-      if (u.includes('@') && !u.startsWith('http')) h = 'mailto:' + u;
-      const icon = u.includes('@') ? '✉️ ' : '🔗 ';
-      return `<a href="${h}" target="_blank" rel="noopener"
-        style="color:var(--s);font-weight:700;text-decoration:none;background:rgba(36,113,163,.08);padding:2px 7px;border-radius:6px;border:1px solid rgba(36,113,163,.2);display:inline-flex;align-items:center;gap:3px;word-break:break-all"
-        onmouseover="this.style.textDecoration='underline'"
-        onmouseout="this.style.textDecoration='none'">${icon}${u}</a>`;
-    }
-  );
+// ── LINKIFY ──
+function lnk(t){
+  if(!t)return'';
+  return String(t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(https?:\/\/[^\s&<>"]+)|(www\.[^\s&<>"]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi,u=>{
+      let h=u.startsWith('www')?'http://'+u:u;
+      if(u.includes('@')&&!u.startsWith('http'))h='mailto:'+u;
+      const ic=u.includes('@')?'✉️':'🔗';
+      return`<a href="${h}" target="_blank" rel="noopener">${ic} ${u}</a>`;
+    });
 }
 
-// ── التاريخ ──
-function upDate() {
-  const d = new Date();
-  document.getElementById('hdate').innerHTML =
-    d.toLocaleDateString('ar-OM', { weekday:'long', month:'short', day:'numeric' }) +
-    '<br><small>' + d.toLocaleTimeString('ar-OM', { hour:'2-digit', minute:'2-digit' }) + '</small>';
+// ── DATE ──
+function upDate(){
+  const d=new Date();
+  document.getElementById('hdate').innerHTML=
+    d.toLocaleDateString('ar-OM',{weekday:'long',month:'short',day:'numeric'})+
+    '<br><small>'+d.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})+'</small>';
 }
-upDate();
-setInterval(upDate, 60000);
+upDate();setInterval(upDate,60000);
 
-// ── جلب البيانات ──
-async function loadData() {
-  try {
-    const res = await fetch(API_URL + '?action=loadData&t=' + Date.now());
-    const r = await res.json();
-    if (r.status === 'success') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(r.data));
-      return r.data;
-    }
-  } catch(e) {}
-  // الرجوع إلى النسخة المحفوظة محلياً
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved ? JSON.parse(saved) : { notices: [], queries: [] };
+// ── LOAD ──
+async function loadData(){
+  try{
+    const r=await fetch(API+'?action=loadData&t='+Date.now());
+    const j=await r.json();
+    if(j.status==='success'){localStorage.setItem(SK,JSON.stringify(j.data));return j.data;}
+  }catch(e){}
+  const s=localStorage.getItem(SK);
+  return s?JSON.parse(s):{notices:[]};
 }
 
-// ── التبويبات ──
-function setClass(c) {
-  curClass = c;
-  document.querySelectorAll('.ctab').forEach((b, i) =>
-    b.classList.toggle('active', [c==='all', c==='5A', c==='5B', c==='5C'][i])
-  );
-  renderN();
+// ── CLASS TABS ──
+function setClass(c,el){
+  cls=c;
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  drawN();updStats();
 }
 
-function flt(f, btn) {
-  nFlt = f;
-  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderN();
+// ── FILTER ──
+function flt(f,el){
+  flt_=f;
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  drawN();
 }
 
-// ── عرض الملاحظات ──
-function renderN() {
-  const d = cachedData;
-  const el = document.getElementById('nList');
-  if (!d || !d.notices || !d.notices.length) {
-    el.innerHTML = '<div class="empty"><span class="eicon">📋</span><p>لا توجد ملاحظات حالياً</p></div>';
-    return;
+// ── DRAW NOTICES ──
+function drawN(){
+  const el=document.getElementById('nList');
+  if(!data||!data.notices||!data.notices.length){
+    el.innerHTML='<div class="empty"><span class="eicon">📋</span><p>لا توجد ملاحظات حالياً</p></div>';return;
   }
-  const f = d.notices.filter(n =>
-    (curClass === 'all' || n.cls === 'all' || n.cls === curClass) &&
-    (nFlt === 'all' || n.type === nFlt)
+  // فلترة: أخفِ المنتهية دائماً عن ولي الأمر
+  let f=data.notices.filter(n=>
+    !n.isDone &&
+    (cls==='all'||n.cls==='all'||n.cls===cls)
   );
-  if (!f.length) {
-    el.innerHTML = '<div class="empty"><span class="eicon">🔍</span><p>لا توجد ملاحظات لهذا التصنيف</p></div>';
-    return;
+  if(flt_==='important') f=f.filter(n=>n.isImp);
+  else if(flt_!=='all')  f=f.filter(n=>n.type===flt_);
+
+  if(!f.length){
+    el.innerHTML='<div class="empty"><span class="eicon">🔍</span><p>لا توجد ملاحظات لهذا التصنيف</p></div>';return;
   }
-  el.innerHTML = '<div class="notices-grid">' + f.map(n => `
-    <div class="ni ${n.type}">
-      <div class="nm">
-        <div class="nm-tags"><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div>
-        <span class="ndate">🕐 ${n.date}</span>
+  // المهمة أولاً
+  f.sort((a,b)=>(b.isImp?1:0)-(a.isImp?1:0));
+
+  el.innerHTML='<div class="notices-grid">'+f.map((n,i)=>`
+    <div class="ni ${n.type}${n.isImp?' is-imp':''}" style="animation-delay:${i*.04}s">
+      <div class="ni-hd">
+        <div class="ni-tags">
+          <span class="tg tg-cls">${CN[n.cls]}</span>
+          <span class="tg ${TMAP[n.type]}">${TN[n.type]}</span>
+          ${n.isImp?'<span class="tg tg-imp">⭐ مهمة</span>':''}
+        </div>
+        <span class="ni-dt">🕐 ${n.date}</span>
       </div>
-      <strong>${n.title}</strong>
-      ${n.det ? `<div class="n-det">${linkify(n.det)}</div>` : ''}
-      ${n.img ? `<div class="img-wrap" onclick="openLB('${n.img.replace(/'/g,"\\'")}')" ><img src="${n.img}" class="notice-img" alt="صورة مرفقة"></div>` : ''}
-    </div>`).join('') + '</div>';
+      <span class="ni-title">${n.title}</span>
+      ${n.det?`<div class="ni-det">${lnk(n.det)}</div>`:''}
+      ${n.img?`<div class="img-wrap" onclick="openLB('${n.img.replace(/'/g,"\\'")}')"><img src="${n.img}" class="notice-img" alt="صورة مرفقة"></div>`:''}
+    </div>`).join('')+'</div>';
 }
 
-// ── الشارات ──
-function updBadges() {
-  if (!cachedData || !cachedData.notices) return;
-  ['5A','5B','5C'].forEach(c =>
-    document.getElementById('b' + c).textContent =
-      cachedData.notices.filter(n => n.cls === c || n.cls === 'all').length
-  );
+// ── STATS ──
+function updStats(){
+  if(!data||!data.notices)return;
+  const ns=data.notices.filter(n=>!n.isDone&&(cls==='all'||n.cls==='all'||n.cls===cls));
+  document.getElementById('s-total').textContent=ns.length;
+  document.getElementById('s-imp').textContent=ns.filter(n=>n.isImp).length;
+  document.getElementById('s-act').textContent=ns.filter(n=>!n.isImp).length;
+  ['5A','5B','5C'].forEach(c=>{
+    const el=document.getElementById('b'+c);
+    if(el)el.textContent=data.notices.filter(n=>!n.isDone&&(n.cls===c||n.cls==='all')).length;
+  });
 }
 
-// ── التحميل والتحديث ──
-async function fetchAndRender() {
-  cachedData = await loadData();
-  renderN();
-  updBadges();
+// ── LIGHTBOX ──
+function openLB(src){document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');}
+function closeLB(){document.getElementById('lightbox').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+
+// ── FETCH & RENDER ──
+async function fetchAndRender(){
+  data=await loadData();
+  drawN();updStats();
 }
 
-// ── Lightbox ──
-function openLB(src) { document.getElementById('lbImg').src = src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
-
-// ── Toast ──
-function toast(msg, bg = '#1e8449') {
-  const t = document.getElementById('toast');
-  t.style.background = bg; t.innerHTML = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ── تشغيل ──
+// ── INIT ──
 fetchAndRender();
-setInterval(fetchAndRender, 30000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) fetchAndRender(); });
+setInterval(fetchAndRender,30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchAndRender();});
 </script>
+
 </body>
 </html>
