@@ -3,28 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>التواصل مع الأستاذ خليل البلوشي</title>
+<title>التواصل مع الأستاذ خليل</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
-<script>
-// كود تفعيل خاصية التطبيق
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      console.log('تم تسجيل التطبيق بنجاح');
-    }).catch(err => {
-      console.log('فشل تسجيل التطبيق', err);
-    });
-  });
-}
-</script>
-    <style>
+<style>
 :root {
   --p: #1a5276; --s: #2e86c1; --a: #f39c12; --g: #27ae60; --r: #e74c3c;
   --bd: #d5e8f5; --bg: #f4f9fd; --mu: #7f8c8d; --text: #1c2833;
@@ -133,45 +116,14 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; m
   .welcome p { font-size: 1rem !important; }
   .nm { flex-direction: column; align-items: flex-start; }
 }
-      /* صورة قابلة للنقر */
-.notice-img {
-  cursor: pointer;
-  transition: 0.2s;
-}
-.notice-img:hover {
-  transform: scale(1.02);
-}
-
-/* نافذة عرض الصورة */
-.img-modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-.img-modal img {
-  max-width: 95%;
-  max-height: 90%;
-  border-radius: 12px;
-}
-.img-modal.show {
-  display: flex;
-}
 </style>
 </head>
-  <div class="img-modal" id="imgModal" onclick="closeImg()">
-  <img id="modalImg">
-</div>
 <body>
 <header>
   <div class="ht">
     <div class="brand">
       <div class="logo">📚</div>
-      <div><h1>التواصل مع الأستاذ خليل البلوشي</h1><p>اللغة العربية · الصف الخامس (1-2-3) · مدرسة سعد بن معاذ</p></div>
+      <div><h1>التواصل مع الأستاذ خليل</h1><p>اللغة العربية · الصف الخامس · مدرسة سعد بن معاذ</p></div>
     </div>
     <div class="hright">
       <div class="hdate" id="hdate"></div>
@@ -251,7 +203,7 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; m
 
 <script>
 // ==================== الإعدادات ====================
-const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec'; // ضع رابط Google Script هنا
+const API_URL = 'ضع_الرابط_هنا'; // ضع رابط Google Script هنا
 const STORAGE_KEY = 'school_data_v2';
 const MY_KEY = 'my_query_ids';
 const CN = {all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3'};
@@ -326,7 +278,7 @@ function renderN() {
       <div>
         <strong>${n.title}</strong>
         ${n.det ? `<div class="n-det">${makeLinksClickable(n.det)}</div>` : ''}
-       ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة مرفقة" onclick="openImg('${n.img}')">` : ''}
+        ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة مرفقة">` : ''}
       </div>
     </div>`).join('');
 }
@@ -346,18 +298,8 @@ function renderMyMsg() {
       </div>
       <div class="msg-txt">${makeLinksClickable(q.msg)}</div>
       <div style="font-size:0.75rem;color:var(--mu);margin-bottom:8px;">${q.date}</div>
-      ${q.reply ? `<div class="rep-box"><strong>رد الأستاذ خليل البلوشي :</strong>\n${makeLinksClickable(q.reply)}</div>` : ''}
+      ${q.reply ? `<div class="rep-box"><strong>رد الأستاذ:</strong>\n${makeLinksClickable(q.reply)}</div>` : ''}
     </div>`).join('');
-}
-  function openImg(src) {
-  const modal = document.getElementById('imgModal');
-  const img = document.getElementById('modalImg');
-  img.src = src;
-  modal.classList.add('show');
-}
-
-function closeImg() {
-  document.getElementById('imgModal').classList.remove('show');
 }
   
 function updBadges() {
