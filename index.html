@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="الأستاذ خليل البلوشي">
+<meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 <style>
@@ -83,26 +83,12 @@ main{max-width:1180px;margin:0 auto;padding:28px 5%;display:grid;grid-template-c
 .notice-img{width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s}
 .notice-img:hover{opacity:.9}
 
-.pf{background:linear-gradient(160deg,#1e3a5f,var(--p) 50%,var(--s));border-radius:var(--rad);padding:22px;box-shadow:var(--sh2);color:#fff;margin-bottom:22px;position:relative;overflow:hidden}
-.pf::before{content:'💌';position:absolute;top:-10px;left:-10px;font-size:90px;opacity:.06;transform:rotate(-15deg);pointer-events:none}
-.pf h2{font-size:1.1rem;font-weight:800;margin-bottom:4px;position:relative}
-.pf>p{color:rgba(255,255,255,.78);font-size:.8rem;margin-bottom:18px;position:relative}
 .fg{margin-bottom:11px;position:relative}
 .fg label{display:block;font-weight:700;font-size:.8rem;margin-bottom:5px;color:rgba(255,255,255,.88)}
 .req{color:var(--a2);margin-right:2px}
 .fc{width:100%;padding:10px 13px;border:2px solid rgba(255,255,255,.15);border-radius:var(--rad-s);font-family:inherit;font-size:16px;color:var(--text);resize:vertical;background:rgba(255,255,255,.95);transition:.2s}
 .fc:focus{outline:none;border-color:var(--a2);box-shadow:0 0 0 3px rgba(243,156,18,.25)}
-.psbtn{width:100%;padding:12px;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;border:none;border-radius:var(--rad-s);font-family:inherit;font-size:.97rem;font-weight:800;cursor:pointer;margin-top:6px;transition:.2s;box-shadow:0 4px 12px rgba(230,126,34,.3)}
-.psbtn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(230,126,34,.4)}
-.psbtn:disabled{opacity:.65;cursor:not-allowed;transform:none}
 
-.my-msg{background:#fafcfd;border-radius:13px;padding:15px 16px;margin-bottom:12px;border:1.5px solid #e8f0f8;border-right:4px solid var(--a2);animation:fi .3s ease}
-.msg-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
-.msg-student{font-weight:800;font-size:.9rem;color:var(--p)}
-.msg-txt{font-size:.97rem;line-height:1.65;color:#2c3e50;margin-bottom:7px;white-space:pre-wrap;font-weight:500}
-.rep-box{background:#edfaf3;border:1.5px solid #b8e6cf;border-radius:var(--rad-s);padding:11px 13px;font-size:.97rem;margin-top:10px;color:#1a6b3a;white-space:pre-wrap;font-weight:500;line-height:1.65}
-.sbdg{font-size:.7rem;padding:3px 10px;border-radius:30px;font-weight:800}
-.snew{background:#fef3e2;color:#c0621a}.srep{background:#edfaf3;color:var(--g)}.sread{background:#f1f4f8;color:var(--mu)}
 
 .info-row{display:flex;gap:13px;align-items:center;padding:13px 14px;border-radius:12px;margin-bottom:10px;border:1px solid rgba(0,0,0,.04);transition:filter .15s}
 .info-row:hover{filter:brightness(.97)}
@@ -173,7 +159,7 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
     <div class="wicon">👋</div>
     <div>
       <h2>أهلاً وسهلاً بأولياء الأمور الكرام</h2>
-      <p>يمكنكم الاطلاع على الواجبات والأنشطة والتنبيهات الخاصة بشعبة ابنكم أو ابنتكم، وإرسال استفساراتكم مباشرةً إلى الأستاذ خليل.</p>
+      <p>يمكنكم الاطلاع على الواجبات والأنشطة والتنبيهات الخاصة بشعبة ابنكم أو ابنتكم، للتواصل مع الأستاذ خليل يرجى التواصل عبر القنوات الرسمية.</p>
     </div>
   </div>
 
@@ -192,27 +178,9 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
         <div id="nList"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
       </div>
     </div>
-    <div class="card" id="myCard" style="display:none">
-      <div class="ch">
-        <div class="ct"><div class="ci" style="background:#fef0d8">📨</div>رسائلي المرسلة</div>
-      </div>
-      <div class="cb"><div id="myList"></div></div>
-    </div>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:22px">
-    <div class="pf">
-      <h2>💌 إرسال استفسار للأستاذ</h2>
-      <p>سيردّ الأستاذ في أقرب وقت ممكن إن شاء الله</p>
-      <div class="fg"><label>اسم ولي الأمر <span class="req">*</span></label><input type="text" class="fc" id="pN" placeholder="الاسم الكريم" autocomplete="name"></div>
-      <div class="fg"><label>اسم الطالب / الطالبة <span class="req">*</span></label><input type="text" class="fc" id="pS" placeholder="اسم الابن أو الابنة"></div>
-      <div class="fg"><label>الشعبة <span class="req">*</span></label>
-        <select class="fc" id="pC"><option value="">— اختر الشعبة —</option><option value="5A">الخامس 1</option><option value="5B">الخامس 2</option><option value="5C">الخامس 3</option></select>
-      </div>
-      <div class="fg"><label>الاستفسار أو الملاحظة <span class="req">*</span></label><textarea class="fc" id="pM" rows="4" placeholder="اكتب رسالتك هنا..."></textarea></div>
-      <button class="psbtn" id="sendBtn" onclick="submitQ()">📤 إرسال الرسالة</button>
-    </div>
-
     <div class="card">
       <div class="ch"><div class="ct"><div class="ci" style="background:#daf4e8">ℹ️</div>معلومات التواصل</div></div>
       <div class="cb">
@@ -237,7 +205,6 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
   <div class="footer-links">
     <a href="https://www.youtube.com/@teacherKhalil811" target="_blank" rel="noopener">📺 القناة التعليمية</a>
     <a href="https://omk811.blogspot.com" target="_blank" rel="noopener">📝 المدوّنة</a>
-    <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener">🎉 نتيجة التقويم المستمر</a>
   </div>
   <div class="footer-copy">© 2026 جميع الحقوق محفوظة · الأستاذ خليل البلوشي · مدرسة سعد بن معاذ للتعليم الأساسي · شمال الباطنة</div>
 </footer>
@@ -250,7 +217,6 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
 const STORAGE_KEY='school_data_v2';
-const MY_KEY='my_query_ids';
 const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
 const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
 let curClass='all',nFlt='all',cachedData=null;
@@ -278,8 +244,6 @@ async function loadData(){
   }catch(e){}
   return JSON.parse(localStorage.getItem(STORAGE_KEY))||{notices:[],queries:[],qId:100};
 }
-function getMyIds(){return (JSON.parse(localStorage.getItem(MY_KEY))||[]).map(x=>String(x));}
-function saveMyIds(ids){localStorage.setItem(MY_KEY,JSON.stringify(ids.map(x=>String(x))));}
 
 
 function setClass(c){
@@ -296,7 +260,7 @@ function flt(f,btn){
 
 async function renderUI(){
   if(!cachedData)cachedData=await loadData();
-  renderN();renderMyMsg();updBadges();
+  renderN();updBadges();
 }
 async function fetchAndRender(){cachedData=await loadData();renderUI();}
 
@@ -313,13 +277,6 @@ function renderN(){
   </div>`).join('');
 }
 
-function renderMyMsg(){
-  const d=cachedData||JSON.parse(localStorage.getItem(STORAGE_KEY));
-  if(!d||!d.queries)return;
-  const myIds=getMyIds();
-  const myQ=d.queries.filter(q=>myIds.includes(String(q.id)));
-  const card=document.getElementById('myCard'),el=document.getElementById('myList');
-  if(!myQ.length){card.style.display='none';return;}
   card.style.display='block';
   el.innerHTML=myQ.map(q=>`<div class="my-msg">
     <div class="msg-top">
@@ -337,33 +294,7 @@ function updBadges(){
   ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length);
 }
 
-async function submitQ(){
-  const n=document.getElementById('pN').value.trim();
-  const s=document.getElementById('pS').value.trim();
-  const c=document.getElementById('pC').value;
-  const m=document.getElementById('pM').value.trim();
-  if(!n||!s||!c||!m)return toast('⚠️ الرجاء تعبئة جميع الحقول','#c0392b');
-  const btn=document.getElementById('sendBtn');
-  btn.disabled=true;btn.innerHTML='⏳ جاري الإرسال...';
-  const now=new Date();
-  const newId=(cachedData?.qId||200)+1;
-  const newQ={id:newId,name:n,student:s,cls:c,msg:m,
-    date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}),
-    status:'new',reply:''};
-  if(cachedData){cachedData.queries.unshift(newQ);cachedData.qId=newId;}
-  const local=JSON.parse(localStorage.getItem(STORAGE_KEY))||{notices:[],queries:[],qId:100};
-  local.queries.unshift(newQ);local.qId=newId;
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(local));
-  const myIds=getMyIds();myIds.push(String(newId));saveMyIds(myIds);
-  ['pN','pS','pM'].forEach(i=>document.getElementById(i).value='');
-  document.getElementById('pC').value='';
-  // أظهر الرسالة فوراً من الذاكرة المحلية بدون انتظار الـ API
-  renderMyMsg();
-  toast('✅ تم إرسال رسالتك بنجاح!');
-  btn.disabled=false;btn.innerHTML='📤 إرسال الرسالة';
-  // أرسل للـ Sheets في الخلفية
-  fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(local.queries)})}).catch(()=>{});
-}
+
 
 function openLB(src){document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
