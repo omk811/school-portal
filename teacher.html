@@ -471,8 +471,6 @@ body::after{
       <div class="sb-kpis">
         <div class="kpi"><span class="kpi-n" id="k-tot">0</span><div class="kpi-l">إجمالي</div></div>
         <div class="kpi"><span class="kpi-n green" id="k-act">0</span><div class="kpi-l">نشطة</div></div>
-        <div class="kpi"><span class="kpi-n red" id="k-imp">0</span><div class="kpi-l">مهمة</div></div>
-        <div class="kpi"><span class="kpi-n muted" id="k-dn">0</span><div class="kpi-l">منتهية</div></div>
       </div>
     </div>
 
@@ -529,8 +527,6 @@ body::after{
         <button class="chip"     onclick="flt('homework',this)">📝 واجبات</button>
         <button class="chip"     onclick="flt('activity',this)">🎯 أنشطة</button>
         <button class="chip"     onclick="flt('alert',this)">🔔 تنبيهات</button>
-        <button class="chip imp" onclick="flt('important',this)">⭐ المهمة</button>
-        <button class="chip dn"  onclick="flt('done',this)">✅ المنتهية</button>
         <button class="add"      onclick="openModal()">＋ إضافة ملاحظة</button>
       </div>
 
@@ -539,8 +535,6 @@ body::after{
         <div class="leg-i"><div class="leg-d" style="background:var(--hw)"></div>واجب</div>
         <div class="leg-i"><div class="leg-d" style="background:var(--act)"></div>نشاط</div>
         <div class="leg-i"><div class="leg-d" style="background:var(--alrt)"></div>تنبيه</div>
-        <div class="leg-i"><div class="leg-d" style="background:var(--imp)"></div>مهمة ومستمرة</div>
-        <div class="leg-i"><div class="leg-d" style="background:#3a4550"></div>منتهية التنفيذ</div>
       </div>
 
       <!-- NOTICES -->
@@ -599,8 +593,7 @@ body::after{
     </div>
     <label class="imp-tog">
       <input type="checkbox" id="nIsImp">
-      <span>⭐ تعيين كملاحظة مهمة ومستمرة</span>
-    </label>
+        </label>
     <button class="sv-btn" id="svBtn" onclick="addN()">💾 نشر الملاحظة</button>
   </div>
 </div>
@@ -740,8 +733,6 @@ function drawN(){
         <div class="ni-tags">
           <span class="tg tg-cls">${CN[n.cls]}</span>
           <span class="tg ${tmap[n.type]}">${TN[n.type]}</span>
-          ${n.isDone?'<span class="tg tg-dn">✅ منتهية</span>':''}
-          ${n.isImp?'<span class="tg tg-im">⭐ مهمة</span>':''}
         </div>
         <span class="ni-dt">${n.date}</span>
       </div>
@@ -749,24 +740,9 @@ function drawN(){
       ${n.det?`<div class="ni-det">${lnk(n.det)}</div>`:''}
       ${n.img?`<img src="${n.img}" class="ni-img" alt="صورة">`:''}
       <div class="ni-ac">
-        <button class="ac ac-dn ${n.isDone?'on':''}" onclick="togDone(${n.id})">${n.isDone?'↩️ إلغاء':'✅ تعليم كمنتهية'}</button>
-        <button class="ac ac-im ${n.isImp?'on':''}" onclick="togImp(${n.id})">${n.isImp?'↩️ إلغاء':'⭐ تعليم كمهمة'}</button>
         <button class="ac ac-dl" onclick="delN(${n.id})" title="حذف">🗑</button>
       </div>
     </div>`).join('');
-}
-
-// ── TOGGLE DONE ──
-function togDone(id){
-  const n=data.notices.find(x=>x.id===id);if(!n)return;
-  n.isDone=!n.isDone;if(n.isDone)n.isImp=false;
-  save();drawN();stats();toast(n.isDone?'✅ تم تعليمها كمنتهية':'↩️ تم إلغاء التعليم');
-}
-// ── TOGGLE IMPORTANT ──
-function togImp(id){
-  const n=data.notices.find(x=>x.id===id);if(!n)return;
-  n.isImp=!n.isImp;if(n.isImp)n.isDone=false;
-  save();drawN();stats();toast(n.isImp?'⭐ تم تعليمها كمهمة ومستمرة':'↩️ تم إلغاء التعليم');
 }
 
 // ── STATS ──
