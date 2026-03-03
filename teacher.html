@@ -651,7 +651,7 @@ upDate();setInterval(upDate,60000);
 // ── LOGIN ──
 async function getPwd(){
   try{const r=await fetch(API+'?action=loadData');const j=await r.json();if(j.data?.settings?.password)return j.data.settings.password;}catch(e){}
-  return localStorage.getItem(PK)||'Khalil2025';
+  return localStorage.getItem(PK)||'aysha123';
 }
 async function login(){
   const pwd=await getPwd();
