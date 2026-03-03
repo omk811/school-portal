@@ -175,7 +175,8 @@ footer { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; p
     <div class="hright">
       <div class="hdate" id="hdate"></div>
       <a href="index.html" class="parent-link">🏠 الموقع الرئيسي</a>
-      <button class="outbtn" onclick="doLogout()">🚪 خروج</button>
+     <button class="outbtn" onclick="manualRefresh()">🔄 تحديث</button>
+      <button class="outbtn" onclick="doLogout()">🚪 خروج</button> <div class="hright">
     </div>
   </div>
   
@@ -339,7 +340,6 @@ function doLogout() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('pwdInput').value = '';
-  stopPolling();
 }
 
 async function changePwd() {
@@ -368,18 +368,9 @@ async function loadData() {
 }
 
 async function initApp() {
-  upDate(); setInterval(upDate, 60000);
-  await render();
-  startPolling();
+  upDate();        // تحديث التاريخ مرة واحدة فقط
+  await render();  // تحميل البيانات مرة واحدة عند الدخول
 }
-
-function startPolling() { if(!pollingInterval) pollingInterval = setInterval(render, 30000); }
-function stopPolling() { if(pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; } }
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) stopPolling();
-  else { render(); startPolling(); }
-});
 
 async function render() {
   const d = await loadData();
@@ -548,6 +539,13 @@ function toast(msg, bg='#27ae60') {
   const t = document.getElementById('toast');
   t.style.background = bg; t.innerHTML = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 3000);
+}
+  
+  async function manualRefresh() {
+  toast('🔄 جاري التحديث...');
+  await render();
+  upDate();
+  toast('✅ تم التحديث');
 }
 
 function askAI() {
