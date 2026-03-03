@@ -108,21 +108,8 @@ main{max-width:1200px;margin:0 auto;padding:26px 5%;display:grid;grid-template-c
 .abtn{padding:8px 16px;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:var(--rad-s);font-family:inherit;font-size:.85rem;font-weight:800;cursor:pointer;transition:.2s}
 .abtn:hover{opacity:.9;transform:translateY(-1px)}
 
-.qi{background:#fafcfd;border:1.5px solid #e8f0f8;border-radius:13px;padding:16px;margin-bottom:12px;border-right:4px solid var(--a2);animation:fi .3s ease}
-.qh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
-.qname{font-weight:800;font-size:.92rem;color:var(--p)}
-.qstudent{font-size:.78rem;color:var(--mu);font-weight:600;margin-top:2px}
-.qtxt{font-size:.97rem;line-height:1.65;color:#2c3e50;margin-bottom:12px;background:#fff;padding:12px;border-radius:9px;border:1px solid #edf2f7;white-space:pre-wrap;font-weight:500}
-.qdate{font-size:.72rem;color:var(--mu);font-weight:600;margin-bottom:10px}
-.qa{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid #eef3f8;padding-top:10px}
-.rbtn,.dbtn,.srbtn{padding:6px 14px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-size:.8rem;font-weight:700;transition:.2s}
-.rbtn{background:var(--p);color:#fff}.rbtn:hover{background:#154360}
-.dbtn{background:#fce8e7;color:var(--r)}.dbtn:hover{background:var(--r);color:#fff}
-.srbtn{background:var(--g);color:#fff}.srbtn:hover{background:#186038}
 .sbdg{font-size:.7rem;padding:3px 10px;border-radius:30px;font-weight:800}
 .snew{background:#fef3e2;color:#c0621a}.srep{background:#edfaf3;color:var(--g)}.sread{background:#f1f4f8;color:var(--mu)}
-.ra{margin-top:10px;display:none;background:#f8fafc;padding:13px;border-radius:11px;border:1.5px solid var(--bd)}
-.reply-preview{background:#edfaf3;border:1.5px solid #b8e6cf;border-radius:9px;padding:10px 12px;font-size:.95rem;margin-bottom:10px;color:#1a6b3a;white-space:pre-wrap;font-weight:500;line-height:1.65}
 
 .fg{margin-bottom:13px}
 .fg label{display:block;font-weight:700;font-size:.85rem;margin-bottom:5px;color:var(--p)}
@@ -228,9 +215,6 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;padding:2
   <!-- STATS -->
   <div class="stats">
     <div class="stat"><div class="si bl">📌</div><div><h3 id="sN">0</h3><p>إجمالي الملاحظات</p></div></div>
-    <div class="stat"><div class="si or">💬</div><div><h3 id="sQ">0</h3><p>الاستفسارات</p></div></div>
-    <div class="stat"><div class="si gr">✅</div><div><h3 id="sR">0</h3><p>تمت الإجابة</p></div></div>
-    <div class="stat"><div class="si rd">🔔</div><div><h3 id="sNw">0</h3><p>استفسار جديد</p></div></div>
   </div>
 
   <!-- LEFT COLUMN -->
@@ -249,10 +233,6 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;padding:2
         </div>
         <div id="nList"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
       </div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct"><div class="ci" style="background:#fef0d8">💬</div>استفسارات أولياء الأمور</div></div>
-      <div class="cb"><div id="qList"></div></div>
     </div>
   </div>
 
@@ -431,14 +411,14 @@ async function manualRefresh(){
 
 async function doRender(){
   cachedData=await loadData();
-  renderN();renderQ();renderCStat();updStats();
+  renderN();renderCStat();updStats();
 }
 
 // ==================== TABS ====================
 function setClass(c){
   curClass=c;
   document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i]));
-  renderN();renderQ();renderCStat();updStats();
+  renderN();renderCStat();updStats();
 }
 function flt(f,btn){
   nFlt=f;
@@ -466,31 +446,7 @@ function renderN(){
   </div>`).join('');
 }
 
-// ==================== RENDER QUERIES ====================
-function renderQ(){
-  const d=cachedData;
-  const el=document.getElementById('qList');
-  if(!d||!d.queries||!d.queries.length)return el.innerHTML='<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات</p></div>';
-  const f=d.queries.filter(q=>curClass==='all'||q.cls===curClass).sort((a,b)=>a.status==='new'?-1:1);
-  if(!f.length)return el.innerHTML='<div class="empty"><div class="eicon">💬</div><p>لا توجد استفسارات لهذه الشعبة</p></div>';
-  el.innerHTML=f.map(q=>`<div class="qi">
-    <div class="qh">
-      <div><div class="qname">👤 ${q.name}</div><div class="qstudent">طالب: ${q.student} — ${CN[q.cls]}</div></div>
-      <span class="sbdg ${q.status==='new'?'snew':q.status==='replied'?'srep':'sread'}">${q.status==='new'?'🔔 جديد':q.status==='replied'?'✅ تم الرد':'مقروء'}</span>
-    </div>
-    <div class="qtxt">${linkify(q.msg)}</div>
-    <div class="qdate">🕐 ${q.date}</div>
-    ${q.reply?`<div class="reply-preview"><strong>ردك الحالي:</strong><br>${linkify(q.reply)}</div>`:''}
-    <div class="qa">
-      <button class="rbtn" onclick="togR(${q.id})">💬 ${q.reply?'تعديل الرد':'إضافة رد'}</button>
-      <button class="dbtn" onclick="delQ(${q.id})">🗑 حذف</button>
-    </div>
-    <div class="ra" id="ra${q.id}">
-      <textarea class="fc" rows="3" id="rt${q.id}" placeholder="اكتب ردك هنا...">${q.reply||''}</textarea>
-      <button class="srbtn" onclick="sendR(${q.id})">✔ إرسال الرد</button>
-    </div>
-  </div>`).join('');
-}
+
 
 // ==================== RENDER CLASS STATS ====================
 function renderCStat(){
@@ -499,14 +455,10 @@ function renderCStat(){
   if(!el||!d)return;
   el.innerHTML=['5A','5B','5C'].map(c=>{
     const nC=d.notices.filter(n=>n.cls===c||n.cls==='all').length;
-    const qC=d.queries.filter(q=>q.cls===c).length;
-    const nwC=d.queries.filter(q=>q.cls===c&&q.status==='new').length;
     return`<div class="cs-row">
       <span class="cs-name">${CN[c]}</span>
       <div class="cs-badges">
         <span class="cs-badge" style="background:#deeefb;color:var(--p)">📌 ${nC}</span>
-        <span class="cs-badge" style="background:#fef0d8;color:#c0621a">💬 ${qC}</span>
-        ${nwC?`<span class="cs-badge" style="background:#fce8e7;color:var(--r);animation:pulse 1.5s infinite">🔔 ${nwC}</span>`:''}
       </div>
     </div>`;
   }).join('');
@@ -516,14 +468,9 @@ function renderCStat(){
 function updStats(){
   const d=cachedData;if(!d)return;
   document.getElementById('sN').textContent=d.notices.length;
-  document.getElementById('sQ').textContent=d.queries.length;
-  document.getElementById('sR').textContent=d.queries.filter(q=>q.status==='replied').length;
-  document.getElementById('sNw').textContent=d.queries.filter(q=>q.status==='new').length;
   ['5A','5B','5C'].forEach(c=>{
     const el=document.getElementById('b'+c);
-    const nwC=d.queries.filter(q=>q.cls===c&&q.status==='new').length;
     el.textContent=d.notices.filter(n=>n.cls===c||n.cls==='all').length;
-    el.className=nwC?'cbdg new-alert':'cbdg';
   });
 }
 
@@ -585,22 +532,8 @@ async function addNotice(){
   fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(d.notices)})}).catch(()=>{});
 }
 
-// ==================== REPLY ====================
-function togR(id){
-  const a=document.getElementById('ra'+id);
-  a.style.display=a.style.display==='block'?'none':'block';
-}
 
-async function sendR(id){
-  const t=document.getElementById('rt'+id).value.trim();
-  if(!t)return toast('اكتب ردك أولاً','#c0392b');
-  const d=cachedData||JSON.parse(localStorage.getItem(STORAGE_KEY));
-  const q=d.queries.find(x=>x.id===id);
-  if(q){q.reply=t;q.status='replied';}
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(d));
-  cachedData=d;renderQ();toast('✅ تم إرسال الرد');
-  fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'updateQuery',id:id,status:'replied',reply:t})}).catch(()=>{});
-}
+
 
 // ==================== DELETE ====================
 async function delN(id){
@@ -612,14 +545,6 @@ async function delN(id){
   fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'deleteNotice',id:id})}).catch(()=>{});
 }
 
-async function delQ(id){
-  if(!confirm('تأكيد حذف هذا الاستفسار؟'))return;
-  const d=cachedData||JSON.parse(localStorage.getItem(STORAGE_KEY));
-  d.queries=d.queries.filter(q=>q.id!==id);
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(d));
-  cachedData=d;renderQ();renderCStat();updStats();toast('🗑 تم الحذف');
-  fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'deleteQuery',id:id})}).catch(()=>{});
-}
 
 // ==================== TOAST ====================
 function toast(msg,bg='#1e8449'){
