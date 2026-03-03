@@ -321,7 +321,7 @@ async function getPassword() {
     const json = await res.json();
     if(json.data && json.data.settings && json.data.settings.password) return json.data.settings.password;
   } catch(e) {}
-  return localStorage.getItem(PWD_KEY) || 'test2025';
+  return localStorage.getItem(PWD_KEY) || 'aysha123';
 }
 
 async function doLogin() {
