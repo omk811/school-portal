@@ -10,18 +10,15 @@
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="الأستاذ خليل البلوشي">
+<meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 <style>
 :root{
-  --p:#1a4f7a;--s:#2471a3;--s2:#5dade2;
-  --a:#e67e22;--a2:#f39c12;
-  --g:#1e8449;--g2:#27ae60;
-  --r:#c0392b;--bd:#d0e8f5;--bg:#f0f6fb;
-  --mu:#85929e;--text:#17202a;
-  --sh:0 2px 16px rgba(26,79,122,.07);
-  --sh2:0 8px 32px rgba(26,79,122,.13);
+  --p:#1a4f7a;--s:#2471a3;--a:#e67e22;--a2:#f39c12;
+  --g:#1e8449;--g2:#27ae60;--r:#c0392b;
+  --bd:#d0e8f5;--bg:#f0f6fb;--mu:#85929e;--text:#17202a;
+  --sh:0 2px 16px rgba(26,79,122,.07);--sh2:0 8px 32px rgba(26,79,122,.13);
   --rad:18px;--rad-s:11px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -36,7 +33,7 @@ header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;position:
 .brand p{font-size:.77rem;opacity:.82;margin-top:1px}
 .hright{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .hdate{background:rgba(0,0,0,.18);border-radius:var(--rad-s);padding:6px 12px;font-size:.74rem;text-align:center;line-height:1.55}
-.hbtn{color:#fff;text-decoration:none;padding:7px 15px;background:rgba(255,255,255,.15);border-radius:var(--rad-s);font-size:.82rem;font-weight:700;border:1px solid rgba(255,255,255,.22);transition:.2s;cursor:pointer;font-family:inherit}
+.hbtn{color:#fff;text-decoration:none;padding:7px 15px;background:rgba(255,255,255,.15);border-radius:var(--rad-s);font-size:.82rem;font-weight:700;border:1px solid rgba(255,255,255,.22);transition:.2s}
 .hbtn:hover{background:rgba(255,255,255,.26)}
 
 .ctabs{display:flex;padding:0 5%;background:rgba(0,0,0,.14);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -46,8 +43,9 @@ header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;position:
 .ctab.active{color:#fff;border-bottom-color:var(--a2);background:rgba(255,255,255,.1)}
 .cbdg{display:inline-flex;align-items:center;justify-content:center;background:var(--a2);color:#fff;border-radius:30px;padding:0 7px;height:19px;font-size:.68rem;font-weight:800;min-width:19px}
 
-main{max-width:1180px;margin:0 auto;padding:28px 5%;display:grid;grid-template-columns:1fr 400px;gap:22px;align-items:start}
-.welcome{grid-column:1/-1;background:linear-gradient(135deg,var(--s),var(--p));border-radius:var(--rad);padding:26px 32px;color:#fff;box-shadow:var(--sh2);display:flex;align-items:center;gap:22px;position:relative;overflow:hidden}
+main{max-width:1100px;margin:0 auto;padding:28px 5%;display:flex;flex-direction:column;gap:22px}
+
+.welcome{background:linear-gradient(135deg,var(--s),var(--p));border-radius:var(--rad);padding:26px 32px;color:#fff;box-shadow:var(--sh2);display:flex;align-items:center;gap:22px;position:relative;overflow:hidden}
 .welcome::before{content:'';position:absolute;top:-40px;left:-40px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
 .welcome::after{content:'';position:absolute;bottom:-60px;right:10%;width:240px;height:240px;background:rgba(255,255,255,.04);border-radius:50%}
 .wicon{font-size:42px;background:rgba(255,255,255,.18);width:76px;height:76px;display:flex;align-items:center;justify-content:center;border-radius:18px;flex-shrink:0;border:2px solid rgba(255,255,255,.2);z-index:1}
@@ -55,8 +53,7 @@ main{max-width:1180px;margin:0 auto;padding:28px 5%;display:grid;grid-template-c
 .welcome h2{font-size:1.3rem;font-weight:800;margin-bottom:6px}
 .welcome p{opacity:.9;font-size:.92rem;line-height:1.65}
 
-.card{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s}
-.card:hover{box-shadow:var(--sh2)}
+.card{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);overflow:hidden}
 .ch{padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef3f8;background:#fafcfe}
 .ct{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:800;color:var(--p)}
 .ci{width:36px;height:36px;border-radius:var(--rad-s);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
@@ -68,8 +65,9 @@ main{max-width:1180px;margin:0 auto;padding:28px 5%;display:grid;grid-template-c
 .ntab:hover{border-color:var(--s);color:var(--s)}
 .ntab.active{background:var(--p);color:#fff;border-color:var(--p)}
 
-.ni{border-radius:13px;padding:16px 18px;border-right:4px solid transparent;margin-bottom:12px;animation:fi .3s ease;transition:transform .15s,box-shadow .15s}
-.ni:hover{transform:translateX(-2px);box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.notices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.ni{border-radius:13px;padding:16px 18px;border-right:4px solid transparent;animation:fi .3s ease;transition:transform .15s,box-shadow .15s}
+.ni:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
 .ni.homework{background:#f4f9fd;border-color:var(--s)}
 .ni.activity{background:#edfaf3;border-color:var(--g2)}
 .ni.alert{background:#fffbf0;border-color:var(--a2)}
@@ -78,60 +76,54 @@ main{max-width:1180px;margin:0 auto;padding:28px 5%;display:grid;grid-template-c
 .ctag{font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:7px;background:var(--p);color:#fff}
 .ttag{font-size:.68rem;padding:3px 9px;border-radius:7px;background:rgba(0,0,0,.06);font-weight:700;color:#444}
 .ndate{font-size:.72rem;color:var(--mu);font-weight:600;white-space:nowrap}
-.ni strong{color:#12141a;font-size:1.08rem;display:block;margin-bottom:6px;font-weight:800;line-height:1.45}
+.ni strong{color:#12141a;font-size:1.05rem;display:block;margin-bottom:6px;font-weight:800;line-height:1.45}
 .n-det{font-size:.97rem;color:#2c3e50;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;font-weight:500}
-.notice-img{width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s}
+.notice-img{width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-top:12px;border:1px solid rgba(0,0,0,.07);cursor:zoom-in;transition:opacity .2s}
 .notice-img:hover{opacity:.9}
 
-.fg{margin-bottom:11px;position:relative}
-.fg label{display:block;font-weight:700;font-size:.8rem;margin-bottom:5px;color:rgba(255,255,255,.88)}
-.req{color:var(--a2);margin-right:2px}
-.fc{width:100%;padding:10px 13px;border:2px solid rgba(255,255,255,.15);border-radius:var(--rad-s);font-family:inherit;font-size:16px;color:var(--text);resize:vertical;background:rgba(255,255,255,.95);transition:.2s}
-.fc:focus{outline:none;border-color:var(--a2);box-shadow:0 0 0 3px rgba(243,156,18,.25)}
-
-
-.info-row{display:flex;gap:13px;align-items:center;padding:13px 14px;border-radius:12px;margin-bottom:10px;border:1px solid rgba(0,0,0,.04);transition:filter .15s}
-.info-row:hover{filter:brightness(.97)}
-.info-icon{font-size:26px;flex-shrink:0}
-.info-text strong{display:block;font-size:.9rem;margin-bottom:2px}
-.info-text a{font-size:.83rem;color:var(--s);text-decoration:none;font-weight:700}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.info-row{display:flex;gap:13px;align-items:center;padding:16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s}
+.info-row:hover{box-shadow:var(--sh)}
+.info-icon{font-size:28px;flex-shrink:0}
+.info-text strong{display:block;font-size:.92rem;margin-bottom:3px;color:var(--text)}
+.info-text a{font-size:.85rem;color:var(--s);text-decoration:none;font-weight:700}
 .info-text a:hover{text-decoration:underline}
-.info-text span{font-size:.83rem;color:var(--mu);font-weight:600}
+.info-text span{font-size:.85rem;color:var(--mu);font-weight:600}
 
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
 .lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:90vh;border-radius:12px;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:12px;object-fit:contain}
 
-.empty{text-align:center;padding:35px 20px;color:var(--mu)}
-.eicon{font-size:44px;margin-bottom:10px;opacity:.4}
-.empty p{font-size:.9rem;font-weight:600}
-.loading{text-align:center;padding:35px;color:var(--mu);font-weight:600;font-size:.9rem;display:flex;flex-direction:column;align-items:center;gap:12px}
-.spinner{width:36px;height:36px;border:3px solid #d0e8f5;border-top-color:var(--s);border-radius:50%;animation:spin .8s linear infinite}
+.empty{text-align:center;padding:40px 20px;color:var(--mu)}
+.eicon{font-size:48px;margin-bottom:12px;opacity:.35;display:block}
+.empty p{font-size:.92rem;font-weight:600}
+.loading{text-align:center;padding:40px;color:var(--mu);font-weight:700;font-size:.95rem;display:flex;flex-direction:column;align-items:center;gap:14px}
+.spinner{width:38px;height:38px;border:3px solid #d0e8f5;border-top-color:var(--s);border-radius:50%;animation:spin .8s linear infinite}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#1c2833;color:#fff;padding:12px 26px;border-radius:30px;font-weight:700;font-size:.9rem;box-shadow:0 8px 28px rgba(0,0,0,.22);transition:transform .4s cubic-bezier(.175,.885,.32,1.275);z-index:400;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:50px;padding:28px 5% 22px;text-align:center}
-.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap}
-.footer-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:700;transition:.2s}
+footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-top:40px;padding:26px 5% 20px;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:14px;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:700}
 .footer-links a:hover{color:#fff;text-decoration:underline}
-.footer-copy{font-size:.78rem;opacity:.65;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.footer-copy{font-size:.78rem;opacity:.65;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
 
-@keyframes fi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media(max-width:960px){main{grid-template-columns:1fr}}
 @media(max-width:620px){
   .ht{flex-direction:column;text-align:center}
   .hright{justify-content:center;width:100%}
-  .welcome{flex-direction:column;text-align:center;padding:22px 18px}
+  .welcome{flex-direction:column;text-align:center;padding:20px}
   .wicon{width:64px;height:64px;font-size:32px}
   main{padding:16px 4%}
-  .welcome h2{font-size:1.15rem}
+  .notices-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+
 <header>
   <div class="ht">
     <div class="brand">
@@ -159,31 +151,29 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
     <div class="wicon">👋</div>
     <div>
       <h2>أهلاً وسهلاً بأولياء الأمور الكرام</h2>
-      <p>يمكنكم الاطلاع على الواجبات والأنشطة والتنبيهات الخاصة بشعبة ابنكم أو ابنتكم، للتواصل مع الأستاذ خليل يرجى التواصل عبر القنوات الرسمية.</p>
+      <p>يمكنكم الاطلاع على الواجبات والأنشطة والتنبيهات الخاصة بشعبة ابنكم أو ابنتكم.</p>
     </div>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:22px">
-    <div class="card">
-      <div class="ch">
-        <div class="ct"><div class="ci" style="background:#deeefb">📋</div>الملاحظات والتنبيهات</div>
+  <div class="card">
+    <div class="ch">
+      <div class="ct"><div class="ci" style="background:#deeefb">📋</div>الملاحظات والتنبيهات</div>
+    </div>
+    <div class="cb">
+      <div class="ntabs">
+        <button class="ntab active" onclick="flt('all',this)">الكل</button>
+        <button class="ntab" onclick="flt('homework',this)">📝 واجبات</button>
+        <button class="ntab" onclick="flt('activity',this)">🎯 أنشطة</button>
+        <button class="ntab" onclick="flt('alert',this)">🔔 تنبيهات</button>
       </div>
-      <div class="cb">
-        <div class="ntabs">
-          <button class="ntab active" onclick="flt('all',this)">الكل</button>
-          <button class="ntab" onclick="flt('homework',this)">📝 واجبات</button>
-          <button class="ntab" onclick="flt('activity',this)">🎯 أنشطة</button>
-          <button class="ntab" onclick="flt('alert',this)">🔔 تنبيهات</button>
-        </div>
-        <div id="nList"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
-      </div>
+      <div id="nList"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
     </div>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:22px">
-    <div class="card">
-      <div class="ch"><div class="ct"><div class="ci" style="background:#daf4e8">ℹ️</div>معلومات التواصل</div></div>
-      <div class="cb">
+  <div class="card">
+    <div class="ch"><div class="ct"><div class="ci" style="background:#daf4e8">ℹ️</div>معلومات التواصل</div></div>
+    <div class="cb">
+      <div class="info-cards">
         <div class="info-row" style="background:#f4f9fd">
           <span class="info-icon">📅</span>
           <div class="info-text"><strong>أوقات الرد</strong><span>الأحد — الخميس · ٨ص — ٢م</span></div>
@@ -210,103 +200,127 @@ footer{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-to
 </footer>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lbImg" src="" alt="صورة مكبّرة">
+  <img id="lbImg" src="" alt="">
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
-const STORAGE_KEY='school_data_v2';
-const CN={all:'جميع الشعب','5A':'الخامس 1','5B':'الخامس 2','5C':'الخامس 3'};
-const TN={homework:'واجب 📝',activity:'نشاط 🎯',alert:'تنبيه 🔔'};
-let curClass='all',nFlt='all',cachedData=null;
+const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+const STORAGE_KEY = 'school_data_v2';
+const CN = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3' };
+const TN = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔' };
+let curClass = 'all', nFlt = 'all', cachedData = null;
 
-function linkify(t){
-  if(!t)return'';
-  return String(t).replace(/(https?:\/\/[^\s<]+)|(www\.[^\s<]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi,u=>{
-    let h=u.startsWith('www')?'http://'+u:u;
-    if(u.includes('@')&&!u.startsWith('http'))h='mailto:'+u;
-    return`<a href="${h}" target="_blank" rel="noopener" style="color:var(--s);font-weight:700;text-decoration:underline">${u}</a>`;
+// ── روابط قابلة للنقر ──
+function linkify(t) {
+  if (!t) return '';
+  return String(t).replace(/(https?:\/\/[^\s<]+)|(www\.[^\s<]+)|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi, u => {
+    let h = u.startsWith('www') ? 'http://' + u : u;
+    if (u.includes('@') && !u.startsWith('http')) h = 'mailto:' + u;
+    return `<a href="${h}" target="_blank" rel="noopener" style="color:var(--s);font-weight:700;text-decoration:underline">${u}</a>`;
   });
 }
 
-function upDate(){
-  const d=new Date();
-  document.getElementById('hdate').innerHTML=d.toLocaleDateString('ar-OM',{weekday:'long',month:'short',day:'numeric'})+'<br><small>'+d.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})+'</small>';
+// ── التاريخ ──
+function upDate() {
+  const d = new Date();
+  document.getElementById('hdate').innerHTML =
+    d.toLocaleDateString('ar-OM', { weekday:'long', month:'short', day:'numeric' }) +
+    '<br><small>' + d.toLocaleTimeString('ar-OM', { hour:'2-digit', minute:'2-digit' }) + '</small>';
 }
-upDate();setInterval(upDate,60000);
+upDate();
+setInterval(upDate, 60000);
 
-async function loadData(){
-  try{
-    const res=await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
-    const r=await res.json();
-    if(r.status==='success'){localStorage.setItem(STORAGE_KEY,JSON.stringify(r.data));return r.data;}
-  }catch(e){}
-  return JSON.parse(localStorage.getItem(STORAGE_KEY))||{notices:[],queries:[],qId:100};
+// ── جلب البيانات ──
+async function loadData() {
+  try {
+    const res = await fetch(API_URL + '?action=loadData&t=' + Date.now());
+    const r = await res.json();
+    if (r.status === 'success') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(r.data));
+      return r.data;
+    }
+  } catch(e) {}
+  // الرجوع إلى النسخة المحفوظة محلياً
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved ? JSON.parse(saved) : { notices: [], queries: [] };
 }
 
-
-function setClass(c){
-  curClass=c;
-  document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i]));
-  renderUI();
+// ── التبويبات ──
+function setClass(c) {
+  curClass = c;
+  document.querySelectorAll('.ctab').forEach((b, i) =>
+    b.classList.toggle('active', [c==='all', c==='5A', c==='5B', c==='5C'][i])
+  );
+  renderN();
 }
-function flt(f,btn){
-  nFlt=f;
-  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+
+function flt(f, btn) {
+  nFlt = f;
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderN();
 }
 
-async function renderUI(){
-  if(!cachedData)cachedData=await loadData();
-  renderN();updBadges();
-}
-async function fetchAndRender(){cachedData=await loadData();renderUI();}
-
-function renderN(){
-  const d=cachedData,el=document.getElementById('nList');
-  if(!d||!d.notices||!d.notices.length)return el.innerHTML='<div class="empty"><div class="eicon">📋</div><p>لا توجد ملاحظات حالياً</p></div>';
-  const f=d.notices.filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));
-  if(!f.length)return el.innerHTML='<div class="empty"><div class="eicon">🔍</div><p>لا توجد ملاحظات لهذا التصنيف</p></div>';
-  el.innerHTML=f.map(n=>`<div class="ni ${n.type}">
-    <div class="nm"><div class="nm-tags"><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div><span class="ndate">🕐 ${n.date}</span></div>
-    <strong>${n.title}</strong>
-    ${n.det?`<div class="n-det">${linkify(n.det)}</div>`:''}
-    ${n.img?`<img src="${n.img}" class="notice-img" alt="صورة مرفقة" onclick="openLB(this.src)">`:''}
-  </div>`).join('');
-}
-
-  card.style.display='block';
-  el.innerHTML=myQ.map(q=>`<div class="my-msg">
-    <div class="msg-top">
-      <span class="msg-student">👤 ${q.student} — ${CN[q.cls]}</span>
-      <span class="sbdg ${q.status==='replied'?'srep':q.status==='new'?'snew':'sread'}">${q.status==='replied'?'✅ تم الرد':q.status==='new'?'⏳ في الانتظار':'مقروء'}</span>
-    </div>
-    <div class="msg-txt">${linkify(q.msg)}</div>
-    <div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">🕐 ${q.date}</div>
-    ${q.reply?`<div class="rep-box"><strong>رد الأستاذ خليل:</strong><br>${linkify(q.reply)}</div>`:''}
-  </div>`).join('');
+// ── عرض الملاحظات ──
+function renderN() {
+  const d = cachedData;
+  const el = document.getElementById('nList');
+  if (!d || !d.notices || !d.notices.length) {
+    el.innerHTML = '<div class="empty"><span class="eicon">📋</span><p>لا توجد ملاحظات حالياً</p></div>';
+    return;
+  }
+  const f = d.notices.filter(n =>
+    (curClass === 'all' || n.cls === 'all' || n.cls === curClass) &&
+    (nFlt === 'all' || n.type === nFlt)
+  );
+  if (!f.length) {
+    el.innerHTML = '<div class="empty"><span class="eicon">🔍</span><p>لا توجد ملاحظات لهذا التصنيف</p></div>';
+    return;
+  }
+  el.innerHTML = '<div class="notices-grid">' + f.map(n => `
+    <div class="ni ${n.type}">
+      <div class="nm">
+        <div class="nm-tags"><span class="ctag">${CN[n.cls]}</span><span class="ttag">${TN[n.type]}</span></div>
+        <span class="ndate">🕐 ${n.date}</span>
+      </div>
+      <strong>${n.title}</strong>
+      ${n.det ? `<div class="n-det">${linkify(n.det)}</div>` : ''}
+      ${n.img ? `<img src="${n.img}" class="notice-img" alt="صورة" onclick="openLB(this.src)">` : ''}
+    </div>`).join('') + '</div>';
 }
 
-function updBadges(){
-  if(!cachedData||!cachedData.notices)return;
-  ['5A','5B','5C'].forEach(c=>document.getElementById('b'+c).textContent=cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length);
+// ── الشارات ──
+function updBadges() {
+  if (!cachedData || !cachedData.notices) return;
+  ['5A','5B','5C'].forEach(c =>
+    document.getElementById('b' + c).textContent =
+      cachedData.notices.filter(n => n.cls === c || n.cls === 'all').length
+  );
 }
 
-
-
-function openLB(src){document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
-
-function toast(msg,bg='#1e8449'){
-  const t=document.getElementById('toast');t.style.background=bg;t.innerHTML=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3200);
+// ── التحميل والتحديث ──
+async function fetchAndRender() {
+  cachedData = await loadData();
+  renderN();
+  updBadges();
 }
 
+// ── Lightbox ──
+function openLB(src) { document.getElementById('lbImg').src = src; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+// ── Toast ──
+function toast(msg, bg = '#1e8449') {
+  const t = document.getElementById('toast');
+  t.style.background = bg; t.innerHTML = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── تشغيل ──
 fetchAndRender();
-setInterval(fetchAndRender,30000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchAndRender();});
+setInterval(fetchAndRender, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) fetchAndRender(); });
 </script>
 </body>
 </html>
