@@ -29,22 +29,15 @@ body {
   background: var(--bg); 
   color: var(--text); 
   min-height: 100vh; 
-  line-height: 1.5; /* مسافة افتراضية مريحة بين الأسطر */
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* تحسين الروابط */
-.clickable-link { 
-  color: var(--s); 
-  text-decoration: underline; 
-  font-weight: bold; 
-  word-break: break-all; 
-}
+.clickable-link { color: var(--s); text-decoration: underline; font-weight: bold; word-break: break-all; }
 
-/* تنسيق الملاحظات والمسافات */
 .n-det {
   font-size: 1.1rem;
-  line-height: 1.7; /* مسافة أسطر مريحة جداً لقراءة الواجبات */
+  line-height: 1.7;
   color: #2c3e50;
   margin-top: 10px;
   white-space: pre-wrap;
@@ -59,7 +52,6 @@ body {
   color: #000;
 }
 
-/* نافذة تكبير الصور */
 .image-modal { 
   display: none; 
   position: fixed; 
@@ -88,7 +80,6 @@ body {
   border: 1px solid rgba(0,0,0,0.08); 
 }
 
-/* باقي التصاميم (Header, Tabs, Cards) */
 header { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; box-shadow: 0 4px 20px rgba(26,82,118,0.15); position: sticky; top: 0; z-index: 100; }
 .ht { display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 15px; }
 .brand { display: flex; align-items: center; gap: 12px; }
@@ -114,7 +105,7 @@ main { max-width: 1150px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
 .ni.alert { background: #fffaf0; border-color: var(--a); }
 
 .pf { background: linear-gradient(135deg, #2c3e50, var(--p)); border-radius: 20px; padding: 20px; box-shadow: var(--sh); color: #fff; }
-.fc { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 12px; font-family: inherit; font-size: 1rem; }
+.fc { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 12px; font-family: inherit; font-size: 1rem; color: #333; }
 .psbtn { width: 100%; padding: 14px; background: var(--a); color: #fff; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 1rem; }
 
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #333; color: #fff; padding: 12px 24px; border-radius: 30px; transition: 0.4s; z-index: 10000; font-weight: 600; }
@@ -157,7 +148,7 @@ main { max-width: 1150px; margin: 0 auto; padding: 30px 5%; display: grid; grid-
       <div class="cb" id="nList"><div style="text-align:center; padding:20px; color:var(--mu)">⏳ جاري تحميل البيانات...</div></div>
     </div>
     <div class="card" id="myCard" style="display:none">
-      <div class="ch">📨 رسائلي المستلمة</div>
+      <div class="ch">💬 استفسارات مجاب عليها</div>
       <div class="cb" id="myList"></div>
     </div>
   </div>
@@ -193,12 +184,6 @@ const CN = {all:'عام', '5A':'خامس 1', '5B':'خامس 2', '5C':'خامس 3
 const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
 let curClass = 'all', cachedData = null;
 
-// PWA تسجيل
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
-}
-
-// معالجة الروابط
 function makeLinksClickable(text) {
   if (!text) return '';
   const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
@@ -208,7 +193,6 @@ function makeLinksClickable(text) {
   });
 }
 
-// تكبير الصور
 document.addEventListener('click', e => {
   if (e.target.classList.contains('notice-img')) {
     const m = document.getElementById('imageModal');
@@ -225,7 +209,7 @@ async function loadData() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
       return result.data;
     }
-  } catch(e) {}
+  } catch(e) { console.error("Error loading data:", e); }
   return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices:[], queries:[], qId:100 };
 }
 
@@ -257,7 +241,8 @@ async function renderUI() {
   
   ['5A','5B','5C'].forEach(c => {
     const count = cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length;
-    document.getElementById('b'+c).textContent = count;
+    const badge = document.getElementById('b'+c);
+    if(badge) badge.textContent = count;
   });
   renderMyMsg();
 }
@@ -266,30 +251,24 @@ function renderMyMsg() {
   const d = cachedData; 
   if(!d || !d.queries) return;
 
-  // جلب جميع الرسائل التي قام المعلم بالرد عليها فقط (ليراها الجميع)
   const answeredQ = d.queries.filter(q => q.status === 'replied');
-  
   const card = document.getElementById('myCard'); 
   const el = document.getElementById('myList');
   
-  // إذا لم تكن هناك ردود بعد، أخفِ القسم
   if(!answeredQ.length) {
       card.style.display = 'none';
       return;
   }
 
   card.style.display = 'block';
-  // تغيير العنوان ليكون عاماً
-  document.querySelector('#myCard .ch').innerHTML = '<div class="ct"><div class="ci" style="background:#fef5e6">💬</div> استفسارات مجاب عليها</div>';
-
   el.innerHTML = answeredQ.map(q => `
-    <div class="my-msg" style="border-right: 4px solid var(--g); background: #fff; margin-bottom:15px; border: 1px solid #eee; border-right-width:4px; padding:15px; border-radius:12px;">
-      <div class="msg-top" style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span class="msg-student" style="font-weight:bold; color:var(--p);">❓ استفسار من ولي أمر (${CN[q.cls]})</span>
-        <span class="ndate" style="font-size:0.8rem; color:var(--mu);">${q.date}</span>
+    <div style="border-right: 4px solid var(--g); background: #fff; margin-bottom:15px; border: 1px solid #eee; border-right-width:4px; padding:15px; border-radius:12px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-weight:bold; color:var(--p);">❓ استفسار من ولي أمر (${CN[q.cls] || q.cls})</span>
+        <span style="font-size:0.8rem; color:var(--mu);">${q.date}</span>
       </div>
-      <div class="msg-txt" style="font-size:0.95rem; margin-bottom:10px; color:#555;">${makeLinksClickable(q.msg)}</div>
-      <div class="rep-box" style="background:#e8f8f0; border:1px solid #bce8d1; padding:12px; border-radius:8px; color:#1e8449;">
+      <div style="font-size:0.95rem; margin-bottom:10px; color:#555;">${makeLinksClickable(q.msg)}</div>
+      <div style="background:#e8f8f0; border:1px solid #bce8d1; padding:12px; border-radius:8px; color:#1e8449;">
         <strong style="display:block; margin-bottom:5px;">✅ رد الأستاذ خليل:</strong>
         <div style="line-height:1.6;">${makeLinksClickable(q.reply)}</div>
       </div>
@@ -316,9 +295,6 @@ async function submitQ() {
   cachedData.queries.unshift(newQ); cachedData.qId = newId;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedData));
   
-  let myIds = JSON.parse(localStorage.getItem(MY_KEY)) || [];
-  myIds.push(newId); localStorage.setItem(MY_KEY, JSON.stringify(myIds));
-  
   toast('✅ تم إرسال رسالتك بنجاح');
   ['pN','pS','pM'].forEach(i => document.getElementById(i).value='');
   renderUI();
@@ -335,7 +311,8 @@ function toast(msg, bg='#27ae60') {
 
 function upDate() {
   const now = new Date();
-  document.getElementById('hdate').innerHTML = now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '<br>' + now.toLocaleDateString('ar-OM',{month:'short', day:'numeric'});
+  const el = document.getElementById('hdate');
+  if(el) el.innerHTML = now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '<br>' + now.toLocaleDateString('ar-OM',{month:'short', day:'numeric'});
 }
 setInterval(upDate, 30000); upDate();
 renderUI();
