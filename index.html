@@ -1,321 +1,827 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المحبرة</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحبرة | الأستاذ خليل</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --p: #1a5276; --s: #2e86c1; --a: #f39c12; --g: #27ae60; --r: #e74c3c;
-  --bd: #d5e8f5; --bg: #f4f9fd; --mu: #7f8c8d; --text: #1c2833;
-  --sh: 0 10px 30px rgba(26,82,118,0.06);
-}
+    <style>
+        /* المتغيرات الأساسية للألوان والتنسيقات */
+        :root {
+            --primary: #1a5276;
+            --secondary: #2e86c1;
+            --accent: #f39c12;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --border-light: #e1eef7;
+            --bg-body: #f4f9fd;
+            --text-muted: #7f8c8d;
+            --text-main: #2c3e50;
+            --shadow-sm: 0 4px 15px rgba(26, 82, 118, 0.05);
+            --shadow-md: 0 10px 30px rgba(26, 82, 118, 0.08);
+            --transition: all 0.3s ease;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body { 
-  font-family: 'Tajawal', sans-serif; 
-  background: var(--bg); 
-  color: var(--text); 
-  min-height: 100vh; 
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-.clickable-link { color: var(--s); text-decoration: underline; font-weight: bold; word-break: break-all; }
+        /* تنسيق الروابط */
+        .clickable-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 700;
+            word-break: break-all;
+            border-bottom: 1px dashed var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .clickable-link:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
 
-.n-det {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #2c3e50;
-  margin-top: 10px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
+        /* ترويسة الموقع */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(26, 82, 118, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.ni strong {
-  display: block;
-  font-size: 1.3rem;
-  line-height: 1.4;
-  margin-bottom: 5px;
-  color: #000;
-}
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-.image-modal { 
-  display: none; 
-  position: fixed; 
-  z-index: 10000; 
-  left: 0; top: 0; 
-  width: 100%; height: 100%; 
-  background: rgba(0,0,0,0.9); 
-  align-items: center; justify-content: center; 
-  cursor: pointer; 
-}
-.modal-content { 
-  max-width: 90%; max-height: 80%; 
-  border-radius: 10px; 
-  animation: zoom 0.3s ease; 
-}
-@keyframes zoom { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.notice-img { 
-  cursor: pointer; 
-  transition: 0.3s; 
-  width: 100%; 
-  max-height: 350px; 
-  object-fit: cover; 
-  border-radius: 12px; 
-  margin-top: 15px; 
-  border: 1px solid rgba(0,0,0,0.08); 
-}
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-header { background: linear-gradient(135deg, var(--p), var(--s)); color: #fff; box-shadow: 0 4px 20px rgba(26,82,118,0.15); position: sticky; top: 0; z-index: 100; }
-.ht { display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 15px; }
-.brand { display: flex; align-items: center; gap: 12px; }
-.logo { width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-.brand h1 { font-size: 1.25rem; font-weight: 800; }
+        .brand h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        
+        .brand p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
 
-.ctabs { display: flex; padding: 0 5%; background: rgba(0,0,0,0.1); overflow-x: auto; scrollbar-width: none; }
-.ctab { padding: 12px 20px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 700; border-bottom: 3px solid transparent; white-space: nowrap; }
-.ctab.active { color: #fff; border-bottom-color: var(--a); background: rgba(255,255,255,0.1); }
-.cbdg { display: inline-flex; align-items: center; justify-content: center; background: var(--a); color: #fff; border-radius: 50px; padding: 0 6px; height: 20px; font-size: 0.7rem; margin-right: 6px; }
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
 
-main { max-width: 1150px; margin: 0 auto; padding: 30px 5%; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-.welcome { background: linear-gradient(135deg, var(--s), var(--p)); border-radius: 20px; padding: 24px; color: #fff; box-shadow: var(--sh); grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; }
-.wicon { font-size: 40px; background: rgba(255,255,255,0.2); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 18px; }
+        #hdate {
+            font-size: 0.85rem;
+            text-align: right;
+            opacity: 0.9;
+            font-weight: 500;
+        }
 
-.card { background: #fff; border-radius: 20px; box-shadow: var(--sh); overflow: hidden; margin-bottom: 24px; }
-.ch { padding: 16px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--bd); background: #fafbfc; color: var(--p); font-weight: 700; }
-.cb { padding: 20px; }
+        .btn-login {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-.ni { border-radius: 12px; padding: 16px; border-right: 4px solid transparent; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-.ni.homework { background: #f4f9fd; border-color: var(--s); }
-.ni.activity { background: #eefaf3; border-color: var(--g); }
-.ni.alert { background: #fffaf0; border-color: var(--a); }
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
 
-.pf { background: linear-gradient(135deg, #2c3e50, var(--p)); border-radius: 20px; padding: 20px; box-shadow: var(--sh); color: #fff; }
-.fc { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 12px; font-family: inherit; font-size: 1rem; color: #333; }
-.psbtn { width: 100%; padding: 14px; background: var(--a); color: #fff; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 1rem; }
+        /* شريط التبويبات (الأقسام) */
+        .tabs-container {
+            display: flex;
+            padding: 0 5%;
+            background: rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
 
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #333; color: #fff; padding: 12px 24px; border-radius: 30px; transition: 0.4s; z-index: 10000; font-weight: 600; }
-.toast.show { transform: translateX(-50%) translateY(0); }
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
 
-@media (max-width: 900px) { main { grid-template-columns: 1fr; } }
-@media (max-width: 600px) { .welcome { flex-direction: column; text-align: center; } }
-</style>
+        .ctab {
+            padding: 16px 20px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .ctab:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .ctab.active {
+            color: #fff;
+            border-bottom-color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cbdg {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50px;
+            padding: 0 8px;
+            height: 22px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            font-weight: 800;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* الهيكل الرئيسي */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 5%;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+        }
+
+        /* بطاقة الترحيب */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 20px;
+            padding: 24px 30px;
+            color: #fff;
+            box-shadow: var(--shadow-md);
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="2" fill="none"/></svg>') repeat;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .welcome-icon {
+            font-size: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .welcome-text { z-index: 1; }
+        .welcome-text h2 { font-size: 1.5rem; margin-bottom: 5px; }
+        .welcome-text p { font-size: 1rem; opacity: 0.9; }
+
+        /* البطاقات العامة */
+        .content-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-light);
+        }
+
+        .card-header {
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-light);
+            background: #fcfcfc;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* الملاحظات */
+        .notice-item {
+            border-radius: 14px;
+            padding: 20px;
+            border-right: 5px solid transparent;
+            margin-bottom: 18px;
+            transition: var(--transition);
+        }
+
+        .notice-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .notice-item.homework { background: #f4f9fd; border-color: var(--secondary); }
+        .notice-item.activity { background: #eefaf3; border-color: var(--success); }
+        .notice-item.alert { background: #fffaf0; border-color: var(--accent); }
+
+        .notice-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .notice-meta b { color: var(--text-main); }
+
+        .notice-item strong {
+            display: block;
+            font-size: 1.25rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .notice-details {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #34495e;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .notice-img {
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .notice-img:hover {
+            opacity: 0.9;
+        }
+
+        /* قسم الاستفسارات (النموذج) */
+        .form-container {
+            background: linear-gradient(135deg, #2c3e50, var(--primary));
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            color: #fff;
+            position: sticky;
+            top: 100px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.95);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #333;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            margin-top: 5px;
+        }
+
+        .btn-submit:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        }
+        
+        .btn-submit:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* الاستفسارات المجاب عليها */
+        .answered-query {
+            border-right: 4px solid var(--success);
+            background: #fff;
+            margin-bottom: 18px;
+            border: 1px solid var(--border-light);
+            border-right-width: 4px;
+            padding: 20px;
+            border-radius: 14px;
+            transition: var(--transition);
+        }
+        
+        .answered-query:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .aq-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .aq-title {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+
+        .aq-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .aq-question {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .aq-answer {
+            background: #f0fdf4;
+            border: 1px solid #bce8d1;
+            padding: 16px;
+            border-radius: 12px;
+            color: #166534;
+        }
+
+        .aq-answer strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #14532d;
+            font-size: 1.05rem;
+        }
+
+        /* عارض الصور (Modal) */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 16px;
+            animation: zoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        @keyframes zoom {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* الإشعارات (Toast) */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10000;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 992px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .welcome-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .brand h1 {
+                font-size: 1.2rem;
+            }
+            .ctab {
+                padding: 14px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <header>
-  <div class="ht">
-    <div class="brand">
-      <div class="logo">📚</div>
-      <div><h1>المحبرة </h1><p>اللغة العربية · الصف الخامس</p></div>
+    <div class="header-top">
+        <div class="brand">
+            <div class="logo">📚</div>
+            <div>
+                <h1>المحبرة</h1>
+                <p>اللغة العربية · الصف الخامس</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div id="hdate"></div>
+            <a href="teacher.html" class="btn-login">دخول المعلم</a>
+        </div>
     </div>
-    <div class="hright">
-      <div id="hdate" style="font-size: 0.8rem; text-align: left;"></div>
-      <a href="teacher.html" style="color:white; text-decoration:none; background:rgba(255,255,255,0.2); padding:5px 12px; border-radius:8px; font-size:0.8rem;">دخول المعلم</a>
+    
+    <div class="tabs-container">
+        <button class="ctab active" onclick="setClass('all')">📋 جميع الملاحظات</button>
+        <button class="ctab" onclick="setClass('5A')">خامس 1 <span class="cbdg" id="b5A">0</span></button>
+        <button class="ctab" onclick="setClass('5B')">خامس 2 <span class="cbdg" id="b5B">0</span></button>
+        <button class="ctab" onclick="setClass('5C')">خامس 3 <span class="cbdg" id="b5C">0</span></button>
     </div>
-  </div>
-  <div class="ctabs">
-    <button class="ctab active" onclick="setClass('all')">📋 جميع الملاحظات</button>
-    <button class="ctab" onclick="setClass('5A')"><span class="cbdg" id="b5A">0</span>خامس 1</button>
-    <button class="ctab" onclick="setClass('5B')"><span class="cbdg" id="b5B">0</span>خامس 2</button>
-    <button class="ctab" onclick="setClass('5C')"><span class="cbdg" id="b5C">0</span>خامس 3</button>
-  </div>
 </header>
 
 <main>
-  <div class="welcome">
-    <div class="wicon">👋</div>
-    <div><h2>أهلاً بأولياء الأمور</h2><p>هذه المساحة مخصصة لمتابعة كل ما يخص المادة العلمية والواجبات اليومية.</p></div>
-  </div>
+    <div class="welcome-card">
+        <div class="welcome-icon">👋</div>
+        <div class="welcome-text">
+            <h2>أهلاً بأولياء الأمور</h2>
+            <p>هذه المساحة مخصصة لمتابعة كل ما يخص المادة العلمية والواجبات اليومية لأبنائكم.</p>
+        </div>
+    </div>
 
-  <div>
-    <div class="card">
-      <div class="ch">📌 الملاحظات والتنبيهات</div>
-      <div class="cb" id="nList"><div style="text-align:center; padding:20px; color:var(--mu)">⏳ جاري تحميل البيانات...</div></div>
-    </div>
-    <div class="card" id="myCard" style="display:none">
-      <div class="ch">💬 استفسارات مجاب عليها</div>
-      <div class="cb" id="myList"></div>
-    </div>
-  </div>
+    <div class="content-section">
+        <div class="content-card">
+            <div class="card-header">📌 الملاحظات والتنبيهات</div>
+            <div class="card-body" id="nList">
+                <div style="text-align:center; padding:30px; color:var(--text-muted); font-weight: 500;">
+                    ⏳ جاري تحميل البيانات...
+                </div>
+            </div>
+        </div>
 
-  <div>
-    <div class="pf">
-      <h2 style="margin-bottom:10px;">💌 إرسال استفسار</h2>
-      <input type="text" class="fc" id="pN" placeholder="اسم ولي الأمر">
-      <input type="text" class="fc" id="pS" placeholder="اسم الطالب">
-      <select class="fc" id="pC">
-        <option value="">— اختر الشعبة —</option>
-        <option value="5A">الخامس 1</option>
-        <option value="5B">الخامس 2</option>
-        <option value="5C">الخامس 3</option>
-      </select>
-      <textarea class="fc" id="pM" rows="4" placeholder="اكتب سؤالك هنا للأستاذ..."></textarea>
-      <button class="psbtn" id="sendBtn" onclick="submitQ()">📤 إرسال الآن</button>
+        <div class="content-card" id="myCard" style="display:none">
+            <div class="card-header">💬 استفسارات مجاب عليها</div>
+            <div class="card-body" id="myList"></div>
+        </div>
     </div>
-  </div>
+
+    <div class="sidebar-section">
+        <div class="form-container">
+            <h2>💌 إرسال استفسار للأستاذ</h2>
+            
+            <div class="form-group">
+                <input type="text" class="form-control" id="pN" placeholder="اسم ولي الأمر الكريم">
+            </div>
+            
+            <div class="form-group">
+                <input type="text" class="form-control" id="pS" placeholder="اسم الطالب الثلاثي">
+            </div>
+            
+            <div class="form-group">
+                <select class="form-control" id="pC">
+                    <option value="">— اختر الشعبة —</option>
+                    <option value="5A">الخامس 1</option>
+                    <option value="5B">الخامس 2</option>
+                    <option value="5C">الخامس 3</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <textarea class="form-control" id="pM" rows="4" placeholder="اكتب سؤالك أو استفسارك هنا..."></textarea>
+            </div>
+            
+            <button class="btn-submit" id="sendBtn" onclick="submitQ()">📤 إرسال الآن</button>
+        </div>
+    </div>
 </main>
 
 <div id="imageModal" class="image-modal" onclick="this.style.display='none'">
-  <img class="modal-content" id="fullImage">
+    <img class="modal-content" id="fullImage" alt="صورة مكبرة">
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
-const STORAGE_KEY = 'school_data_v2';
-const MY_KEY = 'my_query_ids';
-const CN = {all:'عام', '5A':'خامس 1', '5B':'خامس 2', '5C':'خامس 3'};
-const TN = {homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔'};
-let curClass = 'all', cachedData = null;
+    // الإعدادات الثابتة (لا تقم بتغييرها لضمان عمل الـ Backend)
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+    const STORAGE_KEY = 'school_data_v2';
+    const MY_KEY = 'my_query_ids';
+    const CN = { all: 'عام', '5A': 'خامس 1', '5B': 'خامس 2', '5C': 'خامس 3' };
+    const TN = { homework: 'واجب 📝', activity: 'نشاط 🎯', alert: 'تنبيه 🔔' };
+    
+    let curClass = 'all';
+    let cachedData = null;
 
-function makeLinksClickable(text) {
-  if (!text) return '';
-  const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
-  return text.toString().replace(urlPattern, function(url) {
-    let href = url.startsWith('http') ? url : 'http://' + url;
-    return `<a href="${href}" class="clickable-link" target="_blank">${url}</a>`;
-  });
-}
-
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('notice-img')) {
-    const m = document.getElementById('imageModal');
-    document.getElementById('fullImage').src = e.target.src;
-    m.style.display = 'flex';
-  }
-});
-
-async function loadData() {
-  try {
-    const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
-    const result = await res.json();
-    if(result.status === 'success') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
-      return result.data;
+    // دالة لتحويل الروابط النصية إلى روابط قابلة للنقر
+    function makeLinksClickable(text) {
+        if (!text) return '';
+        const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
+        return text.toString().replace(urlPattern, function(url) {
+            let href = url.startsWith('http') ? url : 'http://' + url;
+            return `<a href="${href}" class="clickable-link" target="_blank">${url}</a>`;
+        });
     }
-  } catch(e) { console.error("Error loading data:", e); }
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices:[], queries:[], qId:100 };
-}
 
-function setClass(c) { 
-  curClass = c; 
-  document.querySelectorAll('.ctab').forEach((b,i)=>b.classList.toggle('active',[c==='all',c==='5A',c==='5B',c==='5C'][i])); 
-  renderUI(); 
-}
+    // تفعيل نافذة عرض الصور عند النقر على أي صورة ملاحظة
+    document.addEventListener('click', e => {
+        if (e.target.classList.contains('notice-img')) {
+            const modal = document.getElementById('imageModal');
+            document.getElementById('fullImage').src = e.target.src;
+            modal.style.display = 'flex';
+        }
+    });
 
-async function renderUI() {
-  if(!cachedData) cachedData = await loadData();
-  const el = document.getElementById('nList');
-  let filtered = cachedData.notices.filter(n => curClass==='all' || n.cls==='all' || n.cls===curClass);
-  
-  if (!filtered.length) {
-    el.innerHTML = '<div style="text-align:center; padding:30px; opacity:0.5;">لا توجد تحديثات لهذه الشعبة حالياً</div>';
-  } else {
-    el.innerHTML = filtered.map(n => `
-      <div class="ni ${n.type}">
-        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:10px; opacity:0.7;">
-          <span><b>${CN[n.cls]}</b> | ${TN[n.type]}</span>
-          <span>${n.date}</span>
-        </div>
-        <strong>${n.title}</strong>
-        <div class="n-det">${makeLinksClickable(n.det)}</div>
-        ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق">` : ''}
-      </div>`).join('');
-  }
-  
-  ['5A','5B','5C'].forEach(c => {
-    const count = cachedData.notices.filter(n=>n.cls===c||n.cls==='all').length;
-    const badge = document.getElementById('b'+c);
-    if(badge) badge.textContent = count;
-  });
-  renderMyMsg();
-}
+    // جلب البيانات من Google Apps Script أو التخزين المحلي
+    async function loadData() {
+        try {
+            const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+            const result = await res.json();
+            if (result.status === 'success') {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+                return result.data;
+            }
+        } catch (e) {
+            console.error("Error loading data:", e);
+        }
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices: [], queries: [], qId: 100 };
+    }
 
-function renderMyMsg() {
-  const d = cachedData; 
-  if(!d || !d.queries) return;
+    // تغيير الشعبة وتحديث واجهة المستخدم
+    function setClass(c) {
+        curClass = c;
+        const tabs = document.querySelectorAll('.ctab');
+        const classIndexes = ['all', '5A', '5B', '5C'];
+        
+        tabs.forEach((tab, index) => {
+            tab.classList.toggle('active', c === classIndexes[index]);
+        });
+        
+        renderUI();
+    }
 
-  const answeredQ = d.queries.filter(q => q.status === 'replied');
-  const card = document.getElementById('myCard'); 
-  const el = document.getElementById('myList');
-  
-  if(!answeredQ.length) {
-      card.style.display = 'none';
-      return;
-  }
+    // رسم واجهة الملاحظات والبيانات
+    async function renderUI() {
+        if (!cachedData) cachedData = await loadData();
+        
+        const listElement = document.getElementById('nList');
+        let filteredNotices = cachedData.notices.filter(n => curClass === 'all' || n.cls === 'all' || n.cls === curClass);
+        
+        if (!filteredNotices.length) {
+            listElement.innerHTML = `
+                <div style="text-align:center; padding:40px 20px; opacity:0.6;">
+                    <div style="font-size:40px; margin-bottom:10px;">s📭</div>
+                    لا توجد تحديثات أو ملاحظات لهذه الشعبة حالياً
+                </div>`;
+        } else {
+            listElement.innerHTML = filteredNotices.map(n => `
+                <div class="notice-item ${n.type}">
+                    <div class="notice-meta">
+                        <span><b>${CN[n.cls]}</b> | ${TN[n.type]}</span>
+                        <span>${n.date}</span>
+                    </div>
+                    <strong>${n.title}</strong>
+                    <div class="notice-details">${makeLinksClickable(n.det)}</div>
+                    ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق توضيحي">` : ''}
+                </div>`).join('');
+        }
+        
+        // تحديث العدادات (Badges) في التبويبات
+        ['5A', '5B', '5C'].forEach(c => {
+            const count = cachedData.notices.filter(n => n.cls === c || n.cls === 'all').length;
+            const badge = document.getElementById('b' + c);
+            if (badge) badge.textContent = count;
+        });
+        
+        renderMyMsg();
+    }
 
-  card.style.display = 'block';
-  el.innerHTML = answeredQ.map(q => `
-    <div style="border-right: 4px solid var(--g); background: #fff; margin-bottom:15px; border: 1px solid #eee; border-right-width:4px; padding:15px; border-radius:12px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="font-weight:bold; color:var(--p);">❓ استفسار من ولي أمر (${CN[q.cls] || q.cls})</span>
-        <span style="font-size:0.8rem; color:var(--mu);">${q.date}</span>
-      </div>
-      <div style="font-size:0.95rem; margin-bottom:10px; color:#555;">${makeLinksClickable(q.msg)}</div>
-      <div style="background:#e8f8f0; border:1px solid #bce8d1; padding:12px; border-radius:8px; color:#1e8449;">
-        <strong style="display:block; margin-bottom:5px;">✅ رد الأستاذ خليل:</strong>
-        <div style="line-height:1.6;">${makeLinksClickable(q.reply)}</div>
-      </div>
-    </div>`).join('');
-}
+    // عرض الاستفسارات المجاب عليها
+    function renderMyMsg() {
+        const data = cachedData;
+        if (!data || !data.queries) return;
 
-async function submitQ() {
-  const n = document.getElementById('pN').value.trim();
-  const s = document.getElementById('pS').value.trim();
-  const c = document.getElementById('pC').value;
-  const m = document.getElementById('pM').value.trim();
-  if(!n || !s || !c || !m) return toast('يجب إكمال كافة الحقول', '#e74c3c');
+        const answeredQueries = data.queries.filter(q => q.status === 'replied');
+        const card = document.getElementById('myCard');
+        const listElement = document.getElementById('myList');
+        
+        if (!answeredQueries.length) {
+            card.style.display = 'none';
+            return;
+        }
 
-  const btn = document.getElementById('sendBtn');
-  btn.disabled = true; btn.innerHTML = '⏳ جاري الإرسال...';
-  
-  const newId = (cachedData.qId || 200) + 1;
-  const newQ = { 
-    id: newId, name: n, student: s, cls: c, msg: m, 
-    date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}), 
-    status: 'new', reply: '' 
-  };
-  
-  cachedData.queries.unshift(newQ); cachedData.qId = newId;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedData));
-  
-  toast('✅ تم إرسال رسالتك بنجاح');
-  ['pN','pS','pM'].forEach(i => document.getElementById(i).value='');
-  renderUI();
-  btn.disabled = false; btn.innerHTML = '📤 إرسال الآن';
-  
-  fetch(API_URL, {method:'POST', body: new URLSearchParams({action:'saveQueries', data:JSON.stringify(cachedData.queries)})});
-}
+        card.style.display = 'block';
+        listElement.innerHTML = answeredQueries.map(q => `
+            <div class="answered-query">
+                <div class="aq-header">
+                    <span class="aq-title">❓ استفسار من ولي أمر (${CN[q.cls] || q.cls})</span>
+                    <span class="aq-date">${q.date}</span>
+                </div>
+                <div class="aq-question">${makeLinksClickable(q.msg)}</div>
+                <div class="aq-answer">
+                    <strong>✅ رد الأستاذ خليل:</strong>
+                    <div style="line-height:1.6;">${makeLinksClickable(q.reply)}</div>
+                </div>
+            </div>`).join('');
+    }
 
-function toast(msg, bg='#27ae60') {
-  const t = document.getElementById('toast');
-  t.style.background = bg; t.innerHTML = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3000);
-}
+    // إرسال استفسار جديد
+    async function submitQ() {
+        const parentName = document.getElementById('pN').value.trim();
+        const studentName = document.getElementById('pS').value.trim();
+        const className = document.getElementById('pC').value;
+        const message = document.getElementById('pM').value.trim();
+        
+        if (!parentName || !studentName || !className || !message) {
+            return toast('⚠️ الرجاء إكمال كافة الحقول قبل الإرسال', 'var(--danger)');
+        }
 
-function upDate() {
-  const now = new Date();
-  const el = document.getElementById('hdate');
-  if(el) el.innerHTML = now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '<br>' + now.toLocaleDateString('ar-OM',{month:'short', day:'numeric'});
-}
-setInterval(upDate, 30000); upDate();
-renderUI();
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        btn.innerHTML = '⏳ جاري الإرسال...';
+        
+        const newId = (cachedData.qId || 200) + 1;
+        const newQuery = { 
+            id: newId, 
+            name: parentName, 
+            student: studentName, 
+            cls: className, 
+            msg: message, 
+            date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }), 
+            status: 'new', 
+            reply: '' 
+        };
+        
+        // تحديث البيانات محلياً لتظهر فوراً إن لزم الأمر
+        cachedData.queries.unshift(newQuery); 
+        cachedData.qId = newId;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedData));
+        
+        toast('✅ تم إرسال رسالتك للأستاذ بنجاح');
+        
+        // تفريغ الحقول بعد الإرسال
+        ['pN', 'pS', 'pM'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pC').value = '';
+        
+        renderUI();
+        
+        btn.disabled = false;
+        btn.innerHTML = '📤 إرسال الآن';
+        
+        // الإرسال الفعلي لقاعدة البيانات (Google Script)
+        fetch(API_URL, {
+            method: 'POST', 
+            body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(cachedData.queries) })
+        }).catch(err => console.error("Error saving query:", err));
+    }
+
+    // دالة إظهار الإشعارات العائمة
+    function toast(msg, bg = 'var(--success)') {
+        const toastEl = document.getElementById('toast');
+        toastEl.style.background = bg;
+        toastEl.innerHTML = msg;
+        toastEl.classList.add('show');
+        setTimeout(() => toastEl.classList.remove('show'), 3500);
+    }
+
+    // تحديث الساعة والتاريخ الحي في الترويسة
+    function upDate() {
+        const now = new Date();
+        const dateEl = document.getElementById('hdate');
+        if (dateEl) {
+            dateEl.innerHTML = now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + 
+                              '<br>' + 
+                              now.toLocaleDateString('ar-OM', { month: 'short', day: 'numeric' });
+        }
+    }
+    
+    // التهيئة الأولية
+    setInterval(upDate, 30000); 
+    upDate();
+    renderUI();
+
 </script>
 </body>
 </html>
