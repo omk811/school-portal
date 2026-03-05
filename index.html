@@ -3,825 +3,1057 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المحبرة | الأستاذ خليل</title>
+    <title>المحبرة | أ. خليل البلوشي</title>
 
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="الأستاذ خليل">
+    <meta name="apple-mobile-web-app-title" content="المحبرة">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* المتغيرات الأساسية للألوان والتنسيقات */
         :root {
-            --primary: #1a5276;
-            --secondary: #2e86c1;
-            --accent: #f39c12;
-            --success: #27ae60;
-            --danger: #e74c3c;
-            --border-light: #e1eef7;
-            --bg-body: #f4f9fd;
-            --text-muted: #7f8c8d;
-            --text-main: #2c3e50;
-            --shadow-sm: 0 4px 15px rgba(26, 82, 118, 0.05);
-            --shadow-md: 0 10px 30px rgba(26, 82, 118, 0.08);
-            --transition: all 0.3s ease;
+            --ink: #1a2744;
+            --ink-light: #2d3f6a;
+            --sky: #2a7dd4;
+            --sky-light: #4a9de8;
+            --gold: #d4922a;
+            --gold-light: #f0b84a;
+            --emerald: #1a8a60;
+            --emerald-light: #22b076;
+            --rose: #c0392b;
+            --rose-light: #e74c3c;
+            --sand: #fdf8f0;
+            --sand-mid: #f5ede0;
+            --white: #ffffff;
+            --border: #e8dece;
+            --muted: #8a9bbf;
+            --shadow-soft: 0 4px 24px rgba(26,39,68,0.07);
+            --shadow-med: 0 8px 40px rgba(26,39,68,0.12);
+            --shadow-strong: 0 16px 60px rgba(26,39,68,0.18);
+            --radius: 18px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background: var(--bg-body);
-            color: var(--text-main);
+            background: var(--sand);
+            color: var(--ink);
             min-height: 100vh;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
         }
 
-        /* تنسيق الروابط */
-        .clickable-link {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 700;
-            word-break: break-all;
-            border-bottom: 1px dashed var(--secondary);
-            transition: var(--transition);
-        }
-        
-        .clickable-link:hover {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        /* ترويسة الموقع */
+        /* ===== HEADER ===== */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(26, 82, 118, 0.15);
+            background: linear-gradient(145deg, var(--ink) 0%, var(--ink-light) 60%, #1e3a7a 100%);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 200;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
         .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 5%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            gap: 16px;
             flex-wrap: wrap;
-            gap: 15px;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
         }
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
+        .logo-wrap {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 26px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(212,146,42,0.4);
+            flex-shrink: 0;
         }
 
-        .brand h1 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-        
-        .brand p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .brand-text h1 {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
         }
 
-        .header-right {
+        .brand-text p {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 2px;
+        }
+
+        .header-actions {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
+            align-items: center;
+            gap: 12px;
         }
 
         #hdate {
-            font-size: 0.85rem;
-            text-align: right;
-            opacity: 0.9;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.7);
+            text-align: left;
             font-weight: 500;
+            line-height: 1.4;
         }
 
-        .btn-login {
-            color: white;
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 16px;
-            border-radius: 8px;
+        .btn-admin {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.9);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: inherit;
             font-size: 0.85rem;
             font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
             transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .btn-login:hover {
-            background: rgba(255, 255, 255, 0.25);
+        .btn-admin:hover {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
             transform: translateY(-1px);
         }
 
-        /* شريط التبويبات (الأقسام) */
-        .tabs-container {
+        /* ===== CLASS TABS ===== */
+        .tabs-bar {
             display: flex;
-            padding: 0 5%;
-            background: rgba(0, 0, 0, 0.1);
+            gap: 4px;
+            padding: 10px 0;
             overflow-x: auto;
             scrollbar-width: none;
         }
-
-        .tabs-container::-webkit-scrollbar {
-            display: none;
-        }
+        .tabs-bar::-webkit-scrollbar { display: none; }
 
         .ctab {
-            padding: 16px 20px;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-            transition: var(--transition);
             display: flex;
             align-items: center;
+            gap: 8px;
+            padding: 9px 20px;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.65);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
         }
 
         .ctab:hover {
+            background: rgba(255,255,255,0.13);
             color: #fff;
-            background: rgba(255, 255, 255, 0.05);
         }
 
         .ctab.active {
-            color: #fff;
-            border-bottom-color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+            box-shadow: 0 4px 16px rgba(212,146,42,0.4);
         }
 
         .cbdg {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent);
-            color: #fff;
+            background: var(--ink);
+            color: var(--gold-light);
             border-radius: 50px;
-            padding: 0 8px;
-            height: 22px;
-            font-size: 0.75rem;
-            margin-left: 8px;
-            font-weight: 800;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 1px 8px;
+            font-size: 0.78rem;
+            font-weight: 900;
         }
 
-        /* الهيكل الرئيسي */
-        main {
-            max-width: 1200px;
+        .ctab.active .cbdg {
+            background: rgba(26,39,68,0.2);
+            color: var(--ink);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .page-wrap {
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 30px 5%;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 24px;
+            padding: 28px 24px 60px;
         }
 
-        /* بطاقة الترحيب */
-        .welcome-card {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            border-radius: 20px;
-            padding: 24px 30px;
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--sky) 0%, var(--ink-light) 100%);
+            border-radius: var(--radius);
+            padding: 28px 32px;
             color: #fff;
-            box-shadow: var(--shadow-md);
-            grid-column: 1 / -1;
+            margin-bottom: 28px;
             display: flex;
             align-items: center;
             gap: 20px;
+            box-shadow: var(--shadow-med);
             position: relative;
             overflow: hidden;
         }
-        
-        .welcome-card::after {
-            content: '';
+
+        .hero::before {
+            content: 'المحبرة';
+            font-family: 'Amiri', serif;
+            font-size: 9rem;
+            color: rgba(255,255,255,0.04);
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="2" fill="none"/></svg>') repeat;
-            opacity: 0.5;
+            left: -10px;
+            bottom: -30px;
+            font-weight: 700;
             pointer-events: none;
+            line-height: 1;
         }
 
-        .welcome-icon {
-            font-size: 45px;
-            background: rgba(255, 255, 255, 0.15);
-            width: 80px;
-            height: 80px;
+        .hero-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            z-index: 1;
-        }
-        
-        .welcome-text { z-index: 1; }
-        .welcome-text h2 { font-size: 1.5rem; margin-bottom: 5px; }
-        .welcome-text p { font-size: 1rem; opacity: 0.9; }
-
-        /* البطاقات العامة */
-        .content-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            margin-bottom: 24px;
-            border: 1px solid var(--border-light);
+            font-size: 36px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .card-header {
-            padding: 18px 24px;
+        .hero-text h2 {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* ===== TWO COLUMN GRID ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-label {
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 1px solid var(--border-light);
-            background: #fcfcfc;
-            color: var(--primary);
-            font-weight: 800;
-            font-size: 1.1rem;
+            margin-bottom: 16px;
         }
 
-        .card-body {
-            padding: 24px;
-        }
-
-        /* الملاحظات */
-        .notice-item {
-            border-radius: 14px;
-            padding: 20px;
-            border-right: 5px solid transparent;
-            margin-bottom: 18px;
-            transition: var(--transition);
-        }
-
-        .notice-item:hover {
-            transform: translateX(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .notice-item.homework { background: #f4f9fd; border-color: var(--secondary); }
-        .notice-item.activity { background: #eefaf3; border-color: var(--success); }
-        .notice-item.alert { background: #fffaf0; border-color: var(--accent); }
-
-        .notice-meta {
+        .section-label .s-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .s-icon.notices { background: rgba(42,125,212,0.12); }
+        .s-icon.replies  { background: rgba(26,138,96,0.12); }
+        .s-icon.form     { background: rgba(212,146,42,0.15); }
+
+        .section-label .s-text h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .section-label .s-text p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* ===== NOTICE CARDS ===== */
+        .notice-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .notice-card.homework::before { background: var(--sky); }
+        .notice-card.activity::before { background: var(--emerald); }
+        .notice-card.alert::before    { background: var(--gold); }
+
+        .notice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-med);
+        }
+
+        .notice-top {
+            display: flex;
+            align-items: flex-start;
             justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            color: var(--text-muted);
+            gap: 12px;
+            margin-bottom: 14px;
         }
 
-        .notice-meta b { color: var(--text-main); }
+        .notice-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
 
-        .notice-item strong {
-            display: block;
-            font-size: 1.25rem;
+        .notice-type-badge.homework { background: rgba(42,125,212,0.1); color: var(--sky); }
+        .notice-type-badge.activity  { background: rgba(26,138,96,0.1);  color: var(--emerald); }
+        .notice-type-badge.alert     { background: rgba(212,146,42,0.12); color: var(--gold); }
+
+        .notice-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .notice-class-tag {
+            background: var(--sand-mid);
+            color: var(--ink-light);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .notice-date {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .notice-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 10px;
             line-height: 1.4;
-            margin-bottom: 8px;
-            color: var(--primary);
         }
 
-        .notice-details {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #34495e;
+        .notice-body {
+            font-size: 0.97rem;
+            color: #4a5568;
+            line-height: 1.85;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
 
         .notice-img {
-            cursor: pointer;
-            transition: var(--transition);
             width: 100%;
-            max-height: 350px;
+            max-height: 320px;
             object-fit: cover;
             border-radius: 12px;
-            margin-top: 15px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .notice-img:hover {
-            opacity: 0.9;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border);
         }
 
-        /* قسم الاستفسارات (النموذج) */
-        .form-container {
-            background: linear-gradient(135deg, #2c3e50, var(--primary));
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            color: #fff;
-            position: sticky;
-            top: 100px;
+        .notice-img:hover { opacity: 0.88; }
+
+        /* Empty state */
+        .empty-state {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 50px 30px;
+            text-align: center;
+            border: 2px dashed var(--border);
         }
 
-        .form-container h2 {
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+        .empty-state .e-icon { font-size: 48px; margin-bottom: 14px; }
+        .empty-state p { color: var(--muted); font-size: 1rem; font-weight: 500; }
+
+        /* ===== REPLIES SECTION ===== */
+        .reply-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+
+        .reply-card:hover {
+            box-shadow: var(--shadow-med);
+        }
+
+        .reply-question-block {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .q-avatar {
+            width: 38px;
+            height: 38px;
+            background: rgba(42,125,212,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .q-meta {
+            flex: 1;
+        }
+
+        .q-meta .q-who {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .q-meta .q-who span {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .q-text {
+            font-size: 0.97rem;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .reply-answer-block {
+            background: linear-gradient(135deg, rgba(26,138,96,0.06), rgba(26,138,96,0.02));
+            border: 1px solid rgba(26,138,96,0.2);
+            border-radius: 14px;
+            padding: 18px 20px;
+        }
+
+        .answer-header {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 10px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .teacher-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+            flex-shrink: 0;
         }
 
-        .form-control {
+        .answer-header .t-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--emerald);
+        }
+
+        .answer-text {
+            font-size: 0.97rem;
+            color: #1a4a35;
+            line-height: 1.8;
+        }
+
+        /* ===== SIDEBAR FORM ===== */
+        .sidebar {
+            position: sticky;
+            top: 110px;
+        }
+
+        .form-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-med);
+            overflow: hidden;
+        }
+
+        .form-card-header {
+            background: linear-gradient(135deg, var(--ink), var(--ink-light));
+            padding: 22px 24px;
+            color: #fff;
+        }
+
+        .form-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-card-header p {
+            font-size: 0.83rem;
+            opacity: 0.7;
+        }
+
+        .form-body {
+            padding: 22px 24px;
+        }
+
+        .form-row {
+            margin-bottom: 14px;
+        }
+
+        label.field-label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 700;
+            color: var(--ink-light);
+            margin-bottom: 6px;
+        }
+
+        .field-input {
             width: 100%;
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.95);
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
             font-family: inherit;
-            font-size: 0.95rem;
-            color: #333;
+            font-size: 0.92rem;
+            color: var(--ink);
+            background: var(--sand);
             transition: var(--transition);
         }
 
-        .form-control:focus {
+        .field-input:focus {
             outline: none;
-            border-color: var(--accent);
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+            border-color: var(--sky);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(42,125,212,0.1);
         }
 
-        .btn-submit {
+        textarea.field-input { resize: vertical; min-height: 110px; }
+
+        .btn-send {
             width: 100%;
-            padding: 16px;
-            background: var(--accent);
+            padding: 14px;
+            background: linear-gradient(135deg, var(--sky), var(--sky-light));
             color: #fff;
             border: none;
             border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.05rem;
             font-weight: 800;
             cursor: pointer;
-            font-size: 1.1rem;
             transition: var(--transition);
-            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            box-shadow: 0 4px 16px rgba(42,125,212,0.3);
         }
 
-        .btn-submit:hover {
-            background: #e67e22;
+        .btn-send:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            box-shadow: 0 8px 24px rgba(42,125,212,0.4);
         }
-        
-        .btn-submit:disabled {
+
+        .btn-send:disabled {
             background: #bdc3c7;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
-        /* الاستفسارات المجاب عليها */
-        .answered-query {
-            border-right: 4px solid var(--success);
-            background: #fff;
-            margin-bottom: 18px;
-            border: 1px solid var(--border-light);
-            border-right-width: 4px;
-            padding: 20px;
-            border-radius: 14px;
+        /* Quick info box */
+        .info-box {
+            margin-top: 16px;
+            background: var(--sand-mid);
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .info-box p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        /* Divider */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 28px 0;
+        }
+
+        /* ===== LINK STYLE ===== */
+        .clickable-link {
+            color: var(--sky);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed currentColor;
             transition: var(--transition);
         }
-        
-        .answered-query:hover {
-            box-shadow: var(--shadow-sm);
-        }
 
-        .aq-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            align-items: center;
-        }
+        .clickable-link:hover { color: var(--ink-light); }
 
-        .aq-title {
-            font-weight: 800;
-            color: var(--primary);
-            font-size: 1.05rem;
-        }
-
-        .aq-date {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .aq-question {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            color: #444;
-            line-height: 1.7;
-        }
-
-        .aq-answer {
-            background: #f0fdf4;
-            border: 1px solid #bce8d1;
-            padding: 16px;
-            border-radius: 12px;
-            color: #166534;
-        }
-
-        .aq-answer strong {
-            display: block;
-            margin-bottom: 8px;
-            color: #14532d;
-            font-size: 1.05rem;
-        }
-
-        /* عارض الصور (Modal) */
+        /* ===== IMAGE MODAL ===== */
         .image-modal {
             display: none;
             position: fixed;
+            inset: 0;
             z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(10,15,30,0.96);
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
-        .modal-content {
-            max-width: 90%;
-            max-height: 85vh;
+        .modal-img {
+            max-width: 92%;
+            max-height: 88vh;
             border-radius: 16px;
-            animation: zoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+            animation: popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275) both;
         }
 
-        @keyframes zoom {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes popIn {
+            from { transform: scale(0.75); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
         }
 
-        /* الإشعارات (Toast) */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 32px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #333;
+            transform: translateX(-50%) translateY(120px);
+            background: var(--ink);
             color: #fff;
             padding: 14px 28px;
             border-radius: 50px;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 10000;
             font-weight: 700;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 0.97rem;
+            z-index: 10000;
+            transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);
+            box-shadow: var(--shadow-strong);
+            pointer-events: none;
         }
 
-        .toast.show {
+        .toast.visible {
             transform: translateX(-50%) translateY(0);
         }
 
-        /* التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 992px) {
-            main {
+        .toast.success { background: var(--emerald); }
+        .toast.error   { background: var(--rose); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
-            .form-container {
+            .sidebar {
                 position: relative;
                 top: 0;
             }
         }
 
         @media (max-width: 600px) {
-            .welcome-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 30px 20px;
-            }
-            .brand h1 {
-                font-size: 1.2rem;
-            }
-            .ctab {
-                padding: 14px 16px;
-                font-size: 0.9rem;
-            }
+            .page-wrap { padding: 20px 16px 50px; }
+            .hero { padding: 22px 20px; gap: 14px; }
+            .hero-icon { width: 56px; height: 56px; font-size: 28px; }
+            .hero-text h2 { font-size: 1.3rem; }
+            .header-top { padding: 12px 0; }
+            .brand-text h1 { font-size: 1.25rem; }
+            .ctab { padding: 8px 14px; font-size: 0.85rem; }
         }
+
+        /* Loading pulse */
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.4; }
+        }
+        .loading-pulse { animation: pulse 1.5s ease infinite; }
     </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
-    <div class="header-top">
-        <div class="brand">
-            <div class="logo">📚</div>
-            <div>
-                <h1>المحبرة</h1>
-                <p>اللغة العربية · الصف الخامس</p>
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="brand">
+                <div class="logo-wrap">📚</div>
+                <div class="brand-text">
+                    <h1>المحبرة</h1>
+                    <p>أ. خليل البلوشي · اللغة العربية · الصف الخامس</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div id="hdate"></div>
+                <a href="teacher.html" class="btn-admin">🔐 دخول المعلم</a>
             </div>
         </div>
-        <div class="header-right">
-            <div id="hdate"></div>
-            <a href="teacher.html" class="btn-login">دخول المعلم</a>
+
+        <div class="tabs-bar">
+            <button class="ctab active" onclick="setClass('all')">📋 جميع الملاحظات</button>
+            <button class="ctab" onclick="setClass('5A')">✏️ خامس 1 <span class="cbdg" id="b5A">0</span></button>
+            <button class="ctab" onclick="setClass('5B')">✏️ خامس 2 <span class="cbdg" id="b5B">0</span></button>
+            <button class="ctab" onclick="setClass('5C')">✏️ خامس 3 <span class="cbdg" id="b5C">0</span></button>
         </div>
-    </div>
-    
-    <div class="tabs-container">
-        <button class="ctab active" onclick="setClass('all')">📋 جميع الملاحظات</button>
-        <button class="ctab" onclick="setClass('5A')">خامس 1 <span class="cbdg" id="b5A">0</span></button>
-        <button class="ctab" onclick="setClass('5B')">خامس 2 <span class="cbdg" id="b5B">0</span></button>
-        <button class="ctab" onclick="setClass('5C')">خامس 3 <span class="cbdg" id="b5C">0</span></button>
     </div>
 </header>
 
-<main>
-    <div class="welcome-card">
-        <div class="welcome-icon">👋</div>
-        <div class="welcome-text">
-            <h2>أهلاً بأولياء الأمور</h2>
-            <p>هذه المساحة مخصصة لمتابعة كل ما يخص المادة العلمية والواجبات اليومية لأبنائكم.</p>
+<!-- ===== PAGE ===== -->
+<div class="page-wrap">
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-icon">👋</div>
+        <div class="hero-text">
+            <h2>أهلاً بأولياء الأمور الكرام</h2>
+            <p>هذه المساحة مخصصة لمتابعة الواجبات والأنشطة والتنبيهات، وإرسال استفساراتكم للأستاذ مباشرةً.</p>
         </div>
     </div>
 
-    <div class="content-section">
-        <div class="content-card">
-            <div class="card-header">📌 الملاحظات والتنبيهات</div>
-            <div class="card-body" id="nList">
-                <div style="text-align:center; padding:30px; color:var(--text-muted); font-weight: 500;">
-                    ⏳ جاري تحميل البيانات...
+    <!-- Main Grid -->
+    <div class="main-grid">
+
+        <!-- LEFT COLUMN -->
+        <div>
+
+            <!-- === SECTION 1: NOTICES === -->
+            <div class="section-label">
+                <div class="s-icon notices">📌</div>
+                <div class="s-text">
+                    <h3>الملاحظات والتنبيهات</h3>
+                    <p>آخر ما أضافه الأستاذ لشعبتك</p>
+                </div>
+            </div>
+
+            <div id="nList">
+                <div class="empty-state loading-pulse">
+                    <div class="e-icon">⏳</div>
+                    <p>جاري تحميل البيانات...</p>
+                </div>
+            </div>
+
+            <!-- === SECTION 2: REPLIES === -->
+            <div class="section-divider"></div>
+
+            <div class="section-label">
+                <div class="s-icon replies">💬</div>
+                <div class="s-text">
+                    <h3>ردود الأستاذ على الاستفسارات</h3>
+                    <p>الاستفسارات التي تمّ الرد عليها</p>
+                </div>
+            </div>
+
+            <div id="rList">
+                <div class="empty-state" id="rEmpty" style="display:none">
+                    <div class="e-icon">💌</div>
+                    <p>لا توجد ردود بعد. سيظهر هنا رد الأستاذ على استفساراتك.</p>
                 </div>
             </div>
         </div>
 
-        <div class="content-card" id="myCard" style="display:none">
-            <div class="card-header">💬 استفسارات مجاب عليها</div>
-            <div class="card-body" id="myList"></div>
-        </div>
-    </div>
+        <!-- RIGHT COLUMN: FORM SIDEBAR -->
+        <div class="sidebar">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h3>📨 أرسل استفساراً للأستاذ</h3>
+                    <p>سيرد الأستاذ خليل في أقرب وقت ممكن</p>
+                </div>
+                <div class="form-body">
+                    <div class="form-row">
+                        <label class="field-label">اسم ولي الأمر</label>
+                        <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">اسم الطالب ثلاثياً</label>
+                        <input type="text" class="field-input" id="pS" placeholder="الاسم الثلاثي للطالب...">
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">الشعبة</label>
+                        <select class="field-input" id="pC">
+                            <option value="">— اختر الشعبة —</option>
+                            <option value="5A">الخامس 1</option>
+                            <option value="5B">الخامس 2</option>
+                            <option value="5C">الخامس 3</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">الاستفسار أو السؤال</label>
+                        <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..."></textarea>
+                    </div>
+                    <button class="btn-send" id="sendBtn" onclick="submitQ()">
+                        <span>إرسال</span> <span>📤</span>
+                    </button>
 
-    <div class="sidebar-section">
-        <div class="form-container">
-            <h2>💌 إرسال استفسار للأستاذ</h2>
-            
-            <div class="form-group">
-                <input type="text" class="form-control" id="pN" placeholder="اسم ولي الأمر الكريم">
+                    <div class="info-box">
+                        <p>💡 تظهر الردود في قسم "ردود الأستاذ" في هذه الصفحة بعد مراجعة الاستفسار.</p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <input type="text" class="form-control" id="pS" placeholder="اسم الطالب الثلاثي">
-            </div>
-            
-            <div class="form-group">
-                <select class="form-control" id="pC">
-                    <option value="">— اختر الشعبة —</option>
-                    <option value="5A">الخامس 1</option>
-                    <option value="5B">الخامس 2</option>
-                    <option value="5C">الخامس 3</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <textarea class="form-control" id="pM" rows="4" placeholder="اكتب سؤالك أو استفسارك هنا..."></textarea>
-            </div>
-            
-            <button class="btn-submit" id="sendBtn" onclick="submitQ()">📤 إرسال الآن</button>
         </div>
-    </div>
-</main>
 
+    </div><!-- /main-grid -->
+</div><!-- /page-wrap -->
+
+<!-- Image Modal -->
 <div id="imageModal" class="image-modal" onclick="this.style.display='none'">
-    <img class="modal-content" id="fullImage" alt="صورة مكبرة">
+    <img class="modal-img" id="fullImage" alt="صورة مكبرة">
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-    // الإعدادات الثابتة (لا تقم بتغييرها لضمان عمل الـ Backend)
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+    const API_URL    = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
     const STORAGE_KEY = 'school_data_v2';
-    const MY_KEY = 'my_query_ids';
-    const CN = { all: 'عام', '5A': 'خامس 1', '5B': 'خامس 2', '5C': 'خامس 3' };
-    const TN = { homework: 'واجب 📝', activity: 'نشاط 🎯', alert: 'تنبيه 🔔' };
-    
-    let curClass = 'all';
+    const CN = { all:'عام', '5A':'خامس 1', '5B':'خامس 2', '5C':'خامس 3' };
+    const TN = { homework:{ label:'واجب', icon:'📝' }, activity:{ label:'نشاط', icon:'🎯' }, alert:{ label:'تنبيه', icon:'🔔' } };
+
+    let curClass  = 'all';
     let cachedData = null;
 
-    // دالة لتحويل الروابط النصية إلى روابط قابلة للنقر
-    function makeLinksClickable(text) {
+    /* ---- Link converter ---- */
+    function makeLinks(text) {
         if (!text) return '';
-        const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi;
-        return text.toString().replace(urlPattern, function(url) {
-            let href = url.startsWith('http') ? url : 'http://' + url;
-            return `<a href="${href}" class="clickable-link" target="_blank">${url}</a>`;
+        return text.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi, url => {
+            const href = url.startsWith('http') ? url : 'http://' + url;
+            return `<a href="${href}" class="clickable-link" target="_blank" rel="noopener">${url}</a>`;
         });
     }
 
-    // تفعيل نافذة عرض الصور عند النقر على أي صورة ملاحظة
+    /* ---- Image modal ---- */
     document.addEventListener('click', e => {
         if (e.target.classList.contains('notice-img')) {
-            const modal = document.getElementById('imageModal');
             document.getElementById('fullImage').src = e.target.src;
-            modal.style.display = 'flex';
+            document.getElementById('imageModal').style.display = 'flex';
         }
     });
 
-    // جلب البيانات من Google Apps Script أو التخزين المحلي
+    /* ---- Load data ---- */
     async function loadData() {
         try {
-            const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+            const res    = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
             const result = await res.json();
             if (result.status === 'success') {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
                 return result.data;
             }
-        } catch (e) {
-            console.error("Error loading data:", e);
-        }
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices: [], queries: [], qId: 100 };
+        } catch(e) { console.error(e); }
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices:[], queries:[], qId:100 };
     }
 
-    // تغيير الشعبة وتحديث واجهة المستخدم
+    /* ---- Set active class tab ---- */
     function setClass(c) {
         curClass = c;
-        const tabs = document.querySelectorAll('.ctab');
-        const classIndexes = ['all', '5A', '5B', '5C'];
-        
-        tabs.forEach((tab, index) => {
-            tab.classList.toggle('active', c === classIndexes[index]);
+        document.querySelectorAll('.ctab').forEach((tab, i) => {
+            tab.classList.toggle('active', ['all','5A','5B','5C'][i] === c);
         });
-        
         renderUI();
     }
 
-    // رسم واجهة الملاحظات والبيانات
+    /* ---- Render everything ---- */
     async function renderUI() {
         if (!cachedData) cachedData = await loadData();
-        
-        const listElement = document.getElementById('nList');
-        let filteredNotices = cachedData.notices.filter(n => curClass === 'all' || n.cls === 'all' || n.cls === curClass);
-        
-        if (!filteredNotices.length) {
-            listElement.innerHTML = `
-                <div style="text-align:center; padding:40px 20px; opacity:0.6;">
-                    <div style="font-size:40px; margin-bottom:10px;">s📭</div>
-                    لا توجد تحديثات أو ملاحظات لهذه الشعبة حالياً
-                </div>`;
-        } else {
-            listElement.innerHTML = filteredNotices.map(n => `
-                <div class="notice-item ${n.type}">
-                    <div class="notice-meta">
-                        <span><b>${CN[n.cls]}</b> | ${TN[n.type]}</span>
-                        <span>${n.date}</span>
-                    </div>
-                    <strong>${n.title}</strong>
-                    <div class="notice-details">${makeLinksClickable(n.det)}</div>
-                    ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق توضيحي">` : ''}
-                </div>`).join('');
-        }
-        
-        // تحديث العدادات (Badges) في التبويبات
-        ['5A', '5B', '5C'].forEach(c => {
-            const count = cachedData.notices.filter(n => n.cls === c || n.cls === 'all').length;
-            const badge = document.getElementById('b' + c);
-            if (badge) badge.textContent = count;
-        });
-        
-        renderMyMsg();
+        renderNotices();
+        renderReplies();
+        updateBadges();
     }
 
-    // عرض الاستفسارات المجاب عليها
-    function renderMyMsg() {
-        const data = cachedData;
-        if (!data || !data.queries) return;
+    /* ---- Notices ---- */
+    function renderNotices() {
+        const el = document.getElementById('nList');
+        const list = (cachedData.notices || []).filter(n => curClass === 'all' || n.cls === 'all' || n.cls === curClass);
 
-        const answeredQueries = data.queries.filter(q => q.status === 'replied');
-        const card = document.getElementById('myCard');
-        const listElement = document.getElementById('myList');
-        
-        if (!answeredQueries.length) {
-            card.style.display = 'none';
+        if (!list.length) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="e-icon">📭</div>
+                    <p>لا توجد تحديثات لهذه الشعبة حالياً</p>
+                </div>`;
             return;
         }
 
-        card.style.display = 'block';
-        listElement.innerHTML = answeredQueries.map(q => `
-            <div class="answered-query">
-                <div class="aq-header">
-                    <span class="aq-title">❓ استفسار من ولي أمر (${CN[q.cls] || q.cls})</span>
-                    <span class="aq-date">${q.date}</span>
+        el.innerHTML = list.map(n => {
+            const t = TN[n.type] || { label: n.type, icon:'📌' };
+            return `
+            <div class="notice-card ${n.type}">
+                <div class="notice-top">
+                    <div class="notice-meta-info">
+                        <span class="notice-type-badge ${n.type}">${t.icon} ${t.label}</span>
+                        <span class="notice-class-tag">${CN[n.cls] || n.cls}</span>
+                    </div>
+                    <span class="notice-date">${n.date}</span>
                 </div>
-                <div class="aq-question">${makeLinksClickable(q.msg)}</div>
-                <div class="aq-answer">
-                    <strong>✅ رد الأستاذ خليل:</strong>
-                    <div style="line-height:1.6;">${makeLinksClickable(q.reply)}</div>
+                <div class="notice-title">${n.title}</div>
+                <div class="notice-body">${makeLinks(n.det)}</div>
+                ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق">` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    /* ---- Replied queries ---- */
+    function renderReplies() {
+        const el    = document.getElementById('rList');
+        const empty = document.getElementById('rEmpty');
+        const list  = (cachedData.queries || []).filter(q => q.status === 'replied');
+
+        if (!list.length) {
+            el.innerHTML = '';
+            if(empty) { empty.style.display = 'block'; el.appendChild(empty); }
+            return;
+        }
+
+        if(empty) empty.style.display = 'none';
+
+        el.innerHTML = list.map(q => `
+            <div class="reply-card">
+                <div class="reply-question-block">
+                    <div class="q-avatar">❓</div>
+                    <div class="q-meta">
+                        <div class="q-who">${q.name || 'ولي أمر'} <span>· ${CN[q.cls] || q.cls} · ${q.date}</span></div>
+                        <div class="q-text">${makeLinks(q.msg)}</div>
+                    </div>
+                </div>
+                <div class="reply-answer-block">
+                    <div class="answer-header">
+                        <div class="teacher-avatar">✅</div>
+                        <span class="t-name">رد الأستاذ خليل</span>
+                    </div>
+                    <div class="answer-text">${makeLinks(q.reply)}</div>
                 </div>
             </div>`).join('');
     }
 
-    // إرسال استفسار جديد
+    /* ---- Badges ---- */
+    function updateBadges() {
+        ['5A','5B','5C'].forEach(c => {
+            const count = (cachedData.notices || []).filter(n => n.cls === c || n.cls === 'all').length;
+            const el = document.getElementById('b' + c);
+            if (el) el.textContent = count;
+        });
+    }
+
+    /* ---- Submit query ---- */
     async function submitQ() {
-        const parentName = document.getElementById('pN').value.trim();
-        const studentName = document.getElementById('pS').value.trim();
-        const className = document.getElementById('pC').value;
-        const message = document.getElementById('pM').value.trim();
-        
-        if (!parentName || !studentName || !className || !message) {
-            return toast('⚠️ الرجاء إكمال كافة الحقول قبل الإرسال', 'var(--danger)');
-        }
+        const pN = document.getElementById('pN').value.trim();
+        const pS = document.getElementById('pS').value.trim();
+        const pC = document.getElementById('pC').value;
+        const pM = document.getElementById('pM').value.trim();
+
+        if (!pN || !pS || !pC || !pM)
+            return showToast('⚠️ الرجاء إكمال جميع الحقول', 'error');
 
         const btn = document.getElementById('sendBtn');
         btn.disabled = true;
-        btn.innerHTML = '⏳ جاري الإرسال...';
-        
+        btn.innerHTML = '<span>⏳ جاري الإرسال...</span>';
+
         const newId = (cachedData.qId || 200) + 1;
-        const newQuery = { 
-            id: newId, 
-            name: parentName, 
-            student: studentName, 
-            cls: className, 
-            msg: message, 
-            date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }), 
-            status: 'new', 
-            reply: '' 
+        const q = {
+            id: newId, name: pN, student: pS, cls: pC, msg: pM,
+            date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}),
+            status: 'new', reply: ''
         };
-        
-        // تحديث البيانات محلياً لتظهر فوراً إن لزم الأمر
-        cachedData.queries.unshift(newQuery); 
+
+        cachedData.queries.unshift(q);
         cachedData.qId = newId;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedData));
-        
-        toast('✅ تم إرسال رسالتك للأستاذ بنجاح');
-        
-        // تفريغ الحقول بعد الإرسال
-        ['pN', 'pS', 'pM'].forEach(id => document.getElementById(id).value = '');
+
+        showToast('✅ تم إرسال استفسارك بنجاح!', 'success');
+        ['pN','pS','pM'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('pC').value = '';
-        
-        renderUI();
-        
+
+        renderReplies();
+
         btn.disabled = false;
-        btn.innerHTML = '📤 إرسال الآن';
-        
-        // الإرسال الفعلي لقاعدة البيانات (Google Script)
+        btn.innerHTML = '<span>إرسال</span> <span>📤</span>';
+
         fetch(API_URL, {
-            method: 'POST', 
-            body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(cachedData.queries) })
-        }).catch(err => console.error("Error saving query:", err));
+            method: 'POST',
+            body: new URLSearchParams({ action:'saveQueries', data: JSON.stringify(cachedData.queries) })
+        }).catch(console.error);
     }
 
-    // دالة إظهار الإشعارات العائمة
-    function toast(msg, bg = 'var(--success)') {
-        const toastEl = document.getElementById('toast');
-        toastEl.style.background = bg;
-        toastEl.innerHTML = msg;
-        toastEl.classList.add('show');
-        setTimeout(() => toastEl.classList.remove('show'), 3500);
+    /* ---- Toast ---- */
+    function showToast(msg, type = '') {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.className = 'toast' + (type ? ' ' + type : '') + ' visible';
+        setTimeout(() => el.classList.remove('visible'), 3600);
     }
 
-    // تحديث الساعة والتاريخ الحي في الترويسة
-    function upDate() {
+    /* ---- Clock ---- */
+    function updateClock() {
+        const el = document.getElementById('hdate');
+        if (!el) return;
         const now = new Date();
-        const dateEl = document.getElementById('hdate');
-        if (dateEl) {
-            dateEl.innerHTML = now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + 
-                              '<br>' + 
-                              now.toLocaleDateString('ar-OM', { month: 'short', day: 'numeric' });
-        }
+        el.innerHTML =
+            now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '<br>' +
+            now.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'});
     }
-    
-    // التهيئة الأولية
-    setInterval(upDate, 30000); 
-    upDate();
-    renderUI();
 
+    setInterval(updateClock, 30000);
+    updateClock();
+    renderUI();
 </script>
 </body>
 </html>
