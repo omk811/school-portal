@@ -6,7 +6,1250 @@
     <title>المحبرة | أ. خليل البلوشي</title>
 
     <link rel="manifest" href="manifest.json">
+    <meta name="apple-mob<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحبرة | أ. خليل البلوشي</title>
+
+    <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="المحبرة">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #1a2744;
+            --ink-light: #2d3f6a;
+            --sky: #2a7dd4;
+            --sky-light: #4a9de8;
+            --gold: #d4922a;
+            --gold-light: #f0b84a;
+            --emerald: #1a8a60;
+            --emerald-light: #22b076;
+            --rose: #c0392b;
+            --rose-light: #e74c3c;
+            --sand: #fdf8f0;
+            --sand-mid: #f5ede0;
+            --white: #ffffff;
+            --border: #e8dece;
+            --muted: #8a9bbf;
+            --shadow-soft: 0 4px 24px rgba(26,39,68,0.07);
+            --shadow-med: 0 8px 40px rgba(26,39,68,0.12);
+            --shadow-strong: 0 16px 60px rgba(26,39,68,0.18);
+            --radius: 18px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--sand);
+            color: var(--ink);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(145deg, var(--ink) 0%, var(--ink-light) 60%, #1e3a7a 100%);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: var(--shadow-strong);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                        box-shadow 0.35s ease;
+        }
+
+        /* على الأجهزة المحمولة فقط: يختفي الهيدر عند التمرير لأسفل */
+        @media (max-width: 1024px) {
+            header.header-hidden {
+                transform: translateY(-100%);
+                box-shadow: none;
+            }
+            header.header-compact .header-top {
+                padding: 10px 0;
+            }
+            header.header-compact .logo-wrap {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+            header.header-compact .brand-text h1 {
+                font-size: 1.2rem;
+            }
+            header.header-compact #hdate {
+                display: none;
+            }
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-wrap {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 16px rgba(212,146,42,0.4);
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #hdate {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.7);
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .btn-admin {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.9);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-admin:hover {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* ===== CLASS TABS ===== */
+        .tabs-bar {
+            display: flex;
+            gap: 4px;
+            padding: 10px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tabs-bar::-webkit-scrollbar { display: none; }
+
+        .ctab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.65);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .ctab:hover {
+            background: rgba(255,255,255,0.13);
+            color: #fff;
+        }
+
+        .ctab.active {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+            box-shadow: 0 4px 16px rgba(212,146,42,0.4);
+        }
+
+        .cbdg {
+            background: var(--ink);
+            color: var(--gold-light);
+            border-radius: 50px;
+            padding: 1px 8px;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .ctab.active .cbdg {
+            background: rgba(26,39,68,0.2);
+            color: var(--ink);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .page-wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 24px 60px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--sky) 0%, var(--ink-light) 100%);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            color: #fff;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--shadow-med);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: 'المحبرة';
+            font-family: 'Amiri', serif;
+            font-size: 9rem;
+            color: rgba(255,255,255,0.04);
+            position: absolute;
+            left: -10px;
+            bottom: -30px;
+            font-weight: 700;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .hero-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .hero-text h2 {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* ===== TWO COLUMN GRID ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .section-label .s-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .s-icon.notices { background: rgba(42,125,212,0.12); }
+        .s-icon.replies  { background: rgba(26,138,96,0.12); }
+        .s-icon.form     { background: rgba(212,146,42,0.15); }
+
+        .section-label .s-text h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .section-label .s-text p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* ===== NOTICE CARDS ===== */
+        .notice-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .notice-card.homework::before { background: var(--sky); }
+        .notice-card.activity::before { background: var(--emerald); }
+        .notice-card.alert::before    { background: var(--gold); }
+
+        .notice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-med);
+        }
+
+        .notice-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .notice-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .notice-type-badge.homework { background: rgba(42,125,212,0.1); color: var(--sky); }
+        .notice-type-badge.activity  { background: rgba(26,138,96,0.1);  color: var(--emerald); }
+        .notice-type-badge.alert     { background: rgba(212,146,42,0.12); color: var(--gold); }
+
+        .notice-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .notice-class-tag {
+            background: var(--sand-mid);
+            color: var(--ink-light);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .notice-date {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .notice-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .notice-body {
+            font-size: 0.97rem;
+            color: #4a5568;
+            line-height: 1.85;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .notice-img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .notice-img:hover { opacity: 0.88; }
+
+        /* Empty state */
+        .empty-state {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 50px 30px;
+            text-align: center;
+            border: 2px dashed var(--border);
+        }
+
+        .empty-state .e-icon { font-size: 48px; margin-bottom: 14px; }
+        .empty-state p { color: var(--muted); font-size: 1rem; font-weight: 500; }
+
+        /* ===== REPLIES SECTION ===== */
+        .reply-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+
+        .reply-card:hover {
+            box-shadow: var(--shadow-med);
+        }
+
+        .reply-question-block {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .q-avatar {
+            width: 38px;
+            height: 38px;
+            background: rgba(42,125,212,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .q-meta {
+            flex: 1;
+        }
+
+        .q-meta .q-who {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .q-meta .q-who span {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .q-text {
+            font-size: 0.97rem;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .reply-answer-block {
+            background: linear-gradient(135deg, rgba(26,138,96,0.06), rgba(26,138,96,0.02));
+            border: 1px solid rgba(26,138,96,0.2);
+            border-radius: 14px;
+            padding: 18px 20px;
+        }
+
+        .answer-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .teacher-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .answer-header .t-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--emerald);
+        }
+
+        .answer-text {
+            font-size: 0.97rem;
+            color: #1a4a35;
+            line-height: 1.8;
+        }
+
+        /* ===== SIDEBAR FORM ===== */
+        .sidebar {
+            position: sticky;
+            top: 110px;
+        }
+
+        .form-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-med);
+            overflow: hidden;
+        }
+
+        .form-card-header {
+            background: linear-gradient(135deg, var(--ink), var(--ink-light));
+            padding: 22px 24px;
+            color: #fff;
+        }
+
+        .form-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-card-header p {
+            font-size: 0.83rem;
+            opacity: 0.7;
+        }
+
+        .form-body {
+            padding: 22px 24px;
+        }
+
+        .form-row {
+            margin-bottom: 14px;
+        }
+
+        label.field-label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 700;
+            color: var(--ink-light);
+            margin-bottom: 6px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            color: var(--ink);
+            background: var(--sand);
+            transition: var(--transition);
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: var(--sky);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(42,125,212,0.1);
+        }
+
+        textarea.field-input { resize: vertical; min-height: 110px; }
+
+        .btn-send {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--sky), var(--sky-light));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            box-shadow: 0 4px 16px rgba(42,125,212,0.3);
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(42,125,212,0.4);
+        }
+
+        .btn-send:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Quick info box */
+        .info-box {
+            margin-top: 16px;
+            background: var(--sand-mid);
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .info-box p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        /* Quick Links Card */
+        .quick-links-card {
+            margin-top: 16px;
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .ql-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: var(--sand);
+            border-bottom: 1px solid var(--border);
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--ink);
+        }
+
+        .ql-header-icon { font-size: 18px; }
+
+        .ql-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+        .ql-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 13px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .ql-item:hover {
+            transform: translateX(-4px);
+            box-shadow: var(--shadow-med);
+        }
+
+        .ql-purple {
+            background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(124,58,237,0.02));
+            border-color: rgba(124,58,237,0.15);
+        }
+        .ql-purple:hover { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(124,58,237,0.04)); }
+
+        .ql-emerald {
+            background: linear-gradient(135deg, rgba(26,138,96,0.07), rgba(26,138,96,0.02));
+            border-color: rgba(26,138,96,0.18);
+        }
+        .ql-emerald:hover { background: linear-gradient(135deg, rgba(26,138,96,0.12), rgba(26,138,96,0.04)); }
+
+        .ql-item-icon {
+            font-size: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ql-purple .ql-item-icon { background: rgba(124,58,237,0.1); }
+        .ql-emerald .ql-item-icon { background: rgba(26,138,96,0.1); }
+
+        .ql-item-text { flex: 1; }
+
+        .ql-item-text strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+
+        .ql-item-text span {
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .ql-arrow {
+            font-size: 1.1rem;
+            color: var(--muted);
+            transition: var(--transition);
+        }
+
+        .ql-item:hover .ql-arrow { transform: translateX(-4px); color: var(--ink); }
+
+        /* Divider */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 28px 0;
+        }
+
+        /* ===== LINK STYLE ===== */
+        .clickable-link {
+            color: var(--sky);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed currentColor;
+            transition: var(--transition);
+        }
+
+        .clickable-link:hover { color: var(--ink-light); }
+
+        /* ===== IMAGE MODAL ===== */
+        .image-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(10,15,30,0.96);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-img {
+            max-width: 92%;
+            max-height: 88vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+            animation: popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275) both;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.75); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: var(--ink);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.97rem;
+            z-index: 10000;
+            transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);
+            box-shadow: var(--shadow-strong);
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { background: var(--emerald); }
+        .toast.error   { background: var(--rose); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-wrap { padding: 20px 16px 50px; }
+            .hero { padding: 22px 20px; gap: 14px; }
+            .hero-icon { width: 56px; height: 56px; font-size: 28px; }
+            .hero-text h2 { font-size: 1.3rem; }
+            .header-top { padding: 12px 0; }
+            .brand-text h1 { font-size: 1.25rem; }
+            .ctab { padding: 8px 14px; font-size: 0.85rem; }
+        }
+
+        /* Loading pulse */
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.4; }
+        }
+        .loading-pulse { animation: pulse 1.5s ease infinite; }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="brand">
+                <div class="logo-wrap">📚</div>
+                <div class="brand-text">
+                    <h1>المحبرة</h1>
+                    <p>أ. خليل البلوشي · اللغة العربية · الصف الخامس</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div id="hdate"></div>
+                <a href="teacher.html" class="btn-admin">🔐 دخول المعلم</a>
+            </div>
+        </div>
+
+        <div class="tabs-bar">
+            <button class="ctab active" onclick="setClass('all')">📋 جميع الملاحظات</button>
+            <button class="ctab" onclick="setClass('5A')">✏️ خامس 1 <span class="cbdg" id="b5A">0</span></button>
+            <button class="ctab" onclick="setClass('5B')">✏️ خامس 2 <span class="cbdg" id="b5B">0</span></button>
+            <button class="ctab" onclick="setClass('5C')">✏️ خامس 3 <span class="cbdg" id="b5C">0</span></button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== PAGE ===== -->
+<div class="page-wrap">
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-icon">👋</div>
+        <div class="hero-text">
+            <h2>أهلاً بأولياء الأمور الكرام</h2>
+            <p>هذه المساحة مخصصة لمتابعة الواجبات والأنشطة والتنبيهات، وإرسال استفساراتكم للأستاذ مباشرةً.</p>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+
+        <!-- LEFT COLUMN -->
+        <div>
+
+            <!-- === SECTION 1: NOTICES === -->
+            <div class="section-label">
+                <div class="s-icon notices">📌</div>
+                <div class="s-text">
+                    <h3>الملاحظات والتنبيهات</h3>
+                    <p>آخر ما أضافه الأستاذ لشعبتك</p>
+                </div>
+            </div>
+
+            <div id="nList">
+                <div class="empty-state loading-pulse">
+                    <div class="e-icon">⏳</div>
+                    <p>جاري تحميل البيانات...</p>
+                </div>
+            </div>
+
+            <!-- === SECTION 2: REPLIES === -->
+            <div class="section-divider"></div>
+
+            <div class="section-label">
+                <div class="s-icon replies">💬</div>
+                <div class="s-text">
+                    <h3>ردود الأستاذ على الاستفسارات</h3>
+                    <p>الاستفسارات التي تمّ الرد عليها</p>
+                </div>
+            </div>
+
+            <div id="rList">
+                <div class="empty-state" id="rEmpty" style="display:none">
+                    <div class="e-icon">💌</div>
+                    <p>لا توجد ردود بعد. سيظهر هنا رد الأستاذ على استفساراتك.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: FORM SIDEBAR -->
+        <div class="sidebar">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h3>📨 أرسل استفساراً للأستاذ</h3>
+                    <p>سيرد الأستاذ خليل في أقرب وقت ممكن</p>
+                </div>
+                <div class="form-body">
+                    <div class="form-row">
+                        <label class="field-label">اسم ولي الأمر</label>
+                        <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">اسم الطالب ثلاثياً</label>
+                        <input type="text" class="field-input" id="pS" placeholder="الاسم الثلاثي للطالب...">
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">الشعبة</label>
+                        <select class="field-input" id="pC">
+                            <option value="">— اختر الشعبة —</option>
+                            <option value="5A">الخامس 1</option>
+                            <option value="5B">الخامس 2</option>
+                            <option value="5C">الخامس 3</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label">الاستفسار أو السؤال</label>
+                        <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..."></textarea>
+                    </div>
+                    <button class="btn-send" id="sendBtn" onclick="submitQ()">
+                        <span>إرسال</span> <span>📤</span>
+                    </button>
+
+                    <div class="info-box">
+                        <p>💡 تظهر الردود في قسم "ردود الأستاذ" في هذه الصفحة بعد مراجعة الاستفسار.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- روابط مفيدة -->
+            <div class="quick-links-card">
+                <div class="ql-header">
+                    <span class="ql-header-icon">🔗</span>
+                    <span>روابط مفيدة</span>
+                </div>
+                <div class="ql-body">
+                    <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item ql-purple">
+                        <div class="ql-item-icon">🚀</div>
+                        <div class="ql-item-text">
+                            <strong>منصة ارتقِ</strong>
+                            <span>اللغة العربية - الصف الخامس</span>
+                        </div>
+                        <div class="ql-arrow">←</div>
+                    </a>
+                    <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item ql-emerald">
+                        <div class="ql-item-icon">📊</div>
+                        <div class="ql-item-text">
+                            <strong>بوابة نتائج الطلاب</strong>
+                            <span>الأستاذ خليل البلوشي</span>
+                        </div>
+                        <div class="ql-arrow">←</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /main-grid -->
+</div><!-- /page-wrap -->
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="this.style.display='none'">
+    <img class="modal-img" id="fullImage" alt="صورة مكبرة">
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+    const API_URL    = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+    const STORAGE_KEY = 'school_data_v2';
+    const CN = { all:'عام', '5A':'خامس 1', '5B':'خامس 2', '5C':'خامس 3' };
+    const TN = { homework:{ label:'واجب', icon:'📝' }, activity:{ label:'نشاط', icon:'🎯' }, alert:{ label:'تنبيه', icon:'🔔' } };
+
+    let curClass  = 'all';
+    let cachedData = null;
+
+    /* ---- Link converter ---- */
+    function makeLinks(text) {
+        if (!text) return '';
+        return text.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi, url => {
+            const href = url.startsWith('http') ? url : 'http://' + url;
+            return `<a href="${href}" class="clickable-link" target="_blank" rel="noopener">${url}</a>`;
+        });
+    }
+
+    /* ---- Image modal ---- */
+    document.addEventListener('click', e => {
+        if (e.target.classList.contains('notice-img')) {
+            document.getElementById('fullImage').src = e.target.src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+    });
+
+    /* ---- Load data ---- */
+    async function loadData() {
+        try {
+            const res    = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
+            const result = await res.json();
+            if (result.status === 'success') {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+                return result.data;
+            }
+        } catch(e) { console.error(e); }
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices:[], queries:[], qId:100 };
+    }
+
+    /* ---- Set active class tab ---- */
+    function setClass(c) {
+        curClass = c;
+        document.querySelectorAll('.ctab').forEach((tab, i) => {
+            tab.classList.toggle('active', ['all','5A','5B','5C'][i] === c);
+        });
+        renderUI();
+    }
+
+    /* ---- Render everything ---- */
+    async function renderUI() {
+        if (!cachedData) cachedData = await loadData();
+        renderNotices();
+        renderReplies();
+        updateBadges();
+    }
+
+    /* ---- Notices ---- */
+    function renderNotices() {
+        const el = document.getElementById('nList');
+        const list = (cachedData.notices || []).filter(n => curClass === 'all' || n.cls === 'all' || n.cls === curClass);
+
+        if (!list.length) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="e-icon">📭</div>
+                    <p>لا توجد تحديثات لهذه الشعبة حالياً</p>
+                </div>`;
+            return;
+        }
+
+        el.innerHTML = list.map(n => {
+            const t = TN[n.type] || { label: n.type, icon:'📌' };
+            return `
+            <div class="notice-card ${n.type}">
+                <div class="notice-top">
+                    <div class="notice-meta-info">
+                        <span class="notice-type-badge ${n.type}">${t.icon} ${t.label}</span>
+                        <span class="notice-class-tag">${CN[n.cls] || n.cls}</span>
+                    </div>
+                    <span class="notice-date">${n.date}</span>
+                </div>
+                <div class="notice-title">${n.title}</div>
+                <div class="notice-body">${makeLinks(n.det)}</div>
+                ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق">` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    /* ---- Replied queries ---- */
+    function renderReplies() {
+        const el    = document.getElementById('rList');
+        const empty = document.getElementById('rEmpty');
+        const list  = (cachedData.queries || []).filter(q => q.status === 'replied');
+
+        if (!list.length) {
+            el.innerHTML = '';
+            if(empty) { empty.style.display = 'block'; el.appendChild(empty); }
+            return;
+        }
+
+        if(empty) empty.style.display = 'none';
+
+        el.innerHTML = list.map(q => `
+            <div class="reply-card">
+                <div class="reply-question-block">
+                    <div class="q-avatar">❓</div>
+                    <div class="q-meta">
+                        <div class="q-who">${q.name || 'ولي أمر'} <span>· ${CN[q.cls] || q.cls} · ${q.date}</span></div>
+                        <div class="q-text">${makeLinks(q.msg)}</div>
+                    </div>
+                </div>
+                <div class="reply-answer-block">
+                    <div class="answer-header">
+                        <div class="teacher-avatar">✅</div>
+                        <span class="t-name">رد الأستاذ خليل</span>
+                    </div>
+                    <div class="answer-text">${makeLinks(q.reply)}</div>
+                </div>
+            </div>`).join('');
+    }
+
+    /* ---- Badges ---- */
+    function updateBadges() {
+        ['5A','5B','5C'].forEach(c => {
+            const count = (cachedData.notices || []).filter(n => n.cls === c || n.cls === 'all').length;
+            const el = document.getElementById('b' + c);
+            if (el) el.textContent = count;
+        });
+    }
+
+    /* ---- Submit query ---- */
+    async function submitQ() {
+        const pN = document.getElementById('pN').value.trim();
+        const pS = document.getElementById('pS').value.trim();
+        const pC = document.getElementById('pC').value;
+        const pM = document.getElementById('pM').value.trim();
+
+        if (!pN || !pS || !pC || !pM)
+            return showToast('⚠️ الرجاء إكمال جميع الحقول', 'error');
+
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ جاري الإرسال...</span>';
+
+        const newId = (cachedData.qId || 200) + 1;
+        const q = {
+            id: newId, name: pN, student: pS, cls: pC, msg: pM,
+            date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}),
+            status: 'new', reply: ''
+        };
+
+        cachedData.queries.unshift(q);
+        cachedData.qId = newId;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedData));
+
+        showToast('✅ تم إرسال استفسارك بنجاح!', 'success');
+        ['pN','pS','pM'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pC').value = '';
+
+        renderReplies();
+
+        btn.disabled = false;
+        btn.innerHTML = '<span>إرسال</span> <span>📤</span>';
+
+        fetch(API_URL, {
+            method: 'POST',
+            body: new URLSearchParams({ action:'saveQueries', data: JSON.stringify(cachedData.queries) })
+        }).catch(console.error);
+    }
+
+    /* ---- Toast ---- */
+    function showToast(msg, type = '') {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.className = 'toast' + (type ? ' ' + type : '') + ' visible';
+        setTimeout(() => el.classList.remove('visible'), 3600);
+    }
+
+    /* ---- Clock ---- */
+    function updateClock() {
+        const el = document.getElementById('hdate');
+        if (!el) return;
+        const now = new Date();
+        el.innerHTML =
+            now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}) + '<br>' +
+            now.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'});
+    }
+
+    setInterval(updateClock, 30000);
+    updateClock();
+    renderUI();
+
+    /* ---- سلوك الهيدر الذكي على الأجهزة المحمولة ---- */
+    (function () {
+        const hdr = document.querySelector('header');
+        let lastY = 0, ticking = false;
+
+        function onScroll() {
+            if (window.innerWidth > 1024) {
+                // كمبيوتر: ثابت دائماً
+                hdr.classList.remove('header-hidden', 'header-compact');
+                return;
+            }
+            const y = window.scrollY;
+            const diff = y - lastY;
+
+            if (y < 60) {
+                // في الأعلى: اظهر الهيدر كاملاً
+                hdr.classList.remove('header-hidden', 'header-compact');
+            } else if (diff > 6) {
+                // تمرير للأسفل: اخفِ الهيدر
+                hdr.classList.add('header-hidden');
+                hdr.classList.remove('header-compact');
+            } else if (diff < -4) {
+                // تمرير للأعلى: اظهر الهيدر مضغوطاً
+                hdr.classList.remove('header-hidden');
+                hdr.classList.add('header-compact');
+            }
+            lastY = y;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) {
+                hdr.classList.remove('header-hidden', 'header-compact');
+            }
+        });
+    })();
+</script>
+</body>
+</html>ile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="المحبرة">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
