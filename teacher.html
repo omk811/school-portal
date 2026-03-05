@@ -196,6 +196,29 @@ header {
   top: 0;
   z-index: 200;
   box-shadow: var(--shadow-strong);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.35s ease;
+}
+
+@media (max-width: 1024px) {
+  header.header-hidden {
+    transform: translateY(-100%);
+    box-shadow: none;
+  }
+  header.header-compact .header-top {
+    padding: 10px 0;
+  }
+  header.header-compact .logo-wrap {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+  header.header-compact .brand-text h1 {
+    font-size: 1.1rem;
+  }
+  header.header-compact #hdate {
+    display: none;
+  }
 }
 
 .header-inner {
@@ -1157,25 +1180,6 @@ textarea.field-input { resize: vertical; min-height: 80px; }
     <!-- RIGHT: Sidebar -->
     <div class="sidebar">
 
-      <!-- AI Assistant -->
-      <div class="section-block">
-        <div class="block-header">
-          <div class="block-title">
-            <div class="block-icon violet">🤖</div>
-            مساعد الذكاء الاصطناعي
-          </div>
-        </div>
-        <div class="block-body">
-          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:14px;">اطرح سؤالاً أو اطلب مساعدة في صياغة ملاحظة تعليمية</p>
-          <div class="ai-status" id="aiStatus"><span class="spin">⏳</span> جاري التفكير...</div>
-          <div class="form-row">
-            <textarea class="field-input" id="aiPrompt" rows="3" placeholder="مثال: اقترح واجباً لدرس الفاعل للصف الخامس..."></textarea>
-          </div>
-          <button class="btn-save" id="aiBtn" onclick="askAI()" style="background:linear-gradient(135deg,var(--violet),#5b21b6)">✨ اسأل الذكاء الاصطناعي</button>
-          <div class="ai-reply" id="aiReply"></div>
-        </div>
-      </div>
-
       <!-- Class Summary -->
       <div class="section-block">
         <div class="block-header">
@@ -1596,25 +1600,6 @@ function changePwd() {
   showToast('✅ تم تغيير كلمة المرور', 'ok');
 }
 
-/* ── AI ── */
-function askAI() {
-  const p = document.getElementById('aiPrompt').value.trim();
-  if (!p) return;
-  const btn    = document.getElementById('aiBtn');
-  const status = document.getElementById('aiStatus');
-  const reply  = document.getElementById('aiReply');
-  btn.disabled = true;
-  status.style.display = 'flex';
-  reply.style.display = 'none';
-
-  setTimeout(() => {
-    status.style.display = 'none';
-    reply.style.display  = 'block';
-    reply.innerHTML = '<strong style="color:var(--violet)">🤖 اقتراح المساعد:</strong><br><br>يمكنك صياغة الملاحظة كالتالي:<br>📝 <strong>واجب:</strong> حل أسئلة الفهم والاستيعاب لدرس (الفاعل) صفحة 25 في كتاب النشاط.';
-    btn.disabled = false;
-  }, 1400);
-}
-
 /* ── Toast ── */
 function showToast(msg, type = '') {
   const el = document.getElementById('toast');
@@ -1625,6 +1610,46 @@ function showToast(msg, type = '') {
 
 /* ── Init ── */
 updateClock();
+
+/* ── سلوك الهيدر الذكي على الأجهزة المحمولة ── */
+(function () {
+  const hdr = document.querySelector('header');
+  let lastY = 0, ticking = false;
+
+  function onScroll() {
+    if (window.innerWidth > 1024) {
+      hdr.classList.remove('header-hidden', 'header-compact');
+      return;
+    }
+    const y = window.scrollY;
+    const diff = y - lastY;
+
+    if (y < 60) {
+      hdr.classList.remove('header-hidden', 'header-compact');
+    } else if (diff > 6) {
+      hdr.classList.add('header-hidden');
+      hdr.classList.remove('header-compact');
+    } else if (diff < -4) {
+      hdr.classList.remove('header-hidden');
+      hdr.classList.add('header-compact');
+    }
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) {
+      hdr.classList.remove('header-hidden', 'header-compact');
+    }
+  });
+})();
 </script>
 </body>
 </html>
