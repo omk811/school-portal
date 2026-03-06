@@ -129,37 +129,65 @@
             top: 0;
             z-index: 200;
             box-shadow: var(--shadow-strong);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @media (max-width: 1024px) {
-            header.header-hidden { transform: translateY(-100%); box-shadow: none; }
-            header.header-compact .header-top { padding: 10px 0; }
-            header.header-compact .logo-wrap { width: 42px; height: 42px; font-size: 20px; }
-            header.header-compact .brand-text h1 { font-size: 1.2rem; }
-            header.header-compact #hdate { display: none; }
+        .header-hidden { transform: translateY(-100%); }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 clamp(16px, 4vw, 24px);
         }
 
-        .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-        
         .header-top {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
-            gap: 16px; flex-wrap: wrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
-        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand { display: flex; align-items: center; gap: 16px; }
+
         .logo-wrap {
-            width: 52px; height: 52px;
+            width: clamp(44px, 5vw, 54px);
+            height: clamp(44px, 5vw, 54px);
             background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            border-radius: 14px; display: flex; align-items: center; justify-content: center;
-            font-size: 26px; box-shadow: 0 4px 16px rgba(212,146,42,0.4); flex-shrink: 0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(20px, 3vw, 26px);
+            box-shadow: 0 4px 14px rgba(212, 146, 42, 0.3);
+            flex-shrink: 0;
         }
-        .brand-text h1 { font-family: 'Cairo', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; line-height: 1.2; }
-        .brand-text p { font-size: 0.82rem; color: rgba(255,255,255,0.65); margin-top: 2px; }
 
-        .header-actions { display: flex; align-items: center; gap: 12px; }
-        #hdate { font-size: 0.82rem; color: rgba(255,255,255,0.7); text-align: left; font-weight: 500; line-height: 1.4; }
+        .brand-text h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.4rem);
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+            color: rgba(255,255,255,0.7);
+            margin-top: 4px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+        #hdate {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.2);
+            padding: 8px 14px;
+            border-radius: 10px;
+            text-align: center;
+        }
         
         .header-buttons-group { display: flex; align-items: center; gap: 8px; }
 
@@ -197,25 +225,50 @@
 
         /* ===== CLASS TABS ===== */
         .tabs-bar {
-            display: flex; gap: 4px; padding: 10px 0; overflow-x: auto; scrollbar-width: none;
+            display: flex;
+            gap: 8px;
+            padding: 12px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
+
         .tabs-bar::-webkit-scrollbar { display: none; }
 
         .ctab {
-            display: flex; align-items: center; gap: 8px; padding: 9px 20px;
-            background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.65);
-            border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
-            font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer;
-            white-space: nowrap; transition: var(--transition);
-        }
-        .ctab:hover { background: rgba(255,255,255,0.13); color: #fff; }
-        .ctab.active {
-            background: var(--gold); color: var(--ink); border-color: var(--gold);
-            box-shadow: 0 4px 16px rgba(212,146,42,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
         }
 
-        .cbdg { background: var(--ink); color: var(--gold-light); border-radius: 50px; padding: 1px 8px; font-size: 0.78rem; font-weight: 900; }
-        .ctab.active .cbdg { background: rgba(26,39,68,0.2); color: var(--ink); }
+        .ctab:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .ctab.active {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+            box-shadow: 0 4px 14px rgba(212, 146, 42, 0.4);
+        }
+
+        .cbdg {
+            background: var(--ink);
+            color: var(--gold-light);
+            border-radius: 50px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 900;
+        }
+        .ctab.active .cbdg { background: rgba(26, 39, 68, 0.2); color: var(--ink); }
 
         /* ===== FILTER PILLS ===== */
         .filter-pills {
@@ -967,30 +1020,37 @@
             DOM.imageModal.style.display = 'none';
         });
 
-        // سلوك الهيدر عند التمرير
-        let lastY = 0, ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    if (window.innerWidth > 1024) {
-                        DOM.header.classList.remove('header-hidden', 'header-compact');
-                    } else {
-                        const y = window.scrollY;
-                        const diff = y - lastY;
-                        if (y < 60) DOM.header.classList.remove('header-hidden', 'header-compact');
-                        else if (diff > 6) { DOM.header.classList.add('header-hidden'); DOM.header.classList.remove('header-compact'); }
-                        else if (diff < -4) { DOM.header.classList.remove('header-hidden'); DOM.header.classList.add('header-compact'); }
-                        lastY = y;
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
+        // === Smart Header Scroll Behavior ===
+        (function () {
+            const hdr = DOM.header;
+            let lastY = window.scrollY;
+            let ticking = false;
 
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 1024) DOM.header.classList.remove('header-hidden', 'header-compact');
-        });
+            function onScroll() {
+                const currentY = window.scrollY;
+                
+                // إخفاء الهيدر عند النزول السريع، وإظهاره عند الصعود السريع
+                if (currentY > 80) {
+                    if (currentY > lastY && currentY - lastY > 5) {
+                        hdr.classList.add('header-hidden');
+                    } else if (currentY < lastY && lastY - currentY > 5) {
+                        hdr.classList.remove('header-hidden');
+                    }
+                } else {
+                    hdr.classList.remove('header-hidden');
+                }
+                
+                lastY = currentY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
     };
 
     // === INITIALIZATION ===
