@@ -6,7 +6,7 @@
 <title>لوحة تحكم المعلم | أ. خليل البلوشي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
   /* Colors */
@@ -23,7 +23,7 @@
   --violet: #7c3aed;
   --sand: #fdf8f0;
   --white: #ffffff;
-  --border: #e2d9cc;
+  --border: #000000;
   --muted: #8a9bbf;
   --surface: #f8f5f0;
   
@@ -44,8 +44,8 @@
 }
 
 body {
-  font-family: 'Tajawal', sans-serif;
-  background-color: var(--sand);
+  font-family: 'Baloo Bhaijaan 2', sans-serif;
+  background: linear-gradient(135deg, #f8f9fb 0%, #f0f4fa 50%, #e8f1f8 100%);
   color: var(--ink);
   min-height: 100vh;
   line-height: 1.6;
@@ -64,7 +64,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--ink) 0%, #1e4080 100%);
+  background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
   padding: 20px;
   position: relative;
   overflow: hidden;
@@ -72,7 +72,7 @@ body {
 
 #loginScreen::before {
   content: 'المحبرة';
-  font-family: 'Amiri', serif;
+  font-family: 'Cairo', sans-serif;
   font-size: clamp(10vw, 22vw, 30vw);
   color: rgba(255, 255, 255, 0.02);
   position: absolute;
@@ -115,7 +115,7 @@ body {
 }
 
 .login-card h1 {
-  font-family: 'Amiri', serif;
+  font-family: 'Cairo', sans-serif;
   font-size: clamp(1.4rem, 2.5vw, 1.8rem);
   color: var(--ink);
   text-align: center;
@@ -213,7 +213,7 @@ body {
 
 /* ===== HEADER ===== */
 header {
-  background: linear-gradient(135deg, var(--ink) 0%, #1e4080 100%);
+  background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
   position: sticky;
   top: 0;
   z-index: 200;
@@ -255,7 +255,7 @@ header {
 }
 
 .brand-text h1 {
-  font-family: 'Amiri', serif;
+  font-family: 'Cairo', sans-serif;
   font-size: clamp(1.2rem, 2vw, 1.4rem);
   color: #fff;
   line-height: 1.2;
@@ -425,6 +425,7 @@ header {
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--ink);
+  font-family: 'Cairo', sans-serif;
 }
 
 .block-icon {
@@ -539,7 +540,7 @@ header {
 }
 .notice-del:hover { background: var(--rose-light); border-color: var(--rose-light); color: #fff; }
 
-.notice-title { font-size: 1.1rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; }
+.notice-title { font-size: 1.1rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; font-family: 'Cairo', sans-serif; }
 .notice-det { font-size: 0.95rem; line-height: 1.8; color: #4a5568; white-space: pre-wrap; word-break: break-word; }
 .notice-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 16px; border: 1px solid var(--border); }
 
@@ -673,7 +674,7 @@ textarea.field-input { resize: vertical; min-height: 90px; }
 }
 
 .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.modal-title { font-family: 'Amiri', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); }
+.modal-title { font-family: 'Cairo', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); }
 .modal-close {
   width: 38px; height: 38px; border-radius: 50%;
   background: var(--surface); border: 1px solid var(--border);
