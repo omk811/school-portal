@@ -78,6 +78,7 @@
     body.dark-mode .info-box { background: var(--sand-mid); }
     body.dark-mode .info-box p { color: var(--muted); }
     body.dark-mode { background: linear-gradient(135deg, #0d1117 0%, #141b27 50%, #1a2435 100%) !important; }
+    body.dark-mode .header-outer { background: transparent !important; }
     body.dark-mode header { background: linear-gradient(135deg, #0f1419 0%, #1a2332 30%, #1f2f45 60%, #24364f 100%) !important; }
 
     /* ===== RESET & BASE ===== */
@@ -96,20 +97,33 @@
     }
 
     /* ===== HEADER ===== */
-    header {
-        background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
+    /* الـ header-outer هو الشريط الممتد بكامل عرض الشاشة — يُثبَّت في الأعلى */
+    .header-outer {
         position: sticky;
         top: 0;
         z-index: 200;
-        box-shadow: var(--shadow-strong);
+        width: 100%;
+        /* padding أفقي يطابق page-wrap حتى يتوافق الهيدر مع البطاقات */
+        padding: 0 clamp(16px, 4vw, 24px);
+        /* خلفية شفافة — اللون يأتي من header الداخلي */
+        background: transparent;
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .header-hidden { transform: translateY(-100%); }
+    .header-outer.header-hidden { transform: translateY(-100%); }
+
+    /* header الفعلي = محاذٍ لعرض البطاقات تماماً */
+    header {
+        background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
+        max-width: 1280px;
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 0 0 20px 20px;
+        box-shadow: var(--shadow-strong);
+        overflow: hidden;
+    }
 
     .header-inner {
-        max-width: 1280px;
-        margin: 0 auto;
         padding: 0 clamp(16px, 4vw, 24px);
     }
 
@@ -264,7 +278,13 @@
     .pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
     /* ===== PAGE WRAP ===== */
-    .page-wrap { max-width: 1280px; margin: 0 auto; padding: 24px clamp(16px, 4vw, 24px); }
+    /* ✅ padding-top يعوّض ارتفاع الهيدر الثابت + مسافة صغيرة */
+    .page-wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px clamp(16px, 4vw, 24px);
+        padding-top: calc(var(--header-h) + 24px);
+    }
 
     /* Hero */
     .hero {
@@ -439,12 +459,14 @@
     @media (max-width: 1024px) { 
         .main-grid { grid-template-columns: 1fr; } 
         aside.sidebar { position: relative; top: 0; }
-        .page-wrap { padding: 24px 16px 50px; }
+        .page-wrap { padding: calc(var(--header-h) + 24px) 16px 50px; }
+        .header-outer { padding: 0 16px; }
     }
 
     @media (max-width: 768px) {
-        .page-wrap { padding: 20px 14px 50px; }
-        .header-inner { padding: 0 clamp(12px, 3vw, 20px); }
+        .page-wrap { padding: calc(var(--header-h) + 20px) 14px 50px; }
+        .header-outer { padding: 0 14px; }
+        .header-inner { padding: 0; }
         .header-top { padding: 14px 0; }
         .brand { gap: 12px; }
         .logo-wrap { width: 44px; height: 44px; font-size: 20px; }
@@ -489,8 +511,9 @@
     }
 
     @media (max-width: 480px) {
-        .page-wrap { padding: 16px 12px 45px; }
-        .header-inner { padding: 0 10px; }
+        .page-wrap { padding: calc(var(--header-h) + 16px) 12px 45px; }
+        .header-outer { padding: 0 12px; }
+        .header-inner { padding: 0; }
         .header-top { padding: 12px 0; gap: 12px; }
         .brand { gap: 8px; }
         .logo-wrap { width: 40px; height: 40px; font-size: 18px; }
@@ -556,7 +579,8 @@
     }
 
     @media (max-width: 360px) {
-        .page-wrap { padding: 14px 10px 40px; }
+        .page-wrap { padding: calc(var(--header-h) + 14px) 10px 40px; }
+        .header-outer { padding: 0 10px; }
         .hero { padding: 14px; }
         .notice-card { padding: 14px; }
         .form-card { margin-bottom: 14px; }
@@ -570,6 +594,7 @@
 </head>
 <body>
 
+<div class="header-outer" id="headerOuter">
 <header id="mainHeader">
     <div class="header-inner">
         <div class="header-top">
@@ -605,6 +630,7 @@
 ```
 
 </header>
+</div>
 
 <main class="page-wrap">
     <section class="hero">
@@ -767,7 +793,8 @@
         tabsContainer: document.getElementById('classTabsContainer'),
         imageModal: document.getElementById('imageModal'),
         fullImage: document.getElementById('fullImage'),
-        header: document.getElementById('mainHeader'),
+        headerOuter: document.getElementById('headerOuter'),  // للتحريك (إخفاء/إظهار)
+        header: document.getElementById('mainHeader'),        // لقياس الارتفاع
         darkModeToggle: document.getElementById('darkModeToggle'),
         printBtn: document.getElementById('printBtn'),
         notificationBadge: document.getElementById('notificationBadge'),
@@ -1076,7 +1103,7 @@
 
         // === Smart Header Scroll Behavior ===
         (function () {
-            const hdr = DOM.header;
+            const hdr = DOM.headerOuter; // ✅ نُحرّك الـ wrapper الخارجي
             let lastY = window.scrollY;
             let ticking = false;
 
