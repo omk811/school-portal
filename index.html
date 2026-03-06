@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -7,781 +6,446 @@
     <meta name="description" content="المحبرة - مساحة مخصصة لمتابعة واجبات وتنبيهات الأستاذ خليل البلوشي للصف الخامس.">
     <title>المحبرة | أ. خليل البلوشي</title>
 
-```
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="المحبرة">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="المحبرة">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-<style>
-    /* ===== VARIABLES ===== */
-    :root {
-        --ink: #1a2744;
-        --ink-light: #2d3f6a;
-        --sky: #2a7dd4;
-        --sky-light: #4a9de8;
-        --gold: #d4922a;
-        --gold-light: #f0b84a;
-        --emerald: #1a8a60;
-        --emerald-light: #22b076;
-        --rose: #c0392b;
-        --rose-light: #e74c3c;
-        --sand: #fdf8f0;
-        --sand-mid: #f5ede0;
-        --white: #ffffff;
-        --border: #000000;
-        --muted: #8a9bbf;
-        --shadow-soft: 0 4px 20px rgba(26, 39, 68, 0.04);
-        --shadow-med: 0 8px 32px rgba(26, 39, 68, 0.08);
-        --shadow-strong: 0 16px 48px rgba(26, 39, 68, 0.12);
-        --radius: 20px;
-        --radius-sm: 10px;
-        --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    <style>
+        /* ===== VARIABLES (Modernized) ===== */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
+            
+            --radius: 16px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-h: 120px;
+        }
 
-        /* ✅ FIX: متغير ارتفاع الهيدر — يُحدَّث ديناميكياً عبر JS */
-        --header-h: 120px;
-    }
+        /* ===== DARK MODE VARIABLES ===== */
+        body.dark-mode {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --secondary: #f8fafc;
+            --accent: #fbbf24;
+            --success: #34d399;
+            --danger: #f87171;
+            --surface: #1e293b;
+            --background: #0f172a;
+            --border: #334155;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5);
+        }
 
-    /* ===== DARK MODE VARIABLES ===== */
-    body.dark-mode {
-        --ink: #e4e9f0;
-        --ink-light: #c8d3e3;
-        --sky: #4a9def;
-        --sky-light: #6ab3f5;
-        --gold: #d4a547;
-        --gold-light: #e8c665;
-        --emerald: #32a876;
-        --emerald-light: #45c895;
-        --rose: #d85252;
-        --rose-light: #f07070;
-        --sand: #0d1117;
-        --sand-mid: #161d2b;
-        --white: #1f2a3a;
-        --border: #000000;
-        --muted: #8a96a8;
-        --shadow-soft: 0 4px 24px rgba(0,0,0,0.6);
-        --shadow-med: 0 8px 40px rgba(0,0,0,0.7);
-        --shadow-strong: 0 16px 60px rgba(0,0,0,0.8);
-    }
+        /* ===== RESET & BASE ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Baloo Bhaijaan 2', sans-serif;
+            background-color: var(--background);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color var(--transition), color var(--transition);
+        }
 
-    body.dark-mode .notice-body { color: #d4dce8; }
-    body.dark-mode .q-text { color: #d4dce8; }
-    body.dark-mode .answer-text { color: #c8d3e3; }
-    body.dark-mode .reply-answer-block { background: linear-gradient(135deg, rgba(50,168,118,0.18), rgba(50,168,118,0.08)); border-color: rgba(50,168,118,0.4); }
-    body.dark-mode .notice-action-btn { background: var(--sand-mid); color: var(--muted); }
-    body.dark-mode .notice-action-btn:hover { background: var(--border); color: var(--ink); }
-    body.dark-mode .info-box { background: var(--sand-mid); }
-    body.dark-mode .info-box p { color: var(--muted); }
-    body.dark-mode { background: linear-gradient(135deg, #0d1117 0%, #141b27 50%, #1a2435 100%) !important; }
-    body.dark-mode .header-outer { background: transparent !important; }
-    body.dark-mode header { background: linear-gradient(135deg, #0f1419 0%, #1a2332 30%, #1f2f45 60%, #24364f 100%) !important; }
+        /* ===== HEADER ===== */
+        .header-outer {
+            position: sticky; top: 0; z-index: 200; width: 100%;
+            padding: 0 clamp(16px, 4vw, 24px);
+            background: transparent;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .header-outer.header-hidden { transform: translateY(-100%); }
 
-    /* ===== RESET & BASE ===== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-        font-family: 'Baloo Bhaijaan 2', sans-serif;
-        background: linear-gradient(135deg, #f8f9fb 0%, #f0f4fa 50%, #e8f1f8 100%);
-        color: var(--ink);
-        min-height: 100vh;
-        line-height: 1.8;
-        -webkit-font-smoothing: antialiased;
-        transition: background-color 0.4s ease, color 0.4s ease;
-        font-size: 1.05rem;
-        font-weight: 500;
-    }
+        header {
+            background: var(--primary);
+            max-width: 1280px; width: 100%; margin: 0 auto;
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow-lg); overflow: hidden;
+            color: white;
+        }
+        body.dark-mode header { background: #1e293b; border-bottom: 1px solid var(--border); }
 
-    /* ===== HEADER ===== */
-    /* الـ header-outer هو الشريط الممتد بكامل عرض الشاشة — يُثبَّت في الأعلى */
-    .header-outer {
-        position: sticky;
-        top: 0;
-        z-index: 200;
-        width: 100%;
-        /* padding أفقي يطابق page-wrap حتى يتوافق الهيدر مع البطاقات */
-        padding: 0 clamp(16px, 4vw, 24px);
-        /* خلفية شفافة — اللون يأتي من header الداخلي */
-        background: transparent;
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        .header-inner { padding: 0 clamp(16px, 4vw, 24px); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 16px; flex-wrap: wrap;
+        }
 
-    .header-outer.header-hidden { transform: translateY(-100%); }
+        .brand { display: flex; align-items: center; gap: 16px; }
+        .logo-wrap {
+            width: 48px; height: 48px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; flex-shrink: 0;
+        }
+        .brand-text h1 { font-family: 'Cairo', sans-serif; font-size: 1.25rem; line-height: 1.2; }
+        .brand-text p { font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
 
-    /* header الفعلي = محاذٍ لعرض البطاقات تماماً */
-    header {
-        background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
-        max-width: 1280px;
-        width: 100%;
-        margin: 0 auto;
-        border-radius: 0 0 20px 20px;
-        box-shadow: var(--shadow-strong);
-        overflow: hidden;
-    }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        #hdate { font-size: 0.8rem; background: rgba(0,0,0,0.15); padding: 8px 12px; border-radius: 8px; text-align: center; }
+        
+        .btn-icon, .btn-admin {
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1);
+            color: white; border-radius: 8px; font-family: inherit; cursor: pointer;
+            text-decoration: none; transition: var(--transition);
+        }
+        .btn-icon { width: 40px; height: 40px; font-size: 1.1rem; position: relative; }
+        .btn-admin { padding: 8px 16px; font-size: 0.9rem; font-weight: 600; gap: 6px; }
+        .btn-icon:hover, .btn-admin:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
 
-    .header-inner {
-        padding: 0 clamp(16px, 4vw, 24px);
-    }
+        .notification-badge {
+            position: absolute; top: -4px; right: -4px;
+            background: var(--danger); color: white; width: 20px; height: 20px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: bold; box-shadow: 0 0 0 2px var(--primary);
+            animation: pulse 2s infinite;
+        }
 
-    .header-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        gap: 16px;
-        flex-wrap: wrap;
-    }
+        /* ===== TABS ===== */
+        .tabs-bar {
+            display: flex; gap: 8px; padding: 12px 0;
+            overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        }
+        .tabs-bar::-webkit-scrollbar { display: none; }
+        .ctab {
+            display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+            background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9);
+            border: 1px solid transparent; border-radius: 10px; font-family: inherit;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+            transition: var(--transition);
+        }
+        .ctab:hover { background: rgba(255,255,255,0.2); }
+        .ctab.active { background: white; color: var(--primary); font-weight: 700; box-shadow: var(--shadow-sm); }
+        body.dark-mode .ctab.active { background: var(--accent); color: var(--secondary); }
+        .cbdg {
+            background: rgba(0,0,0,0.2); color: white; border-radius: 50px;
+            padding: 2px 8px; font-size: 0.75rem; font-weight: 700;
+        }
+        .ctab.active .cbdg { background: var(--primary); color: white; }
+        body.dark-mode .ctab.active .cbdg { background: var(--secondary); color: white; }
 
-    .brand { display: flex; align-items: center; gap: 16px; }
+        /* ===== PAGE WRAP ===== */
+        .page-wrap {
+            max-width: 1280px; margin: 0 auto;
+            padding: 24px clamp(16px, 4vw, 24px); padding-top: calc(var(--header-h) + 24px);
+        }
 
-    .logo-wrap {
-        width: clamp(44px, 5vw, 54px);
-        height: clamp(44px, 5vw, 54px);
-        background: linear-gradient(135deg, var(--gold), var(--gold-light));
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: clamp(20px, 3vw, 26px);
-        box-shadow: 0 4px 14px rgba(212, 146, 42, 0.3);
-        flex-shrink: 0;
-    }
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px 32px; margin-bottom: 28px;
+            display: flex; align-items: center; gap: 20px; box-shadow: var(--shadow-md);
+            animation: slideDown 0.5s ease-out;
+        }
+        .hero-icon { font-size: 2.5rem; animation: wave 2s infinite; transform-origin: 70% 70%; }
+        .hero-text h2 { font-family: 'Cairo', sans-serif; font-size: 1.5rem; color: var(--text-main); margin-bottom: 4px; }
+        .hero-text p { color: var(--text-muted); font-size: 1rem; }
 
-    .brand-text h1 {
-        font-family: 'Cairo', sans-serif;
-        font-size: clamp(1.2rem, 2vw, 1.4rem);
-        color: #fff;
-        line-height: 1.2;
-    }
+        /* ===== LAYOUT GRID ===== */
+        .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 28px; align-items: start; }
 
-    .brand-text p {
-        font-size: clamp(0.75rem, 1.5vw, 0.85rem);
-        color: rgba(255,255,255,0.7);
-        margin-top: 4px;
-    }
+        /* ===== FILTERS ===== */
+        .filter-pills { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .pill {
+            padding: 8px 16px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--surface); color: var(--text-muted); font-family: inherit;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+        }
+        .pill:hover { border-color: var(--primary); color: var(--primary); }
+        .pill.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        /* ===== CARDS (Notices & Replies) ===== */
+        .section-title { font-family: 'Cairo', sans-serif; font-size: 1.25rem; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        
+        .notice-card, .reply-card {
+            background: var(--surface); border-radius: var(--radius); padding: 24px;
+            margin-bottom: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+            transition: var(--transition); animation: slideUp 0.4s ease-out both;
+        }
+        .notice-card:hover, .reply-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
-    #hdate {
-        font-size: 0.8rem;
-        color: rgba(255,255,255,0.8);
-        background: rgba(0,0,0,0.2);
-        padding: 8px 14px;
-        border-radius: 10px;
-        text-align: center;
-    }
-    
-    .header-buttons-group { display: flex; align-items: center; gap: 8px; }
+        .notice-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 12px; }
+        .badges-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .badge.homework { background: rgba(37,99,235,0.1); color: var(--primary); }
+        .badge.activity { background: rgba(16,185,129,0.1); color: var(--success); }
+        .badge.alert { background: rgba(245,158,11,0.1); color: var(--accent); }
+        .badge.class-tag { background: var(--background); color: var(--text-muted); border: 1px solid var(--border); }
+        
+        .notice-date { font-size: 0.8rem; color: var(--text-muted); }
+        .notice-title { font-family: 'Cairo', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+        .notice-body, .q-text, .answer-text { font-size: 1.05rem; color: var(--text-muted); white-space: pre-wrap; word-wrap: break-word; }
+        
+        .notice-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 12px; margin-top: 16px; cursor: pointer; border: 1px solid var(--border); transition: opacity 0.2s; }
+        .notice-img:hover { opacity: 0.9; }
 
-    .btn-icon {
-        display: flex; align-items: center; justify-content: center;
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-        color: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 10px;
-        font-family: inherit; font-size: 0.9rem; cursor: pointer;
-        text-decoration: none; transition: var(--transition);
-        position: relative;
-    }
-    .btn-icon:hover { background: rgba(255,255,255,0.18); color: #fff; transform: translateY(-1px); }
+        .notice-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .btn-action { background: var(--background); border: 1px solid var(--border); color: var(--text-main); padding: 6px 14px; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-action:hover { background: var(--border); }
 
-    .notification-badge {
-        position: absolute; top: -6px; left: -6px;
-        background: var(--rose); color: #fff; width: 24px; height: 24px;
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        font-size: 0.75rem; font-weight: 900; box-shadow: 0 2px 8px rgba(192,57,43,0.6);
-        animation: badgePulse 2s ease-in-out infinite;
-    }
-    @keyframes badgePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        /* ===== REPLIES ===== */
+        .reply-q { display: flex; gap: 12px; margin-bottom: 16px; }
+        .avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .avatar.user { background: rgba(37,99,235,0.1); }
+        .avatar.teacher { background: var(--success); color: white; }
+        .q-meta-name { font-weight: 700; color: var(--text-main); font-size: 0.9rem; margin-bottom: 4px; }
+        .q-meta-name span { color: var(--text-muted); font-weight: 400; font-size: 0.8rem; }
+        
+        .reply-a { background: var(--background); border: 1px solid var(--border); border-radius: 12px; padding: 16px; border-right: 4px solid var(--success); }
+        .reply-a-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: 700; color: var(--success); font-size: 0.9rem; }
 
-    .btn-admin {
-        display: flex; align-items: center; gap: 6px;
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-        color: rgba(255,255,255,0.9); padding: 8px 16px; border-radius: 10px;
-        font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
-        text-decoration: none; transition: var(--transition);
-    }
-    .btn-admin:hover { background: rgba(255,255,255,0.18); color: #fff; transform: translateY(-1px); }
+        /* ===== SIDEBAR & FORM ===== */
+        aside.sidebar { position: sticky; top: calc(var(--header-h) + 24px); }
+        .form-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-md); overflow: hidden; margin-bottom: 24px; }
+        .form-header { background: var(--primary); padding: 20px 24px; color: white; }
+        .form-header h3 { font-family: 'Cairo', sans-serif; font-size: 1.1rem; margin-bottom: 4px; }
+        .form-header p { font-size: 0.85rem; opacity: 0.8; }
+        
+        .form-body { padding: 24px; }
+        .form-row { margin-bottom: 16px; }
+        .field-label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+        .field-input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 1rem; background: var(--background); color: var(--text-main); transition: var(--transition); }
+        .field-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); background: var(--surface); }
+        textarea.field-input { resize: vertical; min-height: 100px; }
+        
+        .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; gap: 8px; }
+        .btn-submit:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
 
-    /* ===== CLASS TABS ===== */
-    .tabs-bar {
-        display: flex;
-        gap: 8px;
-        padding: 12px 0;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
+        .links-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow-sm); }
+        .links-title { font-family: 'Cairo', sans-serif; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-main); }
+        .link-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; background: var(--background); text-decoration: none; color: var(--text-main); transition: var(--transition); border: 1px solid transparent; margin-bottom: 10px; }
+        .link-item:hover { border-color: var(--primary); transform: translateX(-4px); }
+        .link-icon { font-size: 1.5rem; width: 40px; height: 40px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
+        body.dark-mode .link-icon { background: var(--surface); }
+        .link-text strong { display: block; font-size: 0.95rem; }
+        .link-text span { font-size: 0.8rem; color: var(--text-muted); }
 
-    .tabs-bar::-webkit-scrollbar { display: none; }
+        /* ===== UTILS & STATES ===== */
+        .empty-state { text-align: center; padding: 40px 20px; background: var(--surface); border: 2px dashed var(--border); border-radius: var(--radius); color: var(--text-muted); }
+        .empty-state span { font-size: 3rem; display: block; margin-bottom: 12px; }
+        
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--secondary); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; z-index: 9999; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; pointer-events: none; }
+        body.dark-mode .toast { background: var(--surface); border: 1px solid var(--border); }
+        .toast.visible { transform: translate(-50%, 0); opacity: 1; }
+        .toast.success { background: var(--success); color: white; }
+        .toast.error { background: var(--danger); color: white; }
 
-    .ctab {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        background: rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.7);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 10px;
-        font-family: inherit;
-        font-size: 0.9rem;
-        font-weight: 700;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: var(--transition);
-    }
+        .modal { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px; }
+        .modal img { max-width: 100%; max-height: 90vh; border-radius: 12px; animation: scaleIn 0.3s ease-out; }
 
-    .ctab:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .ctab.active {
-        background: var(--gold);
-        color: var(--ink);
-        border-color: var(--gold);
-        box-shadow: 0 4px 14px rgba(212, 146, 42, 0.4);
-    }
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes wave { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-    .cbdg {
-        background: var(--ink);
-        color: var(--gold-light);
-        border-radius: 50px;
-        padding: 2px 8px;
-        font-size: 0.75rem;
-        font-weight: 900;
-    }
-    .ctab.active .cbdg { background: rgba(26, 39, 68, 0.2); color: var(--ink); }
-
-    /* ===== FILTER PILLS ===== */
-    .filter-pills {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-
-    .pill {
-        padding: 8px 18px;
-        border-radius: 50px;
-        border: 1.5px solid var(--border);
-        background: var(--white);
-        font-family: inherit;
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--muted);
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .pill:hover { border-color: var(--sky); color: var(--sky); }
-    .pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-
-    /* ===== PAGE WRAP ===== */
-    /* ✅ padding-top يعوّض ارتفاع الهيدر الثابت + مسافة صغيرة */
-    .page-wrap {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 24px clamp(16px, 4vw, 24px);
-        padding-top: calc(var(--header-h) + 24px);
-    }
-
-    /* Hero */
-    .hero {
-        background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%);
-        border-radius: var(--radius); padding: 28px 32px; color: #fff; margin-bottom: 28px;
-        display: flex; align-items: center; gap: 20px; box-shadow: var(--shadow-med);
-        position: relative; overflow: hidden; animation: heroSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    @keyframes heroSlideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    .hero::before { content: 'المحبرة'; font-family: 'Cairo', sans-serif; font-size: 9rem; color: rgba(255,255,255,0.04); position: absolute; left: -10px; bottom: -30px; font-weight: 700; pointer-events: none; line-height: 1; }
-    .hero-icon { width: 72px; height: 72px; background: rgba(255,255,255,0.15); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); animation: heroIconBounce 0.8s cubic-bezier(0.34,1.56,0.64,1); }
-    @keyframes heroIconBounce { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    .hero-text h2 { font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
-    .hero-text p { font-size: 1rem; opacity: 0.85; line-height: 1.6; }
-
-    /* Grid */
-    .main-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
-
-    /* Section Titles */
-    .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .section-label .s-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-    .s-icon.notices { background: rgba(42,125,212,0.12); }
-    .s-icon.replies { background: rgba(26,138,96,0.12); }
-    .section-label .s-text h3 { font-size: 1.1rem; font-weight: 800; color: var(--ink); line-height: 1; font-family: 'Cairo', sans-serif; }
-    .section-label .s-text p { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
-
-    /* Notices & Replies Containers */
-    #nList, #rList { content-visibility: auto; contain-intrinsic-size: 500px; }
-
-    /* Notice Cards */
-    .notice-card {
-        background: var(--white); border-radius: var(--radius); padding: 22px 24px;
-        margin-bottom: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-soft);
-        transition: var(--transition); position: relative; overflow: hidden;
-        animation: slideInUp 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-    }
-    @keyframes slideInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .notice-card:nth-child(1) { animation-delay: 0.05s; }
-    .notice-card:nth-child(2) { animation-delay: 0.1s; }
-    .notice-card:nth-child(3) { animation-delay: 0.15s; }
-    .notice-card:nth-child(4) { animation-delay: 0.2s; }
-    .notice-card:nth-child(5) { animation-delay: 0.25s; }
-    .notice-card:nth-child(n+6) { animation-delay: 0.3s; }
-
-    .notice-card::before { content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%; border-radius: 0 var(--radius) var(--radius) 0; }
-    .notice-card.homework::before { background: var(--sky); }
-    .notice-card.activity::before { background: var(--emerald); }
-    .notice-card.alert::before { background: var(--gold); }
-    .notice-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-med); }
-
-    .notice-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .notice-type-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; }
-    .notice-type-badge.homework { background: rgba(42,125,212,0.1); color: var(--sky); }
-    .notice-type-badge.activity { background: rgba(26,138,96,0.1); color: var(--emerald); }
-    .notice-type-badge.alert { background: rgba(212,146,42,0.12); color: var(--gold); }
-    
-    .notice-meta-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .notice-class-tag { background: var(--sand-mid); color: var(--ink-light); padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; }
-    .notice-date { font-size: 0.8rem; color: var(--muted); }
-    .notice-title { font-size: 1.15rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.4; font-family: 'Cairo', sans-serif; }
-    .notice-body { font-size: 1.02rem; color: #4a5568; line-height: 1.85; white-space: pre-wrap; word-wrap: break-word; }
-    .notice-img { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; margin-top: 16px; cursor: pointer; transition: var(--transition); border: 1px solid var(--border); }
-    .notice-img:hover { opacity: 0.88; }
-
-    /* Notice Actions */
-    .notice-actions { display: flex; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-    .notice-action-btn { display: flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 8px; background: var(--sand-mid); color: var(--muted); border: none; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
-    .notice-action-btn:hover { background: var(--border); color: var(--ink); transform: translateY(-1px); }
-
-    /* Empty state */
-    .empty-state { background: var(--white); border-radius: var(--radius); padding: 50px 30px; text-align: center; border: 2px dashed var(--border); }
-    .empty-state .e-icon { font-size: 48px; margin-bottom: 14px; }
-    .empty-state p { color: var(--muted); font-size: 1rem; font-weight: 500; }
-
-    /* Replies Section */
-    .reply-card { background: var(--white); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); transition: var(--transition); animation: slideInUp 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-    .reply-card:hover { box-shadow: var(--shadow-med); }
-    .reply-question-block { display: flex; gap: 12px; margin-bottom: 16px; }
-    .q-avatar { width: 38px; height: 38px; background: rgba(42,125,212,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .q-meta { flex: 1; }
-    .q-meta .q-who { font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-    .q-meta .q-who span { color: var(--muted); font-weight: 400; }
-    .q-text { font-size: 1.02rem; color: #4a5568; line-height: 1.7; }
-    
-    .reply-answer-block { background: linear-gradient(135deg, rgba(26,138,96,0.06), rgba(26,138,96,0.02)); border: 1px solid rgba(26,138,96,0.2); border-radius: 14px; padding: 18px 20px; }
-    .answer-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .teacher-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--emerald), var(--emerald-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; flex-shrink: 0; }
-    .answer-header .t-name { font-size: 0.9rem; font-weight: 800; color: var(--emerald); }
-    .answer-text { font-size: 1.02rem; color: #1a4a35; line-height: 1.8; }
-
-    /* ✅ FIX: Sidebar يستخدم --header-h بدلاً من القيمة الثابتة 110px */
-    aside.sidebar {
-        position: sticky;
-        top: calc(var(--header-h) + 16px);
-    }
-
-    .form-card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-med); overflow: hidden; }
-    .form-card-header { background: linear-gradient(135deg, #1e3a7a 0%, #2a5a99 30%, #3a7bb8 60%, #4a8ec8 100%); padding: 22px 24px; color: #fff; }
-    .form-card-header h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; font-family: 'Cairo', sans-serif; }
-    .form-card-header p { font-size: 0.95rem; opacity: 0.7; font-weight: 500; }
-    .form-body { padding: 22px 24px; }
-    .form-row { margin-bottom: 14px; }
-    
-    label.field-label { display: block; font-size: 0.83rem; font-weight: 700; color: var(--ink-light); margin-bottom: 6px; }
-    .field-input { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 1.02rem; font-weight: 500; color: var(--ink); background: var(--sand); transition: var(--transition); }
-    .field-input:focus { outline: none; border-color: var(--sky); background: var(--white); box-shadow: 0 0 0 4px rgba(42,125,212,0.1); }
-    textarea.field-input { resize: vertical; min-height: 110px; }
-    
-    .btn-send {
-        width: 100%; padding: 14px; background: linear-gradient(135deg, var(--sky), var(--sky-light));
-        color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 1.05rem; font-weight: 800;
-        cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center;
-        gap: 8px; margin-top: 6px; box-shadow: 0 4px 16px rgba(42,125,212,0.3);
-    }
-    .btn-send:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,125,212,0.4); }
-    .btn-send:disabled { background: #bdc3c7; cursor: not-allowed; opacity: 0.8; box-shadow: none; }
-
-    .info-box { margin-top: 16px; background: var(--sand-mid); border-radius: 12px; padding: 14px 16px; }
-    .info-box p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; display: flex; align-items: flex-start; gap: 6px; }
-
-    /* Quick Links Card */
-    .quick-links-card { margin-top: 16px; background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-soft); overflow: hidden; }
-    .ql-header { display: flex; align-items: center; gap: 8px; padding: 14px 18px; background: var(--sand); border-bottom: 1px solid var(--border); font-weight: 800; font-size: 0.95rem; color: var(--ink); font-family: 'Cairo', sans-serif; }
-    .ql-header-icon { font-size: 18px; }
-    .ql-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .ql-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 13px; text-decoration: none; transition: var(--transition); border: 1px solid transparent; }
-    .ql-item:hover { transform: translateX(-4px); box-shadow: var(--shadow-med); }
-    .ql-purple { background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(124,58,237,0.02)); border-color: rgba(124,58,237,0.15); }
-    .ql-purple:hover { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(124,58,237,0.04)); }
-    .ql-emerald { background: linear-gradient(135deg, rgba(26,138,96,0.07), rgba(26,138,96,0.02)); border-color: rgba(26,138,96,0.18); }
-    .ql-emerald:hover { background: linear-gradient(135deg, rgba(26,138,96,0.12), rgba(26,138,96,0.04)); }
-    .ql-item-icon { font-size: 24px; width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .ql-purple .ql-item-icon { background: rgba(124,58,237,0.1); }
-    .ql-emerald .ql-item-icon { background: rgba(26,138,96,0.1); }
-    .ql-item-text { flex: 1; }
-    .ql-item-text strong { display: block; font-size: 0.95rem; font-weight: 800; color: var(--ink); margin-bottom: 2px; font-family: 'Cairo', sans-serif; }
-    .ql-item-text span { font-size: 0.78rem; color: var(--muted); }
-    .ql-arrow { font-size: 1.1rem; color: var(--muted); transition: var(--transition); }
-    .ql-item:hover .ql-arrow { transform: translateX(-4px); color: var(--ink); }
-
-    /* Utilities */
-    .section-divider { height: 1px; background: var(--border); margin: 28px 0; }
-    .clickable-link { color: var(--sky); text-decoration: none; font-weight: 600; border-bottom: 1px dashed currentColor; transition: var(--transition); }
-    .clickable-link:hover { color: var(--ink-light); }
-
-    /* Image Modal */
-    .image-modal { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(10,15,30,0.96); align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(8px); }
-    .modal-img { max-width: 92%; max-height: 88vh; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,0.6); animation: popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275) both; }
-    @keyframes popIn { from { transform: scale(0.75); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    /* Toast */
-    .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--ink); color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 0.97rem; z-index: 10000; transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55); box-shadow: var(--shadow-strong); pointer-events: none; }
-    .toast.visible { transform: translateX(-50%) translateY(0); }
-    .toast.success { background: var(--emerald); }
-    .toast.error { background: var(--rose); }
-
-    /* Print Styles */
-    @media print {
-        body { background: white; }
-        header, aside.sidebar, .form-card, .quick-links-card, .btn-admin, .header-actions, .section-divider { display: none; }
-        .main-grid { grid-template-columns: 1fr; }
-        .notice-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
-        .notice-actions { display: none; }
-        .print-date { display: block; text-align: center; color: #666; font-size: 0.9rem; margin: 20px 0; }
-    }
-
-    /* Animations */
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .loading-pulse { animation: pulse 1.5s ease infinite; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) { 
-        .main-grid { grid-template-columns: 1fr; } 
-        aside.sidebar { position: relative; top: 0; }
-        .page-wrap { padding: calc(var(--header-h) + 24px) 16px 50px; }
-        .header-outer { padding: 0 16px; }
-    }
-
-    @media (max-width: 768px) {
-        .page-wrap { padding: calc(var(--header-h) + 20px) 14px 50px; }
-        .header-outer { padding: 0 14px; }
-        .header-inner { padding: 0; }
-        .header-top { padding: 14px 0; }
-        .brand { gap: 12px; }
-        .logo-wrap { width: 44px; height: 44px; font-size: 20px; }
-        .brand-text h1 { font-size: 1.1rem; }
-        .brand-text p { font-size: 0.75rem; }
-        #hdate { font-size: 0.75rem; padding: 6px 10px; }
-        .ctab { padding: 9px 14px; font-size: 0.85rem; }
-        .cbdg { font-size: 0.7rem; }
-        .filter-pills { gap: 8px; margin-bottom: 16px; }
-        .pill { padding: 6px 14px; font-size: 0.85rem; }
-        .hero { padding: 20px; gap: 12px; margin-bottom: 20px; }
-        .hero-icon { width: 52px; height: 52px; font-size: 26px; }
-        .hero-text h2 { font-size: 1.3rem; margin-bottom: 4px; }
-        .hero-text p { font-size: 0.9rem; }
-        .notice-card { padding: 18px; margin-bottom: 14px; }
-        .notice-title { font-size: 1.05rem; margin-bottom: 8px; }
-        .notice-body { font-size: 1rem; line-height: 1.7; }
-        .notice-img { max-height: 250px; margin-top: 14px; }
-        .notice-actions { gap: 8px; padding-top: 12px; }
-        .notice-action-btn { padding: 5px 10px; font-size: 0.75rem; }
-        .reply-card { padding: 18px; margin-bottom: 14px; }
-        .q-text { font-size: 1rem; }
-        .answer-text { font-size: 1rem; }
-        .form-card { margin-bottom: 20px; }
-        .form-card-header { padding: 18px 20px; }
-        .form-card-header h3 { font-size: 1rem; }
-        .form-card-header p { font-size: 0.8rem; }
-        .form-body { padding: 18px 20px; }
-        .form-row { margin-bottom: 12px; }
-        .field-label { font-size: 0.8rem; margin-bottom: 6px; }
-        .field-input { padding: 10px 14px; font-size: 1rem; }
-        .btn-send { padding: 12px; font-size: 1rem; }
-        .quick-links-card { margin-top: 20px; }
-        .ql-item { padding: 12px 14px; gap: 10px; }
-        .ql-item-text strong { font-size: 0.9rem; }
-        .ql-item-text span { font-size: 0.75rem; }
-        .section-label { margin-bottom: 14px; gap: 8px; }
-        .section-label .s-icon { width: 36px; height: 36px; font-size: 18px; }
-        .section-label .s-text h3 { font-size: 1.05rem; }
-        .section-label .s-text p { font-size: 0.8rem; }
-        .section-divider { margin: 20px 0; }
-    }
-
-    @media (max-width: 480px) {
-        .page-wrap { padding: calc(var(--header-h) + 16px) 12px 45px; }
-        .header-outer { padding: 0 12px; }
-        .header-inner { padding: 0; }
-        .header-top { padding: 12px 0; gap: 12px; }
-        .brand { gap: 8px; }
-        .logo-wrap { width: 40px; height: 40px; font-size: 18px; }
-        .brand-text h1 { font-size: 1rem; line-height: 1.1; }
-        .brand-text p { font-size: 0.7rem; margin-top: 0px; }
-        #hdate { display: none; }
-        .btn-icon { width: 36px; height: 36px; font-size: 0.8rem; }
-        .btn-admin { padding: 6px 12px; font-size: 0.8rem; }
-        .tabs-bar { gap: 6px; padding: 10px 0; }
-        .ctab { padding: 7px 12px; font-size: 0.8rem; }
-        .cbdg { font-size: 0.65rem; padding: 1px 6px; }
-        .filter-pills { gap: 6px; margin-bottom: 14px; }
-        .pill { padding: 5px 12px; font-size: 0.8rem; }
-        .hero { padding: 16px; gap: 10px; margin-bottom: 16px; }
-        .hero::before { font-size: 5rem; bottom: -20px; }
-        .hero-icon { width: 48px; height: 48px; font-size: 24px; }
-        .hero-text h2 { font-size: 1.2rem; }
-        .hero-text p { font-size: 0.85rem; line-height: 1.5; }
-        .notice-card { padding: 16px; margin-bottom: 12px; border-radius: 14px; }
-        .notice-top { margin-bottom: 10px; }
-        .notice-date { font-size: 0.75rem; }
-        .notice-title { font-size: 1rem; margin-bottom: 6px; }
-        .notice-body { font-size: 0.95rem; line-height: 1.6; }
-        .notice-img { max-height: 220px; margin-top: 12px; border-radius: 10px; }
-        .notice-actions { flex-direction: column; gap: 6px; padding-top: 10px; }
-        .notice-action-btn { width: 100%; padding: 6px 10px; font-size: 0.75rem; }
-        .reply-card { padding: 16px; margin-bottom: 12px; }
-        .q-text { font-size: 0.95rem; }
-        .reply-answer-block { padding: 14px 16px; }
-        .teacher-avatar { width: 32px; height: 32px; font-size: 14px; }
-        .answer-header .t-name { font-size: 0.85rem; }
-        .answer-text { font-size: 0.95rem; }
-        .form-card { margin-bottom: 16px; }
-        .form-card-header { padding: 16px 18px; }
-        .form-card-header h3 { font-size: 0.95rem; }
-        .form-card-header p { font-size: 0.78rem; }
-        .form-body { padding: 16px 18px; }
-        .form-row { margin-bottom: 10px; }
-        .field-label { font-size: 0.78rem; margin-bottom: 5px; }
-        .field-input { padding: 10px 12px; font-size: 0.95rem; border-radius: 8px; }
-        textarea.field-input { min-height: 100px; }
-        .btn-send { padding: 11px; font-size: 0.95rem; border-radius: 10px; }
-        .quick-links-card { margin-top: 16px; }
-        .ql-header { padding: 12px 16px; font-size: 0.9rem; }
-        .ql-body { padding: 10px; gap: 8px; }
-        .ql-item { padding: 10px 12px; gap: 8px; border-radius: 10px; }
-        .ql-item-icon { font-size: 20px; width: 40px; height: 40px; border-radius: 9px; }
-        .ql-item-text strong { font-size: 0.88rem; }
-        .ql-item-text span { font-size: 0.73rem; }
-        .ql-arrow { font-size: 1rem; }
-        .section-label { gap: 6px; margin-bottom: 12px; }
-        .section-label .s-icon { width: 32px; height: 32px; font-size: 16px; }
-        .section-label .s-text h3 { font-size: 1rem; line-height: 1.2; }
-        .section-label .s-text p { font-size: 0.75rem; }
-        .info-box { margin-top: 12px; padding: 12px 14px; }
-        .info-box p { font-size: 0.78rem; }
-        .section-divider { margin: 16px 0; }
-        .empty-state { padding: 40px 20px; }
-        .empty-state .e-icon { font-size: 40px; margin-bottom: 12px; }
-        .empty-state p { font-size: 0.95rem; }
-        .modal-img { border-radius: 12px; }
-        .toast { bottom: 20px; padding: 12px 20px; font-size: 0.9rem; border-radius: 40px; }
-    }
-
-    @media (max-width: 360px) {
-        .page-wrap { padding: calc(var(--header-h) + 14px) 10px 40px; }
-        .header-outer { padding: 0 10px; }
-        .hero { padding: 14px; }
-        .notice-card { padding: 14px; }
-        .form-card { margin-bottom: 14px; }
-        .pill { padding: 4px 10px; font-size: 0.78rem; }
-        .notice-title { font-size: 0.95rem; }
-        .notice-body { font-size: 0.9rem; }
-    }
-</style>
-```
-
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .main-grid { grid-template-columns: 1fr; }
+            aside.sidebar { position: static; }
+        }
+        @media (max-width: 600px) {
+            .header-top { flex-direction: column; align-items: flex-start; gap: 12px; padding: 12px 0; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            #hdate { display: none; }
+            .hero { flex-direction: column; text-align: center; padding: 20px; }
+            .notice-card, .reply-card, .form-body, .form-header { padding: 16px; }
+            .btn-action { width: 100%; justify-content: center; }
+            .notice-actions { flex-direction: column; }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body { background: white; color: black; }
+            header, .sidebar, .filter-pills, .notice-actions, .tabs-bar { display: none !important; }
+            .page-wrap { padding: 0; margin: 0; max-width: 100%; }
+            .notice-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; margin-bottom: 20px; }
+        }
+    </style>
 </head>
 <body>
 
 <div class="header-outer" id="headerOuter">
-<header id="mainHeader">
-    <div class="header-inner">
-        <div class="header-top">
-            <div class="brand">
-                <div class="logo-wrap">📚</div>
-                <div class="brand-text">
-                    <h1>المحبرة</h1>
-                    <p>أ. خليل البلوشي · اللغة العربية · الصف الخامس</p>
+    <header id="mainHeader">
+        <div class="header-inner">
+            <div class="header-top">
+                <div class="brand">
+                    <div class="logo-wrap">📚</div>
+                    <div class="brand-text">
+                        <h1>المحبرة</h1>
+                        <p>أ. خليل البلوشي · اللغة العربية</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div id="hdate"></div>
+                    <button class="btn-icon" id="darkModeToggle" aria-label="تبديل الوضع الليلي">🌙</button>
+                    <button class="btn-icon" id="printBtn" aria-label="طباعة الملاحظات">🖨️</button>
+                    <a href="teacher.html" class="btn-admin">🔐 المعلم</a>
                 </div>
             </div>
-            <div class="header-actions">
-                <div id="hdate"></div>
-                <div class="header-buttons-group">
-                    <button class="btn-icon" id="darkModeToggle" title="تفعيل الوضع الليلي">🌙</button>
-                    <button class="btn-icon" id="printBtn" title="طباعة الملاحظات">🖨️</button>
-                    <a href="teacher.html" class="btn-admin">🔐 دخول المعلم</a>
-                </div>
-            </div>
+            <nav class="tabs-bar" id="classTabsContainer">
+                <button class="ctab active" data-class="all">📋 الكل</button>
+                <button class="ctab" data-class="5A">✏️ خامس 1 <span class="cbdg" id="b5A">0</span></button>
+                <button class="ctab" data-class="5B">✏️ خامس 2 <span class="cbdg" id="b5B">0</span></button>
+                <button class="ctab" data-class="5C">✏️ خامس 3 <span class="cbdg" id="b5C">0</span></button>
+                <button class="ctab" id="repliesTab" data-class="all">
+                    💬 الردود <span class="cbdg" id="repliesCount">0</span>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;"></span>
+                </button>
+            </nav>
         </div>
-
-```
-    <nav class="tabs-bar" id="classTabsContainer">
-        <button class="ctab active" data-class="all">📋 جميع الملاحظات</button>
-        <button class="ctab" data-class="5A">✏️ خامس 1 <span class="cbdg" id="b5A">0</span></button>
-        <button class="ctab" data-class="5B">✏️ خامس 2 <span class="cbdg" id="b5B">0</span></button>
-        <button class="ctab" data-class="5C">✏️ خامس 3 <span class="cbdg" id="b5C">0</span></button>
-        <button class="ctab" id="repliesTab" data-class="all">
-            💬 الردود <span class="cbdg" id="repliesCount">0</span>
-            <span class="notification-badge" id="notificationBadge" style="display: none;">•</span>
-        </button>
-    </nav>
-</div>
-```
-
-</header>
+    </header>
 </div>
 
 <main class="page-wrap">
     <section class="hero">
-        <div class="hero-icon">👋</div>
+        <div class="hero-icon" aria-hidden="true">👋</div>
         <div class="hero-text">
             <h2>أهلاً بأولياء الأمور الكرام</h2>
-            <p>هذه المساحة مخصصة لمتابعة الواجبات والأنشطة والتنبيهات، وإرسال استفساراتكم للأستاذ مباشرةً.</p>
+            <p>مساحة مخصصة لمتابعة الواجبات والأنشطة، والتواصل المباشر مع الأستاذ.</p>
         </div>
     </section>
 
-```
-<div class="main-grid">
-    <div class="content-col">
-        <div class="section-label">
-            <div class="s-icon notices">📌</div>
-            <div class="s-text">
-                <h3>الملاحظات والتنبيهات</h3>
-                <p>آخر ما أضافه الأستاذ لشعبتك</p>
+    <div class="main-grid">
+        <div class="content-col">
+            <h3 class="section-title">📌 الملاحظات والتنبيهات</h3>
+            <div class="filter-pills" id="filtersContainer">
+                <button class="pill active" data-filter="all">الكل</button>
+                <button class="pill" data-filter="homework">📝 واجبات</button>
+                <button class="pill" data-filter="activity">🎯 أنشطة</button>
+                <button class="pill" data-filter="alert">🔔 تنبيهات</button>
             </div>
+
+            <section id="nList">
+                <div class="empty-state">
+                    <span>⏳</span>
+                    <p>جاري تحميل البيانات...</p>
+                </div>
+            </section>
+
+            <h3 class="section-title" style="margin-top: 40px;">💬 ردود الأستاذ</h3>
+            <section id="rList">
+                <div class="empty-state" id="rEmpty" style="display:none">
+                    <span>💌</span>
+                    <p>لا توجد ردود بعد.</p>
+                </div>
+            </section>
         </div>
 
-        <div class="filter-pills">
-            <button class="pill active" onclick="filterNotices('all')">الكل</button>
-            <button class="pill" onclick="filterNotices('homework')">📝 واجبات</button>
-            <button class="pill" onclick="filterNotices('activity')">🎯 أنشطة</button>
-            <button class="pill" onclick="filterNotices('alert')">🔔 تنبيهات</button>
-        </div>
-
-        <section id="nList">
-            <div class="empty-state loading-pulse">
-                <div class="e-icon">⏳</div>
-                <p>جاري تحميل البيانات...</p>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <div class="section-label">
-            <div class="s-icon replies">💬</div>
-            <div class="s-text">
-                <h3>ردود الأستاذ على الاستفسارات</h3>
-                <p>الاستفسارات التي تمّ الرد عليها</p>
-            </div>
-        </div>
-
-        <section id="rList">
-            <div class="empty-state" id="rEmpty" style="display:none">
-                <div class="e-icon">💌</div>
-                <p>لا توجد ردود بعد. سيظهر هنا رد الأستاذ على استفساراتك.</p>
-            </div>
-        </section>
-    </div>
-
-    <aside class="sidebar">
-        <div class="form-card">
-            <div class="form-card-header">
-                <h3>📨 أرسل استفساراً للأستاذ</h3>
-                <p>سيرد الأستاذ خليل في أقرب وقت ممكن</p>
-            </div>
-            <form class="form-body" id="queryForm">
-                <div class="form-row">
-                    <label class="field-label" for="pN">اسم ولي الأمر</label>
-                    <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم..." required>
+        <aside class="sidebar">
+            <div class="form-card">
+                <div class="form-header">
+                    <h3>📨 أرسل استفساراً</h3>
+                    <p>سيرد الأستاذ خليل في أقرب وقت</p>
                 </div>
-                <div class="form-row">
-                    <label class="field-label" for="pS">اسم الطالب ثلاثياً</label>
-                    <input type="text" class="field-input" id="pS" placeholder="اسم الطالب ..." required>
-                </div>
-                <div class="form-row">
-                    <label class="field-label" for="pC">الشعبة</label>
-                    <select class="field-input" id="pC" required>
-                        <option value="">— اختر الشعبة —</option>
-                        <option value="5A">الخامس 1</option>
-                        <option value="5B">الخامس 2</option>
-                        <option value="5C">الخامس 3</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <label class="field-label" for="pM">الاستفسار أو السؤال</label>
-                    <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..." required></textarea>
-                </div>
-                <button type="submit" class="btn-send" id="sendBtn">
-                    <span>إرسال</span> <span>📤</span>
-                </button>
-
-                <div class="info-box">
-                    <p>💡 تظهر الردود في قسم "ردود الأستاذ" في هذه الصفحة بعد مراجعة الاستفسار.</p>
-                </div>
-            </form>
-        </div>
-
-        <div class="quick-links-card">
-            <div class="ql-header">
-                <span class="ql-header-icon">🔗</span>
-                <span>روابط مفيدة</span>
+                <form class="form-body" id="queryForm">
+                    <div class="form-row">
+                        <label class="field-label" for="pN">اسم ولي الأمر</label>
+                        <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم..." required>
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label" for="pS">اسم الطالب ثلاثياً</label>
+                        <input type="text" class="field-input" id="pS" placeholder="اسم الطالب..." required>
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label" for="pC">الشعبة</label>
+                        <select class="field-input" id="pC" required>
+                            <option value="">— اختر الشعبة —</option>
+                            <option value="5A">الخامس 1</option>
+                            <option value="5B">الخامس 2</option>
+                            <option value="5C">الخامس 3</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="field-label" for="pM">الاستفسار</label>
+                        <textarea class="field-input" id="pM" placeholder="اكتب سؤالك هنا..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="sendBtn">
+                        إرسال الاستفسار 📤
+                    </button>
+                </form>
             </div>
-            <div class="ql-body">
-                <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item ql-purple">
-                    <div class="ql-item-icon">🚀</div>
-                    <div class="ql-item-text">
+
+            <div class="links-card">
+                <h3 class="links-title">🔗 روابط سريعة</h3>
+                <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" class="link-item">
+                    <div class="link-icon">🚀</div>
+                    <div class="link-text">
                         <strong>منصة ارتقِ</strong>
-                        <span>اللغة العربية - الصف الخامس</span>
+                        <span>المحتوى التعليمي للصف الخامس</span>
                     </div>
-                    <div class="ql-arrow">←</div>
                 </a>
-                <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item ql-emerald">
-                    <div class="ql-item-icon">📊</div>
-                    <div class="ql-item-text">
-                        <strong>بوابة نتائج الطلاب</strong>
-                        <span>الأستاذ خليل البلوشي</span>
+                <a href="https://omk811.github.io/student-results/" target="_blank" class="link-item">
+                    <div class="link-icon">📊</div>
+                    <div class="link-text">
+                        <strong>نتائج الطلاب</strong>
+                        <span>بوابة الدرجات والتقييم</span>
                     </div>
-                    <div class="ql-arrow">←</div>
                 </a>
             </div>
-        </div>
-    </aside>
-</div>
-```
-
+        </aside>
+    </div>
 </main>
 
-<div id="imageModal" class="image-modal">
-    <img class="modal-img" id="fullImage" alt="صورة مكبرة">
+<div id="imageModal" class="modal">
+    <img id="fullImage" alt="صورة مكبرة">
 </div>
 <div class="toast" id="toast"></div>
-<div class="print-date" id="printDate" style="display: none;"></div>
 
 <script>
 "use strict";
 
 (function() {
-    // === CONFIGURATION & CONSTANTS ===
+    // === CONFIG & CONSTANTS ===
     const API_URL = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
     const STORAGE_KEY = 'school_data_v2';
     const DARKMODE_KEY = 'darkmode_enabled';
     const CLASS_NAMES = { all: 'عام', '5A': 'خامس 1', '5B': 'خامس 2', '5C': 'خامس 3' };
     const TYPE_NAMES = { 
-        homework: { label: 'واجب', icon: '📝' }, 
-        activity: { label: 'نشاط', icon: '🎯' }, 
-        alert: { label: 'تنبيه', icon: '🔔' } 
+        homework: { label: 'واجب', icon: '📝', class: 'homework' }, 
+        activity: { label: 'نشاط', icon: '🎯', class: 'activity' }, 
+        alert: { label: 'تنبيه', icon: '🔔', class: 'alert' } 
     };
 
     // === STATE ===
     let state = {
         curClass: 'all',
+        curFilter: 'all',
         darkMode: localStorage.getItem(DARKMODE_KEY) === 'true',
         data: JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notices: [], queries: [], qId: 100 },
         lastReplyCount: 0
     };
 
-    // === DOM ELEMENTS CACHE ===
+    // === DOM CACHE ===
     const DOM = {
         nList: document.getElementById('nList'),
         rList: document.getElementById('rList'),
@@ -791,193 +455,94 @@
         form: document.getElementById('queryForm'),
         sendBtn: document.getElementById('sendBtn'),
         tabsContainer: document.getElementById('classTabsContainer'),
-        imageModal: document.getElementById('imageModal'),
+        filtersContainer: document.getElementById('filtersContainer'),
+        modal: document.getElementById('imageModal'),
         fullImage: document.getElementById('fullImage'),
-        headerOuter: document.getElementById('headerOuter'),  // للتحريك (إخفاء/إظهار)
-        header: document.getElementById('mainHeader'),        // لقياس الارتفاع
+        headerOuter: document.getElementById('headerOuter'),
+        header: document.getElementById('mainHeader'),
         darkModeToggle: document.getElementById('darkModeToggle'),
         printBtn: document.getElementById('printBtn'),
         notificationBadge: document.getElementById('notificationBadge'),
-        repliesCount: document.getElementById('repliesCount'),
-        printDate: document.getElementById('printDate')
+        repliesCount: document.getElementById('repliesCount')
     };
 
-    // =========================================================
-    // ✅ FIX: تحديث --header-h ديناميكياً عند كل تغيير في حجم الهيدر
-    // يُستخدم ResizeObserver لمراقبة الهيدر بدقة
-    // =========================================================
+    // === UTILS ===
     const syncHeaderHeight = () => {
         const h = DOM.header.getBoundingClientRect().height;
         document.documentElement.style.setProperty('--header-h', h + 'px');
     };
 
-    const initHeaderHeightSync = () => {
-        // تحديث فوري عند التحميل
-        syncHeaderHeight();
-
-        // مراقبة أي تغيير في حجم الهيدر (تكبير/تصغير الشاشة، تغيير الخط، إلخ)
-        if (window.ResizeObserver) {
-            const ro = new ResizeObserver(() => syncHeaderHeight());
-            ro.observe(DOM.header);
-        }
-
-        // احتياطي: تحديث عند تغيير حجم النافذة
-        window.addEventListener('resize', syncHeaderHeight, { passive: true });
-    };
-    // =========================================================
-
-    // === UTILITIES ===
-    const makeLinks = (text) => {
-        if (!text) return '';
-        return text.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi, url => {
-            const href = url.startsWith('http') ? url : 'http://' + url;
-            return `<a href="${href}" class="clickable-link" target="_blank" rel="noopener">${url}</a>`;
-        });
-    };
-
     const showToast = (msg, type = '') => {
         DOM.toast.textContent = msg;
         DOM.toast.className = `toast ${type} visible`;
-        setTimeout(() => DOM.toast.classList.remove('visible'), 3600);
+        setTimeout(() => DOM.toast.classList.remove('visible'), 3000);
+    };
+
+    const makeLinks = (text) => {
+        if (!text) return '';
+        return text.toString().replace(/(https?:\/\/[^\s]+)/gi, url => 
+            `<a href="${url}" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">${url}</a>`
+        );
     };
 
     const updateClock = () => {
         if (!DOM.hdate) return;
         const now = new Date();
-        DOM.hdate.innerHTML = 
-            now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + '<br>' +
-            now.toLocaleDateString('ar-OM', { weekday: 'short', month: 'short', day: 'numeric' });
+        DOM.hdate.innerHTML = `${now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' })}<br>${now.toLocaleDateString('ar-OM', { weekday: 'short', month: 'short', day: 'numeric' })}`;
     };
 
-    // === DARK MODE ===
+    // === THEME ===
     const toggleDarkMode = () => {
         state.darkMode = !state.darkMode;
         localStorage.setItem(DARKMODE_KEY, state.darkMode);
         document.body.classList.toggle('dark-mode', state.darkMode);
         DOM.darkModeToggle.textContent = state.darkMode ? '☀️' : '🌙';
-        showToast(state.darkMode ? '🌙 تم تفعيل الوضع الليلي' : '☀️ تم تفعيل الوضع النهاري', 'success');
     };
 
-    const initDarkMode = () => {
-        if (state.darkMode) {
-            document.body.classList.add('dark-mode');
-            DOM.darkModeToggle.textContent = '☀️';
-        }
-    };
+    if (state.darkMode) {
+        document.body.classList.add('dark-mode');
+        DOM.darkModeToggle.textContent = '☀️';
+    }
 
-    // === EXPORT & PRINT ===
-    const exportNotices = () => {
-        const list = (state.data.notices || []).filter(n => state.curClass === 'all' || n.cls === 'all' || n.cls === state.curClass);
-        
-        if (!list.length) {
-            showToast('❌ لا توجد ملاحظات للطباعة', 'error');
-            return;
-        }
-
-        const now = new Date();
-        const printDateStr = `تاريخ الطباعة: ${now.toLocaleDateString('ar-OM', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} | ${now.toLocaleTimeString('ar-OM')}`;
-        DOM.printDate.textContent = printDateStr;
-        DOM.printDate.style.display = 'block';
-
-        setTimeout(() => {
-            window.print();
-            setTimeout(() => {
-                DOM.printDate.style.display = 'none';
-            }, 500);
-        }, 200);
-
-        showToast('📄 تحضير الملاحظات للطباعة...', 'success');
-    };
-
-    // === CORE LOGIC ===
+    // === DATA FETCH ===
     const fetchData = async () => {
         try {
             const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
             const result = await res.json();
             if (result.status === 'success') {
-                const newDataString = JSON.stringify(result.data);
-                if (localStorage.getItem(STORAGE_KEY) !== newDataString) {
-                    localStorage.setItem(STORAGE_KEY, newDataString);
-                    state.data = result.data;
-                    renderUI();
-                }
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(result.data));
+                state.data = result.data;
+                renderUI();
             }
         } catch (e) {
-            console.error('فشل في جلب البيانات:', e);
+            console.error('Fetch Error:', e);
+            if(state.data.notices.length === 0) {
+                DOM.nList.innerHTML = `<div class="empty-state"><span>⚠️</span><p>تعذر الاتصال بالخادم. تأكد من الإنترنت.</p></div>`;
+            }
         }
     };
 
-    const changeClassTab = (selectedClass) => {
-        state.curClass = selectedClass;
-        Array.from(DOM.tabsContainer.children).forEach(tab => {
-            tab.classList.toggle('active', tab.dataset.class === selectedClass);
-        });
-        renderUI();
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        
-        const pN = document.getElementById('pN').value.trim();
-        const pS = document.getElementById('pS').value.trim();
-        const pC = document.getElementById('pC').value;
-        const pM = document.getElementById('pM').value.trim();
-
-        if (!pN || !pS || !pC || !pM) return showToast('⚠️ الرجاء إكمال جميع الحقول', 'error');
-
-        DOM.sendBtn.disabled = true;
-        DOM.sendBtn.innerHTML = '<span>⏳ جاري الإرسال...</span>';
-
-        const newId = (state.data.qId || 200) + 1;
-        const newQuery = {
-            id: newId, name: pN, student: pS, cls: pC, msg: pM,
-            date: new Date().toLocaleDateString('ar-OM') + ' ' + new Date().toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'}),
-            status: 'new', reply: ''
-        };
-
-        state.data.queries.unshift(newQuery);
-        state.data.qId = newId;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
-
-        showToast('✅ تم إرسال استفسارك بنجاح!', 'success');
-        DOM.form.reset();
-        renderReplies();
-
-        DOM.sendBtn.disabled = false;
-        DOM.sendBtn.innerHTML = '<span>إرسال</span> <span>📤</span>';
-
-        try {
-            await fetch(API_URL, {
-                method: 'POST',
-                body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(state.data.queries) })
-            });
-        } catch (error) {
-            console.error('خطأ أثناء إرسال البيانات:', error);
-            showToast('⚠️ تم الحفظ محلياً، يرجى التأكد من اتصالك بالإنترنت.', 'error');
-        }
-    };
-
-    // === RENDERING FUNCTIONS ===
+    // === RENDERING ===
     const renderNotices = () => {
         let list = (state.data.notices || []).filter(n => state.curClass === 'all' || n.cls === 'all' || n.cls === state.curClass);
-        
-        if (currentFilter !== 'all') {
-            list = list.filter(n => n.type === currentFilter);
-        }
+        if (state.curFilter !== 'all') list = list.filter(n => n.type === state.curFilter);
 
         if (!list.length) {
-            DOM.nList.innerHTML = `<div class="empty-state"><div class="e-icon">📭</div><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;
+            DOM.nList.innerHTML = `<div class="empty-state"><span>📭</span><p>لا توجد تحديثات حالياً.</p></div>`;
             return;
         }
 
         DOM.nList.innerHTML = list.map((n, idx) => {
-            const t = TYPE_NAMES[n.type] || { label: n.type, icon: '📌' };
+            const t = TYPE_NAMES[n.type] || { label: n.type, icon: '📌', class: '' };
+            const encTitle = encodeURIComponent(n.title);
+            const encDet = encodeURIComponent(n.det.substring(0, 100));
+            
             return `
-            <div class="notice-card ${n.type}">
+            <div class="notice-card" style="animation-delay: ${idx * 0.05}s">
                 <div class="notice-top">
-                    <div class="notice-meta-info">
-                        <span class="notice-type-badge ${n.type}">${t.icon} ${t.label}</span>
-                        <span class="notice-class-tag">${CLASS_NAMES[n.cls] || n.cls}</span>
+                    <div class="badges-wrap">
+                        <span class="badge ${t.class}">${t.icon} ${t.label}</span>
+                        <span class="badge class-tag">${CLASS_NAMES[n.cls] || n.cls}</span>
                     </div>
                     <span class="notice-date">${n.date}</span>
                 </div>
@@ -985,8 +550,8 @@
                 <div class="notice-body">${makeLinks(n.det)}</div>
                 ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy">` : ''}
                 <div class="notice-actions">
-                    <button class="notice-action-btn" onclick="copyToClipboard('${n.title} - ${n.det.substring(0, 50)}')">📋 نسخ</button>
-                    <button class="notice-action-btn" onclick="shareNotice('${encodeURIComponent(n.title)}', '${encodeURIComponent(n.det.substring(0, 100))}')">📤 مشاركة</button>
+                    <button class="btn-action action-copy" data-text="${n.title} - ${n.det}">📋 نسخ</button>
+                    <button class="btn-action action-share" data-title="${encTitle}" data-text="${encDet}">📤 مشاركة</button>
                 </div>
             </div>`;
         }).join('');
@@ -994,40 +559,33 @@
 
     const renderReplies = () => {
         const list = (state.data.queries || []).filter(q => q.status === 'replied');
-        const newReplyCount = list.length;
+        const count = list.length;
 
-        DOM.repliesCount.textContent = newReplyCount;
-        
-        if (newReplyCount > state.lastReplyCount) {
-            DOM.notificationBadge.style.display = 'block';
+        DOM.repliesCount.textContent = count;
+        if (count > state.lastReplyCount && state.lastReplyCount !== 0) {
+            DOM.notificationBadge.style.display = 'flex';
         }
-        state.lastReplyCount = newReplyCount;
+        state.lastReplyCount = count;
 
         if (!list.length) {
             DOM.rList.innerHTML = '';
-            if (DOM.rEmpty) { 
-                DOM.rEmpty.style.display = 'block'; 
-                DOM.rList.appendChild(DOM.rEmpty); 
-            }
+            DOM.rEmpty.style.display = 'block';
+            DOM.rList.appendChild(DOM.rEmpty);
             return;
         }
 
-        if (DOM.rEmpty) DOM.rEmpty.style.display = 'none';
-
+        DOM.rEmpty.style.display = 'none';
         DOM.rList.innerHTML = list.map((q, idx) => `
-            <div class="reply-card" style="animation-delay: ${idx * 0.08}s">
-                <div class="reply-question-block">
-                    <div class="q-avatar">❓</div>
-                    <div class="q-meta">
-                        <div class="q-who">${q.name || 'ولي أمر'} <span>· ${CLASS_NAMES[q.cls] || q.cls} · ${q.date}</span></div>
+            <div class="reply-card" style="animation-delay: ${idx * 0.05}s">
+                <div class="reply-q">
+                    <div class="avatar user">❓</div>
+                    <div>
+                        <div class="q-meta-name">${q.name} <span>(${CLASS_NAMES[q.cls] || q.cls})</span></div>
                         <div class="q-text">${makeLinks(q.msg)}</div>
                     </div>
                 </div>
-                <div class="reply-answer-block">
-                    <div class="answer-header">
-                        <div class="teacher-avatar">✅</div>
-                        <span class="t-name">رد الأستاذ خليل</span>
-                    </div>
+                <div class="reply-a">
+                    <div class="reply-a-header"><div class="avatar teacher" style="width:24px; height:24px; font-size:14px;">✅</div> الأستاذ خليل</div>
                     <div class="answer-text">${makeLinks(q.reply)}</div>
                 </div>
             </div>`).join('');
@@ -1047,102 +605,111 @@
         updateBadges();
     };
 
-    // === FILTER NOTICES ===
-    let currentFilter = 'all';
-    window.filterNotices = (type) => {
-        currentFilter = type;
-        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-        event.target.classList.add('active');
-        renderNotices();
-    };
+    // === EVENT HANDLERS ===
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const newQuery = {
+            id: (state.data.qId || 200) + 1,
+            name: document.getElementById('pN').value.trim(),
+            student: document.getElementById('pS').value.trim(),
+            cls: document.getElementById('pC').value,
+            msg: document.getElementById('pM').value.trim(),
+            date: new Date().toLocaleDateString('ar-OM'),
+            status: 'new', reply: ''
+        };
 
-    // === GLOBAL FUNCTIONS ===
-    window.copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('✅ تم نسخ النص بنجاح', 'success');
-        }).catch(() => {
-            showToast('❌ فشل النسخ', 'error');
-        });
-    };
+        DOM.sendBtn.disabled = true;
+        DOM.sendBtn.innerHTML = '⏳ جاري الإرسال...';
 
-    window.shareNotice = (title, content) => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'المحبرة - الملاحظة',
-                text: `${decodeURIComponent(title)}: ${decodeURIComponent(content)}`
-            }).catch(err => console.log('Share failed:', err));
-        } else {
-            showToast('⚠️ المشاركة غير متاحة في متصفحك', 'error');
+        // Optimistic UI Update
+        state.data.queries.unshift(newQuery);
+        state.data.qId = newQuery.id;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+        
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(state.data.queries) })
+            });
+            showToast('✅ تم إرسال استفسارك بنجاح!', 'success');
+            DOM.form.reset();
+        } catch (error) {
+            showToast('⚠️ تم الحفظ محلياً، تأكد من اتصالك بالإنترنت.', 'error');
+        } finally {
+            DOM.sendBtn.disabled = false;
+            DOM.sendBtn.innerHTML = 'إرسال الاستفسار 📤';
+            renderReplies();
         }
     };
 
-    // === EVENT LISTENERS ===
-    const setupEventListeners = () => {
-        DOM.tabsContainer.addEventListener('click', (e) => {
-            const tab = e.target.closest('.ctab');
-            if (tab && tab.dataset.class) changeClassTab(tab.dataset.class);
-        });
+    // Event Delegation for clicks
+    document.addEventListener('click', (e) => {
+        // Image Modal
+        if (e.target.classList.contains('notice-img')) {
+            DOM.fullImage.src = e.target.src;
+            DOM.modal.style.display = 'flex';
+        }
+        if (e.target === DOM.modal) DOM.modal.style.display = 'none';
 
+        // Copy
+        const copyBtn = e.target.closest('.action-copy');
+        if (copyBtn) {
+            navigator.clipboard.writeText(copyBtn.dataset.text).then(() => showToast('✅ تم النسخ', 'success'));
+        }
+
+        // Share
+        const shareBtn = e.target.closest('.action-share');
+        if (shareBtn) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'المحبرة',
+                    text: decodeURIComponent(shareBtn.dataset.title) + '\n' + decodeURIComponent(shareBtn.dataset.text)
+                }).catch(() => {});
+            } else {
+                showToast('⚠️ المشاركة غير مدعومة في متصفحك', 'error');
+            }
+        }
+
+        // Tabs
+        const tab = e.target.closest('.ctab');
+        if (tab && tab.dataset.class) {
+            state.curClass = tab.dataset.class;
+            document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderUI();
+            if (tab.id === 'repliesTab') DOM.notificationBadge.style.display = 'none';
+        }
+
+        // Filters
+        const pill = e.target.closest('.pill');
+        if (pill && pill.dataset.filter) {
+            state.curFilter = pill.dataset.filter;
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            renderNotices();
+        }
+    });
+
+    // === SCROLL LOGIC ===
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (y > 80 && y > lastY) DOM.headerOuter.classList.add('header-hidden');
+        else DOM.headerOuter.classList.remove('header-hidden');
+        lastY = y;
+    }, { passive: true });
+
+    // === INIT ===
+    const init = () => {
+        if (window.ResizeObserver) new ResizeObserver(syncHeaderHeight).observe(DOM.header);
+        syncHeaderHeight();
+        
         DOM.form.addEventListener('submit', handleFormSubmit);
         DOM.darkModeToggle.addEventListener('click', toggleDarkMode);
-        DOM.printBtn.addEventListener('click', exportNotices);
-
-        document.getElementById('repliesTab')?.addEventListener('click', () => {
-            DOM.notificationBadge.style.display = 'none';
-        });
-
-        document.addEventListener('click', e => {
-            if (e.target.classList.contains('notice-img')) {
-                DOM.fullImage.src = e.target.src;
-                DOM.imageModal.style.display = 'flex';
-            }
-        });
-        DOM.imageModal.addEventListener('click', () => {
-            DOM.imageModal.style.display = 'none';
-        });
-
-        // === Smart Header Scroll Behavior ===
-        (function () {
-            const hdr = DOM.headerOuter; // ✅ نُحرّك الـ wrapper الخارجي
-            let lastY = window.scrollY;
-            let ticking = false;
-
-            function onScroll() {
-                const currentY = window.scrollY;
-                
-                if (currentY > 80) {
-                    if (currentY > lastY && currentY - lastY > 5) {
-                        hdr.classList.add('header-hidden');
-                    } else if (currentY < lastY && lastY - currentY > 5) {
-                        hdr.classList.remove('header-hidden');
-                    }
-                } else {
-                    hdr.classList.remove('header-hidden');
-                }
-                
-                lastY = currentY;
-                ticking = false;
-            }
-
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(onScroll);
-                    ticking = true;
-                }
-            }, { passive: true });
-        })();
-    };
-
-    // === INITIALIZATION ===
-    const init = () => {
-        initDarkMode();
-        initHeaderHeightSync(); // ✅ FIX: تشغيل مراقب ارتفاع الهيدر
-        setupEventListeners();
-        updateClock();
-        setInterval(updateClock, 30000);
+        DOM.printBtn.addEventListener('click', () => window.print());
         
+        updateClock(); setInterval(updateClock, 60000);
         if (state.data.notices.length > 0) renderUI();
-        
         fetchData();
     };
 
