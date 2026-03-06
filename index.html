@@ -510,17 +510,191 @@
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
         .loading-pulse { animation: pulse 1.5s ease infinite; }
 
-        /* Responsive */
-        @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } aside.sidebar { position: relative; top: 0; } }
-        @media (max-width: 600px) {
-            .page-wrap { padding: 20px 16px 50px; }
-            .hero { padding: 22px 20px; gap: 14px; }
-            .hero-icon { width: 56px; height: 56px; font-size: 28px; }
-            .hero-text h2 { font-size: 1.3rem; }
-            .header-top { padding: 12px 0; flex-wrap: wrap; }
-            .header-buttons-group { width: 100%; }
-            .brand-text h1 { font-size: 1.25rem; }
-            .ctab { padding: 8px 14px; font-size: 0.85rem; }
+        /* ===== RESPONSIVE ===== */
+        /* Tablets and Medium Screens */
+        @media (max-width: 1024px) { 
+            .main-grid { grid-template-columns: 1fr; } 
+            aside.sidebar { position: relative; top: 0; }
+            .page-wrap { padding: 24px 16px 50px; }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .page-wrap { padding: 20px 14px 50px; }
+            
+            /* Header تحسينات */
+            .header-inner { padding: 0 clamp(12px, 3vw, 20px); }
+            .header-top { padding: 14px 0; }
+            .brand { gap: 12px; }
+            .logo-wrap { width: 44px; height: 44px; font-size: 20px; }
+            .brand-text h1 { font-size: 1.1rem; }
+            .brand-text p { font-size: 0.75rem; }
+            #hdate { font-size: 0.75rem; padding: 6px 10px; }
+            
+            /* Tabs */
+            .ctab { padding: 9px 14px; font-size: 0.85rem; }
+            .cbdg { font-size: 0.7rem; }
+            
+            /* Filter Pills */
+            .filter-pills { gap: 8px; margin-bottom: 16px; }
+            .pill { padding: 6px 14px; font-size: 0.85rem; }
+            
+            /* Hero */
+            .hero { padding: 20px; gap: 12px; margin-bottom: 20px; }
+            .hero-icon { width: 52px; height: 52px; font-size: 26px; }
+            .hero-text h2 { font-size: 1.3rem; margin-bottom: 4px; }
+            .hero-text p { font-size: 0.9rem; }
+            
+            /* Notice Cards */
+            .notice-card { padding: 18px; margin-bottom: 14px; }
+            .notice-title { font-size: 1.05rem; margin-bottom: 8px; }
+            .notice-body { font-size: 1rem; line-height: 1.7; }
+            .notice-img { max-height: 250px; margin-top: 14px; }
+            .notice-actions { gap: 8px; padding-top: 12px; }
+            .notice-action-btn { padding: 5px 10px; font-size: 0.75rem; }
+            
+            /* Reply Cards */
+            .reply-card { padding: 18px; margin-bottom: 14px; }
+            .q-text { font-size: 1rem; }
+            .answer-text { font-size: 1rem; }
+            
+            /* Form */
+            .form-card { margin-bottom: 20px; }
+            .form-card-header { padding: 18px 20px; }
+            .form-card-header h3 { font-size: 1rem; }
+            .form-card-header p { font-size: 0.8rem; }
+            .form-body { padding: 18px 20px; }
+            .form-row { margin-bottom: 12px; }
+            .field-label { font-size: 0.8rem; margin-bottom: 6px; }
+            .field-input { padding: 10px 14px; font-size: 1rem; }
+            .btn-send { padding: 12px; font-size: 1rem; }
+            
+            /* Sidebar */
+            .quick-links-card { margin-top: 20px; }
+            .ql-item { padding: 12px 14px; gap: 10px; }
+            .ql-item-text strong { font-size: 0.9rem; }
+            .ql-item-text span { font-size: 0.75rem; }
+            
+            /* Section Labels */
+            .section-label { margin-bottom: 14px; gap: 8px; }
+            .section-label .s-icon { width: 36px; height: 36px; font-size: 18px; }
+            .section-label .s-text h3 { font-size: 1.05rem; }
+            .section-label .s-text p { font-size: 0.8rem; }
+            
+            /* Divider */
+            .section-divider { margin: 20px 0; }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 480px) {
+            .page-wrap { padding: 16px 12px 45px; }
+            
+            /* Header */
+            .header-inner { padding: 0 10px; }
+            .header-top { padding: 12px 0; gap: 12px; }
+            .brand { gap: 8px; }
+            .logo-wrap { width: 40px; height: 40px; font-size: 18px; }
+            .brand-text h1 { font-size: 1rem; line-height: 1.1; }
+            .brand-text p { font-size: 0.7rem; margin-top: 0px; }
+            #hdate { display: none; }
+            .btn-icon { width: 36px; height: 36px; font-size: 0.8rem; }
+            .btn-admin { padding: 6px 12px; font-size: 0.8rem; }
+            
+            /* Tabs */
+            .tabs-bar { gap: 6px; padding: 10px 0; }
+            .ctab { padding: 7px 12px; font-size: 0.8rem; }
+            .cbdg { font-size: 0.65rem; padding: 1px 6px; }
+            
+            /* Filter Pills */
+            .filter-pills { gap: 6px; margin-bottom: 14px; }
+            .pill { padding: 5px 12px; font-size: 0.8rem; }
+            
+            /* Hero */
+            .hero { padding: 16px; gap: 10px; margin-bottom: 16px; }
+            .hero::before { font-size: 5rem; bottom: -20px; }
+            .hero-icon { width: 48px; height: 48px; font-size: 24px; }
+            .hero-text h2 { font-size: 1.2rem; }
+            .hero-text p { font-size: 0.85rem; line-height: 1.5; }
+            
+            /* Notice Cards */
+            .notice-card { padding: 16px; margin-bottom: 12px; border-radius: 14px; }
+            .notice-top { margin-bottom: 10px; }
+            .notice-badges { flex-wrap: wrap; gap: 6px; }
+            .badge { font-size: 0.7rem; padding: 3px 10px; }
+            .notice-date { font-size: 0.75rem; }
+            .notice-title { font-size: 1rem; margin-bottom: 6px; }
+            .notice-body { font-size: 0.95rem; line-height: 1.6; }
+            .notice-img { max-height: 220px; margin-top: 12px; border-radius: 10px; }
+            .notice-actions { flex-direction: column; gap: 6px; padding-top: 10px; }
+            .notice-action-btn { width: 100%; padding: 6px 10px; font-size: 0.75rem; }
+            
+            /* Reply Cards */
+            .reply-card { padding: 16px; margin-bottom: 12px; }
+            .query-sender { font-size: 0.95rem; }
+            .query-sender small { font-size: 0.8rem; margin-top: 2px; }
+            .q-text { font-size: 0.95rem; padding: 14px; }
+            .reply-answer-block { padding: 14px 16px; }
+            .answer-header { gap: 8px; margin-bottom: 8px; }
+            .teacher-avatar { width: 32px; height: 32px; font-size: 14px; }
+            .answer-header .t-name { font-size: 0.85rem; }
+            .answer-text { font-size: 0.95rem; }
+            
+            /* Form */
+            .form-card { margin-bottom: 16px; }
+            .form-card-header { padding: 16px 18px; }
+            .form-card-header h3 { font-size: 0.95rem; }
+            .form-card-header p { font-size: 0.78rem; }
+            .form-body { padding: 16px 18px; }
+            .form-row { margin-bottom: 10px; }
+            .field-label { font-size: 0.78rem; margin-bottom: 5px; }
+            .field-input { padding: 10px 12px; font-size: 0.95rem; border-radius: 8px; }
+            textarea.field-input { min-height: 100px; }
+            .btn-send { padding: 11px; font-size: 0.95rem; border-radius: 10px; }
+            
+            /* Quick Links */
+            .quick-links-card { margin-top: 16px; }
+            .ql-header { padding: 12px 16px; font-size: 0.9rem; }
+            .ql-body { padding: 10px; gap: 8px; }
+            .ql-item { padding: 10px 12px; gap: 8px; border-radius: 10px; }
+            .ql-item-icon { font-size: 20px; width: 40px; height: 40px; border-radius: 9px; }
+            .ql-item-text strong { font-size: 0.88rem; }
+            .ql-item-text span { font-size: 0.73rem; }
+            .ql-arrow { font-size: 1rem; }
+            
+            /* Section Labels */
+            .section-label { gap: 6px; margin-bottom: 12px; }
+            .section-label .s-icon { width: 32px; height: 32px; font-size: 16px; }
+            .section-label .s-text h3 { font-size: 1rem; line-height: 1.2; }
+            .section-label .s-text p { font-size: 0.75rem; }
+            
+            /* Info Box */
+            .info-box { margin-top: 12px; padding: 12px 14px; }
+            .info-box p { font-size: 0.78rem; }
+            
+            /* Divider */
+            .section-divider { margin: 16px 0; }
+            
+            /* Empty State */
+            .empty-state { padding: 40px 20px; }
+            .empty-state .e-icon { font-size: 40px; margin-bottom: 12px; }
+            .empty-state p { font-size: 0.95rem; }
+            
+            /* Modal */
+            .modal-img { border-radius: 12px; }
+            
+            /* Toast */
+            .toast { bottom: 20px; padding: 12px 20px; font-size: 0.9rem; border-radius: 40px; }
+        }
+
+        /* Extra Small Screens */
+        @media (max-width: 360px) {
+            .page-wrap { padding: 14px 10px 40px; }
+            .hero { padding: 14px; }
+            .notice-card { padding: 14px; }
+            .form-card { margin-bottom: 14px; }
+            .pill { padding: 4px 10px; font-size: 0.78rem; }
+            .notice-title { font-size: 0.95rem; }
+            .notice-body { font-size: 0.9rem; }
         }
     </style>
 </head>
