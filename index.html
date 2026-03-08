@@ -489,7 +489,6 @@ textarea.field-input { resize: vertical; min-height: 100px; }
 <body>
 
 <!-- HEADER -->
-
 <header id="mainHeader">
   <div class="header-inner">
     <div class="header-top">
@@ -518,11 +517,9 @@ textarea.field-input { resize: vertical; min-height: 100px; }
 </header>
 
 <!-- PAGE -->
-
 <div class="page-wrap">
 
   <!-- HERO -->
-
   <section class="hero">
     <div class="hero-icon">👋</div>
     <div class="hero-text">
@@ -532,7 +529,6 @@ textarea.field-input { resize: vertical; min-height: 100px; }
   </section>
 
   <!-- STATS -->
-
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon blue">📌</div>
@@ -553,150 +549,152 @@ textarea.field-input { resize: vertical; min-height: 100px; }
   </div>
 
   <!-- MAIN GRID -->
-
   <div class="main-grid">
 
-```
-<div class="content-area">
+    <div class="content-area">
 
-  <!-- NOTICES BLOCK -->
-  <div class="section-block" id="noticesBlock">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon sky">📌</div>
-        الملاحظات والتنبيهات
-      </div>
-    </div>
-    <div class="block-body">
-      <div class="filter-pills">
-        <button class="pill active" onclick="flt('all',this)">الكل</button>
-        <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
-        <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
-        <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
-      </div>
-      <div id="nList">
-        <div class="empty-state loading-pulse">
-          <div class="e-icon">⏳</div><p>جاري تحميل البيانات...</p>
+      <!-- NOTICES BLOCK -->
+      <div class="section-block" id="noticesBlock">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon sky">📌</div>
+            الملاحظات والتنبيهات
+          </div>
+        </div>
+        <div class="block-body">
+          <div class="filter-pills">
+            <button class="pill active" onclick="flt('all',this)">الكل</button>
+            <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
+            <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
+            <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
+          </div>
+          <div id="nList">
+            <div class="empty-state loading-pulse">
+              <div class="e-icon">⏳</div><p>جاري تحميل البيانات...</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- REPLIES BLOCK -->
-  <div class="section-block" id="repliesBlock">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon gold">💬</div>
-        ردود الأستاذ على الاستفسارات
-      </div>
-    </div>
-    <div class="block-body">
-      <div id="rList">
-        <div class="empty-state">
-          <div class="e-icon">💌</div>
-          <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
+      <!-- REPLIES BLOCK -->
+      <div class="section-block" id="repliesBlock">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon gold">💬</div>
+            ردود الأستاذ على الاستفسارات
+          </div>
+        </div>
+        <div class="block-body">
+          <div id="rList">
+            <div class="empty-state">
+              <div class="e-icon">💌</div>
+              <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-</div><!-- end content-area -->
+    </div><!-- end content-area -->
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-  <!-- SEND FORM -->
-  <div class="section-block">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon sky">📨</div>
-        أرسل استفساراً للأستاذ
-      </div>
-    </div>
-    <div class="block-body">
-      <div class="form-row">
-        <label class="field-label">اسم ولي الأمر</label>
-        <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
-      </div>
-      <div class="form-row">
-        <label class="field-label">اسم الطالب ثلاثياً</label>
-        <input type="text" class="field-input" id="pS" placeholder="اسم الطالب...">
-      </div>
-      <div class="form-row">
-        <label class="field-label">الشعبة</label>
-        <select class="field-input" id="pC">
-          <option value="">— اختر الشعبة —</option>
-          <option value="5A">الخامس 1</option>
-          <option value="5B">الخامس 2</option>
-          <option value="5C">الخامس 3</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label class="field-label">الاستفسار أو السؤال</label>
-        <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..."></textarea>
-      </div>
-      <button class="btn-send" id="sendBtn" onclick="sendQuery()">
-        <span>إرسال</span><span>📤</span>
-      </button>
-      <div class="hint-box">
-        <p>💡 تظهر الردود في قسم "ردود الأستاذ" أدناه بعد مراجعة الاستفسار.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- QUICK LINKS -->
-  <div class="section-block">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon emerald">🔗</div>
-        روابط مفيدة
-      </div>
-    </div>
-    <div class="ql-body">
-      <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item ql-purple">
-        <div class="ql-icon">🚀</div>
-        <div class="ql-item-text">
-          <strong>منصة ارتقِ</strong>
-          <span>اللغة العربية - الصف الخامس</span>
+      <!-- SEND FORM -->
+      <div class="section-block">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon sky">📨</div>
+            أرسل استفساراً للأستاذ
+          </div>
         </div>
-        <div class="ql-arrow">←</div>
-      </a>
-      <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item ql-emerald">
-        <div class="ql-icon">📊</div>
-        <div class="ql-item-text">
-          <strong>بوابة نتائج الطلاب</strong>
-          <span>الأستاذ خليل البلوشي</span>
+        <div class="block-body">
+          <div class="form-row">
+            <label class="field-label">اسم ولي الأمر</label>
+            <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
+          </div>
+          <div class="form-row">
+            <label class="field-label">اسم الطالب ثلاثياً</label>
+            <input type="text" class="field-input" id="pS" placeholder="اسم الطالب...">
+          </div>
+          <div class="form-row">
+            <label class="field-label">الشعبة</label>
+            <select class="field-input" id="pC">
+              <option value="">— اختر الشعبة —</option>
+              <option value="5A">الخامس 1</option>
+              <option value="5B">الخامس 2</option>
+              <option value="5C">الخامس 3</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="field-label">الاستفسار أو السؤال</label>
+            <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..."></textarea>
+          </div>
+          <button class="btn-send" id="sendBtn" onclick="sendQuery()">
+            <span>إرسال</span><span>📤</span>
+          </button>
+          <div class="hint-box">
+            <p>💡 تظهر الردود في قسم "ردود الأستاذ" أدناه بعد مراجعة الاستفسار.</p>
+          </div>
         </div>
-        <div class="ql-arrow">←</div>
-      </a>
-    </div>
-  </div>
+      </div>
 
-</aside>
-```
+      <!-- QUICK LINKS -->
+      <div class="section-block">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon emerald">🔗</div>
+            روابط مفيدة
+          </div>
+        </div>
+        <div class="ql-body">
+          <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item ql-purple">
+            <div class="ql-icon">🚀</div>
+            <div class="ql-item-text">
+              <strong>منصة ارتقِ</strong>
+              <span>اللغة العربية - الصف الخامس</span>
+            </div>
+            <div class="ql-arrow">←</div>
+          </a>
+          <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item ql-emerald">
+            <div class="ql-icon">📊</div>
+            <div class="ql-item-text">
+              <strong>بوابة نتائج الطلاب</strong>
+              <span>الأستاذ خليل البلوشي</span>
+            </div>
+            <div class="ql-arrow">←</div>
+          </a>
+        </div>
+      </div>
+
+    </aside>
 
   </div><!-- end main-grid -->
 </div><!-- end page-wrap -->
 
 <!-- IMAGE MODAL -->
-
 <div class="overlay" id="imgModal" onclick="this.classList.remove('open')">
   <img id="fullImg" src="" alt="صورة مكبرة">
 </div>
 
 <!-- TOAST -->
-
 <div class="toast" id="toast"></div>
 
+<!-- ======================================================
+     ✅ NOTICE DATA STORE — يحفظ بيانات كل بطاقة هنا
+     بدلاً من تمرير النصوص عبر onclick مباشرة
+     ====================================================== -->
 <script>
 'use strict';
 
-const API_URL    = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
-const STORE_KEY  = 'school_data_v2';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
+const STORE_KEY = 'school_data_v2';
 const CN = { all: 'عام', '5A': 'خامس 1', '5B': 'خامس 2', '5C': 'خامس 3' };
 const TN = { homework: { label: 'واجب', icon: '📝' }, activity: { label: 'نشاط', icon: '🎯' }, alert: { label: 'تنبيه', icon: '🔔' } };
 
-let curClass = 'all', nFlt = 'all', curView = 'notices';
+let curClass = 'all', nFlt = 'all';
+
+// ── مخزن بيانات البطاقات (مفتاح: notice-id) ──
+const noticeStore = {};
 
 /* ── Helpers ── */
 function makeLinks(t) {
@@ -753,10 +751,15 @@ function renderNotices(d) {
     el.innerHTML = `<div class="empty-state"><div class="e-icon">📭</div><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;
     return;
   }
-  el.innerHTML = list.map(n => {
+
+  el.innerHTML = list.map((n, i) => {
+    // ✅ حفظ بيانات البطاقة في المخزن بدلاً من تمريرها في onclick
+    const storeId = 'n_' + (n.id || i);
+    noticeStore[storeId] = { title: n.title || '', det: n.det || '', img: n.img || '' };
+
     const t = TN[n.type] || { label: n.type, icon: '📌' };
     return `
-    <div class="notice-item ${n.type}">
+    <div class="notice-item ${n.type}" id="${storeId}">
       <div class="notice-top">
         <div class="notice-badges">
           <span class="badge ${n.type}">${t.icon} ${t.label}</span>
@@ -764,12 +767,12 @@ function renderNotices(d) {
         </div>
         <span class="notice-date">${n.date}</span>
       </div>
-      <div class="notice-title">${n.title}</div>
+      <div class="notice-title">${n.title || ''}</div>
       <div class="notice-det">${makeLinks(n.det)}</div>
-      ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" onclick="openImg(this.src)">` : ''}
+      ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">` : ''}
       <div class="notice-actions">
-        <button class="n-btn" onclick="copyTxt('${encodeURIComponent(n.title + (n.det ? '\n' + n.det : ''))}')">📋 نسخ</button>
-        <button class="n-btn" onclick="shareN('${encodeURIComponent(n.title)}','${encodeURIComponent((n.det||'').substring(0,100))}')">📤 مشاركة</button>
+        <button class="n-btn btn-copy" data-id="${storeId}">📋 نسخ</button>
+        <button class="n-btn btn-share" data-id="${storeId}">📤 مشاركة</button>
       </div>
     </div>`;
   }).join('');
@@ -806,9 +809,9 @@ function renderReplies(d) {
 function updateStats(d) {
   const notices = d.notices || [];
   const filtered = curClass === 'all' ? notices : notices.filter(n => n.cls === 'all' || n.cls === curClass);
-  document.getElementById('sN').textContent    = filtered.length;
-  document.getElementById('sHW').textContent   = filtered.filter(n => n.type === 'homework').length;
-  document.getElementById('sAct').textContent  = filtered.filter(n => n.type === 'activity').length;
+  document.getElementById('sN').textContent     = filtered.length;
+  document.getElementById('sHW').textContent    = filtered.filter(n => n.type === 'homework').length;
+  document.getElementById('sAct').textContent   = filtered.filter(n => n.type === 'activity').length;
   document.getElementById('sAlert').textContent = filtered.filter(n => n.type === 'alert').length;
 }
 
@@ -825,10 +828,9 @@ function setClass(c) {
   document.querySelectorAll('.ctab').forEach(tab => {
     tab.classList.toggle('active', tab.dataset.class === c);
   });
-  // show/hide blocks based on "replies" tab
   const isReplies = c === 'replies';
   document.getElementById('noticesBlock').style.display = isReplies ? 'none' : 'block';
-  document.getElementById('repliesBlock').style.display = isReplies ? 'block' : 'block';
+  document.getElementById('repliesBlock').style.display = 'block';
   if (!isReplies) render();
 }
 
@@ -873,26 +875,99 @@ async function sendQuery() {
   } catch(e) { showToast('⚠️ تم الحفظ محلياً — تحقق من اتصالك', 'err'); }
 }
 
-/* ── Utils ── */
-function copyTxt(encoded) {
-  navigator.clipboard.writeText(decodeURIComponent(encoded))
-    .then(() => showToast('✅ تم النسخ', 'ok'))
-    .catch(() => showToast('❌ فشل النسخ', 'err'));
-}
+/* ══════════════════════════════════════════════════
+   ✅ النسخ الكامل — يقرأ البيانات من noticeStore
+   ══════════════════════════════════════════════════ */
+function copyNotice(storeId) {
+  const item = noticeStore[storeId];
+  if (!item) return showToast('❌ لا توجد بيانات', 'err');
 
-function shareN(title, content) {
-  if (navigator.share) {
-    navigator.share({ title: 'المحبرة', text: decodeURIComponent(title) + ': ' + decodeURIComponent(content) })
-      .catch(() => {});
+  // بناء النص الكامل للنسخ
+  let fullText = '';
+  if (item.title) fullText += item.title;
+  if (item.det)   fullText += (fullText ? '\n\n' : '') + item.det;
+  if (!fullText)  fullText = 'لا يوجد نص للنسخ';
+
+  // استخدام Clipboard API مع fallback
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(fullText)
+      .then(() => showToast('✅ تم نسخ النص كاملاً', 'ok'))
+      .catch(() => fallbackCopy(fullText));
   } else {
-    showToast('⚠️ المشاركة غير متاحة في متصفحك', '');
+    fallbackCopy(fullText);
   }
 }
 
-function openImg(src) {
-  document.getElementById('fullImg').src = src;
-  document.getElementById('imgModal').classList.add('open');
+// Fallback للمتصفحات القديمة أو HTTP
+function fallbackCopy(text) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;right:-9999px;opacity:0;';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✅ تم نسخ النص كاملاً', 'ok');
+  } catch(e) {
+    showToast('❌ فشل النسخ — انسخ النص يدوياً', 'err');
+  }
 }
+
+/* ══════════════════════════════════════════════════
+   ✅ المشاركة الكاملة — يقرأ البيانات من noticeStore
+   ══════════════════════════════════════════════════ */
+function shareNotice(storeId) {
+  const item = noticeStore[storeId];
+  if (!item) return showToast('❌ لا توجد بيانات', 'err');
+
+  let shareText = '';
+  if (item.title) shareText += item.title;
+  if (item.det)   shareText += (shareText ? '\n\n' : '') + item.det;
+  if (!shareText) shareText = 'تنبيه من المحبرة';
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'المحبرة — أ. خليل البلوشي',
+      text: shareText,
+      url: window.location.href
+    }).catch(err => {
+      // المستخدم ألغى المشاركة — لا نعرض خطأ
+      if (err.name !== 'AbortError') showToast('⚠️ لم تتم المشاركة', '');
+    });
+  } else {
+    // المتصفح لا يدعم Web Share API — ننسخ بدلاً من المشاركة
+    fallbackCopy(shareText);
+    showToast('📋 تم نسخ النص (المشاركة غير متاحة في هذا المتصفح)', '');
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   ✅ Event Delegation للأزرار والصور
+   بدلاً من onclick مضمّن في HTML
+   ══════════════════════════════════════════════════ */
+document.addEventListener('click', function(e) {
+  // زر النسخ
+  const copyBtn = e.target.closest('.btn-copy');
+  if (copyBtn) {
+    copyNotice(copyBtn.dataset.id);
+    return;
+  }
+  // زر المشاركة
+  const shareBtn = e.target.closest('.btn-share');
+  if (shareBtn) {
+    shareNotice(shareBtn.dataset.id);
+    return;
+  }
+  // فتح الصورة بالضغط عليها
+  const img = e.target.closest('.notice-img');
+  if (img && img.dataset.imgSrc) {
+    document.getElementById('fullImg').src = img.dataset.imgSrc;
+    document.getElementById('imgModal').classList.add('open');
+    return;
+  }
+});
 
 /* ── Tabs click ── */
 document.getElementById('tabsBar').addEventListener('click', e => {
@@ -920,10 +995,10 @@ document.getElementById('tabsBar').addEventListener('click', e => {
 /* ── INIT ── */
 updateClock();
 setInterval(updateClock, 60000);
-// Load cached data first for instant render
+// تحميل البيانات المحفوظة أولاً للعرض الفوري
 const cached = JSON.parse(localStorage.getItem(STORE_KEY));
 if (cached?.notices?.length) { renderNotices(cached); renderReplies(cached); updateStats(cached); updateBadges(cached); }
-render(); // then fetch fresh
+render(); // ثم تحديث من الخادم
 </script>
 
 </body>
