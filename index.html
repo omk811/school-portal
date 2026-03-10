@@ -78,12 +78,19 @@ header {
 }
 
   .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
+  transition: top 0.3s ease-in-out; /* حركة ناعمة */
   z-index: 1000;
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
+
+/* هذا الكلاس سيتم إضافته بواسطة الجافا سكريبت عند النزول لأسفل */
+.header-hidden {
+  top: -100px; /* القيمة يجب أن تكون أكبر من ارتفاع الهيدر الفعلي */
+}
+  
 .header-top {
   display: flex;
   align-items: center;
@@ -937,6 +944,23 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateClock, 60000);
   render();
 });
+
+  let lastScrollTop = 0;
+const header = document.querySelector('.site-header');
+
+window.addEventListener('scroll', function() {
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (scrollTop > lastScrollTop && scrollTop > 100) {
+    // التمرير للأسفل - إخفاء الهيدر
+    header.classList.add('header-hidden');
+  } else {
+    // التمرير للأعلى - إظهار الهيدر
+    header.classList.remove('header-hidden');
+  }
+  
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // لتجنب القيم السالبة في بعض المتصفحات
+}, false);
 
 </script>
 </body>
