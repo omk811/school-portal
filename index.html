@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="المحبرة - مساحة مخصصة لمتابعة واجبات وتنبيهات الأستاذ خليل البلوشي للصف الخامس.">
+<meta name="description" content="المحبرة - مساحة مخصصة لمتابعة واجبات وتنبيهات الأستاذ خليل البلوشي لطلاب الصف الخامس.">
 <title>المحبرة | أ. خليل البلوشي</title>
 
 <link rel="manifest" href="manifest.json">
@@ -15,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -31,9 +30,9 @@
   --rose-light: #e74c3c;
   --sand: #fdf8f0;
   --white: #ffffff;
-  --border: #000000;
-  --muted: #8a9bbf;
-  --surface: #f8f5f0;
+  --border: #e2e8f0;
+  --muted: #718096;
+  --surface: #f8f9fa;
 
   --shadow-soft: 0 4px 20px rgba(26, 39, 68, 0.04);
   --shadow-med: 0 8px 32px rgba(26, 39, 68, 0.08);
@@ -72,8 +71,6 @@ header {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.header-hidden { transform: translateY(-100%); }
-
 .header-inner {
   max-width: 1400px;
   margin: 0 auto;
@@ -111,14 +108,14 @@ header {
 
 .brand-text p {
   font-size: clamp(0.75rem, 1.5vw, 0.85rem);
-  color: rgba(255,255,255,0.7); margin-top: 4px;
+  color: rgba(255,255,255,0.85); margin-top: 4px;
 }
 
 .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 #hdate {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.9);
   background: rgba(0,0,0,0.2);
   padding: 8px 14px;
   border-radius: var(--radius-sm);
@@ -133,7 +130,12 @@ header {
   font-family: inherit; font-weight: 700; cursor: pointer;
   text-decoration: none; transition: var(--tr);
 }
-.hbtn:hover { background: rgba(255,255,255,0.15); transform: translateY(-1px); }
+.hbtn:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+/* أنيميشن زر التحديث */
+.spin-icon { transition: transform 0.5s ease; display: inline-block; }
+.is-refreshing .spin-icon { animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
 /* ===== TABS ===== */
 .tabs-bar {
@@ -195,7 +197,7 @@ header {
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 .hero-text h2 { font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
-.hero-text p { font-size: 1rem; opacity: 0.85; line-height: 1.6; }
+.hero-text p { font-size: 1rem; opacity: 0.9; line-height: 1.6; }
 
 /* ===== STATS ===== */
 .stats-grid {
@@ -317,8 +319,8 @@ header {
 .notice-date { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
 
 .notice-title { font-size: 1.1rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; font-family: 'Cairo', sans-serif; }
-.notice-det   { font-size: 1.02rem; line-height: 1.8; color: #4a5568; white-space: pre-wrap; word-break: break-word; }
-.notice-img   { width: 100%; max-height: 300px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 16px; border: 1px solid var(--border); cursor: pointer; transition: var(--tr); }
+.notice-det   { font-size: 1.02rem; line-height: 1.8; color: #2d3748; white-space: pre-wrap; word-break: break-word; }
+.notice-img   { width: 100%; max-height: 300px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 16px; border: 1px solid var(--border); cursor: zoom-in; transition: var(--tr); }
 .notice-img:hover { opacity: 0.88; }
 
 /* Notice share/copy actions */
@@ -354,7 +356,7 @@ header {
 }
 .q-meta .q-who { font-size: 0.9rem; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
 .q-meta .q-who small { font-weight: 500; color: var(--muted); font-size: 0.82rem; }
-.q-text { font-size: 1rem; color: #4a5568; line-height: 1.7; }
+.q-text { font-size: 1rem; color: #2d3748; line-height: 1.7; }
 
 .reply-answer {
   background: rgba(26, 138, 96, 0.05);
@@ -401,7 +403,7 @@ textarea.field-input { resize: vertical; min-height: 100px; }
 /* Info hint */
 .hint-box {
   margin-top: 16px; background: var(--surface);
-  border-radius: var(--radius-sm); padding: 14px 16px;
+  border-radius: var(--radius-sm); padding: 14px 16px; border: 1px solid var(--border);
 }
 .hint-box p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; display: flex; align-items: flex-start; gap: 6px; }
 
@@ -417,7 +419,6 @@ textarea.field-input { resize: vertical; min-height: 100px; }
 .ql-purple:hover { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(124,58,237,0.04)); }
 .ql-emerald { background: linear-gradient(135deg, rgba(26,138,96,0.07), rgba(26,138,96,0.02)); border-color: rgba(26,138,96,0.18); }
 .ql-emerald:hover { background: linear-gradient(135deg, rgba(26,138,96,0.12), rgba(26,138,96,0.04)); }
-/* ✅ لون أزرق سماوي للرابط الجديد */
 .ql-sky { background: linear-gradient(135deg, rgba(42,125,212,0.07), rgba(42,125,212,0.02)); border-color: rgba(42,125,212,0.18); }
 .ql-sky:hover { background: linear-gradient(135deg, rgba(42,125,212,0.12), rgba(42,125,212,0.04)); }
 
@@ -492,7 +493,6 @@ textarea.field-input { resize: vertical; min-height: 100px; }
 </head>
 <body>
 
-<!-- HEADER -->
 <header id="mainHeader">
   <div class="header-inner">
     <div class="header-top">
@@ -500,11 +500,14 @@ textarea.field-input { resize: vertical; min-height: 100px; }
         <div class="logo-wrap">📚</div>
         <div class="brand-text">
           <h1>المحبرة</h1>
-          <p>أ. خليل البلوشي · اللغة العربية · الصف الخامس</p>
+          <p>أ. خليل البلوشي | مدرسة سعد بن معاذ للتعليم الأساسي - شمال الباطنة</p>
         </div>
       </div>
       <div class="header-actions">
         <div id="hdate"></div>
+        <button id="refreshBtn" class="hbtn" onclick="forceRefresh()">
+          <span class="spin-icon">🔄</span> تحديث
+        </button>
         <a href="teacher.html" class="hbtn">🔐 دخول المعلم</a>
       </div>
     </div>
@@ -520,19 +523,16 @@ textarea.field-input { resize: vertical; min-height: 100px; }
   </div>
 </header>
 
-<!-- PAGE -->
 <div class="page-wrap">
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-icon">👋</div>
     <div class="hero-text">
       <h2>أهلاً بأولياء الأمور الكرام</h2>
-      <p>هذه المساحة مخصصة لمتابعة الواجبات والأنشطة والتنبيهات، وإرسال استفساراتكم للأستاذ مباشرةً.</p>
+      <p>هذه المساحة مخصصة لمتابعة الواجبات والأنشطة لطلاب الصف الخامس، وإرسال استفساراتكم للأستاذ مباشرةً.</p>
     </div>
   </section>
 
-  <!-- STATS -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon blue">📌</div>
@@ -552,12 +552,10 @@ textarea.field-input { resize: vertical; min-height: 100px; }
     </div>
   </div>
 
-  <!-- MAIN GRID -->
   <div class="main-grid">
 
     <div class="content-area">
 
-      <!-- NOTICES BLOCK -->
       <div class="section-block" id="noticesBlock">
         <div class="block-header">
           <div class="block-title">
@@ -580,8 +578,7 @@ textarea.field-input { resize: vertical; min-height: 100px; }
         </div>
       </div>
 
-      <!-- REPLIES BLOCK -->
-      <div class="section-block" id="repliesBlock">
+      <div class="section-block" id="repliesBlock" style="display: none;">
         <div class="block-header">
           <div class="block-title">
             <div class="block-icon gold">💬</div>
@@ -598,12 +595,10 @@ textarea.field-input { resize: vertical; min-height: 100px; }
         </div>
       </div>
 
-    </div><!-- end content-area -->
+    </div>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <!-- SEND FORM -->
       <div class="section-block">
         <div class="block-header">
           <div class="block-title">
@@ -637,12 +632,11 @@ textarea.field-input { resize: vertical; min-height: 100px; }
             <span>إرسال</span><span>📤</span>
           </button>
           <div class="hint-box">
-            <p>💡 تظهر الردود في قسم "ردود الأستاذ" أدناه بعد مراجعة الاستفسار.</p>
+            <p>💡 تظهر الردود في قسم "الردود" بعد مراجعة الاستفسار.</p>
           </div>
         </div>
       </div>
 
-      <!-- QUICK LINKS -->
       <div class="section-block">
         <div class="block-header">
           <div class="block-title">
@@ -655,7 +649,7 @@ textarea.field-input { resize: vertical; min-height: 100px; }
             <div class="ql-icon">🚀</div>
             <div class="ql-item-text">
               <strong>منصة ارتقِ</strong>
-              <span>اللغة العربية - الصف الخامس</span>
+              <span>لغتي الجميلة - الصف الخامس</span>
             </div>
             <div class="ql-arrow">←</div>
           </a>
@@ -667,36 +661,20 @@ textarea.field-input { resize: vertical; min-height: 100px; }
             </div>
             <div class="ql-arrow">←</div>
           </a>
-
-          <!-- ✅ رابط الاستفسارات -->
-          <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item ql-sky">
-            <div class="ql-icon">💬</div>
-            <div class="ql-item-text">
-              <strong>الاستفسارات</strong>
-              <span>تواصل مع الأستاذ خليل البلوشي</span>
-            </div>
-            <div class="ql-arrow">←</div>
-          </a>
         </div>
       </div>
 
     </aside>
 
-  </div><!-- end main-grid -->
-</div><!-- end page-wrap -->
+  </div>
+</div>
 
-<!-- IMAGE MODAL -->
 <div class="overlay" id="imgModal" onclick="this.classList.remove('open')">
   <img id="fullImg" src="" alt="صورة مكبرة">
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ======================================================
-     ✅ NOTICE DATA STORE — يحفظ بيانات كل بطاقة هنا
-     بدلاً من تمرير النصوص عبر onclick مباشرة
-     ====================================================== -->
 <script>
 'use strict';
 
@@ -706,11 +684,8 @@ const CN = { all: 'عام', '5A': 'خامس 1', '5B': 'خامس 2', '5C': 'خا�
 const TN = { homework: { label: 'واجب', icon: '📝' }, activity: { label: 'نشاط', icon: '🎯' }, alert: { label: 'تنبيه', icon: '🔔' } };
 
 let curClass = 'all', nFlt = 'all';
-
-// ── مخزن بيانات البطاقات (مفتاح: notice-id) ──
 const noticeStore = {};
 
-/* ── Helpers ── */
 function makeLinks(t) {
   if (!t) return '';
   return t.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi, u => {
@@ -733,8 +708,12 @@ function updateClock() {
     now.toLocaleDateString('ar-OM', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
-/* ── Data ── */
-async function loadData() {
+async function loadData(force = false) {
+  if (!force) {
+    const cached = localStorage.getItem(STORE_KEY);
+    if (cached) return JSON.parse(cached);
+  }
+  
   try {
     const res = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`);
     const r = await res.json();
@@ -742,13 +721,14 @@ async function loadData() {
       localStorage.setItem(STORE_KEY, JSON.stringify(r.data));
       return r.data;
     }
-  } catch(e) {}
+  } catch(e) {
+    console.error("Fetch error", e);
+  }
   return JSON.parse(localStorage.getItem(STORE_KEY)) || { notices: [], queries: [], nId: 100, qId: 100 };
 }
 
-/* ── Render ── */
-async function render() {
-  const d = await loadData();
+async function render(force = false) {
+  const d = await loadData(force);
   renderNotices(d);
   renderReplies(d);
   updateStats(d);
@@ -762,12 +742,11 @@ function renderNotices(d) {
   );
   const el = document.getElementById('nList');
   if (!list.length) {
-    el.innerHTML = `<div class="empty-state"><div class="e-icon">📭</div><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;
+    el.innerHTML = `<div class="empty-state"><div class="e-icon">📭</div><p>لا توجد تحديثات حالياً</p></div>`;
     return;
   }
 
   el.innerHTML = list.map((n, i) => {
-    // ✅ حفظ بيانات البطاقة في المخزن بدلاً من تمريرها في onclick
     const storeId = 'n_' + (n.id || i);
     noticeStore[storeId] = { title: n.title || '', det: n.det || '', img: n.img || '' };
 
@@ -783,7 +762,7 @@ function renderNotices(d) {
       </div>
       <div class="notice-title">${n.title || ''}</div>
       <div class="notice-det">${makeLinks(n.det)}</div>
-      ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">` : ''}
+      ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy">` : ''}
       <div class="notice-actions">
         <button class="n-btn btn-copy" data-id="${storeId}">📋 نسخ</button>
         <button class="n-btn btn-share" data-id="${storeId}">📤 مشاركة</button>
@@ -836,7 +815,6 @@ function updateBadges(d) {
   });
 }
 
-/* ── Class / Filter ── */
 function setClass(c) {
   curClass = c;
   document.querySelectorAll('.ctab').forEach(tab => {
@@ -844,7 +822,7 @@ function setClass(c) {
   });
   const isReplies = c === 'replies';
   document.getElementById('noticesBlock').style.display = isReplies ? 'none' : 'block';
-  document.getElementById('repliesBlock').style.display = 'block';
+  document.getElementById('repliesBlock').style.display = isReplies ? 'block' : 'none';
   if (!isReplies) render();
 }
 
@@ -855,165 +833,104 @@ function flt(f, btn) {
   render();
 }
 
-/* ── Send Query ── */
+async function forceRefresh() {
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('is-refreshing');
+  await render(true);
+  btn.classList.remove('is-refreshing');
+  showToast('تم تحديث البيانات بنجاح', 'ok');
+}
+
 async function sendQuery() {
   const pN = document.getElementById('pN').value.trim();
   const pS = document.getElementById('pS').value.trim();
   const pC = document.getElementById('pC').value;
   const pM = document.getElementById('pM').value.trim();
-  if (!pN || !pS || !pC || !pM) return showToast('⚠️ الرجاء إكمال جميع الحقول', 'err');
-
   const btn = document.getElementById('sendBtn');
+
+  if(!pN || !pS || !pC || !pM) {
+    showToast('الرجاء تعبئة جميع الحقول أولاً', 'err');
+    return;
+  }
+
   btn.disabled = true;
-  btn.innerHTML = '<span>⏳ جاري الإرسال...</span>';
-
-  const d = JSON.parse(localStorage.getItem(STORE_KEY)) || { notices:[], queries:[], qId:100 };
-  const now = new Date();
-  const q = {
-    id: ++d.qId, name: pN, student: pS, cls: pC, msg: pM,
-    date: now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM', { hour:'2-digit', minute:'2-digit' }),
-    status: 'new', reply: ''
-  };
-  d.queries.unshift(q);
-  localStorage.setItem(STORE_KEY, JSON.stringify(d));
-  showToast('✅ تم إرسال استفسارك بنجاح!', 'ok');
-  document.getElementById('pN').value = '';
-  document.getElementById('pS').value = '';
-  document.getElementById('pC').value = '';
-  document.getElementById('pM').value = '';
-  btn.disabled = false;
-  btn.innerHTML = '<span>إرسال</span><span>📤</span>';
+  btn.innerHTML = '<span>جاري الإرسال...</span><span>⏳</span>';
 
   try {
-    await fetch(API_URL, { method: 'POST', body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(d.queries) }) });
-  } catch(e) { showToast('⚠️ تم الحفظ محلياً — تحقق من اتصالك', 'err'); }
-}
+    const formData = new URLSearchParams();
+    formData.append('action', 'sendQuery');
+    formData.append('name', pN);
+    formData.append('student', pS);
+    formData.append('cls', pC);
+    formData.append('msg', pM);
 
-/* ══════════════════════════════════════════════════
-   ✅ النسخ الكامل — يقرأ البيانات من noticeStore
-   ══════════════════════════════════════════════════ */
-function copyNotice(storeId) {
-  const item = noticeStore[storeId];
-  if (!item) return showToast('❌ لا توجد بيانات', 'err');
-
-  // بناء النص الكامل للنسخ
-  let fullText = '';
-  if (item.title) fullText += item.title;
-  if (item.det)   fullText += (fullText ? '\n\n' : '') + item.det;
-  if (!fullText)  fullText = 'لا يوجد نص للنسخ';
-
-  // استخدام Clipboard API مع fallback
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(fullText)
-      .then(() => showToast('✅ تم نسخ النص كاملاً', 'ok'))
-      .catch(() => fallbackCopy(fullText));
-  } else {
-    fallbackCopy(fullText);
-  }
-}
-
-// Fallback للمتصفحات القديمة أو HTTP
-function fallbackCopy(text) {
-  try {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.cssText = 'position:fixed;top:-9999px;right:-9999px;opacity:0;';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('✅ تم نسخ النص كاملاً', 'ok');
-  } catch(e) {
-    showToast('❌ فشل النسخ — انسخ النص يدوياً', 'err');
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   ✅ المشاركة الكاملة — يقرأ البيانات من noticeStore
-   ══════════════════════════════════════════════════ */
-function shareNotice(storeId) {
-  const item = noticeStore[storeId];
-  if (!item) return showToast('❌ لا توجد بيانات', 'err');
-
-  let shareText = '';
-  if (item.title) shareText += item.title;
-  if (item.det)   shareText += (shareText ? '\n\n' : '') + item.det;
-  if (!shareText) shareText = 'تنبيه من المحبرة';
-
-  if (navigator.share) {
-    navigator.share({
-      title: 'المحبرة — أ. خليل البلوشي',
-      text: shareText,
-      url: window.location.href
-    }).catch(err => {
-      // المستخدم ألغى المشاركة — لا نعرض خطأ
-      if (err.name !== 'AbortError') showToast('⚠️ لم تتم المشاركة', '');
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: formData
     });
-  } else {
-    // المتصفح لا يدعم Web Share API — ننسخ بدلاً من المشاركة
-    fallbackCopy(shareText);
-    showToast('📋 تم نسخ النص (المشاركة غير متاحة في هذا المتصفح)', '');
+    
+    const data = await res.json();
+
+    if(data.status === 'success') {
+      showToast('تم إرسال استفسارك بنجاح', 'ok');
+      document.getElementById('pN').value = '';
+      document.getElementById('pS').value = '';
+      document.getElementById('pC').value = '';
+      document.getElementById('pM').value = '';
+    } else {
+      showToast('حدث خطأ، يرجى المحاولة لاحقاً', 'err');
+    }
+  } catch(err) {
+    showToast('خطأ في الاتصال بالخادم', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>إرسال</span><span>📤</span>';
   }
 }
 
-/* ══════════════════════════════════════════════════
-   ✅ Event Delegation للأزرار والصور
-   بدلاً من onclick مضمّن في HTML
-   ══════════════════════════════════════════════════ */
-document.addEventListener('click', function(e) {
-  // زر النسخ
-  const copyBtn = e.target.closest('.btn-copy');
-  if (copyBtn) {
-    copyNotice(copyBtn.dataset.id);
-    return;
+// Event Listeners التفاعلية
+document.addEventListener('click', e => {
+  // التبديل بين الأقسام
+  if(e.target.closest('.ctab')) {
+    setClass(e.target.closest('.ctab').dataset.class);
   }
-  // زر المشاركة
-  const shareBtn = e.target.closest('.btn-share');
-  if (shareBtn) {
-    shareNotice(shareBtn.dataset.id);
-    return;
+  
+  // فتح الصورة
+  if(e.target.classList.contains('notice-img')) {
+    const modal = document.getElementById('imgModal');
+    document.getElementById('fullImg').src = e.target.src;
+    modal.classList.add('open');
   }
-  // فتح الصورة بالضغط عليها
-  const img = e.target.closest('.notice-img');
-  if (img && img.dataset.imgSrc) {
-    document.getElementById('fullImg').src = img.dataset.imgSrc;
-    document.getElementById('imgModal').classList.add('open');
-    return;
-  }
-});
-
-/* ── Tabs click ── */
-document.getElementById('tabsBar').addEventListener('click', e => {
-  const tab = e.target.closest('.ctab');
-  if (tab && tab.dataset.class) setClass(tab.dataset.class);
-});
-
-/* ── Smart Scroll Hide/Show Header ── */
-(function() {
-  const hdr = document.getElementById('mainHeader');
-  let lastY = window.scrollY, ticking = false;
-  function onScroll() {
-    const y = window.scrollY;
-    if (y > 80) {
-      if (y > lastY && y - lastY > 5)       hdr.classList.add('header-hidden');
-      else if (lastY > y && lastY - y > 5)  hdr.classList.remove('header-hidden');
-    } else {
-      hdr.classList.remove('header-hidden');
+  
+  // النسخ
+  if(e.target.closest('.btn-copy')) {
+    const id = e.target.closest('.btn-copy').dataset.id;
+    const data = noticeStore[id];
+    if(data) {
+      navigator.clipboard.writeText(data.title + '\n\n' + data.det);
+      showToast('تم نسخ الملاحظة', 'ok');
     }
-    lastY = y; ticking = false;
   }
-  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
-})();
+  
+  // المشاركة
+  if(e.target.closest('.btn-share')) {
+    const id = e.target.closest('.btn-share').dataset.id;
+    const data = noticeStore[id];
+    if(data && navigator.share) {
+      navigator.share({ title: data.title, text: data.det });
+    } else {
+      showToast('عذراً، متصفحك لا يدعم المشاركة المباشرة', 'err');
+    }
+  }
+});
 
-/* ── INIT ── */
-updateClock();
-setInterval(updateClock, 60000);
-// تحميل البيانات المحفوظة أولاً للعرض الفوري
-const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-if (cached?.notices?.length) { renderNotices(cached); renderReplies(cached); updateStats(cached); updateBadges(cached); }
-render(); // ثم تحديث من الخادم
+// بدء التشغيل
+document.addEventListener('DOMContentLoaded', () => {
+  updateClock();
+  setInterval(updateClock, 60000);
+  render();
+});
+
 </script>
-
 </body>
 </html>
