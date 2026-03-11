@@ -384,14 +384,14 @@ header {
 .notice-date { font-size: 0.72rem; color: var(--ink-faint); direction: ltr; }
 
 .notice-title {
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
   font-weight: 700;
-  color: var(--ink); margin-bottom: 6px; line-height: 1.5;
+  color: var(--ink); margin-bottom: 8px; line-height: 1.5;
 }
 .notice-det {
   font-family: 'Noto Naskh Arabic', 'Changa', sans-serif;
-  font-size: clamp(0.88rem, 2.2vw, 0.95rem);
-  color: var(--ink-soft); line-height: 2;
+  font-size: clamp(1.05rem, 2.8vw, 1.15rem);
+  color: var(--ink-soft); line-height: 2.1;
   white-space: pre-wrap; word-break: break-word;
 }
 
@@ -587,6 +587,26 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 .toast.err { background: var(--rose-light); border-color: rgba(201,85,90,0.3); color: var(--rose); }
 
 /* ══════════════════════════════════════════
+   INQUIRY SECTION — أسفل الصفحة
+══════════════════════════════════════════ */
+.inquiry-section {
+  margin-top: 28px;
+}
+.inquiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.inquiry-message {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .inquiry-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════
    LINK STYLE
 ══════════════════════════════════════════ */
 .ilink { color: var(--teal); text-decoration: none; font-weight: 600; border-bottom: 1px dashed rgba(43,138,126,0.3); transition: var(--tr); }
@@ -620,7 +640,6 @@ textarea.field-input { resize: vertical; min-height: 80px; }
   .n-btn { flex: 0; }
   .block-body { padding: 12px; }
   .notice-item { padding: 14px 14px 14px 16px; }
-  .sidebar { order: -1; }
 }
 
 @media (max-width: 380px) {
@@ -628,8 +647,8 @@ textarea.field-input { resize: vertical; min-height: 80px; }
   .stat-card { padding: 10px 8px; }
   .stat-num { font-size: 1.2rem; }
   .stat-label { font-size: 0.65rem; }
-  .notice-title { font-size: 0.95rem; }
-  .notice-det { font-size: 0.85rem; }
+  .notice-title { font-size: 1.08rem; }
+  .notice-det { font-size: 1rem; }
 }
 </style>
 </head>
@@ -760,49 +779,8 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR — روابط فقط -->
     <aside class="sidebar">
-
-      <!-- FORM -->
-      <div class="section-block">
-        <div class="block-header">
-          <div class="block-title">
-            <div class="block-icon sky">📨</div>
-            أرسل استفساراً
-          </div>
-        </div>
-        <div class="block-body">
-          <div class="form-row">
-            <label class="field-label">اسم ولي الأمر</label>
-            <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
-          </div>
-          <div class="form-row">
-            <label class="field-label">اسم الطالب ثلاثياً</label>
-            <input type="text" class="field-input" id="pS" placeholder="اسم الطالب...">
-          </div>
-          <div class="form-row">
-            <label class="field-label">الشعبة</label>
-            <select class="field-input" id="pC">
-              <option value="">— اختر الشعبة —</option>
-              <option value="5A">الخامس ١</option>
-              <option value="5B">الخامس ٢</option>
-              <option value="5C">الخامس ٣</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label class="field-label">الاستفسار</label>
-            <textarea class="field-input" id="pM" placeholder="اكتب سؤالك هنا..."></textarea>
-          </div>
-          <button class="btn-send" id="sendBtn" onclick="sendQuery()">
-            <span>إرسال</span><i class="fa fa-paper-plane"></i>
-          </button>
-          <div class="hint-box">
-            <p>💡 الردود تظهر في قسم "ردود الأستاذ" بعد المراجعة</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- QUICK LINKS -->
       <div class="section-block">
         <div class="block-header">
           <div class="block-title">
@@ -837,8 +815,54 @@ textarea.field-input { resize: vertical; min-height: 80px; }
           </a>
         </div>
       </div>
-
     </aside>
+  </div>
+
+  <!-- صندوق الاستفسار — أسفل الصفحة -->
+  <div class="inquiry-section">
+    <div class="section-block">
+      <div class="block-header">
+        <div class="block-title">
+          <div class="block-icon sky">📨</div>
+          أرسل استفساراً للأستاذ
+        </div>
+      </div>
+      <div class="block-body">
+        <div class="inquiry-grid">
+          <div class="inquiry-fields">
+            <div class="form-row">
+              <label class="field-label">اسم ولي الأمر</label>
+              <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
+            </div>
+            <div class="form-row">
+              <label class="field-label">اسم الطالب ثلاثياً</label>
+              <input type="text" class="field-input" id="pS" placeholder="اسم الطالب...">
+            </div>
+            <div class="form-row">
+              <label class="field-label">الشعبة</label>
+              <select class="field-input" id="pC">
+                <option value="">— اختر الشعبة —</option>
+                <option value="5A">الخامس ١</option>
+                <option value="5B">الخامس ٢</option>
+                <option value="5C">الخامس ٣</option>
+              </select>
+            </div>
+          </div>
+          <div class="inquiry-message">
+            <div class="form-row" style="flex:1;display:flex;flex-direction:column;">
+              <label class="field-label">الاستفسار أو السؤال</label>
+              <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..." style="flex:1;min-height:120px;"></textarea>
+            </div>
+            <button class="btn-send" id="sendBtn" onclick="sendQuery()">
+              <span>إرسال الاستفسار</span><i class="fa fa-paper-plane"></i>
+            </button>
+            <div class="hint-box">
+              <p>💡 الردود تظهر في قسم "ردود الأستاذ" بعد مراجعة الاستفسار</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
