@@ -368,7 +368,7 @@ header {
 
 .notice-top {
   display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 8px;
+  justify-content: space-between; margin-bottom: 6px;
   gap: 8px; flex-wrap: wrap;
 }
 .notice-badges { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -384,17 +384,25 @@ header {
 
 .notice-date { font-size: 0.72rem; color: var(--ink-faint); direction: ltr; }
 
+/* ═══════════════════════════════════════════
+   ✅ التعديل: تقليل المسافة بين السطور في البطاقة
+═══════════════════════════════════════════ */
 .notice-title {
   font-family: 'Cairo', sans-serif;
-  font-size: clamp(1.15rem, 3vw, 1.35rem);
+  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
   font-weight: 700;
-  color: var(--ink); margin-bottom: 8px; line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 5px;
+  line-height: 1.4; /* كانت 1.5 */
 }
+
 .notice-det {
   font-family: 'Baloo Bhaijaan 2', sans-serif;
-  font-size: clamp(1.05rem, 2.8vw, 1.15rem);
-  color: var(--ink-soft); line-height: 2.1;
-  white-space: pre-wrap; word-break: break-word;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  color: var(--ink-soft);
+  line-height: 1.65; /* كانت 2.1 */
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .notice-img {
@@ -406,8 +414,8 @@ header {
 .notice-img:hover { opacity: 0.92; }
 
 .notice-actions {
-  display: flex; gap: 6px; margin-top: 12px;
-  padding-top: 12px; border-top: 1px solid var(--border); flex-wrap: wrap;
+  display: flex; gap: 6px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px solid var(--border); flex-wrap: wrap;
 }
 .n-btn {
   display: inline-flex; align-items: center; gap: 4px;
@@ -649,8 +657,8 @@ textarea.field-input { resize: vertical; min-height: 80px; }
   .stat-card { padding: 10px 8px; }
   .stat-num { font-size: 1.2rem; }
   .stat-label { font-size: 0.65rem; }
-  .notice-title { font-size: 1.08rem; }
-  .notice-det { font-size: 1rem; }
+  .notice-title { font-size: 1rem; }
+  .notice-det { font-size: 0.92rem; }
 }
 </style>
 
@@ -658,7 +666,6 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 <body>
 
 <!-- ══════════ HEADER ══════════ -->
-
 <header id="mainHeader">
   <div class="header-inner">
     <div class="header-top">
@@ -679,25 +686,20 @@ textarea.field-input { resize: vertical; min-height: 80px; }
       </div>
     </div>
 
-```
-<div class="tabs-bar" id="tabsBar">
-  <button class="ctab active" data-class="all"><i class="fa fa-list" style="font-size:.75rem"></i> الملاحظات</button>
-  <button class="ctab" data-class="5A">خامس ١ <span class="cbdg" id="b5A">0</span></button>
-  <button class="ctab" data-class="5B">خامس ٢ <span class="cbdg" id="b5B">0</span></button>
-  <button class="ctab" data-class="5C">خامس ٣ <span class="cbdg" id="b5C">0</span></button>
-  <button class="ctab" data-class="replies">💬 الردود <span class="cbdg" id="repliesBdg">0</span></button>
-</div>
-```
-
+    <div class="tabs-bar" id="tabsBar">
+      <button class="ctab active" data-class="all"><i class="fa fa-list" style="font-size:.75rem"></i> الملاحظات</button>
+      <button class="ctab" data-class="5A">خامس ١ <span class="cbdg" id="b5A">0</span></button>
+      <button class="ctab" data-class="5B">خامس ٢ <span class="cbdg" id="b5B">0</span></button>
+      <button class="ctab" data-class="5C">خامس ٣ <span class="cbdg" id="b5C">0</span></button>
+      <button class="ctab" data-class="replies">💬 الردود <span class="cbdg" id="repliesBdg">0</span></button>
+    </div>
   </div>
 </header>
 
 <!-- ══════════ PAGE ══════════ -->
-
 <div class="page-wrap">
 
   <!-- HERO -->
-
   <section class="hero">
     <div class="hero-icon">👋</div>
     <div class="hero-text">
@@ -707,7 +709,6 @@ textarea.field-input { resize: vertical; min-height: 80px; }
   </section>
 
   <!-- STATS -->
-
   <div class="stats-grid">
     <div class="stat-card">
       <span class="stat-emoji">📌</span>
@@ -732,108 +733,103 @@ textarea.field-input { resize: vertical; min-height: 80px; }
   </div>
 
   <!-- MAIN GRID -->
-
   <div class="main-grid">
     <div class="content-area">
 
-```
-  <!-- NOTICES -->
-  <div class="section-block" id="noticesBlock">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon sky">📌</div>
-        الملاحظات والتنبيهات
-      </div>
-      <div class="last-update">
-        <span class="status-dot loading" id="statusDot"></span>
-        <span id="lastUpdateText">جاري التحميل...</span>
-      </div>
-    </div>
-    <div class="block-body">
-      <div class="filter-pills">
-        <button class="pill active" onclick="flt('all',this)">الكل</button>
-        <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
-        <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
-        <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
-      </div>
-      <div id="nList">
-        <div class="skel-card">
-          <div class="skel-big skeleton" style="width:40%"></div>
-          <div class="skel-line skeleton" style="width:90%;margin-bottom:8px"></div>
-          <div class="skel-line skeleton" style="width:70%"></div>
+      <!-- NOTICES -->
+      <div class="section-block" id="noticesBlock">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon sky">📌</div>
+            الملاحظات والتنبيهات
+          </div>
+          <div class="last-update">
+            <span class="status-dot loading" id="statusDot"></span>
+            <span id="lastUpdateText">جاري التحميل...</span>
+          </div>
         </div>
-        <div class="skel-card">
-          <div class="skel-big skeleton" style="width:55%"></div>
-          <div class="skel-line skeleton" style="width:85%;margin-bottom:8px"></div>
-          <div class="skel-line skeleton" style="width:60%"></div>
+        <div class="block-body">
+          <div class="filter-pills">
+            <button class="pill active" onclick="flt('all',this)">الكل</button>
+            <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
+            <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
+            <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
+          </div>
+          <div id="nList">
+            <div class="skel-card">
+              <div class="skel-big skeleton" style="width:40%"></div>
+              <div class="skel-line skeleton" style="width:90%;margin-bottom:8px"></div>
+              <div class="skel-line skeleton" style="width:70%"></div>
+            </div>
+            <div class="skel-card">
+              <div class="skel-big skeleton" style="width:55%"></div>
+              <div class="skel-line skeleton" style="width:85%;margin-bottom:8px"></div>
+              <div class="skel-line skeleton" style="width:60%"></div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- REPLIES -->
+      <div class="section-block" id="repliesBlock">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon gold">💬</div>
+            ردود الأستاذ
+          </div>
+        </div>
+        <div class="block-body">
+          <div id="rList">
+            <div class="empty-state">
+              <span class="e-icon">💌</span>
+              <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="section-block">
+        <div class="block-header">
+          <div class="block-title">
+            <div class="block-icon emerald">🔗</div>
+            روابط مفيدة
+          </div>
+        </div>
+        <div class="ql-body">
+          <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item">
+            <div class="ql-icon">🚀</div>
+            <div class="ql-item-text">
+              <strong>منصة ارتقِ</strong>
+              <span>اللغة العربية - الصف الخامس</span>
+            </div>
+            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+          </a>
+          <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item">
+            <div class="ql-icon">📊</div>
+            <div class="ql-item-text">
+              <strong>بوابة النتائج</strong>
+              <span>الأستاذ خليل البلوشي</span>
+            </div>
+            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+          </a>
+          <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item">
+            <div class="ql-icon">💬</div>
+            <div class="ql-item-text">
+              <strong>الاستفسارات</strong>
+              <span>تواصل مع الأستاذ</span>
+            </div>
+            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+          </a>
+        </div>
+      </div>
+    </aside>
   </div>
 
-  <!-- REPLIES -->
-  <div class="section-block" id="repliesBlock">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon gold">💬</div>
-        ردود الأستاذ
-      </div>
-    </div>
-    <div class="block-body">
-      <div id="rList">
-        <div class="empty-state">
-          <span class="e-icon">💌</span>
-          <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- SIDEBAR — روابط فقط -->
-<aside class="sidebar">
-  <div class="section-block">
-    <div class="block-header">
-      <div class="block-title">
-        <div class="block-icon emerald">🔗</div>
-        روابط مفيدة
-      </div>
-    </div>
-    <div class="ql-body">
-      <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item">
-        <div class="ql-icon">🚀</div>
-        <div class="ql-item-text">
-          <strong>منصة ارتقِ</strong>
-          <span>اللغة العربية - الصف الخامس</span>
-        </div>
-        <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-      </a>
-      <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item">
-        <div class="ql-icon">📊</div>
-        <div class="ql-item-text">
-          <strong>بوابة النتائج</strong>
-          <span>الأستاذ خليل البلوشي</span>
-        </div>
-        <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-      </a>
-      <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item">
-        <div class="ql-icon">💬</div>
-        <div class="ql-item-text">
-          <strong>الاستفسارات</strong>
-          <span>تواصل مع الأستاذ</span>
-        </div>
-        <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-      </a>
-    </div>
-  </div>
-</aside>
-```
-
-  </div>
-
-  <!-- صندوق الاستفسار — أسفل الصفحة -->
-
+  <!-- صندوق الاستفسار -->
   <div class="inquiry-section">
     <div class="section-block">
       <div class="block-header">
@@ -882,17 +878,14 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 </div>
 
 <!-- IMAGE MODAL -->
-
 <div class="overlay" id="imgModal" onclick="this.classList.remove('open')">
   <img id="fullImg" src="" alt="صورة مكبرة">
 </div>
 
 <!-- TOAST -->
-
 <div class="toast" id="toast"></div>
 
 <!-- ══════════ SCRIPT ══════════ -->
-
 <script>
 'use strict';
 
