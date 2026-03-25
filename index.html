@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -15,52 +14,53 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 /* ══════════════════════════════════════════
-   ROOT — لوحة ألوان دافئة كالكتاب
+   ROOT — Social-media inspired palette
 ══════════════════════════════════════════ */
 :root {
-  --parchment:   #faf7f2;
-  --cream:       #f5f0e8;
-  --linen:       #efe9dd;
-  --warm-white:  #fffdf9;
-  --card:        #ffffff;
+  --bg:          #f0f2f5;
+  --bg-elevated: #ffffff;
+  --bg-hover:    #f7f8fa;
+  --bg-input:    #f0f2f5;
+  --bg-wash:     #e4e6eb;
 
-  --ink:         #2c3e50;
-  --ink-soft:    #4a5568;
-  --ink-muted:   #718096;
-  --ink-faint:   #a0aec0;
+  --text-primary:   #1c1e21;
+  --text-secondary: #606770;
+  --text-tertiary:  #8a8d91;
+  --text-inv:       #ffffff;
 
-  --teal:        #2b8a7e;
-  --teal-light:  #e6f5f3;
-  --teal-mid:    #3ba99b;
-  --teal-deep:   #1e6e64;
+  --accent:       #0d8a72;
+  --accent-hover: #0b7563;
+  --accent-light: #e8f5f1;
+  --accent-wash:  #d0ebe4;
 
-  --sage:        #6b9080;
-  --sage-light:  #e8f0ec;
+  --blue:        #1877f2;
+  --blue-light:  #e7f3ff;
+  --green:       #36a420;
+  --green-light: #e9f7e5;
+  --orange:      #f5a623;
+  --orange-light:#fef5e1;
+  --red:         #e74c3c;
+  --red-light:   #fde8e6;
 
-  --clay:        #c07850;
-  --clay-light:  #fdf0e8;
+  --divider:     #e4e6eb;
+  --divider2:    #ced0d4;
+  --shadow-xs:   0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:   0 8px 24px rgba(0,0,0,0.12);
+  --shadow-xl:   0 20px 48px rgba(0,0,0,0.15);
 
-  --sky:         #5b8db8;
-  --sky-light:   #eaf2f8;
-
-  --rose:        #c9555a;
-  --rose-light:  #fdeced;
-
-  --border:      rgba(44,62,80,0.08);
-  --border2:     rgba(44,62,80,0.12);
-  --shadow-sm:   0 1px 3px rgba(44,62,80,0.06);
-  --shadow-md:   0 4px 16px rgba(44,62,80,0.07);
-  --shadow-lg:   0 8px 32px rgba(44,62,80,0.09);
-
-  --radius:      14px;
-  --radius-sm:   10px;
-  --radius-xs:   6px;
-  --tr:          all 0.25s ease;
+  --radius-full: 9999px;
+  --radius-xl:   16px;
+  --radius-lg:   12px;
+  --radius-md:   8px;
+  --radius-sm:   6px;
+  --tr:          0.2s ease;
 }
 
 /* ══════════════════════════════════════════
@@ -70,513 +70,591 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Cairo', sans-serif;
-  background: var(--parchment);
-  color: var(--ink);
+  font-family: 'Cairo', 'Noto Kufi Arabic', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
-  line-height: 1.85;
-  font-size: 1rem;
+  line-height: 1.7;
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
 }
 
-/* خلفية ناعمة */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(43,138,126,0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(192,120,80,0.04) 0%, transparent 50%);
-  pointer-events: none; z-index: 0;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--divider2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
 
 /* ══════════════════════════════════════════
-   HEADER
+   HEADER — App-style top bar
 ══════════════════════════════════════════ */
 header {
   position: sticky; top: 0; z-index: 200;
-  background: rgba(250,247,242,0.92);
-  backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom: 1px solid var(--border2);
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--divider);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
 }
 .header-hidden { transform: translateY(-100%); }
 
 .header-inner {
-  max-width: 960px; margin: 0 auto;
-  padding: 0 clamp(14px,4vw,24px);
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 16px;
 }
 
 .header-top {
   display: flex; align-items: center;
   justify-content: space-between;
-  padding: 12px 0; gap: 12px; flex-wrap: wrap;
-  border-bottom: 1px solid var(--border);
+  padding: 10px 0; gap: 12px;
 }
 
 .brand { display: flex; align-items: center; gap: 12px; }
 
 .logo-wrap {
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-mid));
-  border-radius: var(--radius-sm);
+  width: 42px; height: 42px;
+  background: var(--accent);
+  border-radius: var(--radius-lg);
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(43,138,126,0.2);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(13,138,114,0.25);
 }
 
 .brand-text h1 {
-  font-size: clamp(1.05rem,2vw,1.2rem);
-  color: var(--teal-deep); line-height: 1.3;
-  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-primary); line-height: 1.3;
+  font-weight: 800;
 }
 .brand-text p {
-  font-size: 0.72rem; color: var(--ink-muted); margin-top: 1px;
+  font-size: 0.72rem; color: var(--text-tertiary); margin-top: 0;
   font-weight: 500;
 }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
 
 #hdate {
-  font-size: 0.72rem; color: var(--ink-muted);
-  background: var(--cream);
-  padding: 5px 10px; border-radius: var(--radius-xs);
-  border: 1px solid var(--border); text-align: center; line-height: 1.5;
+  font-size: 0.72rem; color: var(--text-secondary);
+  background: var(--bg-input);
+  padding: 6px 12px; border-radius: var(--radius-full);
+  text-align: center; line-height: 1.4;
+  font-weight: 600;
 }
 
-.hbtn {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 7px 14px; border-radius: var(--radius-xs);
-  font-family: inherit; font-size: 0.78rem; font-weight: 600;
-  cursor: pointer; text-decoration: none; transition: var(--tr);
-  border: 1px solid var(--border2);
-  color: var(--ink-soft); background: var(--card);
-}
-.hbtn:hover { border-color: var(--teal); color: var(--teal); }
-
-.btn-refresh {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 7px 14px; border-radius: var(--radius-xs);
-  font-family: inherit; font-size: 0.78rem; font-weight: 600;
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--bg-input); border: none;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: var(--tr);
-  border: 1px solid rgba(43,138,126,0.25);
-  color: var(--teal); background: var(--teal-light);
+  color: var(--text-secondary); font-size: 15px;
+  position: relative;
 }
-.btn-refresh:hover { background: rgba(43,138,126,0.12); }
-.btn-refresh.spinning .refresh-icon { animation: spin 0.8s linear infinite; }
+.icon-btn:hover { background: var(--bg-wash); }
+.icon-btn:active { transform: scale(0.92); }
+.icon-btn.spinning i { animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.refresh-icon { display: inline-block; transition: var(--tr); }
 
-/* ── TABS ── */
+.hbtn-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-full);
+  font-family: inherit; font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; text-decoration: none; transition: var(--tr);
+  border: none;
+  color: var(--text-inv); background: var(--accent);
+}
+.hbtn-link:hover { background: var(--accent-hover); }
+
+/* ── TABS — Pill navigation ── */
 .tabs-bar {
-  display: flex; gap: 4px; padding: 10px 0;
+  display: flex; gap: 4px; padding: 6px 0 10px;
   overflow-x: auto; scrollbar-width: none;
 }
 .tabs-bar::-webkit-scrollbar { display: none; }
 
 .ctab {
   display: flex; align-items: center; gap: 6px;
-  padding: 8px 16px; white-space: nowrap;
-  background: transparent; color: var(--ink-muted);
-  border: 1px solid transparent; border-radius: 50px;
-  font-family: inherit; font-size: 0.82rem; font-weight: 600;
+  padding: 8px 18px; white-space: nowrap;
+  background: transparent; color: var(--text-secondary);
+  border: none; border-radius: var(--radius-full);
+  font-family: inherit; font-size: 0.82rem; font-weight: 700;
   cursor: pointer; transition: var(--tr); flex-shrink: 0;
 }
-.ctab:hover { color: var(--teal); background: var(--teal-light); }
+.ctab:hover { background: var(--bg-input); color: var(--text-primary); }
 .ctab.active {
-  background: var(--teal);
-  color: #fff; border-color: var(--teal);
-  box-shadow: 0 2px 8px rgba(43,138,126,0.2);
+  background: var(--accent-light);
+  color: var(--accent);
 }
 .cbdg {
-  background: rgba(0,0,0,0.1); color: currentColor;
-  border-radius: 50px; padding: 1px 7px;
-  font-size: 0.7rem; font-weight: 700;
-  min-width: 18px; text-align: center;
+  background: var(--bg-wash); color: var(--text-secondary);
+  border-radius: var(--radius-full); padding: 1px 7px;
+  font-size: 0.68rem; font-weight: 800;
+  min-width: 20px; text-align: center;
 }
-.ctab.active .cbdg { background: rgba(255,255,255,0.25); }
+.ctab.active .cbdg { background: var(--accent-wash); color: var(--accent); }
 
 /* ══════════════════════════════════════════
-   PAGE LAYOUT
+   PAGE LAYOUT — 3-column social feed
 ══════════════════════════════════════════ */
 .page-wrap {
-  max-width: 960px; margin: 0 auto;
-  padding: clamp(16px,3vw,28px) clamp(14px,4vw,24px) 80px;
-  position: relative; z-index: 1;
-}
-
-/* ══════════════════════════════════════════
-   HERO — بسيط ودافئ
-══════════════════════════════════════════ */
-.hero {
-  position: relative; overflow: hidden;
-  border-radius: var(--radius); padding: 28px 24px;
-  margin-bottom: 22px;
-  background: linear-gradient(135deg, var(--teal-light), var(--card));
-  border: 1px solid rgba(43,138,126,0.12);
-  box-shadow: var(--shadow-sm);
-  display: flex; align-items: center; gap: 16px;
-}
-
-.hero::after {
-  content: '';
-  position: absolute; top: 0; right: 0; left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--teal), var(--teal-mid), transparent);
-}
-
-.hero-icon {
-  width: 60px; height: 60px; flex-shrink: 0; border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--teal), var(--teal-mid));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: #fff;
-  box-shadow: 0 4px 14px rgba(43,138,126,0.2);
-}
-
-.hero-text h2 {
-  font-size: clamp(1.15rem,2.5vw,1.45rem);
-  color: var(--teal-deep); margin-bottom: 4px; line-height: 1.4;
-  font-weight: 700;
-}
-.hero-text p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; }
-
-/* ══════════════════════════════════════════
-   STATS GRID
-══════════════════════════════════════════ */
-.stats-grid {
+  max-width: 1100px; margin: 0 auto;
+  padding: 20px 16px 80px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(8px,2vw,14px);
-  margin-bottom: 22px;
+  grid-template-columns: 280px 1fr 300px;
+  gap: 20px;
+  align-items: start;
 }
 
-.stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px 12px;
-  text-align: center;
-  transition: var(--tr);
+@media (max-width: 1024px) {
+  .page-wrap { grid-template-columns: 1fr 300px; }
+  .left-rail { display: none; }
+}
+@media (max-width: 768px) {
+  .page-wrap { grid-template-columns: 1fr; padding: 12px 0 80px; gap: 12px; }
+  .right-rail { display: none; }
+}
+
+/* ══════════════════════════════════════════
+   LEFT RAIL — Profile card + links
+══════════════════════════════════════════ */
+.left-rail { position: sticky; top: 85px; }
+
+.profile-card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--divider);
 }
-.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-.stat-emoji { font-size: 1.4rem; margin-bottom: 4px; display: block; }
-.stat-num {
-  font-size: 1.6rem; font-weight: 800; line-height: 1.1;
-  color: var(--ink);
+.profile-cover {
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent), #14b8a6, #0ea5e9);
+  position: relative;
 }
-.stat-label { font-size: 0.7rem; color: var(--ink-muted); font-weight: 600; margin-top: 2px; }
-
-/* ══════════════════════════════════════════
-   MAIN GRID
-══════════════════════════════════════════ */
-.main-grid { display: flex; flex-direction: column; gap: 20px; }
-
-@media (min-width: 768px) {
-  .main-grid { flex-direction: row; align-items: start; }
-  .content-area { flex: 1; min-width: 0; }
-  .sidebar { width: 300px; flex-shrink: 0; position: sticky; top: 95px; }
-}
-
-/* ══════════════════════════════════════════
-   SECTION BLOCK
-══════════════════════════════════════════ */
-.section-block {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden; margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-}
-
-.block-header {
-  padding: 14px 18px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  background: var(--cream);
-  flex-wrap: wrap; gap: 8px;
-}
-
-.block-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 0.92rem; font-weight: 700; color: var(--ink);
-}
-
-.block-icon {
-  width: 32px; height: 32px; border-radius: var(--radius-xs);
-  display: flex; align-items: center; justify-content: center; font-size: 15px;
-}
-.block-icon.sky     { background: var(--sky-light); }
-.block-icon.gold    { background: var(--clay-light); }
-.block-icon.emerald { background: var(--sage-light); }
-
-.block-body { padding: 16px; }
-
-/* ══════════════════════════════════════════
-   FILTER PILLS
-══════════════════════════════════════════ */
-.filter-pills { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-
-.pill {
-  padding: 6px 14px; border-radius: 50px;
-  border: 1px solid var(--border2); background: transparent;
-  font-family: inherit; font-size: 0.78rem; font-weight: 600;
-  color: var(--ink-muted); cursor: pointer; transition: var(--tr);
-}
-.pill:hover { border-color: var(--teal); color: var(--teal); }
-.pill.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-
-/* ══════════════════════════════════════════
-   NOTICE CARDS — بطاقات كالكتاب
-══════════════════════════════════════════ */
-.notice-item {
-  position: relative; overflow: hidden;
-  background: var(--warm-white); border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  padding: 16px 16px 16px 18px;
-  margin-bottom: 12px; transition: var(--tr);
-  animation: slideUp 0.3s ease both;
-}
-
-@keyframes slideUp {
-  from { opacity:0; transform: translateY(10px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-/* خط جانبي ملوّن */
-.notice-item::before {
-  content: ''; position: absolute;
-  top: 0; right: 0; width: 3px; height: 100%;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.notice-item.homework::before { background: var(--sky); }
-.notice-item.activity::before { background: var(--sage); }
-.notice-item.alert::before    { background: var(--clay); }
-
-.notice-item:hover {
-  transform: translateX(-2px);
+.profile-avatar {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  border: 4px solid var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  position: absolute; bottom: -28px; right: 16px;
   box-shadow: var(--shadow-md);
 }
+.profile-info { padding: 36px 16px 16px; }
+.profile-info h3 { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
+.profile-info p { font-size: 0.76rem; color: var(--text-secondary); margin-top: 2px; }
 
-.notice-top {
-  display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 6px;
-  gap: 8px; flex-wrap: wrap;
+.nav-links { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: var(--radius-md);
+  text-decoration: none; transition: var(--tr);
+  color: var(--text-primary); font-weight: 600; font-size: 0.88rem;
 }
-.notice-badges { display: flex; gap: 5px; flex-wrap: wrap; }
-
-.badge {
-  font-size: 0.68rem; font-weight: 700;
-  padding: 2px 9px; border-radius: 50px;
+.nav-item:hover { background: var(--bg-hover); }
+.nav-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
 }
-.badge.homework { background: var(--sky-light); color: var(--sky); }
-.badge.activity { background: var(--sage-light); color: var(--sage); }
-.badge.alert    { background: var(--clay-light); color: var(--clay); }
-.badge.cls      { background: var(--cream); color: var(--ink-muted); }
+.nav-icon.teal   { background: var(--accent-light); }
+.nav-icon.blue   { background: var(--blue-light); }
+.nav-icon.orange { background: var(--orange-light); }
 
-.notice-date { font-size: 0.72rem; color: var(--ink-faint); direction: ltr; }
+/* ══════════════════════════════════════════
+   CENTER FEED
+══════════════════════════════════════════ */
+.feed { display: flex; flex-direction: column; gap: 16px; }
 
-/* ═══════════════════════════════════════════
-   ✅ التعديل: تقليل المسافة بين السطور في البطاقة
-═══════════════════════════════════════════ */
+/* ── Story-style stats ── */
+.stats-row {
+  display: flex; gap: 12px;
+  padding: 0 16px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.stats-row::-webkit-scrollbar { display: none; }
+
+@media (min-width: 769px) {
+  .stats-row { padding: 0; }
+}
+
+.stat-bubble {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; flex-shrink: 0; cursor: default;
+}
+.stat-ring {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--accent), #14b8a6);
+  transition: transform 0.2s;
+}
+.stat-ring:hover { transform: scale(1.08); }
+.stat-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%; background: var(--bg-elevated);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.stat-num { font-size: 1.15rem; font-weight: 800; line-height: 1; color: var(--text-primary); }
+.stat-emoji { font-size: 0.7rem; margin-top: 1px; }
+.stat-label { font-size: 0.68rem; color: var(--text-secondary); font-weight: 700; }
+
+/* ── Hero / Welcome post ── */
+.welcome-card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--divider);
+}
+@media (max-width: 768px) {
+  .welcome-card { border-radius: 0; border-left: none; border-right: none; }
+}
+.welcome-banner {
+  padding: 20px 20px 16px;
+  background: linear-gradient(135deg, var(--accent-light), #f0fdf4, #ecfeff);
+  border-bottom: 1px solid var(--divider);
+  display: flex; align-items: center; gap: 14px;
+}
+.welcome-emoji { font-size: 36px; flex-shrink: 0; }
+.welcome-text h2 {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  font-weight: 800; color: var(--text-primary); margin-bottom: 2px;
+}
+.welcome-text p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ── Section Card (feed card) ── */
+.feed-card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--divider);
+}
+@media (max-width: 768px) {
+  .feed-card { border-radius: 0; border-left: none; border-right: none; }
+}
+
+.card-header {
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--divider);
+}
+.card-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.95rem; font-weight: 800; color: var(--text-primary);
+}
+.card-title-icon {
+  width: 32px; height: 32px; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.card-title-icon.blue   { background: var(--blue-light); }
+.card-title-icon.orange { background: var(--orange-light); }
+.card-title-icon.green  { background: var(--green-light); }
+
+.card-body { padding: 12px 16px 16px; }
+
+/* ── Filter Pills ── */
+.filter-pills { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+
+.pill {
+  padding: 6px 14px; border-radius: var(--radius-full);
+  border: none; background: var(--bg-input);
+  font-family: inherit; font-size: 0.78rem; font-weight: 700;
+  color: var(--text-secondary); cursor: pointer; transition: var(--tr);
+}
+.pill:hover { background: var(--bg-wash); color: var(--text-primary); }
+.pill.active { background: var(--accent); color: var(--text-inv); }
+
+/* ══════════════════════════════════════════
+   NOTICE CARDS — Social post style
+══════════════════════════════════════════ */
+.notice-item {
+  position: relative;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--divider);
+  animation: fadeUp 0.35s ease both;
+}
+.notice-item:last-child { border-bottom: none; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.notice-author {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.author-avatar {
+  width: 40px; height: 40px; flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.author-avatar.hw  { background: var(--blue-light); }
+.author-avatar.act { background: var(--green-light); }
+.author-avatar.alt { background: var(--orange-light); }
+
+.author-meta { flex: 1; min-width: 0; }
+.author-name {
+  font-size: 0.88rem; font-weight: 700; color: var(--text-primary);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.type-badge {
+  font-size: 0.65rem; font-weight: 800;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  display: inline-block;
+}
+.type-badge.homework { background: var(--blue-light); color: var(--blue); }
+.type-badge.activity { background: var(--green-light); color: var(--green); }
+.type-badge.alert    { background: var(--orange-light); color: var(--orange); }
+.cls-badge {
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  background: var(--bg-input); color: var(--text-tertiary);
+}
+
+.author-date { font-size: 0.72rem; color: var(--text-tertiary); direction: ltr; text-align: right; }
+
 .notice-title {
   font-family: 'Cairo', sans-serif;
-  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.08rem);
   font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 5px;
-  line-height: 1.4; /* كانت 1.5 */
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.55;
 }
 
 .notice-det {
   font-family: 'Baloo Bhaijaan 2', sans-serif;
-  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-  color: var(--ink-soft);
-  line-height: 1.65; /* كانت 2.1 */
+  font-size: clamp(0.92rem, 2.3vw, 1rem);
+  color: var(--text-secondary);
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .notice-img {
-  width: 100%; max-height: 240px; object-fit: cover;
-  border-radius: var(--radius-xs); margin-top: 12px;
-  border: 1px solid var(--border); cursor: zoom-in;
-  transition: var(--tr);
+  width: 100%; max-height: 340px; object-fit: cover;
+  border-radius: var(--radius-lg); margin-top: 12px;
+  cursor: zoom-in; transition: var(--tr);
 }
-.notice-img:hover { opacity: 0.92; }
+.notice-img:hover { opacity: 0.93; }
 
 .notice-actions {
-  display: flex; gap: 6px; margin-top: 10px;
-  padding-top: 10px; border-top: 1px solid var(--border); flex-wrap: wrap;
+  display: flex; gap: 0; margin-top: 10px;
 }
-.n-btn {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 5px 12px; border-radius: var(--radius-xs); border: 1px solid var(--border);
-  font-family: inherit; font-size: 0.74rem; font-weight: 600;
+.action-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 0; border: none; background: transparent;
+  font-family: inherit; font-size: 0.78rem; font-weight: 700;
   cursor: pointer; transition: var(--tr);
-  background: transparent; color: var(--ink-muted);
+  color: var(--text-tertiary); border-radius: var(--radius-md);
 }
-.n-btn:hover { background: var(--cream); color: var(--ink-soft); }
-.n-btn.copy:hover  { color: var(--sky); border-color: rgba(91,141,184,0.3); }
-.n-btn.share:hover { color: var(--sage); border-color: rgba(107,144,128,0.3); }
+.action-btn:hover { background: var(--bg-hover); color: var(--accent); }
 
 /* ══════════════════════════════════════════
-   REPLY CARDS
+   REPLY CARDS — Chat style
 ══════════════════════════════════════════ */
 .reply-card {
-  background: var(--warm-white); border-radius: var(--radius-sm);
-  border: 1px solid var(--border); padding: 16px;
-  margin-bottom: 12px; transition: var(--tr);
-  animation: slideUp 0.3s ease both;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--divider);
+  animation: fadeUp 0.35s ease both;
 }
-.reply-card:hover { box-shadow: var(--shadow-md); }
+.reply-card:last-child { border-bottom: none; }
 
-.q-block { display: flex; gap: 10px; margin-bottom: 12px; }
+.q-block { display: flex; gap: 10px; margin-bottom: 10px; }
 .q-avatar {
-  width: 34px; height: 34px; flex-shrink: 0;
-  border-radius: var(--radius-xs); font-size: 15px;
-  background: var(--sky-light); border: 1px solid rgba(91,141,184,0.15);
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; font-size: 15px;
+  background: var(--blue-light);
   display: flex; align-items: center; justify-content: center;
 }
-.q-who { font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
-.q-who small { color: var(--ink-muted); font-weight: 500; font-size: 0.74rem; }
+.q-bubble {
+  background: var(--bg-input); border-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-sm);
+  padding: 10px 14px; max-width: 85%;
+}
+.q-who { font-size: 0.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+.q-who small { color: var(--text-tertiary); font-weight: 500; font-size: 0.7rem; }
 .q-text {
   font-family: 'Baloo Bhaijaan 2', sans-serif;
-  font-size: 0.88rem; color: var(--ink-soft); line-height: 1.8;
+  font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7;
 }
 
 .reply-answer {
-  background: var(--sage-light);
-  border: 1px solid rgba(107,144,128,0.2);
-  border-radius: var(--radius-xs); padding: 14px;
+  display: flex; gap: 10px; margin-right: 46px;
+  flex-direction: row-reverse;
 }
-.reply-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .t-avatar {
-  width: 30px; height: 30px; flex-shrink: 0;
-  background: rgba(107,144,128,0.15); border: 1px solid rgba(107,144,128,0.2);
-  border-radius: var(--radius-xs);
-  display: flex; align-items: center; justify-content: center; font-size: 13px;
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--accent-light); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
 }
-.t-name { font-size: 0.82rem; font-weight: 700; color: var(--sage); }
+.reply-bubble {
+  background: var(--accent); color: var(--text-inv);
+  border-radius: var(--radius-lg);
+  border-top-left-radius: var(--radius-sm);
+  padding: 10px 14px; max-width: 85%;
+}
+.reply-name { font-size: 0.75rem; font-weight: 700; opacity: 0.85; margin-bottom: 2px; }
 .reply-text {
   font-family: 'Baloo Bhaijaan 2', sans-serif;
-  font-size: 0.88rem; color: var(--ink-soft); line-height: 1.9;
+  font-size: 0.88rem; line-height: 1.7;
 }
 
 /* ══════════════════════════════════════════
-   FORM
+   FORM — Messenger-style input
 ══════════════════════════════════════════ */
-.form-row { margin-bottom: 12px; }
-.field-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 5px; }
+.form-row { margin-bottom: 10px; }
+.field-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; }
 
 .field-input {
   width: 100%; padding: 10px 14px;
-  background: var(--parchment); border: 1px solid var(--border2);
-  border-radius: var(--radius-xs); color: var(--ink);
+  background: var(--bg-input); border: 1.5px solid transparent;
+  border-radius: var(--radius-full); color: var(--text-primary);
   font-family: inherit; font-size: 0.92rem; font-weight: 500;
   transition: var(--tr);
 }
 .field-input:focus {
-  outline: none; border-color: var(--teal);
-  background: var(--card);
-  box-shadow: 0 0 0 3px rgba(43,138,126,0.08);
+  outline: none; border-color: var(--accent);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 3px rgba(13,138,114,0.1);
 }
-.field-input::placeholder { color: var(--ink-faint); }
-select.field-input option { background: var(--card); color: var(--ink); }
-textarea.field-input { resize: vertical; min-height: 80px; }
+.field-input::placeholder { color: var(--text-tertiary); }
+select.field-input { border-radius: var(--radius-md); }
+select.field-input option { background: var(--bg-elevated); color: var(--text-primary); }
+textarea.field-input { resize: vertical; min-height: 80px; border-radius: var(--radius-lg); }
 
 .btn-send {
   width: 100%; padding: 12px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-mid));
-  color: #fff; border: none; border-radius: var(--radius-xs);
-  font-family: inherit; font-size: 0.95rem; font-weight: 700;
+  background: var(--accent); color: var(--text-inv);
+  border: none; border-radius: var(--radius-full);
+  font-family: inherit; font-size: 0.95rem; font-weight: 800;
   cursor: pointer; transition: var(--tr);
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  box-shadow: 0 2px 10px rgba(43,138,126,0.2);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 2px 8px rgba(13,138,114,0.2);
 }
-.btn-send:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(43,138,126,0.25); }
-.btn-send:disabled { background: var(--cream); color: var(--ink-faint); cursor: not-allowed; box-shadow: none; }
+.btn-send:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-send:active:not(:disabled) { transform: scale(0.98); }
+.btn-send:disabled { background: var(--bg-wash); color: var(--text-tertiary); cursor: not-allowed; box-shadow: none; }
 
 .hint-box {
-  margin-top: 10px; background: var(--cream);
-  border-radius: var(--radius-xs); padding: 10px 12px;
-  border: 1px solid var(--border);
+  margin-top: 10px; background: var(--bg-input);
+  border-radius: var(--radius-md); padding: 10px 12px;
 }
-.hint-box p { font-size: 0.74rem; color: var(--ink-muted); line-height: 1.6; display: flex; align-items: flex-start; gap: 5px; }
+.hint-box p { font-size: 0.74rem; color: var(--text-tertiary); line-height: 1.6; display: flex; align-items: flex-start; gap: 5px; }
 
 /* ══════════════════════════════════════════
-   QUICK LINKS
+   RIGHT RAIL — Sidebar widgets
 ══════════════════════════════════════════ */
-.ql-body { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.right-rail { position: sticky; top: 85px; display: flex; flex-direction: column; gap: 16px; }
+
+.widget {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--divider);
+}
+.widget-header {
+  padding: 14px 16px;
+  font-size: 0.92rem; font-weight: 800; color: var(--text-primary);
+  border-bottom: 1px solid var(--divider);
+}
+.widget-body { padding: 8px; }
 
 .ql-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 12px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 10px; border-radius: var(--radius-md);
   text-decoration: none; transition: var(--tr);
-  border: 1px solid var(--border);
-  background: var(--warm-white);
+  color: var(--text-primary);
 }
-.ql-item:hover { transform: translateX(-3px); box-shadow: var(--shadow-sm); }
+.ql-item:hover { background: var(--bg-hover); }
 
 .ql-icon {
-  font-size: 18px; width: 38px; height: 38px;
-  border-radius: var(--radius-xs); flex-shrink: 0;
+  font-size: 18px; width: 40px; height: 40px;
+  border-radius: var(--radius-md); flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  background: var(--cream);
+  background: var(--bg-input);
 }
 
 .ql-item-text { flex: 1; }
-.ql-item-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 1px; }
-.ql-item-text span   { font-size: 0.72rem; color: var(--ink-muted); }
-.ql-arrow { font-size: 0.8rem; color: var(--ink-faint); transition: var(--tr); }
-.ql-item:hover .ql-arrow { color: var(--teal); transform: translateX(-2px); }
+.ql-item-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-primary); }
+.ql-item-text span   { font-size: 0.72rem; color: var(--text-tertiary); }
+.ql-arrow { font-size: 0.75rem; color: var(--text-tertiary); transition: var(--tr); }
+.ql-item:hover .ql-arrow { color: var(--accent); transform: translateX(-3px); }
+
+.last-update {
+  font-size: 0.72rem; color: var(--text-tertiary);
+  display: flex; align-items: center; gap: 5px;
+  padding: 10px 16px;
+}
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); display: inline-block;
+  animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.status-dot.loading { background: var(--orange); }
+.status-dot.error   { background: var(--red); animation: none; }
 
 /* ══════════════════════════════════════════
-   LOADING SKELETON
+   INQUIRY SECTION — Mobile-friendly
+══════════════════════════════════════════ */
+.inquiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .inquiry-grid { grid-template-columns: 1fr; }
+}
+.inquiry-message {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+/* ══════════════════════════════════════════
+   SKELETON
 ══════════════════════════════════════════ */
 .skeleton {
-  background: linear-gradient(90deg, var(--cream) 25%, var(--linen) 50%, var(--cream) 75%);
+  background: linear-gradient(90deg, var(--bg-input) 25%, var(--bg-wash) 50%, var(--bg-input) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
-.skel-card { padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 12px; }
-.skel-line { height: 12px; border-radius: 50px; }
-.skel-big  { height: 18px; border-radius: 50px; margin-bottom: 10px; }
+.skel-card { padding: 16px 0; border-bottom: 1px solid var(--divider); }
+.skel-circle { width: 40px; height: 40px; border-radius: 50%; }
+.skel-line { height: 12px; border-radius: var(--radius-full); }
+.skel-big  { height: 16px; border-radius: var(--radius-full); margin-bottom: 8px; }
+.skel-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 
 /* ══════════════════════════════════════════
    EMPTY STATE
 ══════════════════════════════════════════ */
-.empty-state { text-align: center; padding: 40px 20px; color: var(--ink-muted); }
-.empty-state .e-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.5; display: block; }
-.empty-state p { font-size: 0.9rem; font-weight: 600; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); }
+.empty-state .e-icon { font-size: 40px; margin-bottom: 10px; display: block; opacity: 0.5; }
+.empty-state p { font-size: 0.88rem; font-weight: 600; }
 
 /* ══════════════════════════════════════════
-   IMAGE MODAL
+   MODAL
 ══════════════════════════════════════════ */
 .overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(44,62,80,0.85); backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
   z-index: 300; align-items: center; justify-content: center; cursor: zoom-out;
 }
 .overlay.open { display: flex; }
 .overlay img {
-  max-width: 92%; max-height: 88vh;
-  border-radius: var(--radius);
-  border: 2px solid var(--card);
-  box-shadow: var(--shadow-lg);
-  animation: popIn 0.3s ease both;
+  max-width: 94%; max-height: 90vh;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  animation: popIn 0.25s ease both;
 }
-@keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes popIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* ══════════════════════════════════════════
    TOAST
@@ -584,84 +662,67 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 .toast {
   position: fixed; bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: var(--card); color: var(--ink);
-  padding: 12px 24px; border-radius: 50px;
+  background: var(--text-primary); color: var(--text-inv);
+  padding: 12px 24px; border-radius: var(--radius-full);
   font-weight: 700; font-size: 0.85rem;
-  z-index: 1000; border: 1px solid var(--border2);
+  z-index: 1000;
   box-shadow: var(--shadow-lg);
   transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
   pointer-events: none; white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast.ok  { background: var(--sage-light); border-color: rgba(107,144,128,0.3); color: var(--teal-deep); }
-.toast.err { background: var(--rose-light); border-color: rgba(201,85,90,0.3); color: var(--rose); }
-
-/* ══════════════════════════════════════════
-   INQUIRY SECTION — أسفل الصفحة
-══════════════════════════════════════════ */
-.inquiry-section {
-  margin-top: 28px;
-}
-.inquiry-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.inquiry-message {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-@media (max-width: 640px) {
-  .inquiry-grid { grid-template-columns: 1fr; }
-}
+.toast.ok  { background: var(--accent); }
+.toast.err { background: var(--red); }
 
 /* ══════════════════════════════════════════
    LINK STYLE
 ══════════════════════════════════════════ */
-.ilink { color: var(--teal); text-decoration: none; font-weight: 600; border-bottom: 1px dashed rgba(43,138,126,0.3); transition: var(--tr); }
-.ilink:hover { color: var(--teal-deep); border-bottom-color: transparent; }
+.ilink { color: var(--accent); text-decoration: none; font-weight: 600; }
+.ilink:hover { text-decoration: underline; }
 
 /* ══════════════════════════════════════════
-   STATUS
+   MOBILE NAV — Bottom navigation bar
 ══════════════════════════════════════════ */
-.status-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--sage); display: inline-block;
-  animation: blink 2s ease infinite;
+.mobile-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--divider);
+  z-index: 250; padding: 6px 0 env(safe-area-inset-bottom, 8px);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
 }
-@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-.status-dot.loading { background: var(--clay); }
-.status-dot.error   { background: var(--rose); animation: none; }
-.last-update { font-size: 0.7rem; color: var(--ink-faint); display: flex; align-items: center; gap: 4px; }
+@media (max-width: 768px) {
+  .mobile-nav { display: flex; justify-content: space-around; }
+  body { padding-bottom: 72px; }
+}
+.mob-tab {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 12px; border: none; background: none;
+  font-family: inherit; font-size: 0.62rem; font-weight: 700;
+  color: var(--text-tertiary); cursor: pointer; transition: var(--tr);
+  position: relative;
+}
+.mob-tab i { font-size: 18px; }
+.mob-tab.active { color: var(--accent); }
+.mob-tab .mob-badge {
+  position: absolute; top: 0; right: 4px;
+  background: var(--red); color: #fff;
+  font-size: 0.55rem; font-weight: 800;
+  padding: 1px 5px; border-radius: var(--radius-full);
+  min-width: 16px; text-align: center;
+}
 
 /* ══════════════════════════════════════════
-   RESPONSIVE — شاشة صغيرة
+   MOBILE SECTIONS — toggle visibility
 ══════════════════════════════════════════ */
-@media (max-width: 640px) {
-  #hdate { display: none; }
-  .header-actions { flex: 1; justify-content: flex-end; }
-  .hero { padding: 18px 14px; gap: 12px; flex-direction: column; text-align: center; }
-  .hero-icon { width: 48px; height: 48px; font-size: 22px; margin: 0 auto; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .stat-num { font-size: 1.4rem; }
-  .stat-emoji { font-size: 1.2rem; }
-  .notice-actions { flex-direction: row; justify-content: flex-start; }
-  .n-btn { flex: 0; }
-  .block-body { padding: 12px; }
-  .notice-item { padding: 14px 14px 14px 16px; }
-}
-
-@media (max-width: 380px) {
-  .stats-grid { gap: 6px; }
-  .stat-card { padding: 10px 8px; }
-  .stat-num { font-size: 1.2rem; }
-  .stat-label { font-size: 0.65rem; }
-  .notice-title { font-size: 1rem; }
-  .notice-det { font-size: 0.92rem; }
+@media (max-width: 768px) {
+  .mobile-section { display: none; }
+  .mobile-section.mob-active { display: block; }
+  .right-rail { display: none !important; }
+  .right-rail.mob-active { display: flex !important; }
+  .page-wrap { padding-bottom: 90px; }
 }
 </style>
-
 </head>
 <body>
 
@@ -678,16 +739,14 @@ textarea.field-input { resize: vertical; min-height: 80px; }
       </div>
       <div class="header-actions">
         <div id="hdate"></div>
-        <button class="btn-refresh" id="refreshBtn" onclick="manualRefresh()" title="تحديث البيانات">
-          <i class="fa fa-rotate refresh-icon" id="refreshIcon"></i>
-          <span>تحديث</span>
+        <button class="icon-btn" id="refreshBtn" onclick="manualRefresh()" title="تحديث">
+          <i class="fa fa-rotate" id="refreshIcon"></i>
         </button>
-        <a href="teacher.html" class="hbtn"><i class="fa fa-lock" style="font-size:.7rem"></i> دخول المعلم</a>
+        <a href="teacher.html" class="hbtn-link"><i class="fa fa-lock" style="font-size:.7rem"></i> المعلم</a>
       </div>
     </div>
-
     <div class="tabs-bar" id="tabsBar">
-      <button class="ctab active" data-class="all"><i class="fa fa-list" style="font-size:.75rem"></i> الملاحظات</button>
+      <button class="ctab active" data-class="all"><i class="fa fa-stream" style="font-size:.72rem"></i> الكل</button>
       <button class="ctab" data-class="5A">خامس ١ <span class="cbdg" id="b5A">0</span></button>
       <button class="ctab" data-class="5B">خامس ٢ <span class="cbdg" id="b5B">0</span></button>
       <button class="ctab" data-class="5C">خامس ٣ <span class="cbdg" id="b5C">0</span></button>
@@ -699,148 +758,127 @@ textarea.field-input { resize: vertical; min-height: 80px; }
 <!-- ══════════ PAGE ══════════ -->
 <div class="page-wrap">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-icon">👋</div>
-    <div class="hero-text">
-      <h2>أهلاً بأولياء الأمور الكرام</h2>
-      <p>تابعوا الواجبات والأنشطة والتنبيهات، وأرسلوا استفساراتكم مباشرةً</p>
+  <!-- LEFT RAIL -->
+  <aside class="left-rail">
+    <div class="profile-card">
+      <div class="profile-cover">
+        <div class="profile-avatar">📚</div>
+      </div>
+      <div class="profile-info">
+        <h3>أ. خليل البلوشي</h3>
+        <p>معلم اللغة العربية · الصف الخامس</p>
+      </div>
+      <div class="nav-links">
+        <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="nav-item">
+          <div class="nav-icon teal">🚀</div> منصة ارتقِ
+        </a>
+        <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="nav-item">
+          <div class="nav-icon blue">📊</div> بوابة النتائج
+        </a>
+        <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="nav-item">
+          <div class="nav-icon orange">💬</div> الاستفسارات
+        </a>
+      </div>
     </div>
-  </section>
+  </aside>
 
-  <!-- STATS -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <span class="stat-emoji">📌</span>
-      <div class="stat-num" id="sN">0</div>
-      <div class="stat-label">الملاحظات</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-emoji">📝</span>
-      <div class="stat-num" id="sHW">0</div>
-      <div class="stat-label">واجبات</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-emoji">🎯</span>
-      <div class="stat-num" id="sAct">0</div>
-      <div class="stat-label">أنشطة</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-emoji">🔔</span>
-      <div class="stat-num" id="sAlert">0</div>
-      <div class="stat-label">تنبيهات</div>
-    </div>
-  </div>
+  <!-- CENTER FEED -->
+  <main class="feed">
 
-  <!-- MAIN GRID -->
-  <div class="main-grid">
-    <div class="content-area">
+    <!-- Stats Row -->
+    <div class="stats-row mobile-section mob-active" id="secHome">
+      <div class="stat-bubble">
+        <div class="stat-ring"><div class="stat-inner"><span class="stat-num" id="sN">0</span><span class="stat-emoji">📌</span></div></div>
+        <span class="stat-label">الملاحظات</span>
+      </div>
+      <div class="stat-bubble">
+        <div class="stat-ring" style="background:linear-gradient(135deg,var(--blue),#60a5fa)"><div class="stat-inner"><span class="stat-num" id="sHW">0</span><span class="stat-emoji">📝</span></div></div>
+        <span class="stat-label">واجبات</span>
+      </div>
+      <div class="stat-bubble">
+        <div class="stat-ring" style="background:linear-gradient(135deg,var(--green),#86efac)"><div class="stat-inner"><span class="stat-num" id="sAct">0</span><span class="stat-emoji">🎯</span></div></div>
+        <span class="stat-label">أنشطة</span>
+      </div>
+      <div class="stat-bubble">
+        <div class="stat-ring" style="background:linear-gradient(135deg,var(--orange),#fbbf24)"><div class="stat-inner"><span class="stat-num" id="sAlert">0</span><span class="stat-emoji">🔔</span></div></div>
+        <span class="stat-label">تنبيهات</span>
+      </div>
+    </div>
 
-      <!-- NOTICES -->
-      <div class="section-block" id="noticesBlock">
-        <div class="block-header">
-          <div class="block-title">
-            <div class="block-icon sky">📌</div>
-            الملاحظات والتنبيهات
-          </div>
-          <div class="last-update">
-            <span class="status-dot loading" id="statusDot"></span>
-            <span id="lastUpdateText">جاري التحميل...</span>
-          </div>
+    <!-- Welcome -->
+    <div class="welcome-card mobile-section mob-active">
+      <div class="welcome-banner">
+        <span class="welcome-emoji">👋</span>
+        <div class="welcome-text">
+          <h2>أهلاً بأولياء الأمور الكرام</h2>
+          <p>تابعوا الواجبات والأنشطة والتنبيهات، وأرسلوا استفساراتكم مباشرةً</p>
         </div>
-        <div class="block-body">
-          <div class="filter-pills">
-            <button class="pill active" onclick="flt('all',this)">الكل</button>
-            <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
-            <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
-            <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
+      </div>
+    </div>
+
+    <!-- NOTICES -->
+    <div class="feed-card mobile-section mob-active" id="noticesBlock">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon blue">📌</div>
+          الملاحظات والتنبيهات
+        </div>
+        <div class="last-update">
+          <span class="status-dot loading" id="statusDot"></span>
+          <span id="lastUpdateText">جاري التحميل...</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="filter-pills">
+          <button class="pill active" onclick="flt('all',this)">الكل</button>
+          <button class="pill" onclick="flt('homework',this)">📝 واجبات</button>
+          <button class="pill" onclick="flt('activity',this)">🎯 أنشطة</button>
+          <button class="pill" onclick="flt('alert',this)">🔔 تنبيهات</button>
+        </div>
+        <div id="nList">
+          <div class="skel-card">
+            <div class="skel-row"><div class="skel-circle skeleton"></div><div style="flex:1"><div class="skel-big skeleton" style="width:50%"></div><div class="skel-line skeleton" style="width:30%"></div></div></div>
+            <div class="skel-line skeleton" style="width:90%;margin-bottom:8px"></div>
+            <div class="skel-line skeleton" style="width:70%"></div>
           </div>
-          <div id="nList">
-            <div class="skel-card">
-              <div class="skel-big skeleton" style="width:40%"></div>
-              <div class="skel-line skeleton" style="width:90%;margin-bottom:8px"></div>
-              <div class="skel-line skeleton" style="width:70%"></div>
-            </div>
-            <div class="skel-card">
-              <div class="skel-big skeleton" style="width:55%"></div>
-              <div class="skel-line skeleton" style="width:85%;margin-bottom:8px"></div>
-              <div class="skel-line skeleton" style="width:60%"></div>
-            </div>
+          <div class="skel-card">
+            <div class="skel-row"><div class="skel-circle skeleton"></div><div style="flex:1"><div class="skel-big skeleton" style="width:45%"></div><div class="skel-line skeleton" style="width:25%"></div></div></div>
+            <div class="skel-line skeleton" style="width:85%;margin-bottom:8px"></div>
+            <div class="skel-line skeleton" style="width:55%"></div>
           </div>
         </div>
       </div>
-
-      <!-- REPLIES -->
-      <div class="section-block" id="repliesBlock">
-        <div class="block-header">
-          <div class="block-title">
-            <div class="block-icon gold">💬</div>
-            ردود الأستاذ
-          </div>
-        </div>
-        <div class="block-body">
-          <div id="rList">
-            <div class="empty-state">
-              <span class="e-icon">💌</span>
-              <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="section-block">
-        <div class="block-header">
-          <div class="block-title">
-            <div class="block-icon emerald">🔗</div>
-            روابط مفيدة
-          </div>
-        </div>
-        <div class="ql-body">
-          <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item">
-            <div class="ql-icon">🚀</div>
-            <div class="ql-item-text">
-              <strong>منصة ارتقِ</strong>
-              <span>اللغة العربية - الصف الخامس</span>
-            </div>
-            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-          </a>
-          <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item">
-            <div class="ql-icon">📊</div>
-            <div class="ql-item-text">
-              <strong>بوابة النتائج</strong>
-              <span>الأستاذ خليل البلوشي</span>
-            </div>
-            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-          </a>
-          <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item">
-            <div class="ql-icon">💬</div>
-            <div class="ql-item-text">
-              <strong>الاستفسارات</strong>
-              <span>تواصل مع الأستاذ</span>
-            </div>
-            <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
-          </a>
+    <!-- REPLIES -->
+    <div class="feed-card mobile-section" id="repliesBlock">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon orange">💬</div>
+          ردود الأستاذ
         </div>
       </div>
-    </aside>
-  </div>
+      <div class="card-body">
+        <div id="rList">
+          <div class="empty-state">
+            <span class="e-icon">💌</span>
+            <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- صندوق الاستفسار -->
-  <div class="inquiry-section">
-    <div class="section-block">
-      <div class="block-header">
-        <div class="block-title">
-          <div class="block-icon sky">📨</div>
+    <!-- INQUIRY -->
+    <div class="feed-card mobile-section" id="secInquiry">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon green">📨</div>
           أرسل استفساراً للأستاذ
         </div>
       </div>
-      <div class="block-body">
+      <div class="card-body">
         <div class="inquiry-grid">
-          <div class="inquiry-fields">
+          <div>
             <div class="form-row">
               <label class="field-label">اسم ولي الأمر</label>
               <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
@@ -874,8 +912,67 @@ textarea.field-input { resize: vertical; min-height: 80px; }
         </div>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- RIGHT RAIL -->
+  <aside class="right-rail" id="secLinks">
+    <div class="widget">
+      <div class="widget-header">🔗 روابط مفيدة</div>
+      <div class="widget-body">
+        <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item">
+          <div class="ql-icon">🚀</div>
+          <div class="ql-item-text">
+            <strong>منصة ارتقِ</strong>
+            <span>اللغة العربية - الصف الخامس</span>
+          </div>
+          <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+        </a>
+        <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item">
+          <div class="ql-icon">📊</div>
+          <div class="ql-item-text">
+            <strong>بوابة النتائج</strong>
+            <span>الأستاذ خليل البلوشي</span>
+          </div>
+          <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+        </a>
+        <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item">
+          <div class="ql-icon">💬</div>
+          <div class="ql-item-text">
+            <strong>الاستفسارات</strong>
+            <span>تواصل مع الأستاذ</span>
+          </div>
+          <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-header">📡 حالة الاتصال</div>
+      <div class="last-update" id="sidebarStatus">
+        <span class="status-dot loading" id="statusDot2"></span>
+        <span id="lastUpdateText2">جاري التحميل...</span>
+      </div>
+    </div>
+  </aside>
+
 </div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mob-tab active" data-mob="home" onclick="mobNav('home',this)">
+    <i class="fa fa-home"></i> الرئيسية
+  </button>
+  <button class="mob-tab" data-mob="replies" onclick="mobNav('replies',this)">
+    <i class="fa fa-comments"></i> الردود
+    <span class="mob-badge" id="mobRepliesBdg" style="display:none">0</span>
+  </button>
+  <button class="mob-tab" data-mob="inquiry" onclick="mobNav('inquiry',this)">
+    <i class="fa fa-paper-plane"></i> استفسار
+  </button>
+  <button class="mob-tab" data-mob="links" onclick="mobNav('links',this)">
+    <i class="fa fa-link"></i> روابط
+  </button>
+</nav>
 
 <!-- IMAGE MODAL -->
 <div class="overlay" id="imgModal" onclick="this.classList.remove('open')">
@@ -893,9 +990,9 @@ const API_URL   = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98
 const STORE_KEY = 'school_data_v2';
 const CN = { all: 'عام', '5A': 'خامس ١', '5B': 'خامس ٢', '5C': 'خامس ٣' };
 const TN = {
-  homework: { label: 'واجب', icon: '📝' },
-  activity: { label: 'نشاط', icon: '🎯' },
-  alert:    { label: 'تنبيه', icon: '🔔' }
+  homework: { label: 'واجب', icon: '📝', cls: 'hw' },
+  activity: { label: 'نشاط', icon: '🎯', cls: 'act' },
+  alert:    { label: 'تنبيه', icon: '🔔', cls: 'alt' }
 };
 
 let curClass = 'all', nFlt = 'all';
@@ -920,23 +1017,44 @@ function showToast(msg, type = '') {
 function updateClock() {
   const now = new Date();
   document.getElementById('hdate').innerHTML =
-    now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + '<br>' +
+    now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + ' · ' +
     now.toLocaleDateString('ar-OM', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
 function setStatus(state) {
-  const dot  = document.getElementById('statusDot');
-  const text = document.getElementById('lastUpdateText');
-  if (state === 'loading') {
-    dot.className = 'status-dot loading';
-    text.textContent = 'جاري التحميل...';
-  } else if (state === 'ok') {
-    dot.className = 'status-dot';
-    const now = new Date();
-    text.textContent = 'آخر تحديث: ' + now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' });
-  } else {
-    dot.className = 'status-dot error';
-    text.textContent = 'تعذّر التحديث';
+  ['statusDot','statusDot2'].forEach(id => {
+    const dot = document.getElementById(id);
+    if (!dot) return;
+    dot.className = state === 'loading' ? 'status-dot loading' : state === 'ok' ? 'status-dot' : 'status-dot error';
+  });
+  const now = new Date();
+  const txt = state === 'loading' ? 'جاري التحميل...' :
+              state === 'ok' ? 'آخر تحديث: ' + now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) :
+              'تعذّر التحديث';
+  ['lastUpdateText','lastUpdateText2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+}
+
+/* ── Mobile Navigation ── */
+function mobNav(section, btn) {
+  document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.mobile-section').forEach(s => s.classList.remove('mob-active'));
+  document.getElementById('secLinks')?.classList.remove('mob-active');
+
+  if (section === 'home') {
+    document.getElementById('secHome')?.classList.add('mob-active');
+    document.querySelector('.welcome-card')?.classList.add('mob-active');
+    document.getElementById('noticesBlock')?.classList.add('mob-active');
+  } else if (section === 'replies') {
+    document.getElementById('repliesBlock')?.classList.add('mob-active');
+  } else if (section === 'inquiry') {
+    document.getElementById('secInquiry')?.classList.add('mob-active');
+  } else if (section === 'links') {
+    document.getElementById('secLinks')?.classList.add('mob-active');
   }
 }
 
@@ -1009,22 +1127,26 @@ function renderNotices(d) {
   el.innerHTML = list.map((n, i) => {
     const storeId = 'n_' + (n.id || i);
     noticeStore[storeId] = { title: n.title || '', det: n.det || '', img: n.img || '' };
-    const t = TN[n.type] || { label: n.type, icon: '📌' };
+    const t = TN[n.type] || { label: n.type, icon: '📌', cls: 'hw' };
     return `
-    <div class="notice-item ${n.type}" style="animation-delay:${i * 0.04}s" id="${storeId}">
-      <div class="notice-top">
-        <div class="notice-badges">
-          <span class="badge ${n.type}">${t.icon} ${t.label}</span>
-          <span class="badge cls">${CN[n.cls] || n.cls}</span>
+    <div class="notice-item" style="animation-delay:${i * 0.04}s" id="${storeId}">
+      <div class="notice-author">
+        <div class="author-avatar ${t.cls}">${t.icon}</div>
+        <div class="author-meta">
+          <div class="author-name">
+            أ. خليل البلوشي
+            <span class="type-badge ${n.type}">${t.label}</span>
+            <span class="cls-badge">${CN[n.cls] || n.cls}</span>
+          </div>
+          <div class="author-date">${n.date}</div>
         </div>
-        <span class="notice-date">${n.date}</span>
       </div>
       <div class="notice-title">${n.title || ''}</div>
       <div class="notice-det">${makeLinks(n.det)}</div>
       ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">` : ''}
       <div class="notice-actions">
-        <button class="n-btn copy btn-copy" data-id="${storeId}"><i class="fa fa-copy fa-xs"></i> نسخ</button>
-        <button class="n-btn share btn-share" data-id="${storeId}"><i class="fa fa-share-nodes fa-xs"></i> مشاركة</button>
+        <button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button>
+        <button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button>
       </div>
     </div>`;
   }).join('');
@@ -1035,6 +1157,10 @@ function renderReplies(d) {
   const el   = document.getElementById('rList');
   document.getElementById('repliesBdg').textContent = list.length;
 
+  const mobBdg = document.getElementById('mobRepliesBdg');
+  if (list.length > 0) { mobBdg.textContent = list.length; mobBdg.style.display = ''; }
+  else { mobBdg.style.display = 'none'; }
+
   if (!list.length) {
     el.innerHTML = `<div class="empty-state"><span class="e-icon">💌</span><p>سيظهر هنا رد الأستاذ على استفساراتك</p></div>`;
     return;
@@ -1043,17 +1169,17 @@ function renderReplies(d) {
     <div class="reply-card" style="animation-delay:${i*0.05}s">
       <div class="q-block">
         <div class="q-avatar">❓</div>
-        <div class="q-meta">
+        <div class="q-bubble">
           <div class="q-who">${q.name || 'ولي أمر'} <small>· ${CN[q.cls] || q.cls} · ${q.date}</small></div>
           <div class="q-text">${makeLinks(q.msg)}</div>
         </div>
       </div>
       <div class="reply-answer">
-        <div class="reply-header">
-          <div class="t-avatar">✅</div>
-          <span class="t-name">رد الأستاذ خليل</span>
+        <div class="t-avatar">✅</div>
+        <div class="reply-bubble">
+          <div class="reply-name">رد الأستاذ خليل</div>
+          <div class="reply-text">${makeLinks(q.reply)}</div>
         </div>
-        <div class="reply-text">${makeLinks(q.reply)}</div>
       </div>
     </div>`).join('');
 }
@@ -1081,8 +1207,8 @@ function setClass(c) {
     tab.classList.toggle('active', tab.dataset.class === c)
   );
   const isReplies = c === 'replies';
-  document.getElementById('noticesBlock').style.display = isReplies ? 'none' : 'block';
-  document.getElementById('repliesBlock').style.display = 'block';
+  document.getElementById('noticesBlock').style.display = isReplies ? 'none' : '';
+  document.getElementById('repliesBlock').style.display = '';
   if (!isReplies) {
     const cached = JSON.parse(localStorage.getItem(STORE_KEY));
     if (cached) { renderNotices(cached); updateStats(cached); }
@@ -1123,7 +1249,7 @@ async function sendQuery() {
   ['pN','pS','pM'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('pC').value = '';
   btn.disabled = false;
-  btn.innerHTML = '<span>إرسال</span><i class="fa fa-paper-plane"></i>';
+  btn.innerHTML = '<span>إرسال الاستفسار</span><i class="fa fa-paper-plane"></i>';
 
   try {
     await fetch(API_URL, { method: 'POST', body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(d.queries) }) });
