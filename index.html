@@ -268,37 +268,56 @@ header {
 
 /* ── Story-style stats ── */
 .stats-row {
-  display: flex; gap: 12px;
-  padding: 0 16px;
-  overflow-x: auto; scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0;
 }
-.stats-row::-webkit-scrollbar { display: none; }
 
-@media (min-width: 769px) {
-  .stats-row { padding: 0; }
+@media (max-width: 768px) {
+  .stats-row {
+    padding: 0 12px;
+    gap: 8px;
+  }
 }
 
 .stat-bubble {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 6px; flex-shrink: 0; cursor: default;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  padding: 12px 14px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-xs);
+  cursor: default;
+  transition: var(--tr);
 }
+.stat-bubble:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
 .stat-ring {
-  width: 64px; height: 64px;
+  width: 48px; height: 48px;
   border-radius: 50%;
-  padding: 3px;
+  padding: 2.5px;
   background: linear-gradient(135deg, var(--accent), #14b8a6);
   transition: transform 0.2s;
+  flex-shrink: 0;
 }
-.stat-ring:hover { transform: scale(1.08); }
 .stat-inner {
   width: 100%; height: 100%;
   border-radius: 50%; background: var(--bg-elevated);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
-.stat-num { font-size: 1.15rem; font-weight: 800; line-height: 1; color: var(--text-primary); }
-.stat-emoji { font-size: 0.7rem; margin-top: 1px; }
-.stat-label { font-size: 0.68rem; color: var(--text-secondary); font-weight: 700; }
+.stat-num { font-size: 1.1rem; font-weight: 900; line-height: 1; color: var(--text-primary); }
+.stat-emoji { font-size: 0.65rem; margin-top: 1px; }
+.stat-info { display: flex; flex-direction: column; min-width: 0; }
+.stat-label { font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; }
+.stat-sublabel { font-size: 0.62rem; color: var(--text-tertiary); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stat-bubble { padding: 10px 12px; gap: 8px; }
+  .stat-ring { width: 44px; height: 44px; }
+}
 
 /* ── Hero / Welcome post ── */
 .welcome-card {
@@ -372,8 +391,12 @@ header {
 ══════════════════════════════════════════ */
 .notice-item {
   position: relative;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--divider);
+  padding: 16px;
+  margin-bottom: 10px;
+  border-bottom: none;
+  background: #ebedf0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--divider2);
   animation: fadeUp 0.35s ease both;
 }
 .notice-item:last-child { border-bottom: none; }
@@ -399,7 +422,7 @@ header {
 
 .author-meta { flex: 1; min-width: 0; }
 .author-name {
-  font-size: 0.88rem; font-weight: 700; color: var(--text-primary);
+  font-size: 0.9rem; font-weight: 800; color: var(--text-primary);
   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
 .type-badge {
@@ -420,20 +443,21 @@ header {
 
 .notice-title {
   font-family: 'Cairo', sans-serif;
-  font-size: clamp(0.95rem, 2.5vw, 1.08rem);
-  font-weight: 700;
+  font-size: clamp(1.02rem, 2.8vw, 1.18rem);
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 6px;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .notice-det {
   font-family: 'Baloo Bhaijaan 2', sans-serif;
-  font-size: clamp(0.92rem, 2.3vw, 1rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.75;
   white-space: pre-wrap;
   word-break: break-word;
+  font-weight: 600;
 }
 
 .notice-img {
@@ -789,19 +813,19 @@ textarea.field-input { resize: vertical; min-height: 80px; border-radius: var(--
     <div class="stats-row mobile-section mob-active" id="secHome">
       <div class="stat-bubble">
         <div class="stat-ring"><div class="stat-inner"><span class="stat-num" id="sN">0</span><span class="stat-emoji">📌</span></div></div>
-        <span class="stat-label">الملاحظات</span>
+        <div class="stat-info"><span class="stat-label">الملاحظات</span><span class="stat-sublabel">الإجمالي</span></div>
       </div>
       <div class="stat-bubble">
         <div class="stat-ring" style="background:linear-gradient(135deg,var(--blue),#60a5fa)"><div class="stat-inner"><span class="stat-num" id="sHW">0</span><span class="stat-emoji">📝</span></div></div>
-        <span class="stat-label">واجبات</span>
+        <div class="stat-info"><span class="stat-label">واجبات</span><span class="stat-sublabel">مطلوبة</span></div>
       </div>
       <div class="stat-bubble">
         <div class="stat-ring" style="background:linear-gradient(135deg,var(--green),#86efac)"><div class="stat-inner"><span class="stat-num" id="sAct">0</span><span class="stat-emoji">🎯</span></div></div>
-        <span class="stat-label">أنشطة</span>
+        <div class="stat-info"><span class="stat-label">أنشطة</span><span class="stat-sublabel">صفية</span></div>
       </div>
       <div class="stat-bubble">
         <div class="stat-ring" style="background:linear-gradient(135deg,var(--orange),#fbbf24)"><div class="stat-inner"><span class="stat-num" id="sAlert">0</span><span class="stat-emoji">🔔</span></div></div>
-        <span class="stat-label">تنبيهات</span>
+        <div class="stat-info"><span class="stat-label">تنبيهات</span><span class="stat-sublabel">مهمة</span></div>
       </div>
     </div>
 
