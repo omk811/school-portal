@@ -252,17 +252,13 @@ header::before {
   max-width: 1140px; margin: 0 auto;
   padding: 24px 20px 100px;
   display: grid;
-  grid-template-columns: 270px 1fr 290px;
+  grid-template-columns: 1fr 300px;
   gap: 22px;
   align-items: start;
   position: relative; z-index: 1;
 }
 
-@media (max-width: 1060px) {
-  .page-wrap { grid-template-columns: 1fr 280px; }
-  .left-rail { display: none; }
-}
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .page-wrap { grid-template-columns: 1fr; padding: 14px 0 100px; gap: 14px; }
   .right-rail { display: none; }
 }
@@ -466,19 +462,34 @@ header::before {
 .pill.active { background: var(--teal); color: #fff; border-color: var(--teal); }
 
 /* ══════════════════════════════════════════
+   NOTICES GRID
+══════════════════════════════════════════ */
+#nList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+#nList .empty-state,
+#nList .skel-card { grid-column: 1 / -1; }
+
+@media (max-width: 860px) {
+  #nList { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════
    NOTICE CARDS
 ══════════════════════════════════════════ */
 .notice-item {
   position: relative;
   padding: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   background: var(--parchment);
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
   animation: fadeUp 0.35s ease both;
   transition: var(--tr);
+  display: flex; flex-direction: column;
 }
-.notice-item:last-child { margin-bottom: 0; }
 .notice-item:hover { border-color: var(--border2); box-shadow: var(--shadow-sm); }
 
 /* Side color accent */
@@ -549,6 +560,7 @@ header::before {
   white-space: pre-wrap;
   word-break: break-word;
   font-weight: 400;
+  flex: 1;
 }
 
 .notice-img {
@@ -826,7 +838,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   z-index: 250; padding: 8px 0 env(safe-area-inset-bottom, 10px);
   box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
 }
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .mobile-nav { display: flex; justify-content: space-around; }
   body { padding-bottom: 80px; }
 }
@@ -850,7 +862,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 /* ══════════════════════════════════════════
    MOBILE SECTION TOGGLE
 ══════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .mobile-section { display: none; }
   .mobile-section.mob-active { display: block; }
   .right-rail { display: none !important; }
