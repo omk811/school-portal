@@ -654,56 +654,6 @@ header::after {
 .action-btn:active { transform: scale(0.97); }
 
 /* ══════════════════════════════════════════
-   REPLY CARDS
-══════════════════════════════════════════ */
-.reply-card {
-  padding: 18px 0;
-  border-bottom: 1px solid var(--divider);
-  animation: fadeUp 0.35s ease both;
-}
-.reply-card:last-child { border-bottom: none; }
-
-.q-block { display: flex; gap: 11px; margin-bottom: 12px; }
-.q-avatar {
-  width: 38px; height: 38px; flex-shrink: 0;
-  border-radius: var(--r-md); font-size: 15px;
-  background: var(--indigo-light); border: 1px solid rgba(60,79,138,0.15);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--shadow-xs);
-}
-.q-bubble {
-  background: var(--parchment2); border-radius: var(--r-lg);
-  border-top-right-radius: var(--r-sm);
-  padding: 11px 16px; max-width: 86%;
-  border: 1px solid var(--border);
-}
-.q-who { font-size: 0.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-.q-who small { color: var(--text-mute); font-weight: 400; font-size: 0.7rem; }
-.q-text { font-size: 0.88rem; color: var(--text-sub); line-height: 1.7; }
-
-.reply-answer {
-  display: flex; gap: 11px; margin-right: 49px;
-  flex-direction: row-reverse;
-}
-.t-avatar {
-  width: 38px; height: 38px; flex-shrink: 0;
-  background: var(--teal-light); border-radius: var(--r-md);
-  border: 1px solid var(--teal-wash);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; box-shadow: var(--shadow-xs);
-}
-.reply-bubble {
-  background: linear-gradient(145deg, var(--teal), var(--teal-deep));
-  color: #fff;
-  border-radius: var(--r-lg);
-  border-top-left-radius: var(--r-sm);
-  padding: 11px 16px; max-width: 86%;
-  box-shadow: 0 4px 16px rgba(10,122,109,0.25);
-}
-.reply-name { font-size: 0.73rem; font-weight: 700; opacity: 0.75; margin-bottom: 4px; }
-.reply-text { font-size: 0.88rem; line-height: 1.75; opacity: 0.95; }
-
-/* ══════════════════════════════════════════
    FORM
 ══════════════════════════════════════════ */
 .form-row { margin-bottom: 13px; }
@@ -977,7 +927,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 ══════════════════════════════════════════ */
 .ilink { color: var(--teal); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--teal-wash); }
 .ilink:hover { border-bottom-style: solid; }
-.reply-bubble .ilink { color: rgba(253,248,240,0.9); border-bottom-color: rgba(253,248,240,0.3); }
 
 /* ══════════════════════════════════════════
    MOBILE NAV — Enhanced
@@ -1141,23 +1090,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
       </div>
     </div>
 
-    <!-- REPLIES -->
-    <div class="feed-card mobile-section" id="repliesBlock">
-      <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon orange">💬</div>
-          ردود الأستاذ
-        </div>
-      </div>
-      <div class="card-body">
-        <div id="rList">
-          <div class="empty-state">
-            <span class="e-icon">💌</span>
-            <p>سيظهر هنا رد الأستاذ على استفساراتك المُرسلة</p>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
   </main>
 
@@ -1246,10 +1179,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   <button class="mob-tab active" data-mob="home" onclick="mobNav('home',this)">
     <i class="fa fa-home"></i> الرئيسية
   </button>
-  <button class="mob-tab" data-mob="replies" onclick="mobNav('replies',this)">
-    <i class="fa fa-comments"></i> الردود
-    <span class="mob-badge" id="mobRepliesBdg" style="display:none">0</span>
-  </button>
+
   <button class="mob-tab" data-mob="links" onclick="mobNav('links',this)">
     <i class="fa fa-link"></i> روابط
   </button>
@@ -1328,8 +1258,6 @@ function mobNav(section, btn) {
   if (section === 'home') {
     document.querySelector('.welcome-card')?.classList.add('mob-active');
     document.getElementById('noticesBlock')?.classList.add('mob-active');
-  } else if (section === 'replies') {
-    document.getElementById('repliesBlock')?.classList.add('mob-active');
   } else if (section === 'links') {
     document.getElementById('secLinks')?.classList.add('mob-active');
   }
@@ -1372,7 +1300,6 @@ async function loadData() {
 async function render() {
   const d = await loadData();
   renderNotices(d);
-  renderReplies(d);
   updateBadges(d);
   updateStats(d);
 }
@@ -1417,38 +1344,6 @@ function renderNotices(d) {
   }).join('');
 }
 
-function renderReplies(d) {
-  const list = (d.queries || []).filter(q => q.status === 'replied');
-  const el   = document.getElementById('rList');
-  document.getElementById('repliesBdg').textContent = list.length;
-
-  const mobBdg = document.getElementById('mobRepliesBdg');
-  if (list.length > 0) { mobBdg.textContent = list.length; mobBdg.style.display = ''; }
-  else { mobBdg.style.display = 'none'; }
-
-  if (!list.length) {
-    el.innerHTML = `<div class="empty-state"><span class="e-icon">💌</span><p>سيظهر هنا رد الأستاذ على استفساراتك المُرسلة</p></div>`;
-    return;
-  }
-  el.innerHTML = list.map((q, i) => `
-    <div class="reply-card" style="animation-delay:${i*0.05}s">
-      <div class="q-block">
-        <div class="q-avatar">❓</div>
-        <div class="q-bubble">
-          <div class="q-who">${q.name || 'ولي أمر'} <small>· ${CN[q.cls] || q.cls} · ${q.date}</small></div>
-          <div class="q-text">${makeLinks(q.msg)}</div>
-        </div>
-      </div>
-      <div class="reply-answer">
-        <div class="t-avatar">✅</div>
-        <div class="reply-bubble">
-          <div class="reply-name">رد الأستاذ خليل</div>
-          <div class="reply-text">${makeLinks(q.reply)}</div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
 function updateBadges(d) {
   ['5A','5B','5C'].forEach(c => {
     const el = document.getElementById('b' + c);
@@ -1458,9 +1353,7 @@ function updateBadges(d) {
 
 function updateStats(d) {
   const sN = document.getElementById('statNotices');
-  const sR = document.getElementById('statReplies');
   if (sN) sN.textContent = (d.notices || []).length;
-  if (sR) sR.textContent = (d.queries || []).filter(q => q.status === 'replied').length;
 }
 
 /* ── Class / Filter ── */
@@ -1469,14 +1362,9 @@ function setClass(c) {
   document.querySelectorAll('.ctab').forEach(tab =>
     tab.classList.toggle('active', tab.dataset.class === c)
   );
-  const isReplies = c === 'replies';
-  document.getElementById('noticesBlock').style.display = isReplies ? 'none' : '';
-  document.getElementById('repliesBlock').style.display = '';
-  if (!isReplies) {
-    const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-    if (cached) { renderNotices(cached); }
-    render();
-  }
+  const cached = JSON.parse(localStorage.getItem(STORE_KEY));
+  if (cached) { renderNotices(cached); }
+  render();
 }
 
 function flt(f, btn) {
@@ -1558,7 +1446,7 @@ setInterval(updateClock, 60000);
 
 const cached = JSON.parse(localStorage.getItem(STORE_KEY));
 if (cached?.notices?.length) {
-  renderNotices(cached); renderReplies(cached); updateBadges(cached); updateStats(cached);
+  renderNotices(cached); updateBadges(cached); updateStats(cached);
   setStatus('ok');
 }
 render();
