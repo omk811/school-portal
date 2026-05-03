@@ -739,35 +739,7 @@ select.field-input { border-radius: var(--r-md); cursor: pointer; }
 select.field-input option { background: #fff; color: var(--text-main); }
 textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--r-lg); }
 
-.btn-send {
-  width: 100%; padding: 13px;
-  background: linear-gradient(145deg, var(--teal-bright), var(--teal), var(--teal-deep));
-  color: #fff;
-  border: none; border-radius: var(--r-full);
-  font-family: inherit; font-size: 0.95rem; font-weight: 800;
-  cursor: pointer; transition: var(--tr);
-  display: flex; align-items: center; justify-content: center; gap: 9px;
-  box-shadow: 0 4px 18px rgba(10,122,109,0.35);
-  position: relative; overflow: hidden;
-}
-.btn-send::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 60%);
-  opacity: 0; transition: var(--tr);
-}
-.btn-send:hover:not(:disabled)::before { opacity: 1; }
-.btn-send:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(10,122,109,0.4); }
-.btn-send:active:not(:disabled) { transform: scale(0.98); }
-.btn-send:disabled { background: var(--parchment3); color: var(--text-mute); cursor: not-allowed; box-shadow: none; }
 
-.hint-box {
-  margin-top: 12px;
-  background: linear-gradient(135deg, var(--gold-wash), #fffdf5);
-  border-radius: var(--r-md); padding: 10px 14px;
-  border: 1px solid rgba(200,145,58,0.22);
-}
-.hint-box p { font-size: 0.73rem; color: var(--text-sub); line-height: 1.65; display: flex; align-items: flex-start; gap: 6px; }
 
 /* ══════════════════════════════════════════
    RIGHT RAIL WIDGETS — Significantly upgraded
@@ -936,16 +908,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   font-weight: 600; display: block; margin-top: 1px;
 }
 
-/* ══════════════════════════════════════════
-   INQUIRY GRID
-══════════════════════════════════════════ */
-.inquiry-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-}
-@media (max-width: 640px) {
-  .inquiry-grid { grid-template-columns: 1fr; }
-}
-.inquiry-message { display: flex; flex-direction: column; gap: 10px; }
+
 
 /* ══════════════════════════════════════════
    SKELETON
@@ -1117,8 +1080,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
       <button class="ctab" data-class="5A">خامس ١ <span class="cbdg" id="b5A">0</span></button>
       <button class="ctab" data-class="5B">خامس ٢ <span class="cbdg" id="b5B">0</span></button>
       <button class="ctab" data-class="5C">خامس ٣ <span class="cbdg" id="b5C">0</span></button>
-      <div class="tabs-sep"></div>
-      <button class="ctab" data-class="replies">💬 الردود <span class="cbdg" id="repliesBdg">0</span></button>
+
     </div>
   </div>
 </header>
@@ -1135,7 +1097,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
         <div class="welcome-icon-wrap">🏫</div>
         <div class="welcome-text">
           <h2>أهلاً بأولياء الأمور الكرام</h2>
-          <p>تابعوا الواجبات والأنشطة والتنبيهات، وأرسلوا استفساراتكم مباشرةً للأستاذ</p>
+          <p>تابعوا الواجبات والأنشطة والتنبيهات الدراسية</p>
         </div>
       </div>
       <hr class="welcome-divider">
@@ -1191,56 +1153,12 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
         <div id="rList">
           <div class="empty-state">
             <span class="e-icon">💌</span>
-            <p>سيظهر هنا رد الأستاذ على استفساراتك</p>
+            <p>سيظهر هنا رد الأستاذ على استفساراتك المُرسلة</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- INQUIRY -->
-    <div class="feed-card mobile-section" id="secInquiry">
-      <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon green">📨</div>
-          أرسل استفساراً للأستاذ
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="inquiry-grid">
-          <div>
-            <div class="form-row">
-              <label class="field-label">اسم ولي الأمر</label>
-              <input type="text" class="field-input" id="pN" placeholder="الاسم الكريم...">
-            </div>
-            <div class="form-row">
-              <label class="field-label">اسم الطالب ثلاثياً</label>
-              <input type="text" class="field-input" id="pS" placeholder="اسم الطالب...">
-            </div>
-            <div class="form-row">
-              <label class="field-label">الشعبة</label>
-              <select class="field-input" id="pC">
-                <option value="">— اختر الشعبة —</option>
-                <option value="5A">الخامس ١</option>
-                <option value="5B">الخامس ٢</option>
-                <option value="5C">الخامس ٣</option>
-              </select>
-            </div>
-          </div>
-          <div class="inquiry-message">
-            <div class="form-row" style="flex:1;display:flex;flex-direction:column;">
-              <label class="field-label">الاستفسار أو السؤال</label>
-              <textarea class="field-input" id="pM" placeholder="اكتب سؤالك أو ملاحظتك هنا..." style="flex:1;min-height:120px;"></textarea>
-            </div>
-            <button class="btn-send" id="sendBtn" onclick="sendQuery()">
-              <span>إرسال الاستفسار</span><i class="fa fa-paper-plane"></i>
-            </button>
-            <div class="hint-box">
-              <p>💡 الردود تظهر في قسم "ردود الأستاذ" بعد مراجعة الاستفسار</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 
   <!-- RIGHT RAIL -->
@@ -1332,9 +1250,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
     <i class="fa fa-comments"></i> الردود
     <span class="mob-badge" id="mobRepliesBdg" style="display:none">0</span>
   </button>
-  <button class="mob-tab" data-mob="inquiry" onclick="mobNav('inquiry',this)">
-    <i class="fa fa-paper-plane"></i> استفسار
-  </button>
   <button class="mob-tab" data-mob="links" onclick="mobNav('links',this)">
     <i class="fa fa-link"></i> روابط
   </button>
@@ -1415,8 +1330,6 @@ function mobNav(section, btn) {
     document.getElementById('noticesBlock')?.classList.add('mob-active');
   } else if (section === 'replies') {
     document.getElementById('repliesBlock')?.classList.add('mob-active');
-  } else if (section === 'inquiry') {
-    document.getElementById('secInquiry')?.classList.add('mob-active');
   } else if (section === 'links') {
     document.getElementById('secLinks')?.classList.add('mob-active');
   }
@@ -1514,7 +1427,7 @@ function renderReplies(d) {
   else { mobBdg.style.display = 'none'; }
 
   if (!list.length) {
-    el.innerHTML = `<div class="empty-state"><span class="e-icon">💌</span><p>سيظهر هنا رد الأستاذ على استفساراتك</p></div>`;
+    el.innerHTML = `<div class="empty-state"><span class="e-icon">💌</span><p>سيظهر هنا رد الأستاذ على استفساراتك المُرسلة</p></div>`;
     return;
   }
   el.innerHTML = list.map((q, i) => `
@@ -1574,37 +1487,6 @@ function flt(f, btn) {
   if (cached) renderNotices(cached);
 }
 
-/* ── Send Query ── */
-async function sendQuery() {
-  const pN = document.getElementById('pN').value.trim();
-  const pS = document.getElementById('pS').value.trim();
-  const pC = document.getElementById('pC').value;
-  const pM = document.getElementById('pM').value.trim();
-  if (!pN || !pS || !pC || !pM) return showToast('⚠️ الرجاء إكمال جميع الحقول', 'err');
-
-  const btn = document.getElementById('sendBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i><span>جاري الإرسال...</span>';
-
-  const d = JSON.parse(localStorage.getItem(STORE_KEY)) || { notices:[], queries:[], qId:100 };
-  const now = new Date();
-  const q = {
-    id: ++d.qId, name: pN, student: pS, cls: pC, msg: pM,
-    date: now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM', { hour:'2-digit', minute:'2-digit' }),
-    status: 'new', reply: ''
-  };
-  d.queries.unshift(q);
-  localStorage.setItem(STORE_KEY, JSON.stringify(d));
-  showToast('✅ تم إرسال استفسارك بنجاح!', 'ok');
-  ['pN','pS','pM'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('pC').value = '';
-  btn.disabled = false;
-  btn.innerHTML = '<span>إرسال الاستفسار</span><i class="fa fa-paper-plane"></i>';
-
-  try {
-    await fetch(API_URL, { method: 'POST', body: new URLSearchParams({ action: 'saveQueries', data: JSON.stringify(d.queries) }) });
-  } catch(e) { showToast('⚠️ تم الحفظ محلياً — تحقق من اتصالك', 'err'); }
-}
 
 /* ── Copy ── */
 function copyNotice(storeId) {
