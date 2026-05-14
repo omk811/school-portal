@@ -14,7 +14,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Cairo فقط — استُغني عن Amiri و Noto Kufi -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -69,13 +70,15 @@
   --r-sm:   6px;
   --tr: 0.22s ease;
   --tr-slow: 0.4s cubic-bezier(0.16,1,0.3,1);
+  /* ── الخط الموحَّد للمشروع ── */
+  --f: 'Cairo', sans-serif;
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Noto Kufi Arabic', 'Cairo', sans-serif;
+  font-family: var(--f);
   background: var(--parchment);
   color: var(--text-main);
   min-height: 100vh;
@@ -122,34 +125,16 @@ header::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    var(--teal-bright) 15%,
-    var(--gold-bright) 35%,
-    var(--gold-light) 50%,
-    var(--gold-bright) 65%,
-    var(--teal-bright) 85%,
-    transparent 100%
-  );
+    transparent 0%, var(--teal-bright) 15%, var(--gold-bright) 35%,
+    var(--gold-light) 50%, var(--gold-bright) 65%, var(--teal-bright) 85%, transparent 100%);
   z-index: 2;
 }
-
 header::after {
   content: '';
   position: absolute; inset: 0; pointer-events: none;
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 28px,
-    rgba(200,145,58,0.025) 28px,
-    rgba(200,145,58,0.025) 29px
-  ),
-  repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 28px,
-    rgba(10,122,109,0.015) 28px,
-    rgba(10,122,109,0.015) 29px
-  );
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 28px, rgba(200,145,58,0.025) 28px, rgba(200,145,58,0.025) 29px),
+    repeating-linear-gradient(-45deg, transparent, transparent 28px, rgba(10,122,109,0.015) 28px, rgba(10,122,109,0.015) 29px);
 }
 
 .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
@@ -174,72 +159,45 @@ header::after {
 }
 @keyframes logoBreath {
   0%,100% { box-shadow: 0 0 0 1px rgba(200,145,58,0.6), 0 4px 20px rgba(200,145,58,0.4), inset 0 1px 0 rgba(255,255,255,0.25); }
-  50% { box-shadow: 0 0 0 1px rgba(200,145,58,0.8), 0 6px 28px rgba(200,145,58,0.55), inset 0 1px 0 rgba(255,255,255,0.3); }
+  50%     { box-shadow: 0 0 0 1px rgba(200,145,58,0.8), 0 6px 28px rgba(200,145,58,0.55), inset 0 1px 0 rgba(255,255,255,0.3); }
 }
-
 .logo-wrap::before {
   content: '';
-  position: absolute; inset: -2px;
-  border-radius: 16px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(200,145,58,0.5) 60deg,
-    transparent 120deg,
-    rgba(200,145,58,0.3) 180deg,
-    transparent 240deg,
-    rgba(200,145,58,0.5) 300deg,
-    transparent 360deg
-  );
-  z-index: -1;
-  animation: logoSpin 8s linear infinite;
+  position: absolute; inset: -2px; border-radius: 16px;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, rgba(200,145,58,0.5) 60deg, transparent 120deg,
+    rgba(200,145,58,0.3) 180deg, transparent 240deg, rgba(200,145,58,0.5) 300deg, transparent 360deg);
+  z-index: -1; animation: logoSpin 8s linear infinite;
 }
 @keyframes logoSpin { to { transform: rotate(360deg); } }
 
+/* ━━━━━━ اسم التطبيق — Cairo 800 ━━━━━━ */
 .brand-text h1 {
-  font-family: 'Amiri', serif;
-  font-size: 1.55rem;
+  font-family: var(--f); font-size: 1.55rem; font-weight: 800;
   color: transparent;
   background: linear-gradient(135deg, var(--gold-light), var(--gold-bright), var(--gold-light));
-  -webkit-background-clip: text;
-  background-clip: text;
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  -webkit-background-clip: text; background-clip: text;
+  line-height: 1.2; letter-spacing: 0.02em;
 }
-.brand-text p {
-  font-size: 0.67rem;
-  color: rgba(253,248,240,0.42);
-  font-weight: 400; margin-top: 2px;
-  letter-spacing: 0.01em;
-}
+.brand-text p { font-size: 0.67rem; color: rgba(253,248,240,0.42); font-weight: 400; margin-top: 2px; }
 
 .header-actions { display: flex; align-items: center; gap: 9px; }
 
 #hdate {
   font-size: 0.68rem; color: rgba(253,248,240,0.6);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(200,145,58,0.18);
-  padding: 6px 15px; border-radius: var(--r-full);
-  text-align: center; line-height: 1.45;
-  font-weight: 500;
-  backdrop-filter: blur(4px);
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(200,145,58,0.18);
+  padding: 6px 15px; border-radius: var(--r-full); text-align: center;
+  line-height: 1.45; font-weight: 500; backdrop-filter: blur(4px);
 }
 
 .icon-btn {
   width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(200,145,58,0.18);
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(200,145,58,0.18);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: var(--tr);
-  color: var(--gold-light); font-size: 14px;
+  cursor: pointer; transition: var(--tr); color: var(--gold-light); font-size: 14px;
   backdrop-filter: blur(4px);
 }
-.icon-btn:hover {
-  background: rgba(200,145,58,0.15);
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 12px rgba(200,145,58,0.2);
-}
+.icon-btn:hover { background: rgba(200,145,58,0.15); border-color: var(--gold-bright); box-shadow: 0 0 12px rgba(200,145,58,0.2); }
 .icon-btn:active { transform: scale(0.9); }
 .icon-btn.spinning i { animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -247,202 +205,73 @@ header::after {
 .hbtn-link {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 8px 18px; border-radius: var(--r-full);
-  font-family: inherit; font-size: 0.78rem; font-weight: 700;
+  font-family: var(--f); font-size: 0.78rem; font-weight: 700;
   cursor: pointer; text-decoration: none; transition: var(--tr);
-  color: var(--gold-light);
-  background: rgba(200,145,58,0.1);
-  border: 1px solid rgba(200,145,58,0.3);
-  backdrop-filter: blur(4px);
+  color: var(--gold-light); background: rgba(200,145,58,0.1);
+  border: 1px solid rgba(200,145,58,0.3); backdrop-filter: blur(4px);
   position: relative; overflow: hidden;
 }
-.hbtn-link::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(200,145,58,0.15), transparent);
-  opacity: 0; transition: var(--tr);
-}
+.hbtn-link::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,145,58,0.15), transparent); opacity: 0; transition: var(--tr); }
 .hbtn-link:hover::before { opacity: 1; }
 .hbtn-link:hover { border-color: var(--gold-bright); box-shadow: 0 0 14px rgba(200,145,58,0.2); }
 
-.tabs-bar {
-  display: flex; gap: 4px; padding: 8px 0 12px;
-  overflow-x: auto; scrollbar-width: none;
-}
+.tabs-bar { display: flex; gap: 4px; padding: 8px 0 12px; overflow-x: auto; scrollbar-width: none; }
 .tabs-bar::-webkit-scrollbar { display: none; }
 
 .ctab {
   display: flex; align-items: center; gap: 7px;
   padding: 8px 20px; white-space: nowrap;
-  background: transparent;
-  color: rgba(253,248,240,0.42);
-  border: 1px solid transparent;
-  border-radius: var(--r-full);
-  font-family: inherit; font-size: 0.79rem; font-weight: 600;
+  background: transparent; color: rgba(253,248,240,0.42);
+  border: 1px solid transparent; border-radius: var(--r-full);
+  font-family: var(--f); font-size: 0.79rem; font-weight: 600;
   cursor: pointer; transition: var(--tr); flex-shrink: 0;
 }
 .ctab:hover { color: var(--gold-light); background: rgba(200,145,58,0.07); }
-.ctab.active {
-  background: rgba(200,145,58,0.15);
-  border-color: rgba(200,145,58,0.35);
-  color: var(--gold-light);
-  box-shadow: 0 0 16px rgba(200,145,58,0.1);
-}
-.cbdg {
-  background: rgba(255,255,255,0.08);
-  color: rgba(253,248,240,0.5);
-  border-radius: var(--r-full);
-  padding: 1px 8px;
-  font-size: 0.65rem; font-weight: 800;
-  min-width: 20px; text-align: center;
-}
+.ctab.active { background: rgba(200,145,58,0.15); border-color: rgba(200,145,58,0.35); color: var(--gold-light); box-shadow: 0 0 16px rgba(200,145,58,0.1); }
+.cbdg { background: rgba(255,255,255,0.08); color: rgba(253,248,240,0.5); border-radius: var(--r-full); padding: 1px 8px; font-size: 0.65rem; font-weight: 800; min-width: 20px; text-align: center; }
 .ctab.active .cbdg { background: rgba(200,145,58,0.3); color: var(--gold-light); }
-
-.tabs-sep {
-  width: 1px; align-self: stretch; margin: 2px 4px;
-  background: rgba(200,145,58,0.12); flex-shrink: 0;
-}
+.tabs-sep { width: 1px; align-self: stretch; margin: 2px 4px; background: rgba(200,145,58,0.12); flex-shrink: 0; }
 
 .page-wrap {
-  max-width: 1160px; margin: 0 auto;
-  padding: 26px 22px 110px;
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 24px;
-  align-items: start;
-  position: relative; z-index: 1;
+  max-width: 1160px; margin: 0 auto; padding: 26px 22px 110px;
+  display: grid; grid-template-columns: 1fr 300px; gap: 24px;
+  align-items: start; position: relative; z-index: 1;
 }
-
-@media (max-width: 900px) {
-  .page-wrap { grid-template-columns: 1fr; padding: 16px 0 110px; gap: 14px; }
-  .right-rail { display: none; }
-}
+@media (max-width: 900px) { .page-wrap { grid-template-columns: 1fr; padding: 16px 0 110px; gap: 14px; } .right-rail { display: none; } }
 
 .welcome-card {
   background: linear-gradient(145deg, var(--ink3) 0%, var(--teal-deep) 60%, var(--ink2) 100%);
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(200,145,58,0.2);
-  position: relative;
+  border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(200,145,58,0.2); position: relative;
 }
-@media (max-width: 768px) {
-  .welcome-card { border-radius: 0; }
-}
+@media (max-width: 768px) { .welcome-card { border-radius: 0; } }
 
-.welcome-card::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(circle at 8% 40%, rgba(200,145,58,0.12) 0%, transparent 45%),
-    radial-gradient(circle at 92% 20%, rgba(13,155,138,0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(200,145,58,0.06) 0%, transparent 50%);
-}
+.welcome-card::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 8% 40%, rgba(200,145,58,0.12) 0%, transparent 45%), radial-gradient(circle at 92% 20%, rgba(13,155,138,0.12) 0%, transparent 40%), radial-gradient(circle at 50% 100%, rgba(200,145,58,0.06) 0%, transparent 50%); }
+.welcome-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(200,145,58,0.4) 20%, var(--gold-bright) 50%, rgba(200,145,58,0.4) 80%, transparent 100%); }
 
-.welcome-card::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200,145,58,0.4) 20%,
-    var(--gold-bright) 50%,
-    rgba(200,145,58,0.4) 80%,
-    transparent 100%
-  );
-}
+.welcome-inner { padding: 26px 26px 18px; display: flex; align-items: center; gap: 18px; position: relative; z-index: 1; }
+.welcome-icon-wrap { width: 68px; height: 68px; flex-shrink: 0; border-radius: 18px; background: linear-gradient(145deg, rgba(200,145,58,0.2), rgba(200,145,58,0.08)); border: 1px solid rgba(200,145,58,0.4); display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 0 30px rgba(200,145,58,0.15), inset 0 1px 0 rgba(255,255,255,0.1); position: relative; }
+.welcome-icon-wrap::after { content: ''; position: absolute; inset: -4px; border-radius: 22px; border: 1px solid rgba(200,145,58,0.15); }
 
-.welcome-inner {
-  padding: 26px 26px 18px;
-  display: flex; align-items: center; gap: 18px;
-  position: relative; z-index: 1;
-}
+/* ━━━━━━ ترحيب — Cairo 800 ━━━━━━ */
+.welcome-text h2 { font-family: var(--f); font-size: clamp(1.15rem,2.6vw,1.4rem); font-weight: 800; color: var(--gold-light); margin-bottom: 7px; line-height: 1.4; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+.welcome-text p { font-size: 0.82rem; color: rgba(253,248,240,0.6); line-height: 1.65; }
 
-.welcome-icon-wrap {
-  width: 68px; height: 68px; flex-shrink: 0;
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(200,145,58,0.2), rgba(200,145,58,0.08));
-  border: 1px solid rgba(200,145,58,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
-  box-shadow: 0 0 30px rgba(200,145,58,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
-  position: relative;
-}
-.welcome-icon-wrap::after {
-  content: '';
-  position: absolute; inset: -4px;
-  border-radius: 22px;
-  border: 1px solid rgba(200,145,58,0.15);
-}
-
-.welcome-text h2 {
-  font-family: 'Amiri', serif;
-  font-size: clamp(1.15rem, 2.6vw, 1.4rem);
-  font-weight: 700;
-  color: var(--gold-light);
-  margin-bottom: 7px;
-  line-height: 1.4;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-.welcome-text p {
-  font-size: 0.82rem;
-  color: rgba(253,248,240,0.6);
-  line-height: 1.65;
-}
-
-.welcome-divider {
-  border: none; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,145,58,0.28), transparent);
-  margin: 0 26px;
-}
-
-.school-tag {
-  padding: 12px 26px 18px;
-  position: relative; z-index: 1;
-  display: flex; align-items: center; gap: 10px;
-}
-.school-tag span {
-  font-size: 0.71rem; color: rgba(253,248,240,0.38); font-weight: 500;
-}
+.welcome-divider { border: none; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,145,58,0.28), transparent); margin: 0 26px; }
+.school-tag { padding: 12px 26px 18px; position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+.school-tag span { font-size: 0.71rem; color: rgba(253,248,240,0.38); font-weight: 500; }
 .school-tag strong { color: rgba(253,248,240,0.65); font-size: 0.77rem; }
 
-.feed-card {
-  background: #fff;
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border);
-  transition: box-shadow var(--tr);
-}
+.feed-card { background: #fff; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: box-shadow var(--tr); }
 .feed-card:hover { box-shadow: var(--shadow-md); }
-@media (max-width: 768px) {
-  .feed-card { border-radius: 0; border-left: none; border-right: none; }
-}
+@media (max-width: 768px) { .feed-card { border-radius: 0; border-left: none; border-right: none; } }
 
-.card-header {
-  padding: 15px 22px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: linear-gradient(160deg, var(--parchment2) 0%, #fff 100%);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-.card-header::before {
-  content: '';
-  position: absolute; bottom: -1px; left: 22px;
-  width: 40px; height: 2px;
-  background: linear-gradient(90deg, var(--teal-bright), var(--teal));
-  border-radius: var(--r-full);
-}
+.card-header { padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(160deg, var(--parchment2) 0%, #fff 100%); border-bottom: 1px solid var(--border); position: relative; }
+.card-header::before { content: ''; position: absolute; bottom: -1px; left: 22px; width: 40px; height: 2px; background: linear-gradient(90deg, var(--teal-bright), var(--teal)); border-radius: var(--r-full); }
 
-.card-title {
-  display: flex; align-items: center; gap: 11px;
-  font-family: 'Amiri', serif;
-  font-size: 1.08rem; font-weight: 700; color: var(--text-main);
-}
-.card-title-icon {
-  width: 36px; height: 36px; border-radius: var(--r-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; flex-shrink: 0;
-  border: 1px solid transparent;
-  box-shadow: var(--shadow-xs);
-}
+/* ━━━━━━ عنوان البطاقة — Cairo 800 ━━━━━━ */
+.card-title { display: flex; align-items: center; gap: 11px; font-family: var(--f); font-size: 1.08rem; font-weight: 800; color: var(--text-main); }
+.card-title-icon { width: 36px; height: 36px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; border: 1px solid transparent; box-shadow: var(--shadow-xs); }
 .card-title-icon.blue   { background: var(--indigo-light); border-color: rgba(60,79,138,0.15); }
 .card-title-icon.orange { background: #fff3e0; border-color: rgba(200,100,20,0.15); }
 .card-title-icon.green  { background: var(--forest-light); border-color: rgba(44,122,64,0.15); }
@@ -451,348 +280,129 @@ header::after {
 .card-body { padding: 16px 22px 22px; }
 
 .filter-pills { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
-
-.pill {
-  padding: 6px 18px; border-radius: var(--r-full);
-  border: 1px solid var(--border);
-  background: var(--parchment);
-  font-family: inherit; font-size: 0.75rem; font-weight: 700;
-  color: var(--text-sub); cursor: pointer; transition: var(--tr);
-}
+.pill { padding: 6px 18px; border-radius: var(--r-full); border: 1px solid var(--border); background: var(--parchment); font-family: var(--f); font-size: 0.75rem; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: var(--tr); }
 .pill:hover { background: var(--gold-wash); border-color: var(--gold); color: var(--text-main); }
-.pill.active {
-  background: linear-gradient(135deg, var(--teal), var(--teal-deep));
-  color: #fff; border-color: var(--teal);
-  box-shadow: 0 3px 12px var(--teal-glow);
-}
+.pill.active { background: linear-gradient(135deg, var(--teal), var(--teal-deep)); color: #fff; border-color: var(--teal); box-shadow: 0 3px 12px var(--teal-glow); }
 
-#nList {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-#nList .empty-state,
-#nList .skel-card { grid-column: 1 / -1; }
-
-@media (max-width: 900px) {
-  #nList { grid-template-columns: 1fr; }
-}
+#nList { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+#nList .empty-state, #nList .skel-card { grid-column: 1 / -1; }
+@media (max-width: 900px) { #nList { grid-template-columns: 1fr; } }
 
 .notice-item {
-  position: relative;
-  padding: 18px 18px 14px;
-  background: var(--parchment);
-  border-radius: var(--r-lg);
-  border: 1px solid var(--border);
-  animation: fadeUp 0.35s ease both;
+  position: relative; padding: 18px 18px 14px;
+  background: var(--parchment); border-radius: var(--r-lg);
+  border: 1px solid var(--border); animation: fadeUp 0.35s ease both;
   transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
-  display: flex; flex-direction: column;
-  overflow: hidden;
+  display: flex; flex-direction: column; overflow: hidden;
 }
-.notice-item:hover {
-  border-color: var(--border2);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.notice-item::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-}
+.notice-item:hover { border-color: var(--border2); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.notice-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
 .notice-item.type-homework::before { background: linear-gradient(90deg, var(--indigo), #7080d0); }
 .notice-item.type-activity::before { background: linear-gradient(90deg, var(--forest), #50b870); }
 .notice-item.type-alert::before    { background: linear-gradient(90deg, var(--rust), #e07050); }
+.notice-item::after { content: attr(data-type-glyph); position: absolute; bottom: 10px; left: 14px; font-size: 52px; opacity: 0.035; pointer-events: none; line-height: 1; }
 
-.notice-item::after {
-  content: attr(data-type-glyph);
-  position: absolute; bottom: 10px; left: 14px;
-  font-size: 52px; opacity: 0.035; pointer-events: none;
-  line-height: 1;
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.notice-author {
-  display: flex; align-items: center; gap: 11px;
-  margin-bottom: 12px;
-}
-.author-avatar {
-  width: 42px; height: 42px; flex-shrink: 0;
-  border-radius: var(--r-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; border: 1px solid var(--border);
-  box-shadow: var(--shadow-xs);
-}
+.notice-author { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+.author-avatar { width: 42px; height: 42px; flex-shrink: 0; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-xs); }
 .author-avatar.hw  { background: var(--indigo-light); }
 .author-avatar.act { background: var(--forest-light); }
 .author-avatar.alt { background: var(--rust-light); }
-
 .author-meta { flex: 1; min-width: 0; }
-.author-name {
-  font-size: 0.87rem; font-weight: 700; color: var(--text-main);
-  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
-}
-.type-badge {
-  font-size: 0.61rem; font-weight: 800;
-  padding: 2px 9px; border-radius: var(--r-full);
-  display: inline-block;
-}
+.author-name { font-size: 0.87rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.type-badge { font-size: 0.61rem; font-weight: 800; padding: 2px 9px; border-radius: var(--r-full); display: inline-block; }
 .type-badge.homework { background: var(--indigo-light); color: var(--indigo); }
 .type-badge.activity { background: var(--forest-light); color: var(--forest); }
 .type-badge.alert    { background: var(--rust-light); color: var(--rust); }
-
-.cls-badge {
-  font-size: 0.61rem; font-weight: 700;
-  padding: 2px 9px; border-radius: var(--r-full);
-  background: var(--parchment3); color: var(--text-mute);
-  border: 1px solid var(--border);
-}
-
+.cls-badge { font-size: 0.61rem; font-weight: 700; padding: 2px 9px; border-radius: var(--r-full); background: var(--parchment3); color: var(--text-mute); border: 1px solid var(--border); }
 .author-date { font-size: 0.69rem; color: var(--text-mute); direction: ltr; text-align: right; margin-top: 2px; }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   عنوان الملاحظة — Cairo 700  ← التعديل الرئيسي
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .notice-title {
-  font-family: 'Amiri', serif;
-  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-family: var(--f);
+  font-size: clamp(1.05rem, 2.8vw, 1.18rem);
   font-weight: 700;
   color: var(--text-main);
   margin-bottom: 7px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
+/* ━━━━━━ نص تفاصيل الملاحظة — Cairo 400 ━━━━━━ */
 .notice-det {
-  font-family: 'Noto Kufi Arabic', sans-serif;
+  font-family: var(--f);
   font-size: clamp(0.87rem, 2.3vw, 0.96rem);
-  color: var(--text-sub);
-  line-height: 1.85;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-weight: 400;
-  flex: 1;
+  color: var(--text-sub); line-height: 1.85;
+  white-space: pre-wrap; word-break: break-word;
+  font-weight: 400; flex: 1;
 }
 
-.notice-img {
-  width: 100%; max-height: 340px; object-fit: cover;
-  border-radius: var(--r-md); margin-top: 14px;
-  cursor: zoom-in; transition: var(--tr);
-  border: 1px solid var(--border);
-}
+.notice-img { width: 100%; max-height: 340px; object-fit: cover; border-radius: var(--r-md); margin-top: 14px; cursor: zoom-in; transition: var(--tr); border: 1px solid var(--border); }
 .notice-img:hover { opacity: 0.9; transform: scale(1.01); }
 
-.notice-actions {
-  display: flex; gap: 6px; margin-top: 14px;
-  padding-top: 12px; border-top: 1px solid var(--divider);
-}
-.action-btn {
-  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 8px 12px; border: 1px solid var(--border);
-  background: var(--parchment2);
-  font-family: inherit; font-size: 0.75rem; font-weight: 700;
-  cursor: pointer; transition: var(--tr);
-  color: var(--text-sub); border-radius: var(--r-full);
-}
+.notice-actions { display: flex; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--divider); }
+.action-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; border: 1px solid var(--border); background: var(--parchment2); font-family: var(--f); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: var(--tr); color: var(--text-sub); border-radius: var(--r-full); }
 .action-btn:hover { background: var(--gold-wash); border-color: var(--gold); color: var(--text-main); }
 .action-btn:active { transform: scale(0.97); }
 
 .form-row { margin-bottom: 13px; }
-.field-label {
-  display: block; font-size: 0.75rem; font-weight: 700;
-  color: var(--text-sub); margin-bottom: 6px;
-  display: flex; align-items: center; gap: 5px;
-}
-.field-label::before {
-  content: '';
-  width: 3px; height: 12px;
-  background: var(--teal);
-  border-radius: var(--r-full);
-  display: inline-block;
-}
-
-.field-input {
-  width: 100%; padding: 11px 16px;
-  background: var(--parchment);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-full);
-  color: var(--text-main);
-  font-family: inherit; font-size: 0.9rem; font-weight: 500;
-  transition: var(--tr);
-}
-.field-input:focus {
-  outline: none; border-color: var(--teal-bright);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(10,122,109,0.1);
-}
+.field-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-sub); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+.field-label::before { content: ''; width: 3px; height: 12px; background: var(--teal); border-radius: var(--r-full); display: inline-block; }
+.field-input { width: 100%; padding: 11px 16px; background: var(--parchment); border: 1.5px solid var(--border); border-radius: var(--r-full); color: var(--text-main); font-family: var(--f); font-size: 0.9rem; font-weight: 500; transition: var(--tr); }
+.field-input:focus { outline: none; border-color: var(--teal-bright); background: #fff; box-shadow: 0 0 0 3px rgba(10,122,109,0.1); }
 .field-input::placeholder { color: var(--text-mute); }
 select.field-input { border-radius: var(--r-md); cursor: pointer; }
-select.field-input option { background: #fff; color: var(--text-main); }
 textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--r-lg); }
 
 .right-rail { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 18px; }
-
-.widget {
-  background: #fff;
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border);
-  transition: box-shadow var(--tr);
-}
+.widget { background: #fff; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: box-shadow var(--tr); }
 .widget:hover { box-shadow: var(--shadow-md); }
 
-.widget-header {
-  padding: 14px 20px;
-  font-family: 'Amiri', serif;
-  font-size: 1rem; font-weight: 700; color: var(--text-main);
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(160deg, var(--parchment2), #fff);
-  display: flex; align-items: center; gap: 9px;
-  position: relative;
-}
-.widget-header::after {
-  content: '';
-  position: absolute; bottom: -1px; right: 20px;
-  width: 32px; height: 2px;
-  background: var(--gold-bright);
-  border-radius: var(--r-full);
-}
-
+/* ━━━━━━ رأس الودجت — Cairo 800 ━━━━━━ */
+.widget-header { padding: 14px 20px; font-family: var(--f); font-size: 1rem; font-weight: 800; color: var(--text-main); border-bottom: 1px solid var(--border); background: linear-gradient(160deg, var(--parchment2), #fff); display: flex; align-items: center; gap: 9px; position: relative; }
+.widget-header::after { content: ''; position: absolute; bottom: -1px; right: 20px; width: 32px; height: 2px; background: var(--gold-bright); border-radius: var(--r-full); }
 .widget-body { padding: 8px; }
 
-.ql-item {
-  display: flex; align-items: center; gap: 13px;
-  padding: 11px 13px; border-radius: var(--r-lg);
-  text-decoration: none; transition: var(--tr);
-  color: var(--text-main); position: relative;
-  overflow: hidden;
-}
-.ql-item::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--gold-wash), transparent);
-  opacity: 0; transition: var(--tr); border-radius: var(--r-lg);
-}
+.ql-item { display: flex; align-items: center; gap: 13px; padding: 11px 13px; border-radius: var(--r-lg); text-decoration: none; transition: var(--tr); color: var(--text-main); position: relative; overflow: hidden; }
+.ql-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--gold-wash), transparent); opacity: 0; transition: var(--tr); border-radius: var(--r-lg); }
 .ql-item:hover::before { opacity: 1; }
 .ql-item:hover { box-shadow: var(--shadow-xs); }
 .ql-item:hover .ql-arrow { color: var(--teal); transform: translateX(-4px); }
-
-.ql-icon {
-  font-size: 18px; width: 42px; height: 42px;
-  border-radius: var(--r-md); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--parchment2); border: 1px solid var(--border);
-  transition: var(--tr);
-  position: relative; z-index: 1;
-}
-.ql-item:hover .ql-icon {
-  background: var(--gold-dim);
-  border-color: rgba(200,145,58,0.3);
-  box-shadow: 0 2px 8px var(--gold-glow);
-}
-
+.ql-icon { font-size: 18px; width: 42px; height: 42px; border-radius: var(--r-md); flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--parchment2); border: 1px solid var(--border); transition: var(--tr); position: relative; z-index: 1; }
+.ql-item:hover .ql-icon { background: var(--gold-dim); border-color: rgba(200,145,58,0.3); box-shadow: 0 2px 8px var(--gold-glow); }
 .ql-item-text { flex: 1; position: relative; z-index: 1; }
 .ql-item-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
 .ql-item-text span   { font-size: 0.71rem; color: var(--text-mute); }
 .ql-arrow { font-size: 0.72rem; color: var(--text-mute); transition: var(--tr); position: relative; z-index: 1; }
-
 .ql-item.featured { background: linear-gradient(135deg, #fff8ec, #fffdf8); border: 1px solid rgba(200,145,58,0.18); border-radius: var(--r-lg); }
 .ql-item.featured .ql-icon { background: var(--gold-dim); border-color: rgba(200,145,58,0.35); }
-.ql-item.featured .ql-item-text strong { color: var(--text-main); }
-.ql-new-badge {
-  font-size: 0.55rem; font-weight: 800;
-  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-  color: #fff; padding: 1px 7px; border-radius: var(--r-full);
-  vertical-align: middle; margin-right: 5px;
-  box-shadow: 0 1px 4px rgba(200,145,58,0.4);
-  animation: badgePulse 2.5s ease-in-out infinite;
-  display: inline-block;
-}
-@keyframes badgePulse {
-  0%,100% { box-shadow: 0 1px 4px rgba(200,145,58,0.4); }
-  50% { box-shadow: 0 1px 10px rgba(200,145,58,0.7); }
-}
+.ql-new-badge { font-size: 0.55rem; font-weight: 800; background: linear-gradient(135deg, var(--gold-bright), var(--gold)); color: #fff; padding: 1px 7px; border-radius: var(--r-full); vertical-align: middle; margin-right: 5px; box-shadow: 0 1px 4px rgba(200,145,58,0.4); animation: badgePulse 2.5s ease-in-out infinite; display: inline-block; }
+@keyframes badgePulse { 0%,100% { box-shadow: 0 1px 4px rgba(200,145,58,0.4); } 50% { box-shadow: 0 1px 10px rgba(200,145,58,0.7); } }
+.ql-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 4px 13px; }
 
-.ql-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-  margin: 4px 13px;
-}
-
-.last-update {
-  font-size: 0.71rem; color: var(--text-mute);
-  display: flex; align-items: center; gap: 7px;
-  padding: 12px 20px;
-}
-.status-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--forest); display: inline-block; flex-shrink: 0;
-  animation: blink 2.5s ease infinite;
-}
+.last-update { font-size: 0.71rem; color: var(--text-mute); display: flex; align-items: center; gap: 7px; padding: 12px 20px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--forest); display: inline-block; flex-shrink: 0; animation: blink 2.5s ease infinite; }
 @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
 .status-dot.loading { background: var(--gold); }
 .status-dot.error   { background: var(--rust); animation: none; }
 
-.quote-widget {
-  background: linear-gradient(145deg, var(--ink2), var(--ink3), var(--teal-deep));
-  border-color: rgba(200,145,58,0.25) !important;
-  position: relative; overflow: hidden;
-}
-.quote-widget::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 20% 80%, rgba(200,145,58,0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(10,122,109,0.1) 0%, transparent 50%);
-}
-.quote-widget::after {
-  content: '❝';
-  position: absolute; top: -10px; left: 10px;
-  font-size: 80px; color: rgba(200,145,58,0.08);
-  pointer-events: none; line-height: 1;
-  font-family: serif;
-}
-.quote-inner {
-  padding: 20px 20px 22px;
-  text-align: center; position: relative; z-index: 1;
-}
+/* ━━━━━━ اقتباس — Cairo 700 ━━━━━━ */
+.quote-widget { background: linear-gradient(145deg, var(--ink2), var(--ink3), var(--teal-deep)); border-color: rgba(200,145,58,0.25) !important; position: relative; overflow: hidden; }
+.quote-widget::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 80%, rgba(200,145,58,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(10,122,109,0.1) 0%, transparent 50%); }
+.quote-widget::after { content: '❝'; position: absolute; top: -10px; left: 10px; font-size: 80px; color: rgba(200,145,58,0.08); pointer-events: none; line-height: 1; }
+.quote-inner { padding: 20px 20px 22px; text-align: center; position: relative; z-index: 1; }
 .quote-moon { font-size: 1.8rem; margin-bottom: 10px; display: block; opacity: 0.85; }
-.quote-text {
-  font-family: 'Amiri', serif;
-  font-size: 0.98rem;
-  color: var(--gold-light);
-  font-weight: 700; line-height: 1.75; margin-bottom: 8px;
-}
+.quote-text { font-family: var(--f); font-size: 0.98rem; color: var(--gold-light); font-weight: 700; line-height: 1.75; margin-bottom: 8px; }
 .quote-author { font-size: 0.68rem; color: rgba(253,248,240,0.35); font-weight: 500; }
 
-.stat-strip {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: var(--border);
-  overflow: hidden;
-  border-radius: 0 0 var(--r-xl) var(--r-xl);
-}
-.stat-cell {
-  background: var(--parchment2);
-  padding: 12px 16px; text-align: center;
-}
-.stat-cell .stat-num {
-  font-family: 'Amiri', serif;
-  font-size: 1.5rem; font-weight: 700;
-  color: var(--teal);
-  line-height: 1.2;
-  display: block;
-}
-.stat-cell .stat-label {
-  font-size: 0.65rem; color: var(--text-mute);
-  font-weight: 600; display: block; margin-top: 1px;
-}
+.stat-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); overflow: hidden; border-radius: 0 0 var(--r-xl) var(--r-xl); }
+.stat-cell { background: var(--parchment2); padding: 12px 16px; text-align: center; }
+.stat-cell .stat-num { font-family: var(--f); font-size: 1.5rem; font-weight: 800; color: var(--teal); line-height: 1.2; display: block; }
+.stat-cell .stat-label { font-size: 0.65rem; color: var(--text-mute); font-weight: 600; display: block; margin-top: 1px; }
 
-.skeleton {
-  background: linear-gradient(90deg, var(--parchment2) 25%, var(--parchment3) 50%, var(--parchment2) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.7s infinite;
-  border-radius: var(--r-sm);
-}
+.skeleton { background: linear-gradient(90deg, var(--parchment2) 25%, var(--parchment3) 50%, var(--parchment2) 75%); background-size: 200% 100%; animation: shimmer 1.7s infinite; border-radius: var(--r-sm); }
 @keyframes shimmer { to { background-position: -200% 0; } }
 .skel-card { padding: 18px 0; border-bottom: 1px solid var(--divider); }
 .skel-circle { width: 42px; height: 42px; border-radius: var(--r-md); }
@@ -804,35 +414,12 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .empty-state .e-icon { font-size: 42px; margin-bottom: 14px; display: block; opacity: 0.4; }
 .empty-state p { font-size: 0.86rem; font-weight: 600; color: var(--text-mute); }
 
-.overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(10,6,2,0.92);
-  backdrop-filter: blur(14px);
-  z-index: 300; align-items: center; justify-content: center;
-  cursor: zoom-out;
-}
+.overlay { display: none; position: fixed; inset: 0; background: rgba(10,6,2,0.92); backdrop-filter: blur(14px); z-index: 300; align-items: center; justify-content: center; cursor: zoom-out; }
 .overlay.open { display: flex; }
-.overlay img {
-  max-width: 94%; max-height: 90vh;
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-xl);
-  animation: popIn 0.28s cubic-bezier(0.16,1,0.3,1) both;
-  border: 1px solid rgba(200,145,58,0.3);
-}
+.overlay img { max-width: 94%; max-height: 90vh; border-radius: var(--r-lg); box-shadow: var(--shadow-xl); animation: popIn 0.28s cubic-bezier(0.16,1,0.3,1) both; border: 1px solid rgba(200,145,58,0.3); }
 @keyframes popIn { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-.toast {
-  position: fixed; bottom: 28px; left: 50%;
-  transform: translateX(-50%) translateY(120px);
-  background: var(--ink2); color: var(--parchment);
-  padding: 12px 30px; border-radius: var(--r-full);
-  font-weight: 700; font-size: 0.85rem;
-  z-index: 1000;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid rgba(200,145,58,0.3);
-  transition: transform 0.42s cubic-bezier(0.175,0.885,0.32,1.275);
-  pointer-events: none; white-space: nowrap;
-}
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--ink2); color: var(--parchment); padding: 12px 30px; border-radius: var(--r-full); font-weight: 700; font-size: 0.85rem; z-index: 1000; box-shadow: var(--shadow-xl); border: 1px solid rgba(200,145,58,0.3); transition: transform 0.42s cubic-bezier(0.175,0.885,0.32,1.275); pointer-events: none; white-space: nowrap; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 .toast.ok  { background: var(--teal); border-color: rgba(255,255,255,0.2); }
 .toast.err { background: var(--rust); border-color: rgba(255,255,255,0.2); }
@@ -840,36 +427,13 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .ilink { color: var(--teal); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--teal-wash); }
 .ilink:hover { border-bottom-style: solid; }
 
-.mobile-nav {
-  display: none;
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--ink2);
-  border-top: 1px solid rgba(200,145,58,0.2);
-  z-index: 250; padding: 8px 0 env(safe-area-inset-bottom, 10px);
-  box-shadow: 0 -6px 28px rgba(0,0,0,0.28);
-  backdrop-filter: blur(10px);
-}
-@media (max-width: 900px) {
-  .mobile-nav { display: flex; justify-content: space-around; }
-  body { padding-bottom: 80px; }
-}
-.mob-tab {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 6px 16px; border: none; background: none;
-  font-family: inherit; font-size: 0.6rem; font-weight: 700;
-  color: rgba(253,248,240,0.35); cursor: pointer; transition: var(--tr);
-  position: relative; border-radius: 12px;
-}
+.mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink2); border-top: 1px solid rgba(200,145,58,0.2); z-index: 250; padding: 8px 0 env(safe-area-inset-bottom,10px); box-shadow: 0 -6px 28px rgba(0,0,0,0.28); backdrop-filter: blur(10px); }
+@media (max-width: 900px) { .mobile-nav { display: flex; justify-content: space-around; } body { padding-bottom: 80px; } }
+.mob-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 16px; border: none; background: none; font-family: var(--f); font-size: 0.6rem; font-weight: 700; color: rgba(253,248,240,0.35); cursor: pointer; transition: var(--tr); position: relative; border-radius: 12px; }
 .mob-tab i { font-size: 18px; }
 .mob-tab.active { color: var(--gold-light); }
 .mob-tab.active i { filter: drop-shadow(0 0 6px rgba(200,145,58,0.5)); }
-.mob-tab .mob-badge {
-  position: absolute; top: 0; right: 6px;
-  background: var(--rust); color: #fff;
-  font-size: 0.54rem; font-weight: 800;
-  padding: 1px 5px; border-radius: var(--r-full);
-  min-width: 16px; text-align: center;
-}
+.mob-tab .mob-badge { position: absolute; top: 0; right: 6px; background: var(--rust); color: #fff; font-size: 0.54rem; font-weight: 800; padding: 1px 5px; border-radius: var(--r-full); min-width: 16px; text-align: center; }
 
 @media (max-width: 900px) {
   .mobile-section { display: none; }
@@ -879,230 +443,82 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   .page-wrap { padding-bottom: 100px; }
 }
 
-.section-divider {
-  display: flex; align-items: center; gap: 10px;
-  margin: 4px 0 14px; padding: 0 2px;
-}
-.section-divider::before, .section-divider::after {
-  content: ''; flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border2), transparent);
-}
-.section-divider span {
-  font-size: 0.7rem; color: var(--text-mute); font-weight: 600;
-  white-space: nowrap; padding: 0 4px;
-}
-
 /* ══════════════════════════════════════════
-   COUNTDOWN POPUP — محدّث مع أوقات البداية والنهاية
+   COUNTDOWN POPUP
 ══════════════════════════════════════════ */
-#cdOverlay {
-  position: fixed; inset: 0; z-index: 9900;
-  background: rgba(10,6,2,0.72);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  animation: cdFadeIn 0.4s ease both;
-}
-#cdOverlay.cd-hiding {
-  animation: cdFadeOut 0.35s ease forwards;
-}
+#cdOverlay { position: fixed; inset: 0; z-index: 9900; background: rgba(10,6,2,0.72); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: cdFadeIn 0.4s ease both; }
+#cdOverlay.cd-hiding { animation: cdFadeOut 0.35s ease forwards; }
 @keyframes cdFadeIn  { from { opacity:0; } to { opacity:1; } }
 @keyframes cdFadeOut { from { opacity:1; } to { opacity:0; pointer-events:none; } }
 
-#cdBox {
-  background: var(--parchment);
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(200,145,58,0.25);
-  width: 100%; max-width: 520px;
-  animation: cdSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) both;
-}
-@keyframes cdSlideUp {
-  from { transform: translateY(32px) scale(0.96); opacity:0; }
-  to   { transform: translateY(0) scale(1); opacity:1; }
-}
+#cdBox { background: var(--parchment); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-xl), 0 0 0 1px rgba(200,145,58,0.25); width: 100%; max-width: 520px; animation: cdSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes cdSlideUp { from { transform: translateY(32px) scale(0.96); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
 
-#cdHead {
-  background: linear-gradient(145deg, var(--ink2) 0%, var(--teal-deep) 60%, var(--ink3) 100%);
-  padding: 22px 22px 18px;
-  position: relative; overflow: hidden;
-  text-align: center;
-}
-#cdHead::before {
-  content: '';
-  position: absolute; top:0; left:0; right:0; height:3px;
-  background: linear-gradient(90deg,
-    transparent, var(--teal-bright) 20%,
-    var(--gold-bright) 50%,
-    var(--teal-bright) 80%, transparent);
-}
-#cdHead::after {
-  content: '';
-  position: absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(circle at 15% 50%, rgba(200,145,58,0.1) 0%, transparent 55%),
-    radial-gradient(circle at 85% 20%, rgba(10,122,109,0.1) 0%, transparent 45%);
-}
-.cd-head-icon {
-  font-size: 2rem; display: block; margin-bottom: 8px;
-  position: relative; z-index:1;
-  animation: cdIconPulse 2.5s ease-in-out infinite;
-}
-@keyframes cdIconPulse {
-  0%,100% { transform: scale(1); }
-  50%     { transform: scale(1.08); }
-}
-#cdHead h2 {
-  font-family: 'Amiri', serif;
-  font-size: 1.25rem; font-weight: 700;
-  color: var(--gold-light);
-  position: relative; z-index:1;
-  margin: 0 0 4px;
-}
-#cdHead p {
-  font-size: 0.72rem; color: rgba(253,248,240,0.5);
-  position: relative; z-index:1; margin:0;
-}
-#cdCloseBtn {
-  position: absolute; top:12px; left:14px; z-index:2;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(200,145,58,0.25);
-  color: rgba(253,248,240,0.7);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; cursor: pointer;
-  transition: var(--tr);
-}
+#cdHead { background: linear-gradient(145deg, var(--ink2) 0%, var(--teal-deep) 60%, var(--ink3) 100%); padding: 22px 22px 18px; position: relative; overflow: hidden; text-align: center; }
+#cdHead::before { content: ''; position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, transparent, var(--teal-bright) 20%, var(--gold-bright) 50%, var(--teal-bright) 80%, transparent); }
+#cdHead::after { content: ''; position: absolute; inset:0; pointer-events:none; background: radial-gradient(circle at 15% 50%, rgba(200,145,58,0.1) 0%, transparent 55%), radial-gradient(circle at 85% 20%, rgba(10,122,109,0.1) 0%, transparent 45%); }
+
+.cd-head-icon { font-size: 2rem; display: block; margin-bottom: 8px; position: relative; z-index:1; animation: cdIconPulse 2.5s ease-in-out infinite; }
+@keyframes cdIconPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+/* ━━━━━━ عنوان popup — Cairo 800 ━━━━━━ */
+#cdHead h2 { font-family: var(--f); font-size: 1.2rem; font-weight: 800; color: var(--gold-light); position: relative; z-index:1; margin: 0 0 4px; }
+#cdHead p  { font-family: var(--f); font-size: 0.72rem; color: rgba(253,248,240,0.5); position: relative; z-index:1; margin:0; }
+
+#cdCloseBtn { position: absolute; top:12px; left:14px; z-index:2; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(200,145,58,0.25); color: rgba(253,248,240,0.7); display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; transition: var(--tr); }
 #cdCloseBtn:hover { background: rgba(190,79,40,0.35); color:#fff; border-color: var(--rust); }
 
 #cdBody { padding: 18px 20px 20px; display:flex; flex-direction:column; gap:14px; }
 
-.cd-event {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-xs);
-}
-.cd-event-head {
-  padding: 11px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
+.cd-event { background: #fff; border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-xs); }
+.cd-event-head { padding: 11px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
 .cd-event-head.teal-h   { background: linear-gradient(135deg, var(--teal-light), #fff); }
 .cd-event-head.indigo-h { background: linear-gradient(135deg, var(--indigo-light), #fff); }
-.cd-event-name {
-  font-family: 'Amiri', serif;
-  font-size: 1rem; font-weight: 700; color: var(--text-main);
-}
-.cd-event-date {
-  font-size: 0.68rem; color: var(--text-mute);
-  direction: ltr; font-weight: 600;
-}
-.cd-event-tag {
-  font-size: 0.58rem; font-weight: 800;
-  padding: 2px 8px; border-radius: var(--r-full);
-}
+
+/* ━━━━━━ اسم الامتحان — Cairo 700 ━━━━━━ */
+.cd-event-name { font-family: var(--f); font-size: 1rem; font-weight: 700; color: var(--text-main); }
+.cd-event-date { font-size: 0.68rem; color: var(--text-mute); direction: ltr; font-weight: 600; font-family: var(--f); }
+.cd-event-tag  { font-size: 0.58rem; font-weight: 800; padding: 2px 8px; border-radius: var(--r-full); font-family: var(--f); }
 .cd-event-tag.teal-t   { background: var(--teal-light); color: var(--teal-deep); }
 .cd-event-tag.indigo-t { background: var(--indigo-light); color: var(--indigo); }
 
-/* ── شريط معلومات وقت الامتحان ── */
-.cd-time-info {
-  display: flex; align-items: center; gap: 0;
-  padding: 8px 14px;
-  background: var(--parchment2);
-  border-bottom: 1px solid var(--border);
-  font-size: 0.73rem;
-}
-.cd-time-slot {
-  display: flex; align-items: center; gap: 6px;
-  flex: 1; justify-content: center;
-  padding: 4px 8px;
-}
+.cd-time-info { display: flex; align-items: center; gap: 0; padding: 8px 14px; background: var(--parchment2); border-bottom: 1px solid var(--border); font-size: 0.73rem; }
+.cd-time-slot { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; padding: 4px 8px; }
 .cd-time-slot:first-child { border-left: 1px solid var(--border); }
-.cd-time-icon { font-size: 0.9rem; }
-.cd-time-label { color: var(--text-mute); font-weight: 600; font-size: 0.65rem; display: block; }
-.cd-time-val   { color: var(--text-main); font-weight: 800; font-size: 0.82rem; display: block; direction: ltr; }
+.cd-time-icon  { font-size: 0.9rem; }
+.cd-time-label { color: var(--text-mute); font-weight: 600; font-size: 0.65rem; display: block; font-family: var(--f); }
+.cd-time-val   { color: var(--text-main); font-weight: 800; font-size: 0.82rem; display: block; direction: ltr; font-family: var(--f); }
 
-/* شريط المدة */
-.cd-dur-bar {
-  padding: 6px 14px 8px;
-  background: var(--parchment2);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px;
-}
-.cd-dur-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.7rem; font-weight: 800;
-  padding: 3px 12px; border-radius: var(--r-full);
-}
+.cd-dur-bar { padding: 6px 14px 8px; background: var(--parchment2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.cd-dur-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; font-weight: 800; padding: 3px 12px; border-radius: var(--r-full); font-family: var(--f); }
 .cd-dur-badge.teal-dur   { background: var(--teal-light); color: var(--teal-deep); border: 1px solid var(--teal-wash); }
 .cd-dur-badge.indigo-dur { background: var(--indigo-light); color: var(--indigo); border: 1px solid rgba(60,79,138,0.15); }
-.cd-dur-note { font-size: 0.67rem; color: var(--text-mute); }
+.cd-dur-note { font-size: 0.67rem; color: var(--text-mute); font-family: var(--f); }
 
-.cd-blocks {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  gap: 8px; padding: 12px 14px;
-}
-.cd-block {
-  border-radius: var(--r-md);
-  padding: 10px 6px;
-  text-align: center;
-  border: 1px solid var(--border);
-}
+.cd-blocks { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 12px 14px; }
+.cd-block { border-radius: var(--r-md); padding: 10px 6px; text-align: center; border: 1px solid var(--border); }
 .cd-block.teal-b   { background: var(--teal-light); border-color: var(--teal-wash); }
 .cd-block.indigo-b { background: var(--indigo-light); border-color: rgba(60,79,138,0.15); }
-.cd-num {
-  display: block; font-family: 'Amiri', serif;
-  font-size: 1.6rem; font-weight: 700;
-  line-height: 1; margin-bottom: 3px;
-}
+
+/* ━━━━━━ أرقام العد التنازلي — Cairo 800 ━━━━━━ */
+.cd-num { display: block; font-family: var(--f); font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 3px; }
 .cd-block.teal-b .cd-num   { color: var(--teal-deep); }
 .cd-block.indigo-b .cd-num { color: var(--indigo); }
-.cd-lbl {
-  display: block; font-size: 0.62rem; font-weight: 700;
-}
+.cd-lbl { display: block; font-size: 0.62rem; font-weight: 700; font-family: var(--f); }
 .cd-block.teal-b .cd-lbl   { color: var(--teal); }
 .cd-block.indigo-b .cd-lbl { color: var(--indigo); }
 
-/* رسالة انتهاء العد */
-.cd-done-msg {
-  padding: 14px; text-align:center;
-  font-family: 'Amiri', serif;
-  font-size: 1rem; font-weight: 700;
-  display: none;
-}
+.cd-done-msg { padding: 14px; text-align:center; font-family: var(--f); font-size: 1rem; font-weight: 700; display: none; }
 .cd-done-msg.teal-done   { color: var(--teal); background: var(--teal-light); }
 .cd-done-msg.indigo-done { color: var(--indigo); background: var(--indigo-light); }
 
-/* رسالة جارٍ الامتحان */
-.cd-live-msg {
-  padding: 10px 14px 12px; text-align:center;
-  font-family: 'Amiri', serif;
-  font-size: 0.88rem; font-weight: 700;
-  display: none;
-  animation: livePulse 1.4s ease-in-out infinite;
-}
+.cd-live-msg { padding: 10px 14px 12px; text-align:center; font-family: var(--f); font-size: 0.88rem; font-weight: 700; display: none; animation: livePulse 1.4s ease-in-out infinite; }
 .cd-live-msg.teal-live   { color: var(--teal-deep); background: var(--teal-light); }
 .cd-live-msg.indigo-live { color: var(--indigo); background: var(--indigo-light); }
-@keyframes livePulse {
-  0%,100% { opacity:1; }
-  50%     { opacity:0.6; }
-}
+@keyframes livePulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-#cdFooter {
-  padding: 0 20px 18px; text-align:center;
-}
-#cdDismissBtn {
-  width: 100%; padding: 11px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-deep));
-  color: #fff; border: none; border-radius: var(--r-full);
-  font-family: inherit; font-size: 0.88rem; font-weight: 700;
-  cursor: pointer; transition: var(--tr);
-  box-shadow: 0 3px 12px var(--teal-glow);
-  display: flex; align-items:center; justify-content:center; gap:8px;
-}
+#cdFooter { padding: 0 20px 18px; text-align:center; }
+#cdDismissBtn { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--teal), var(--teal-deep)); color: #fff; border: none; border-radius: var(--r-full); font-family: var(--f); font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: var(--tr); box-shadow: 0 3px 12px var(--teal-glow); display: flex; align-items:center; justify-content:center; gap:8px; }
 #cdDismissBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px var(--teal-glow); }
 #cdDismissBtn:active { transform: scale(0.98); }
 </style>
@@ -1130,29 +546,20 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
             <div class="cd-event-date">الخميس 14 مايو 2026</div>
           </div>
         </div>
-
-        <!-- شريط الوقت — قصير -->
         <div class="cd-time-info">
           <div class="cd-time-slot">
             <span class="cd-time-icon">🟢</span>
-            <div>
-              <span class="cd-time-label">يبدأ</span>
-              <span class="cd-time-val">10:45 ص</span>
-            </div>
+            <div><span class="cd-time-label">يبدأ</span><span class="cd-time-val">10:45 ص</span></div>
           </div>
           <div class="cd-time-slot" style="border-right:1px solid var(--border)">
             <span class="cd-time-icon">🔴</span>
-            <div>
-              <span class="cd-time-label">ينتهي</span>
-              <span class="cd-time-val">11:05 ص</span>
-            </div>
+            <div><span class="cd-time-label">ينتهي</span><span class="cd-time-val">11:05 ص</span></div>
           </div>
         </div>
         <div class="cd-dur-bar">
           <span class="cd-dur-badge teal-dur">⏱ 40 دقيقة</span>
           <span class="cd-dur-note">مدة الاختبار القصير</span>
         </div>
-
         <div class="cd-blocks" id="cdBlocks1">
           <div class="cd-block teal-b"><span class="cd-num" id="cd1d">—</span><span class="cd-lbl">يوم</span></div>
           <div class="cd-block teal-b"><span class="cd-num" id="cd1h">—</span><span class="cd-lbl">ساعة</span></div>
@@ -1172,29 +579,20 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
             <div class="cd-event-date">الخميس 4 يونيو 2026</div>
           </div>
         </div>
-
-        <!-- شريط الوقت — نهائي -->
         <div class="cd-time-info">
           <div class="cd-time-slot">
             <span class="cd-time-icon">🟢</span>
-            <div>
-              <span class="cd-time-label">يبدأ</span>
-              <span class="cd-time-val">8:00 ص</span>
-            </div>
+            <div><span class="cd-time-label">يبدأ</span><span class="cd-time-val">8:00 ص</span></div>
           </div>
           <div class="cd-time-slot" style="border-right:1px solid var(--border)">
             <span class="cd-time-icon">🔴</span>
-            <div>
-              <span class="cd-time-label">ينتهي</span>
-              <span class="cd-time-val">10:00 ص</span>
-            </div>
+            <div><span class="cd-time-label">ينتهي</span><span class="cd-time-val">10:00 ص</span></div>
           </div>
         </div>
         <div class="cd-dur-bar">
           <span class="cd-dur-badge indigo-dur">⏱ ساعتان كاملتان</span>
           <span class="cd-dur-note">مدة الامتحان النهائي</span>
         </div>
-
         <div class="cd-blocks" id="cdBlocks2">
           <div class="cd-block indigo-b"><span class="cd-num" id="cd2d">—</span><span class="cd-lbl">يوم</span></div>
           <div class="cd-block indigo-b"><span class="cd-num" id="cd2h">—</span><span class="cd-lbl">ساعة</span></div>
@@ -1246,7 +644,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 
 <!-- ══════════ PAGE ══════════ -->
 <div class="page-wrap">
-
   <main class="feed">
     <div class="welcome-card mobile-section mob-active">
       <div class="welcome-inner">
@@ -1312,26 +709,17 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
         <div class="ql-divider"></div>
         <a href="https://omk811.github.io/khalil-albalushi/" target="_blank" rel="noopener" class="ql-item">
           <div class="ql-icon">🚀</div>
-          <div class="ql-item-text">
-            <strong>منصة ارتقِ</strong>
-            <span>اللغة العربية - الصف الخامس</span>
-          </div>
+          <div class="ql-item-text"><strong>منصة ارتقِ</strong><span>اللغة العربية - الصف الخامس</span></div>
           <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
         </a>
         <a href="https://omk811.github.io/student-results/" target="_blank" rel="noopener" class="ql-item">
           <div class="ql-icon">📊</div>
-          <div class="ql-item-text">
-            <strong>بوابة النتائج</strong>
-            <span>الأستاذ خليل البلوشي</span>
-          </div>
+          <div class="ql-item-text"><strong>بوابة النتائج</strong><span>الأستاذ خليل البلوشي</span></div>
           <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
         </a>
         <a href="https://omk811.github.io/info/index.html" target="_blank" rel="noopener" class="ql-item">
           <div class="ql-icon">💬</div>
-          <div class="ql-item-text">
-            <strong>الاستفسارات</strong>
-            <span>تواصل مع الأستاذ</span>
-          </div>
+          <div class="ql-item-text"><strong>الاستفسارات</strong><span>تواصل مع الأستاذ</span></div>
           <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
         </a>
       </div>
@@ -1344,14 +732,8 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
         <span id="lastUpdateText2">جاري التحميل...</span>
       </div>
       <div class="stat-strip" id="statsStrip">
-        <div class="stat-cell">
-          <span class="stat-num" id="statNotices">—</span>
-          <span class="stat-label">تنبيه</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-num" id="statReplies">—</span>
-          <span class="stat-label">رد</span>
-        </div>
+        <div class="stat-cell"><span class="stat-num" id="statNotices">—</span><span class="stat-label">تنبيه</span></div>
+        <div class="stat-cell"><span class="stat-num" id="statReplies">—</span><span class="stat-label">رد</span></div>
       </div>
     </div>
 
@@ -1363,7 +745,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
       </div>
     </div>
   </aside>
-
 </div>
 
 <nav class="mobile-nav" id="mobileNav">
@@ -1378,331 +759,65 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 <div class="overlay" id="imgModal" onclick="this.classList.remove('open')">
   <img id="fullImg" src="" alt="صورة مكبرة">
 </div>
-
 <div class="toast" id="toast"></div>
 
 <!-- ══════════ SCRIPT ══════════ -->
 <script>
 'use strict';
-
 const API_URL   = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
 const STORE_KEY = 'school_data_v2';
-const CN = { all: 'عام', '5A': 'خامس ١', '5B': 'خامس ٢', '5C': 'خامس ٣' };
-const TN = {
-  homework: { label: 'واجب', icon: '📝', cls: 'hw' },
-  activity: { label: 'نشاط', icon: '🎯', cls: 'act' },
-  alert:    { label: 'تنبيه', icon: '🔔', cls: 'alt' }
-};
+const CN = { all:'عام','5A':'خامس ١','5B':'خامس ٢','5C':'خامس ٣' };
+const TN = { homework:{label:'واجب',icon:'📝',cls:'hw'}, activity:{label:'نشاط',icon:'🎯',cls:'act'}, alert:{label:'تنبيه',icon:'🔔',cls:'alt'} };
+let curClass='all', nFlt='all';
+const noticeStore={};
 
-let curClass = 'all', nFlt = 'all';
-const noticeStore = {};
+function makeLinks(t){if(!t)return'';return t.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi,u=>{const h=u.startsWith('http')?u:'http://'+u;return`<a href="${h}" class="ilink" target="_blank" rel="noopener">${u}</a>`});}
+function showToast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),3200);}
+function updateClock(){const now=new Date();document.getElementById('hdate').innerHTML=now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})+' · '+now.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'});}
+function setStatus(state){['statusDot','statusDot2'].forEach(id=>{const dot=document.getElementById(id);if(!dot)return;dot.className=state==='loading'?'status-dot loading':state==='ok'?'status-dot':'status-dot error';});const now=new Date();const txt=state==='loading'?'جاري التحميل...':state==='ok'?'آخر تحديث: '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}):'تعذّر التحديث';['lastUpdateText','lastUpdateText2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=txt;});}
 
-function makeLinks(t) {
-  if (!t) return '';
-  return t.toString().replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/gi, u => {
-    const h = u.startsWith('http') ? u : 'http://' + u;
-    return `<a href="${h}" class="ilink" target="_blank" rel="noopener">${u}</a>`;
-  });
-}
+function mobNav(section,btn){document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.mobile-section').forEach(s=>s.classList.remove('mob-active'));document.getElementById('secLinks')?.classList.remove('mob-active');if(section==='home'){document.querySelector('.welcome-card')?.classList.add('mob-active');document.getElementById('noticesBlock')?.classList.add('mob-active');}else if(section==='links'){document.getElementById('secLinks')?.classList.add('mob-active');}}
 
-function showToast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast' + (type ? ' ' + type : '') + ' show';
-  setTimeout(() => el.classList.remove('show'), 3200);
-}
+async function manualRefresh(){const btn=document.getElementById('refreshBtn');btn.disabled=true;btn.classList.add('spinning');setStatus('loading');await render();btn.disabled=false;btn.classList.remove('spinning');showToast('✅ تم التحديث بنجاح','ok');}
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById('hdate').innerHTML =
-    now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) + ' · ' +
-    now.toLocaleDateString('ar-OM', { weekday: 'short', month: 'short', day: 'numeric' });
-}
+async function loadData(){try{const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),8000);const res=await fetch(`${API_URL}?action=loadData&t=${Date.now()}`,{signal:ctrl.signal});clearTimeout(tid);const r=await res.json();if(r.status==='success'){localStorage.setItem(STORE_KEY,JSON.stringify(r.data));setStatus('ok');return r.data;}}catch(e){setStatus('error');}const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){setStatus('ok');return cached;}return{notices:[],queries:[],nId:100,qId:100};}
 
-function setStatus(state) {
-  ['statusDot','statusDot2'].forEach(id => {
-    const dot = document.getElementById(id);
-    if (!dot) return;
-    dot.className = state === 'loading' ? 'status-dot loading' : state === 'ok' ? 'status-dot' : 'status-dot error';
-  });
-  const now = new Date();
-  const txt = state === 'loading' ? 'جاري التحميل...' :
-              state === 'ok' ? 'آخر تحديث: ' + now.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' }) :
-              'تعذّر التحديث';
-  ['lastUpdateText','lastUpdateText2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = txt;
-  });
-}
+async function render(){const d=await loadData();renderNotices(d);updateBadges(d);updateStats(d);}
 
-function mobNav(section, btn) {
-  document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.mobile-section').forEach(s => s.classList.remove('mob-active'));
-  document.getElementById('secLinks')?.classList.remove('mob-active');
+function renderNotices(d){const list=(d.notices||[]).filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));const el=document.getElementById('nList');if(!list.length){el.innerHTML=`<div class="empty-state"><span class="e-icon">📭</span><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;return;}el.innerHTML=list.map((n,i)=>{const storeId='n_'+(n.id||i);noticeStore[storeId]={title:n.title||'',det:n.det||'',img:n.img||''};const t=TN[n.type]||{label:n.type,icon:'📌',cls:'hw'};return`<div class="notice-item type-${n.type||'homework'}" style="animation-delay:${i*0.04}s" id="${storeId}" data-type-glyph="${t.icon}"><div class="notice-author"><div class="author-avatar ${t.cls}">${t.icon}</div><div class="author-meta"><div class="author-name">أ. خليل البلوشي <span class="type-badge ${n.type}">${t.label}</span><span class="cls-badge">${CN[n.cls]||n.cls}</span></div><div class="author-date">${n.date}</div></div></div><div class="notice-title">${n.title||''}</div><div class="notice-det">${makeLinks(n.det)}</div>${n.img?`<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">`:''}<div class="notice-actions"><button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button><button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button></div></div>`;}).join('');}
 
-  if (section === 'home') {
-    document.querySelector('.welcome-card')?.classList.add('mob-active');
-    document.getElementById('noticesBlock')?.classList.add('mob-active');
-  } else if (section === 'links') {
-    document.getElementById('secLinks')?.classList.add('mob-active');
-  }
-}
+function updateBadges(d){['5A','5B','5C'].forEach(c=>{const el=document.getElementById('b'+c);if(el)el.textContent=(d.notices||[]).filter(n=>n.cls===c||n.cls==='all').length;});}
+function updateStats(d){const sN=document.getElementById('statNotices');if(sN)sN.textContent=(d.notices||[]).length;}
+function setClass(c){curClass=c;document.querySelectorAll('.ctab').forEach(tab=>tab.classList.toggle('active',tab.dataset.class===c));const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){renderNotices(cached);}render();}
+function flt(f,btn){nFlt=f;document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached)renderNotices(cached);}
 
-async function manualRefresh() {
-  const btn = document.getElementById('refreshBtn');
-  btn.disabled = true;
-  btn.classList.add('spinning');
-  setStatus('loading');
-  await render();
-  btn.disabled = false;
-  btn.classList.remove('spinning');
-  showToast('✅ تم التحديث بنجاح', 'ok');
-}
+function copyNotice(storeId){const item=noticeStore[storeId];if(!item)return showToast('❌ لا توجد بيانات','err');let txt=[item.title,item.det].filter(Boolean).join('\n\n')||'لا يوجد نص';if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(()=>showToast('✅ تم نسخ النص','ok')).catch(()=>fallbackCopy(txt));}else{fallbackCopy(txt);}}
+function fallbackCopy(text){try{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-9999px;opacity:0;';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم نسخ النص','ok');}catch(e){showToast('❌ فشل النسخ','err');}}
+function shareNotice(storeId){const item=noticeStore[storeId];if(!item)return showToast('❌ لا توجد بيانات','err');const txt=[item.title,item.det].filter(Boolean).join('\n\n')||'تنبيه من المحبرة';if(navigator.share){navigator.share({title:'المحبرة — أ. خليل البلوشي',text:txt,url:window.location.href}).catch(err=>{if(err.name!=='AbortError')showToast('⚠️ لم تتم المشاركة','');});}else{fallbackCopy(txt);showToast('📋 تم النسخ','');}}
 
-async function loadData() {
-  try {
-    const ctrl = new AbortController();
-    const tid  = setTimeout(() => ctrl.abort(), 8000);
-    const res  = await fetch(`${API_URL}?action=loadData&t=${Date.now()}`, { signal: ctrl.signal });
-    clearTimeout(tid);
-    const r = await res.json();
-    if (r.status === 'success') {
-      localStorage.setItem(STORE_KEY, JSON.stringify(r.data));
-      setStatus('ok');
-      return r.data;
-    }
-  } catch(e) {
-    setStatus('error');
-  }
-  const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-  if (cached) { setStatus('ok'); return cached; }
-  return { notices: [], queries: [], nId: 100, qId: 100 };
-}
+document.addEventListener('click',e=>{const copyBtn=e.target.closest('.btn-copy');if(copyBtn){copyNotice(copyBtn.dataset.id);return;}const shareBtn=e.target.closest('.btn-share');if(shareBtn){shareNotice(shareBtn.dataset.id);return;}const img=e.target.closest('.notice-img');if(img&&img.dataset.imgSrc){document.getElementById('fullImg').src=img.dataset.imgSrc;document.getElementById('imgModal').classList.add('open');}});
+document.getElementById('tabsBar').addEventListener('click',e=>{const tab=e.target.closest('.ctab');if(tab&&tab.dataset.class)setClass(tab.dataset.class);});
 
-async function render() {
-  const d = await loadData();
-  renderNotices(d);
-  updateBadges(d);
-  updateStats(d);
-}
+(function(){const hdr=document.getElementById('mainHeader');let lastY=window.scrollY,ticking=false;function onScroll(){const y=window.scrollY;if(y>80){if(y>lastY+5)hdr.classList.add('header-hidden');else if(lastY>y+5)hdr.classList.remove('header-hidden');}else{hdr.classList.remove('header-hidden');}lastY=y;ticking=false;}window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}},{passive:true});})();
 
-function renderNotices(d) {
-  const list = (d.notices || []).filter(n =>
-    (curClass === 'all' || n.cls === 'all' || n.cls === curClass) &&
-    (nFlt === 'all' || n.type === nFlt)
-  );
-  const el = document.getElementById('nList');
-
-  if (!list.length) {
-    el.innerHTML = `<div class="empty-state"><span class="e-icon">📭</span><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;
-    return;
-  }
-
-  el.innerHTML = list.map((n, i) => {
-    const storeId = 'n_' + (n.id || i);
-    noticeStore[storeId] = { title: n.title || '', det: n.det || '', img: n.img || '' };
-    const t = TN[n.type] || { label: n.type, icon: '📌', cls: 'hw' };
-    return `
-    <div class="notice-item type-${n.type || 'homework'}" style="animation-delay:${i * 0.04}s" id="${storeId}" data-type-glyph="${t.icon}">
-      <div class="notice-author">
-        <div class="author-avatar ${t.cls}">${t.icon}</div>
-        <div class="author-meta">
-          <div class="author-name">
-            أ. خليل البلوشي
-            <span class="type-badge ${n.type}">${t.label}</span>
-            <span class="cls-badge">${CN[n.cls] || n.cls}</span>
-          </div>
-          <div class="author-date">${n.date}</div>
-        </div>
-      </div>
-      <div class="notice-title">${n.title || ''}</div>
-      <div class="notice-det">${makeLinks(n.det)}</div>
-      ${n.img ? `<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">` : ''}
-      <div class="notice-actions">
-        <button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button>
-        <button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function updateBadges(d) {
-  ['5A','5B','5C'].forEach(c => {
-    const el = document.getElementById('b' + c);
-    if (el) el.textContent = (d.notices || []).filter(n => n.cls === c || n.cls === 'all').length;
-  });
-}
-
-function updateStats(d) {
-  const sN = document.getElementById('statNotices');
-  if (sN) sN.textContent = (d.notices || []).length;
-}
-
-function setClass(c) {
-  curClass = c;
-  document.querySelectorAll('.ctab').forEach(tab =>
-    tab.classList.toggle('active', tab.dataset.class === c)
-  );
-  const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-  if (cached) { renderNotices(cached); }
-  render();
-}
-
-function flt(f, btn) {
-  nFlt = f;
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-  if (cached) renderNotices(cached);
-}
-
-function copyNotice(storeId) {
-  const item = noticeStore[storeId];
-  if (!item) return showToast('❌ لا توجد بيانات', 'err');
-  let txt = [item.title, item.det].filter(Boolean).join('\n\n') || 'لا يوجد نص';
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(txt).then(() => showToast('✅ تم نسخ النص', 'ok')).catch(() => fallbackCopy(txt));
-  } else { fallbackCopy(txt); }
-}
-
-function fallbackCopy(text) {
-  try {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.cssText = 'position:fixed;top:-9999px;opacity:0;';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('✅ تم نسخ النص', 'ok');
-  } catch(e) { showToast('❌ فشل النسخ', 'err'); }
-}
-
-function shareNotice(storeId) {
-  const item = noticeStore[storeId];
-  if (!item) return showToast('❌ لا توجد بيانات', 'err');
-  const txt = [item.title, item.det].filter(Boolean).join('\n\n') || 'تنبيه من المحبرة';
-  if (navigator.share) {
-    navigator.share({ title: 'المحبرة — أ. خليل البلوشي', text: txt, url: window.location.href })
-      .catch(err => { if (err.name !== 'AbortError') showToast('⚠️ لم تتم المشاركة', ''); });
-  } else {
-    fallbackCopy(txt); showToast('📋 تم النسخ', '');
-  }
-}
-
-document.addEventListener('click', e => {
-  const copyBtn  = e.target.closest('.btn-copy');  if (copyBtn)  { copyNotice(copyBtn.dataset.id);   return; }
-  const shareBtn = e.target.closest('.btn-share'); if (shareBtn) { shareNotice(shareBtn.dataset.id); return; }
-  const img = e.target.closest('.notice-img');
-  if (img && img.dataset.imgSrc) {
-    document.getElementById('fullImg').src = img.dataset.imgSrc;
-    document.getElementById('imgModal').classList.add('open');
-  }
-});
-
-document.getElementById('tabsBar').addEventListener('click', e => {
-  const tab = e.target.closest('.ctab');
-  if (tab && tab.dataset.class) setClass(tab.dataset.class);
-});
-
-(function() {
-  const hdr = document.getElementById('mainHeader');
-  let lastY = window.scrollY, ticking = false;
-  function onScroll() {
-    const y = window.scrollY;
-    if (y > 80) {
-      if (y > lastY + 5)     hdr.classList.add('header-hidden');
-      else if (lastY > y + 5) hdr.classList.remove('header-hidden');
-    } else { hdr.classList.remove('header-hidden'); }
-    lastY = y; ticking = false;
-  }
-  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
-})();
-
-/* ══════════════════════════════════════════
-   COUNTDOWN — منطق محدّث مع أوقات البداية والنهاية
-══════════════════════════════════════════ */
-(function() {
-  /* تعريف أحداث الامتحانات:
-     ev1 = الاختبار القصير  → 14 مايو 2026، 10:25 صباحاً، ينتهي 11:05 ص
-     ev2 = الامتحان النهائي  → 4 يونيو 2026، 8:00 صباحاً، ينتهي 10:00 ص
-  */
-  const EXAMS = [
-    {
-      start:  new Date('2026-05-14T10:45:00'),
-      end:    new Date('2026-05-14T11:05:00'),
-      dId:'cd1d', hId:'cd1h', mId:'cd1m', sId:'cd1s',
-      blocksId:'cdBlocks1', liveId:'cdLive1', doneId:'cdDone1'
-    },
-    {
-      start:  new Date('2026-06-04T08:00:00'),
-      end:    new Date('2026-06-04T10:00:00'),
-      dId:'cd2d', hId:'cd2h', mId:'cd2m', sId:'cd2s',
-      blocksId:'cdBlocks2', liveId:'cdLive2', doneId:'cdDone2'
-    }
+/* ══════════ COUNTDOWN ══════════ */
+(function(){
+  const EXAMS=[
+    {start:new Date('2026-05-14T10:45:00'),end:new Date('2026-05-14T11:05:00'),dId:'cd1d',hId:'cd1h',mId:'cd1m',sId:'cd1s',blocksId:'cdBlocks1',liveId:'cdLive1',doneId:'cdDone1'},
+    {start:new Date('2026-06-04T08:00:00'),end:new Date('2026-06-04T10:00:00'),dId:'cd2d',hId:'cd2h',mId:'cd2m',sId:'cd2s',blocksId:'cdBlocks2',liveId:'cdLive2',doneId:'cdDone2'}
   ];
-
-  function pad(n) { return String(Math.max(0, n)); }
-
-  function tickCd() {
-    const now = new Date();
-
-    EXAMS.forEach(ev => {
-      const blocks = document.getElementById(ev.blocksId);
-      const live   = document.getElementById(ev.liveId);
-      const done   = document.getElementById(ev.doneId);
-      if (!blocks) return;
-
-      if (now >= ev.end) {
-        /* ── انتهى الامتحان ── */
-        blocks.style.display = 'none';
-        if (live) live.style.display = 'none';
-        if (done) done.style.display = 'block';
-
-      } else if (now >= ev.start) {
-        /* ── الامتحان جارٍ الآن ── */
-        blocks.style.display = 'none';
-        if (done) done.style.display = 'none';
-        if (live) live.style.display = 'block';
-
-      } else {
-        /* ── العد التنازلي حتى البداية ── */
-        if (live) live.style.display = 'none';
-        if (done) done.style.display = 'none';
-        blocks.style.display = 'grid';
-
-        const diff = ev.start - now;
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-
-        document.getElementById(ev.dId).textContent = pad(d);
-        document.getElementById(ev.hId).textContent = pad(h);
-        document.getElementById(ev.mId).textContent = pad(m);
-        document.getElementById(ev.sId).textContent = pad(s);
-      }
-    });
-  }
-
+  function pad(n){return String(Math.max(0,n));}
+  function tickCd(){const now=new Date();EXAMS.forEach(ev=>{const blocks=document.getElementById(ev.blocksId);const live=document.getElementById(ev.liveId);const done=document.getElementById(ev.doneId);if(!blocks)return;if(now>=ev.end){blocks.style.display='none';if(live)live.style.display='none';if(done)done.style.display='block';}else if(now>=ev.start){blocks.style.display='none';if(done)done.style.display='none';if(live)live.style.display='block';}else{if(live)live.style.display='none';if(done)done.style.display='none';blocks.style.display='grid';const diff=ev.start-now;const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);document.getElementById(ev.dId).textContent=pad(d);document.getElementById(ev.hId).textContent=pad(h);document.getElementById(ev.mId).textContent=pad(m);document.getElementById(ev.sId).textContent=pad(s);}});}
   tickCd();
-  const cdInterval = setInterval(tickCd, 1000);
-
-  window.closeCountdown = function() {
-    const ov = document.getElementById('cdOverlay');
-    ov.classList.add('cd-hiding');
-    clearInterval(cdInterval);
-    setTimeout(() => { ov.style.display = 'none'; }, 360);
-  };
+  const cdInterval=setInterval(tickCd,1000);
+  window.closeCountdown=function(){const ov=document.getElementById('cdOverlay');ov.classList.add('cd-hiding');clearInterval(cdInterval);setTimeout(()=>{ov.style.display='none';},360);};
 })();
 
 updateClock();
-setInterval(updateClock, 60000);
-
-const cached = JSON.parse(localStorage.getItem(STORE_KEY));
-if (cached?.notices?.length) {
-  renderNotices(cached); updateBadges(cached); updateStats(cached);
-  setStatus('ok');
-}
+setInterval(updateClock,60000);
+const cached=JSON.parse(localStorage.getItem(STORE_KEY));
+if(cached?.notices?.length){renderNotices(cached);updateBadges(cached);updateStats(cached);setStatus('ok');}
 render();
 </script>
-
 </body>
 </html>
