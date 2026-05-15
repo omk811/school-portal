@@ -14,7 +14,6 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Cairo فقط — استُغني عن Amiri و Noto Kufi -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -48,6 +47,10 @@
   --forest-light:#e2f4e8;
   --sapphire:    #1e5fa8;
   --sapphire-light: #e3eef8;
+  --violet:      #6b3fa0;
+  --violet-light:#f0eaf8;
+  --amber:       #b45309;
+  --amber-light: #fef3c7;
   --text-main:   #1e1810;
   --text-sub:    #5a4e38;
   --text-mute:   #9a8567;
@@ -70,7 +73,6 @@
   --r-sm:   6px;
   --tr: 0.22s ease;
   --tr-slow: 0.4s cubic-bezier(0.16,1,0.3,1);
-  /* ── الخط الموحَّد للمشروع ── */
   --f: 'Cairo', sans-serif;
 }
 
@@ -171,7 +173,6 @@ header::after {
 }
 @keyframes logoSpin { to { transform: rotate(360deg); } }
 
-/* ━━━━━━ اسم التطبيق — Cairo 800 ━━━━━━ */
 .brand-text h1 {
   font-family: var(--f); font-size: 1.55rem; font-weight: 800;
   color: transparent;
@@ -253,7 +254,6 @@ header::after {
 .welcome-icon-wrap { width: 68px; height: 68px; flex-shrink: 0; border-radius: 18px; background: linear-gradient(145deg, rgba(200,145,58,0.2), rgba(200,145,58,0.08)); border: 1px solid rgba(200,145,58,0.4); display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 0 30px rgba(200,145,58,0.15), inset 0 1px 0 rgba(255,255,255,0.1); position: relative; }
 .welcome-icon-wrap::after { content: ''; position: absolute; inset: -4px; border-radius: 22px; border: 1px solid rgba(200,145,58,0.15); }
 
-/* ━━━━━━ ترحيب — Cairo 800 ━━━━━━ */
 .welcome-text h2 { font-family: var(--f); font-size: clamp(1.15rem,2.6vw,1.4rem); font-weight: 800; color: var(--gold-light); margin-bottom: 7px; line-height: 1.4; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
 .welcome-text p { font-size: 0.82rem; color: rgba(253,248,240,0.6); line-height: 1.65; }
 
@@ -269,7 +269,6 @@ header::after {
 .card-header { padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(160deg, var(--parchment2) 0%, #fff 100%); border-bottom: 1px solid var(--border); position: relative; }
 .card-header::before { content: ''; position: absolute; bottom: -1px; left: 22px; width: 40px; height: 2px; background: linear-gradient(90deg, var(--teal-bright), var(--teal)); border-radius: var(--r-full); }
 
-/* ━━━━━━ عنوان البطاقة — Cairo 800 ━━━━━━ */
 .card-title { display: flex; align-items: center; gap: 11px; font-family: var(--f); font-size: 1.08rem; font-weight: 800; color: var(--text-main); }
 .card-title-icon { width: 36px; height: 36px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; border: 1px solid transparent; box-shadow: var(--shadow-xs); }
 .card-title-icon.blue   { background: var(--indigo-light); border-color: rgba(60,79,138,0.15); }
@@ -318,9 +317,6 @@ header::after {
 .cls-badge { font-size: 0.61rem; font-weight: 700; padding: 2px 9px; border-radius: var(--r-full); background: var(--parchment3); color: var(--text-mute); border: 1px solid var(--border); }
 .author-date { font-size: 0.69rem; color: var(--text-mute); direction: ltr; text-align: right; margin-top: 2px; }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   عنوان الملاحظة — Cairo 700  ← التعديل الرئيسي
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .notice-title {
   font-family: var(--f);
   font-size: clamp(1.05rem, 2.8vw, 1.18rem);
@@ -330,7 +326,6 @@ header::after {
   line-height: 1.7;
 }
 
-/* ━━━━━━ نص تفاصيل الملاحظة — Cairo 400 ━━━━━━ */
 .notice-det {
   font-family: var(--f);
   font-size: clamp(0.87rem, 2.3vw, 0.96rem);
@@ -360,7 +355,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .widget { background: #fff; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: box-shadow var(--tr); }
 .widget:hover { box-shadow: var(--shadow-md); }
 
-/* ━━━━━━ رأس الودجت — Cairo 800 ━━━━━━ */
 .widget-header { padding: 14px 20px; font-family: var(--f); font-size: 1rem; font-weight: 800; color: var(--text-main); border-bottom: 1px solid var(--border); background: linear-gradient(160deg, var(--parchment2), #fff); display: flex; align-items: center; gap: 9px; position: relative; }
 .widget-header::after { content: ''; position: absolute; bottom: -1px; right: 20px; width: 32px; height: 2px; background: var(--gold-bright); border-radius: var(--r-full); }
 .widget-body { padding: 8px; }
@@ -388,7 +382,6 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .status-dot.loading { background: var(--gold); }
 .status-dot.error   { background: var(--rust); animation: none; }
 
-/* ━━━━━━ اقتباس — Cairo 700 ━━━━━━ */
 .quote-widget { background: linear-gradient(145deg, var(--ink2), var(--ink3), var(--teal-deep)); border-color: rgba(200,145,58,0.25) !important; position: relative; overflow: hidden; }
 .quote-widget::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 80%, rgba(200,145,58,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(10,122,109,0.1) 0%, transparent 50%); }
 .quote-widget::after { content: '❝'; position: absolute; top: -10px; left: 10px; font-size: 80px; color: rgba(200,145,58,0.08); pointer-events: none; line-height: 1; }
@@ -444,172 +437,375 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 }
 
 /* ══════════════════════════════════════════
-   COUNTDOWN POPUP
+   COUNTDOWN POPUP — النهائي فقط
 ══════════════════════════════════════════ */
-#cdOverlay { position: fixed; inset: 0; z-index: 9900; background: rgba(10,6,2,0.72); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: cdFadeIn 0.4s ease both; }
+#cdOverlay {
+  position: fixed; inset: 0; z-index: 9900;
+  background: rgba(10,6,2,0.75); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: cdFadeIn 0.4s ease both;
+}
 #cdOverlay.cd-hiding { animation: cdFadeOut 0.35s ease forwards; }
 @keyframes cdFadeIn  { from { opacity:0; } to { opacity:1; } }
 @keyframes cdFadeOut { from { opacity:1; } to { opacity:0; pointer-events:none; } }
 
-#cdBox { background: var(--parchment); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-xl), 0 0 0 1px rgba(200,145,58,0.25); width: 100%; max-width: 520px; animation: cdSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+#cdBox {
+  background: var(--parchment);
+  border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(60,79,138,0.2);
+  width: 100%; max-width: 540px;
+  animation: cdSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
 @keyframes cdSlideUp { from { transform: translateY(32px) scale(0.96); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
 
-#cdHead { background: linear-gradient(145deg, var(--ink2) 0%, var(--teal-deep) 60%, var(--ink3) 100%); padding: 22px 22px 18px; position: relative; overflow: hidden; text-align: center; }
-#cdHead::before { content: ''; position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, transparent, var(--teal-bright) 20%, var(--gold-bright) 50%, var(--teal-bright) 80%, transparent); }
-#cdHead::after { content: ''; position: absolute; inset:0; pointer-events:none; background: radial-gradient(circle at 15% 50%, rgba(200,145,58,0.1) 0%, transparent 55%), radial-gradient(circle at 85% 20%, rgba(10,122,109,0.1) 0%, transparent 45%); }
+/* رأس النافذة */
+#cdHead {
+  background: linear-gradient(145deg, #1a2045 0%, #0f1e50 50%, var(--indigo) 100%);
+  padding: 28px 24px 22px; position: relative; overflow: hidden; text-align: center;
+}
+#cdHead::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold-bright) 30%, var(--gold-light) 50%, var(--gold-bright) 70%, transparent);
+}
+#cdHead::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 50%, rgba(200,145,58,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 90% 20%, rgba(100,130,220,0.18) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(200,145,58,0.04)' stroke-width='1'%3E%3Cpath d='M0 20h40M20 0v40'/%3E%3C/g%3E%3C/svg%3E");
+}
 
-.cd-head-icon { font-size: 2rem; display: block; margin-bottom: 8px; position: relative; z-index:1; animation: cdIconPulse 2.5s ease-in-out infinite; }
-@keyframes cdIconPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.cd-head-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(200,145,58,0.15); border: 1px solid rgba(200,145,58,0.35);
+  color: var(--gold-light); font-size: 0.68rem; font-weight: 700;
+  padding: 4px 14px; border-radius: var(--r-full);
+  margin-bottom: 14px; position: relative; z-index: 1;
+}
+.cd-head-icon { font-size: 2.6rem; display: block; margin-bottom: 8px; position: relative; z-index:1; animation: cdIconFloat 3s ease-in-out infinite; }
+@keyframes cdIconFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-/* ━━━━━━ عنوان popup — Cairo 800 ━━━━━━ */
-#cdHead h2 { font-family: var(--f); font-size: 1.2rem; font-weight: 800; color: var(--gold-light); position: relative; z-index:1; margin: 0 0 4px; }
-#cdHead p  { font-family: var(--f); font-size: 0.72rem; color: rgba(253,248,240,0.5); position: relative; z-index:1; margin:0; }
+#cdHead h2 { font-family: var(--f); font-size: 1.3rem; font-weight: 800; color: #fff; position: relative; z-index:1; margin: 0 0 6px; letter-spacing: 0.01em; }
+#cdHead p  { font-family: var(--f); font-size: 0.74rem; color: rgba(255,255,255,0.5); position: relative; z-index:1; margin:0; }
 
-#cdCloseBtn { position: absolute; top:12px; left:14px; z-index:2; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(200,145,58,0.25); color: rgba(253,248,240,0.7); display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; transition: var(--tr); }
-#cdCloseBtn:hover { background: rgba(190,79,40,0.35); color:#fff; border-color: var(--rust); }
+#cdCloseBtn {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; transition: var(--tr);
+}
+#cdCloseBtn:hover { background: rgba(190,79,40,0.4); color:#fff; border-color: var(--rust); }
 
-#cdBody { padding: 18px 20px 20px; display:flex; flex-direction:column; gap:14px; }
+/* ──── منطقة العداد الرئيسية ──── */
+#cdBody { padding: 0; }
 
-.cd-event { background: #fff; border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-xs); }
-.cd-event-head { padding: 11px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-.cd-event-head.teal-h   { background: linear-gradient(135deg, var(--teal-light), #fff); }
-.cd-event-head.indigo-h { background: linear-gradient(135deg, var(--indigo-light), #fff); }
+.cd-exam-card { background: #fff; }
 
-/* ━━━━━━ اسم الامتحان — Cairo 700 ━━━━━━ */
-.cd-event-name { font-family: var(--f); font-size: 1rem; font-weight: 700; color: var(--text-main); }
-.cd-event-date { font-size: 0.68rem; color: var(--text-mute); direction: ltr; font-weight: 600; font-family: var(--f); }
-.cd-event-tag  { font-size: 0.58rem; font-weight: 800; padding: 2px 8px; border-radius: var(--r-full); font-family: var(--f); }
-.cd-event-tag.teal-t   { background: var(--teal-light); color: var(--teal-deep); }
-.cd-event-tag.indigo-t { background: var(--indigo-light); color: var(--indigo); }
+/* شريط معلومات الامتحان */
+.cd-info-bar {
+  display: flex; gap: 0;
+  background: linear-gradient(135deg, var(--indigo-light), #fff);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px; gap: 20px; flex-wrap: wrap; align-items: center;
+}
+.cd-info-item { display: flex; align-items: center; gap: 8px; }
+.cd-info-icon { font-size: 1.1rem; }
+.cd-info-label { font-size: 0.65rem; color: var(--text-mute); font-weight: 600; display: block; }
+.cd-info-val   { font-size: 0.84rem; color: var(--text-main); font-weight: 800; display: block; direction: ltr; font-family: var(--f); }
 
-.cd-time-info { display: flex; align-items: center; gap: 0; padding: 8px 14px; background: var(--parchment2); border-bottom: 1px solid var(--border); font-size: 0.73rem; }
-.cd-time-slot { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; padding: 4px 8px; }
-.cd-time-slot:first-child { border-left: 1px solid var(--border); }
-.cd-time-icon  { font-size: 0.9rem; }
-.cd-time-label { color: var(--text-mute); font-weight: 600; font-size: 0.65rem; display: block; font-family: var(--f); }
-.cd-time-val   { color: var(--text-main); font-weight: 800; font-size: 0.82rem; display: block; direction: ltr; font-family: var(--f); }
+/* شريط المدة */
+.cd-dur-strip {
+  background: linear-gradient(135deg, var(--indigo), #2a3870);
+  padding: 10px 20px; display: flex; align-items: center; gap: 12px;
+}
+.cd-dur-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; font-size: 0.78rem; font-weight: 800;
+  padding: 5px 16px; border-radius: var(--r-full); font-family: var(--f);
+}
+.cd-dur-note { font-size: 0.68rem; color: rgba(255,255,255,0.6); font-family: var(--f); }
 
-.cd-dur-bar { padding: 6px 14px 8px; background: var(--parchment2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
-.cd-dur-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; font-weight: 800; padding: 3px 12px; border-radius: var(--r-full); font-family: var(--f); }
-.cd-dur-badge.teal-dur   { background: var(--teal-light); color: var(--teal-deep); border: 1px solid var(--teal-wash); }
-.cd-dur-badge.indigo-dur { background: var(--indigo-light); color: var(--indigo); border: 1px solid rgba(60,79,138,0.15); }
-.cd-dur-note { font-size: 0.67rem; color: var(--text-mute); font-family: var(--f); }
+/* بلوكات العداد */
+.cd-timer-section {
+  padding: 20px 20px 18px;
+  background: linear-gradient(180deg, var(--parchment2) 0%, #fff 100%);
+}
+.cd-timer-label {
+  text-align: center; font-size: 0.7rem; font-weight: 700; color: var(--text-mute);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+}
+.cd-timer-label::before, .cd-timer-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-.cd-blocks { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 12px 14px; }
-.cd-block { border-radius: var(--r-md); padding: 10px 6px; text-align: center; border: 1px solid var(--border); }
-.cd-block.teal-b   { background: var(--teal-light); border-color: var(--teal-wash); }
-.cd-block.indigo-b { background: var(--indigo-light); border-color: rgba(60,79,138,0.15); }
+.cd-blocks { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+.cd-block {
+  background: linear-gradient(145deg, var(--indigo-light), #f4f6fd);
+  border: 1px solid rgba(60,79,138,0.15);
+  border-radius: var(--r-lg); padding: 16px 8px 12px;
+  text-align: center; position: relative; overflow: hidden;
+  transition: transform 0.15s;
+}
+.cd-block::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--indigo), #6070c0);
+}
+.cd-num {
+  display: block; font-family: var(--f); font-size: 2.2rem; font-weight: 900;
+  color: var(--indigo); line-height: 1; margin-bottom: 5px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 8px rgba(60,79,138,0.15);
+  transition: all 0.2s;
+}
+.cd-lbl { display: block; font-size: 0.63rem; font-weight: 800; color: var(--indigo); opacity: 0.7; letter-spacing: 0.04em; font-family: var(--f); }
 
-/* ━━━━━━ أرقام العد التنازلي — Cairo 800 ━━━━━━ */
-.cd-num { display: block; font-family: var(--f); font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 3px; }
-.cd-block.teal-b .cd-num   { color: var(--teal-deep); }
-.cd-block.indigo-b .cd-num { color: var(--indigo); }
-.cd-lbl { display: block; font-size: 0.62rem; font-weight: 700; font-family: var(--f); }
-.cd-block.teal-b .cd-lbl   { color: var(--teal); }
-.cd-block.indigo-b .cd-lbl { color: var(--indigo); }
+/* أنيمشن رفرفة الرقم عند التغيير */
+.cd-num.flip { animation: numFlip 0.25s ease; }
+@keyframes numFlip { 0% { transform: scaleY(1); } 40% { transform: scaleY(0.6); opacity:0.5; } 100% { transform: scaleY(1); opacity:1; } }
 
-.cd-done-msg { padding: 14px; text-align:center; font-family: var(--f); font-size: 1rem; font-weight: 700; display: none; }
-.cd-done-msg.teal-done   { color: var(--teal); background: var(--teal-light); }
-.cd-done-msg.indigo-done { color: var(--indigo); background: var(--indigo-light); }
+/* رسائل الحالة */
+.cd-done-msg {
+  margin: 0 20px 20px; padding: 14px 18px; text-align: center;
+  font-family: var(--f); font-size: 1.05rem; font-weight: 700;
+  border-radius: var(--r-lg); display: none;
+  background: linear-gradient(135deg, var(--forest-light), #fff);
+  color: var(--forest); border: 1px solid rgba(44,122,64,0.2);
+}
+.cd-live-msg {
+  margin: 0 20px 20px; padding: 12px 18px; text-align: center;
+  font-family: var(--f); font-size: 0.92rem; font-weight: 700; display: none;
+  border-radius: var(--r-lg); animation: livePulse 1.4s ease-in-out infinite;
+  background: linear-gradient(135deg, var(--amber-light), #fff);
+  color: var(--amber); border: 1px solid rgba(180,83,9,0.2);
+}
+@keyframes livePulse { 0%,100% { opacity:1; } 50% { opacity:0.65; } }
 
-.cd-live-msg { padding: 10px 14px 12px; text-align:center; font-family: var(--f); font-size: 0.88rem; font-weight: 700; display: none; animation: livePulse 1.4s ease-in-out infinite; }
-.cd-live-msg.teal-live   { color: var(--teal-deep); background: var(--teal-light); }
-.cd-live-msg.indigo-live { color: var(--indigo); background: var(--indigo-light); }
-@keyframes livePulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+/* ──── محتوى الامتحان ──── */
+.cd-syllabus {
+  background: var(--parchment2);
+  border-top: 1px solid var(--border);
+  padding: 18px 20px 20px;
+}
+.cd-syllabus-title {
+  font-family: var(--f); font-size: 0.88rem; font-weight: 800;
+  color: var(--text-main); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 9px;
+}
+.cd-syllabus-title-icon {
+  width: 32px; height: 32px; border-radius: var(--r-md);
+  background: linear-gradient(135deg, var(--indigo), #4a5fa8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(60,79,138,0.25);
+}
+.cd-syllabus-title span { color: var(--text-sub); font-size: 0.72rem; font-weight: 600; }
 
-#cdFooter { padding: 0 20px 18px; text-align:center; }
-#cdDismissBtn { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--teal), var(--teal-deep)); color: #fff; border: none; border-radius: var(--r-full); font-family: var(--f); font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: var(--tr); box-shadow: 0 3px 12px var(--teal-glow); display: flex; align-items:center; justify-content:center; gap:8px; }
-#cdDismissBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px var(--teal-glow); }
+.cd-syl-list { display: flex; flex-direction: column; gap: 8px; }
+
+.cd-syl-item {
+  background: #fff; border-radius: var(--r-lg); border: 1px solid var(--border);
+  padding: 11px 14px; display: flex; align-items: center; gap: 12px;
+  box-shadow: var(--shadow-xs); transition: var(--tr);
+}
+.cd-syl-item:hover { box-shadow: var(--shadow-sm); border-color: var(--border2); }
+
+.cd-syl-num {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f); font-size: 0.72rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--indigo), #4a5fa8);
+  color: #fff; box-shadow: 0 2px 6px rgba(60,79,138,0.3);
+}
+.cd-syl-content { flex: 1; min-width: 0; }
+.cd-syl-name { font-family: var(--f); font-size: 0.88rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 3px; }
+.cd-syl-sub { font-family: var(--f); font-size: 0.72rem; color: var(--text-mute); font-weight: 500; display: block; line-height: 1.5; }
+.cd-syl-score {
+  font-family: var(--f); font-size: 0.72rem; font-weight: 900;
+  padding: 3px 10px; border-radius: var(--r-full); flex-shrink: 0;
+  white-space: nowrap;
+}
+.cd-syl-score.sc-blue   { background: var(--indigo-light); color: var(--indigo); border: 1px solid rgba(60,79,138,0.2); }
+.cd-syl-score.sc-teal   { background: var(--teal-light); color: var(--teal-deep); border: 1px solid rgba(10,122,109,0.2); }
+.cd-syl-score.sc-gold   { background: var(--gold-dim); color: var(--amber); border: 1px solid rgba(200,145,58,0.25); }
+.cd-syl-score.sc-forest { background: var(--forest-light); color: var(--forest); border: 1px solid rgba(44,122,64,0.2); }
+.cd-syl-score.sc-violet { background: var(--violet-light); color: var(--violet); border: 1px solid rgba(107,63,160,0.2); }
+
+.cd-total-bar {
+  margin-top: 12px; background: linear-gradient(135deg, var(--indigo), #2a3870);
+  border-radius: var(--r-lg); padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(60,79,138,0.25);
+}
+.cd-total-label { font-family: var(--f); font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 7px; }
+.cd-total-val { font-family: var(--f); font-size: 1.3rem; font-weight: 900; color: var(--gold-light); }
+
+/* زر الإغلاق */
+#cdFooter { padding: 0 20px 20px; background: #fff; }
+#cdDismissBtn {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--indigo), #2a3870);
+  color: #fff; border: none; border-radius: var(--r-full);
+  font-family: var(--f); font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: var(--tr);
+  box-shadow: 0 4px 14px rgba(60,79,138,0.35);
+  display: flex; align-items:center; justify-content:center; gap: 8px;
+}
+#cdDismissBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(60,79,138,0.4); }
 #cdDismissBtn:active { transform: scale(0.98); }
 </style>
 </head>
 <body>
 
-<!-- ══════════ COUNTDOWN POPUP ══════════ -->
+<!-- ══════════ COUNTDOWN POPUP — الامتحان النهائي فقط ══════════ -->
 <div id="cdOverlay">
   <div id="cdBox">
+
     <div id="cdHead">
       <button id="cdCloseBtn" onclick="closeCountdown()" title="إغلاق">✕</button>
-      <span class="cd-head-icon">📅</span>
-      <h2>مواعيد امتحانات اللغة العربية · الصف الخامس</h2>
-      <p>أ. خليل البلوشي · اللغة العربية</p>
+      <div class="cd-head-badge">📅 موعد هام</div>
+      <span class="cd-head-icon">🎓</span>
+      <h2>الامتحان النهائي · اللغة العربية</h2>
+      <p>أ. خليل البلوشي · الصف الخامس الأساسي</p>
     </div>
 
     <div id="cdBody">
+      <div class="cd-exam-card">
 
-      <!-- الاختبار القصير الثاني -->
-      <div class="cd-event">
-        <div class="cd-event-head teal-h">
-          <span class="cd-event-name">الاختبار القصير الثاني</span>
-          <div style="text-align:left">
-            <span class="cd-event-tag teal-t">قصير</span>
-            <div class="cd-event-date">الخميس 14 مايو 2026</div>
+        <!-- معلومات الموعد -->
+        <div class="cd-info-bar">
+          <div class="cd-info-item">
+            <span class="cd-info-icon">📆</span>
+            <div>
+              <span class="cd-info-label">تاريخ الامتحان</span>
+              <span class="cd-info-val">الخميس 4 يونيو 2026</span>
+            </div>
+          </div>
+          <div class="cd-info-item">
+            <span class="cd-info-icon">🟢</span>
+            <div>
+              <span class="cd-info-label">يبدأ</span>
+              <span class="cd-info-val">8:00 ص</span>
+            </div>
+          </div>
+          <div class="cd-info-item">
+            <span class="cd-info-icon">🔴</span>
+            <div>
+              <span class="cd-info-label">ينتهي</span>
+              <span class="cd-info-val">10:00 ص</span>
+            </div>
           </div>
         </div>
-        <div class="cd-time-info">
-          <div class="cd-time-slot">
-            <span class="cd-time-icon">🟢</span>
-            <div><span class="cd-time-label">يبدأ</span><span class="cd-time-val">10:45 ص</span></div>
+
+        <!-- شريط المدة -->
+        <div class="cd-dur-strip">
+          <span class="cd-dur-pill">⏱ ساعتان كاملتان</span>
+          <span class="cd-dur-note">مدة الامتحان النهائي للفصل الثاني</span>
+        </div>
+
+        <!-- العداد التنازلي -->
+        <div class="cd-timer-section">
+          <div class="cd-timer-label">العد التنازلي حتى الامتحان</div>
+          <div class="cd-blocks" id="cdBlocks">
+            <div class="cd-block">
+              <span class="cd-num" id="cd2d">—</span>
+              <span class="cd-lbl">يوم</span>
+            </div>
+            <div class="cd-block">
+              <span class="cd-num" id="cd2h">—</span>
+              <span class="cd-lbl">ساعة</span>
+            </div>
+            <div class="cd-block">
+              <span class="cd-num" id="cd2m">—</span>
+              <span class="cd-lbl">دقيقة</span>
+            </div>
+            <div class="cd-block">
+              <span class="cd-num" id="cd2s">—</span>
+              <span class="cd-lbl">ثانية</span>
+            </div>
           </div>
-          <div class="cd-time-slot" style="border-right:1px solid var(--border)">
-            <span class="cd-time-icon">🔴</span>
-            <div><span class="cd-time-label">ينتهي</span><span class="cd-time-val">11:05 ص</span></div>
+        </div>
+
+        <div class="cd-live-msg" id="cdLive">🖊 الامتحان النهائي جارٍ الآن — وُفِّقتم أيها الطلاب!</div>
+        <div class="cd-done-msg" id="cdDone">✅ انتهى الامتحان النهائي — بالتوفيق والنجاح للجميع 🌟</div>
+
+        <!-- محتوى الامتحان -->
+        <div class="cd-syllabus">
+          <div class="cd-syllabus-title">
+            <div class="cd-syllabus-title-icon">📚</div>
+            <div>
+              محتوى الامتحان النهائي
+              <span>الفصل الدراسي الثاني · 2025/2026</span>
+            </div>
+          </div>
+
+          <div class="cd-syl-list">
+            <div class="cd-syl-item">
+              <div class="cd-syl-num">١</div>
+              <div class="cd-syl-content">
+                <span class="cd-syl-name">فهم المقروء الخارجي</span>
+                <span class="cd-syl-sub">نص قرائي خارجي مع أسئلة الفهم والاستيعاب</span>
+              </div>
+              <span class="cd-syl-score sc-blue">١٠ درجات</span>
+            </div>
+
+            <div class="cd-syl-item">
+              <div class="cd-syl-num">٢</div>
+              <div class="cd-syl-content">
+                <span class="cd-syl-name">النصوص الأدبية</span>
+                <span class="cd-syl-sub">نصائح طبيب · الغراب والثعلب</span>
+              </div>
+              <span class="cd-syl-score sc-teal">١٠ درجات</span>
+            </div>
+
+            <div class="cd-syl-item">
+              <div class="cd-syl-num">٣</div>
+              <div class="cd-syl-content">
+                <span class="cd-syl-name">الحفظ</span>
+                <span class="cd-syl-sub">أبيات من قصيدة نصائح طبيب</span>
+              </div>
+              <span class="cd-syl-score sc-gold">٢ درجتان</span>
+            </div>
+
+            <div class="cd-syl-item">
+              <div class="cd-syl-num">٤</div>
+              <div class="cd-syl-content">
+                <span class="cd-syl-name">النحو والصرف</span>
+                <span class="cd-syl-sub">كان وأخواتها · إن وأخواتها</span>
+              </div>
+              <span class="cd-syl-score sc-forest">١٠ درجات</span>
+            </div>
+
+            <div class="cd-syl-item">
+              <div class="cd-syl-num">٥</div>
+              <div class="cd-syl-content">
+                <span class="cd-syl-name">الإملاء والترقيم</span>
+                <span class="cd-syl-sub">الألف في آخر الأفعال · الفاصلة المنقوطة · علامة التنصيص</span>
+              </div>
+              <span class="cd-syl-score sc-violet">٨ درجات</span>
+            </div>
+          </div>
+
+          <!-- المجموع -->
+          <div class="cd-total-bar">
+            <span class="cd-total-label">
+              <span>🏆</span> المجموع الكلي للامتحان
+            </span>
+            <span class="cd-total-val">٤٠ درجة</span>
           </div>
         </div>
-        <div class="cd-dur-bar">
-          <span class="cd-dur-badge teal-dur">⏱ 40 دقيقة</span>
-          <span class="cd-dur-note">مدة الاختبار القصير</span>
-        </div>
-        <div class="cd-blocks" id="cdBlocks1">
-          <div class="cd-block teal-b"><span class="cd-num" id="cd1d">—</span><span class="cd-lbl">يوم</span></div>
-          <div class="cd-block teal-b"><span class="cd-num" id="cd1h">—</span><span class="cd-lbl">ساعة</span></div>
-          <div class="cd-block teal-b"><span class="cd-num" id="cd1m">—</span><span class="cd-lbl">دقيقة</span></div>
-          <div class="cd-block teal-b"><span class="cd-num" id="cd1s">—</span><span class="cd-lbl">ثانية</span></div>
-        </div>
-        <div class="cd-live-msg teal-live" id="cdLive1">🖊 الاختبار جارٍ الآن — وُفِّقتم!</div>
-        <div class="cd-done-msg teal-done" id="cdDone1">✅ انتهى الاختبار القصير الثاني</div>
+
       </div>
-
-      <!-- الامتحان النهائي -->
-      <div class="cd-event">
-        <div class="cd-event-head indigo-h">
-          <span class="cd-event-name">الامتحان النهائي</span>
-          <div style="text-align:left">
-            <span class="cd-event-tag indigo-t">نهائي</span>
-            <div class="cd-event-date">الخميس 4 يونيو 2026</div>
-          </div>
-        </div>
-        <div class="cd-time-info">
-          <div class="cd-time-slot">
-            <span class="cd-time-icon">🟢</span>
-            <div><span class="cd-time-label">يبدأ</span><span class="cd-time-val">8:00 ص</span></div>
-          </div>
-          <div class="cd-time-slot" style="border-right:1px solid var(--border)">
-            <span class="cd-time-icon">🔴</span>
-            <div><span class="cd-time-label">ينتهي</span><span class="cd-time-val">10:00 ص</span></div>
-          </div>
-        </div>
-        <div class="cd-dur-bar">
-          <span class="cd-dur-badge indigo-dur">⏱ ساعتان كاملتان</span>
-          <span class="cd-dur-note">مدة الامتحان النهائي</span>
-        </div>
-        <div class="cd-blocks" id="cdBlocks2">
-          <div class="cd-block indigo-b"><span class="cd-num" id="cd2d">—</span><span class="cd-lbl">يوم</span></div>
-          <div class="cd-block indigo-b"><span class="cd-num" id="cd2h">—</span><span class="cd-lbl">ساعة</span></div>
-          <div class="cd-block indigo-b"><span class="cd-num" id="cd2m">—</span><span class="cd-lbl">دقيقة</span></div>
-          <div class="cd-block indigo-b"><span class="cd-num" id="cd2s">—</span><span class="cd-lbl">ثانية</span></div>
-        </div>
-        <div class="cd-live-msg indigo-live" id="cdLive2">🖊 الامتحان النهائي جارٍ الآن — وُفِّقتم!</div>
-        <div class="cd-done-msg indigo-done" id="cdDone2">✅ انتهى الامتحان النهائي</div>
-      </div>
-
     </div>
 
     <div id="cdFooter">
       <button id="cdDismissBtn" onclick="closeCountdown()">
-        <i class="fa fa-check"></i> حسناً، تم الاطلاع
+        <i class="fa fa-check-circle"></i> حسناً، تم الاطلاع · بالتوفيق
       </button>
     </div>
+
   </div>
 </div>
 
@@ -800,23 +996,78 @@ document.getElementById('tabsBar').addEventListener('click',e=>{const tab=e.targ
 
 (function(){const hdr=document.getElementById('mainHeader');let lastY=window.scrollY,ticking=false;function onScroll(){const y=window.scrollY;if(y>80){if(y>lastY+5)hdr.classList.add('header-hidden');else if(lastY>y+5)hdr.classList.remove('header-hidden');}else{hdr.classList.remove('header-hidden');}lastY=y;ticking=false;}window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}},{passive:true});})();
 
-/* ══════════ COUNTDOWN ══════════ */
+/* ══════════ COUNTDOWN — الامتحان النهائي فقط ══════════ */
 (function(){
-  const EXAMS=[
-    {start:new Date('2026-05-14T10:45:00'),end:new Date('2026-05-14T11:05:00'),dId:'cd1d',hId:'cd1h',mId:'cd1m',sId:'cd1s',blocksId:'cdBlocks1',liveId:'cdLive1',doneId:'cdDone1'},
-    {start:new Date('2026-06-04T08:00:00'),end:new Date('2026-06-04T10:00:00'),dId:'cd2d',hId:'cd2h',mId:'cd2m',sId:'cd2s',blocksId:'cdBlocks2',liveId:'cdLive2',doneId:'cdDone2'}
-  ];
-  function pad(n){return String(Math.max(0,n));}
-  function tickCd(){const now=new Date();EXAMS.forEach(ev=>{const blocks=document.getElementById(ev.blocksId);const live=document.getElementById(ev.liveId);const done=document.getElementById(ev.doneId);if(!blocks)return;if(now>=ev.end){blocks.style.display='none';if(live)live.style.display='none';if(done)done.style.display='block';}else if(now>=ev.start){blocks.style.display='none';if(done)done.style.display='none';if(live)live.style.display='block';}else{if(live)live.style.display='none';if(done)done.style.display='none';blocks.style.display='grid';const diff=ev.start-now;const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);document.getElementById(ev.dId).textContent=pad(d);document.getElementById(ev.hId).textContent=pad(h);document.getElementById(ev.mId).textContent=pad(m);document.getElementById(ev.sId).textContent=pad(s);}});}
-  tickCd();
-  const cdInterval=setInterval(tickCd,1000);
-  window.closeCountdown=function(){const ov=document.getElementById('cdOverlay');ov.classList.add('cd-hiding');clearInterval(cdInterval);setTimeout(()=>{ov.style.display='none';},360);};
+  const EXAM = {
+    start: new Date('2026-06-04T08:00:00'),
+    end:   new Date('2026-06-04T10:00:00')
+  };
+
+  const els = {
+    d: document.getElementById('cd2d'),
+    h: document.getElementById('cd2h'),
+    m: document.getElementById('cd2m'),
+    s: document.getElementById('cd2s'),
+    blocks: document.getElementById('cdBlocks'),
+    live:   document.getElementById('cdLive'),
+    done:   document.getElementById('cdDone')
+  };
+
+  // تحديث الرقم مع أنيمشن إذا تغيّر
+  const prev = { d:'', h:'', m:'', s:'' };
+  function setNum(key, val) {
+    const el = els[key];
+    if (!el) return;
+    const str = String(Math.max(0, val));
+    if (str !== prev[key]) {
+      el.classList.remove('flip');
+      void el.offsetWidth; // reflow
+      el.classList.add('flip');
+      el.textContent = str;
+      prev[key] = str;
+    }
+  }
+
+  function tick() {
+    const now  = new Date();
+    if (now >= EXAM.end) {
+      // انتهى
+      els.blocks.style.display = 'none';
+      els.live.style.display   = 'none';
+      els.done.style.display   = 'block';
+    } else if (now >= EXAM.start) {
+      // جارٍ الآن
+      els.blocks.style.display = 'none';
+      els.done.style.display   = 'none';
+      els.live.style.display   = 'block';
+    } else {
+      // العد التنازلي
+      els.live.style.display   = 'none';
+      els.done.style.display   = 'none';
+      els.blocks.style.display = 'grid';
+      const diff = EXAM.start - now;
+      setNum('d', Math.floor(diff / 86400000));
+      setNum('h', Math.floor((diff % 86400000) / 3600000));
+      setNum('m', Math.floor((diff % 3600000) / 60000));
+      setNum('s', Math.floor((diff % 60000) / 1000));
+    }
+  }
+
+  tick();
+  const cdInterval = setInterval(tick, 1000);
+
+  window.closeCountdown = function() {
+    const ov = document.getElementById('cdOverlay');
+    ov.classList.add('cd-hiding');
+    clearInterval(cdInterval);
+    setTimeout(() => { ov.style.display = 'none'; }, 360);
+  };
 })();
 
 updateClock();
-setInterval(updateClock,60000);
-const cached=JSON.parse(localStorage.getItem(STORE_KEY));
-if(cached?.notices?.length){renderNotices(cached);updateBadges(cached);updateStats(cached);setStatus('ok');}
+setInterval(updateClock, 60000);
+const cached = JSON.parse(localStorage.getItem(STORE_KEY));
+if (cached?.notices?.length) { renderNotices(cached); updateBadges(cached); updateStats(cached); setStatus('ok'); }
 render();
 </script>
 </body>
