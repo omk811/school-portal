@@ -442,7 +442,8 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 #cdOverlay {
   position: fixed; inset: 0; z-index: 9900;
   background: rgba(10,6,2,0.75); backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 16px 12px; overflow-y: auto;
   animation: cdFadeIn 0.4s ease both;
 }
 #cdOverlay.cd-hiding { animation: cdFadeOut 0.35s ease forwards; }
@@ -453,15 +454,18 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   background: var(--parchment);
   border-radius: var(--r-xl); overflow: hidden;
   box-shadow: var(--shadow-xl), 0 0 0 1px rgba(60,79,138,0.2);
-  width: 100%; max-width: 540px;
+  width: 100%; max-width: 520px;
+  margin: auto;
   animation: cdSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) both;
+  /* يسمح للمحتوى بالظهور كاملاً دون قطع */
+  display: flex; flex-direction: column;
 }
 @keyframes cdSlideUp { from { transform: translateY(32px) scale(0.96); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
 
 /* رأس النافذة */
 #cdHead {
   background: linear-gradient(145deg, #1a2045 0%, #0f1e50 50%, var(--indigo) 100%);
-  padding: 28px 24px 22px; position: relative; overflow: hidden; text-align: center;
+  padding: 16px 24px 14px; position: relative; overflow: hidden; text-align: center;
 }
 #cdHead::before {
   content: '';
@@ -482,9 +486,9 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   background: rgba(200,145,58,0.15); border: 1px solid rgba(200,145,58,0.35);
   color: var(--gold-light); font-size: 0.68rem; font-weight: 700;
   padding: 4px 14px; border-radius: var(--r-full);
-  margin-bottom: 14px; position: relative; z-index: 1;
+  margin-bottom: 8px; position: relative; z-index: 1;
 }
-.cd-head-icon { font-size: 2.6rem; display: block; margin-bottom: 8px; position: relative; z-index:1; animation: cdIconFloat 3s ease-in-out infinite; }
+.cd-head-icon { font-size: 2rem; display: block; margin-bottom: 6px; position: relative; z-index:1; animation: cdIconFloat 3s ease-in-out infinite; }
 @keyframes cdIconFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 #cdHead h2 { font-family: var(--f); font-size: 1.3rem; font-weight: 800; color: #fff; position: relative; z-index:1; margin: 0 0 6px; letter-spacing: 0.01em; }
@@ -509,7 +513,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   display: flex; gap: 0;
   background: linear-gradient(135deg, var(--indigo-light), #fff);
   border-bottom: 1px solid var(--border);
-  padding: 14px 20px; gap: 20px; flex-wrap: wrap; align-items: center;
+  padding: 10px 16px; gap: 16px; flex-wrap: wrap; align-items: center;
 }
 .cd-info-item { display: flex; align-items: center; gap: 8px; }
 .cd-info-icon { font-size: 1.1rem; }
@@ -531,7 +535,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 
 /* بلوكات العداد */
 .cd-timer-section {
-  padding: 20px 20px 18px;
+  padding: 14px 16px 12px;
   background: linear-gradient(180deg, var(--parchment2) 0%, #fff 100%);
 }
 .cd-timer-label {
@@ -545,7 +549,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .cd-block {
   background: linear-gradient(145deg, var(--indigo-light), #f4f6fd);
   border: 1px solid rgba(60,79,138,0.15);
-  border-radius: var(--r-lg); padding: 16px 8px 12px;
+  border-radius: var(--r-md); padding: 12px 6px 8px;
   text-align: center; position: relative; overflow: hidden;
   transition: transform 0.15s;
 }
@@ -554,8 +558,8 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   background: linear-gradient(90deg, var(--indigo), #6070c0);
 }
 .cd-num {
-  display: block; font-family: var(--f); font-size: 2.2rem; font-weight: 900;
-  color: var(--indigo); line-height: 1; margin-bottom: 5px;
+  display: block; font-family: var(--f); font-size: 1.8rem; font-weight: 900;
+  color: var(--indigo); line-height: 1; margin-bottom: 4px;
   font-variant-numeric: tabular-nums;
   text-shadow: 0 2px 8px rgba(60,79,138,0.15);
   transition: all 0.2s;
@@ -587,11 +591,11 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .cd-syllabus {
   background: var(--parchment2);
   border-top: 1px solid var(--border);
-  padding: 18px 20px 20px;
+  padding: 14px 16px 16px;
 }
 .cd-syllabus-title {
-  font-family: var(--f); font-size: 0.88rem; font-weight: 800;
-  color: var(--text-main); margin-bottom: 14px;
+  font-family: var(--f); font-size: 0.86rem; font-weight: 800;
+  color: var(--text-main); margin-bottom: 10px;
   display: flex; align-items: center; gap: 9px;
 }
 .cd-syllabus-title-icon {
@@ -603,11 +607,11 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 }
 .cd-syllabus-title span { color: var(--text-sub); font-size: 0.72rem; font-weight: 600; }
 
-.cd-syl-list { display: flex; flex-direction: column; gap: 8px; }
+.cd-syl-list { display: flex; flex-direction: column; gap: 6px; }
 
 .cd-syl-item {
-  background: #fff; border-radius: var(--r-lg); border: 1px solid var(--border);
-  padding: 11px 14px; display: flex; align-items: center; gap: 12px;
+  background: #fff; border-radius: var(--r-md); border: 1px solid var(--border);
+  padding: 8px 12px; display: flex; align-items: center; gap: 10px;
   box-shadow: var(--shadow-xs); transition: var(--tr);
 }
 .cd-syl-item:hover { box-shadow: var(--shadow-sm); border-color: var(--border2); }
@@ -634,8 +638,8 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .cd-syl-score.sc-violet { background: var(--violet-light); color: var(--violet); border: 1px solid rgba(107,63,160,0.2); }
 
 .cd-total-bar {
-  margin-top: 12px; background: linear-gradient(135deg, var(--indigo), #2a3870);
-  border-radius: var(--r-lg); padding: 12px 16px;
+  margin-top: 10px; background: linear-gradient(135deg, var(--indigo), #2a3870);
+  border-radius: var(--r-md); padding: 10px 14px;
   display: flex; align-items: center; justify-content: space-between;
   box-shadow: 0 3px 12px rgba(60,79,138,0.25);
 }
@@ -643,7 +647,7 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
 .cd-total-val { font-family: var(--f); font-size: 1.3rem; font-weight: 900; color: var(--gold-light); }
 
 /* زر الإغلاق */
-#cdFooter { padding: 0 20px 20px; background: #fff; }
+#cdFooter { padding: 0 16px 16px; background: #fff; }
 #cdDismissBtn {
   width: 100%; padding: 13px;
   background: linear-gradient(135deg, var(--indigo), #2a3870);
