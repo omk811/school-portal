@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="المحبرة - مساحة مخصصة لمتابعة واجبات وتنبيهات الأستاذ خليل البلوشي للصف الخامس.">
 <title>المحبرة | أ. خليل البلوشي</title>
 
@@ -434,6 +434,372 @@ textarea.field-input { resize: vertical; min-height: 90px; border-radius: var(--
   .right-rail { display: none !important; }
   .right-rail.mob-active { display: flex !important; }
   .page-wrap { padding-bottom: 100px; }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   تحسينات الاستجابة والقراءة عبر الهواتف والأجهزة اللوحية
+   لا تغيّر المحتوى أو الروابط أو البيانات الأساسية
+   ══════════════════════════════════════════════════════ */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 110px;
+}
+
+body {
+  min-height: 100dvh;
+  font-size: clamp(15px, 0.25vw + 14px, 16px);
+  line-height: 1.85;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, .ctab, .pill, .action-btn, .mob-tab, .icon-btn, .hbtn-link {
+  touch-action: manipulation;
+}
+
+img { max-width: 100%; height: auto; }
+
+.notice-title,
+.notice-det,
+.welcome-text,
+.ql-item-text,
+.card-title,
+.author-meta {
+  overflow-wrap: anywhere;
+}
+
+/* مناطق لمس مريحة وفق الاستخدام على الشاشات اللمسية */
+.icon-btn { min-width: 44px; min-height: 44px; }
+.ctab, .pill, .action-btn, .hbtn-link { min-height: 44px; }
+.mob-tab { min-height: 52px; min-width: 72px; }
+
+/* الأجهزة اللوحية والشاشات المتوسطة */
+@media (max-width: 1024px) {
+  .header-inner { padding-inline: 18px; }
+  .page-wrap { gap: 18px; padding-inline: 18px; }
+  .right-rail { width: 100%; }
+  .notice-title { font-size: 1.08rem; }
+  .notice-det { font-size: 0.95rem; }
+}
+
+/* الهواتف والأجهزة اللوحية الصغيرة */
+@media (max-width: 900px) {
+  body {
+    padding-bottom: calc(82px + env(safe-area-inset-bottom));
+    background: var(--parchment2);
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+  }
+
+  .header-inner {
+    padding-inline: clamp(12px, 4vw, 20px);
+  }
+
+  .header-top {
+    padding: 10px 0 8px;
+    gap: 10px;
+  }
+
+  .brand { gap: 10px; min-width: 0; }
+
+  .logo-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-size: clamp(1.2rem, 5vw, 1.45rem); }
+  .brand-text p {
+    font-size: clamp(0.61rem, 2.7vw, 0.72rem);
+    white-space: normal;
+    line-height: 1.55;
+  }
+
+  .header-actions { gap: 6px; flex-shrink: 0; }
+  #hdate { display: none; }
+
+  .hbtn-link {
+    padding: 8px 12px;
+    font-size: 0.74rem;
+    white-space: nowrap;
+  }
+
+  .tabs-bar {
+    padding: 7px 0 10px;
+    gap: 6px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-inline: contain;
+  }
+
+  .ctab {
+    padding: 8px 15px;
+    font-size: 0.78rem;
+    scroll-snap-align: start;
+  }
+
+  .page-wrap {
+    width: 100%;
+    padding: 12px 0 calc(100px + env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+
+  .feed { width: 100%; min-width: 0; }
+
+  .welcome-inner {
+    padding: 20px clamp(16px, 5vw, 24px) 16px;
+    gap: 14px;
+  }
+
+  .welcome-icon-wrap {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    font-size: 27px;
+  }
+
+  .welcome-text h2 {
+    font-size: clamp(1.08rem, 4.6vw, 1.3rem);
+    line-height: 1.55;
+    margin-bottom: 5px;
+  }
+
+  .welcome-text p {
+    font-size: clamp(0.82rem, 3.4vw, 0.94rem);
+    line-height: 1.8;
+  }
+
+  .welcome-divider { margin-inline: clamp(16px, 5vw, 24px); }
+  .school-tag {
+    padding: 11px clamp(16px, 5vw, 24px) 17px;
+    align-items: flex-start;
+  }
+  .school-tag strong {
+    font-size: clamp(0.75rem, 3.2vw, 0.86rem);
+    line-height: 1.75;
+  }
+
+  .card-header {
+    padding: 13px clamp(14px, 4vw, 20px);
+    gap: 10px;
+    align-items: center;
+  }
+
+  .card-title {
+    font-size: clamp(0.96rem, 4vw, 1.08rem);
+    gap: 8px;
+  }
+
+  .card-title-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .card-header .last-update {
+    padding: 0;
+    font-size: 0.64rem;
+    white-space: nowrap;
+  }
+
+  .card-body { padding: 14px clamp(12px, 4vw, 18px) 20px; }
+
+  .filter-pills {
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    overscroll-behavior-inline: contain;
+  }
+  .filter-pills::-webkit-scrollbar { display: none; }
+  .pill {
+    flex: 0 0 auto;
+    padding: 7px 15px;
+    font-size: 0.78rem;
+  }
+
+  #nList { gap: 12px; }
+
+  .notice-item {
+    padding: 16px clamp(14px, 4vw, 18px) 14px;
+    border-radius: 16px;
+  }
+
+  .notice-author { gap: 10px; margin-bottom: 10px; }
+  .author-avatar { width: 40px; height: 40px; font-size: 18px; }
+  .author-name {
+    font-size: clamp(0.82rem, 3.4vw, 0.9rem);
+    line-height: 1.7;
+    gap: 5px;
+  }
+  .type-badge, .cls-badge { font-size: 0.64rem; padding: 2px 8px; }
+  .author-date { font-size: 0.68rem; line-height: 1.5; }
+
+  .notice-title {
+    font-size: clamp(1rem, 4.2vw, 1.14rem);
+    line-height: 1.75;
+    margin-bottom: 8px;
+  }
+
+  .notice-det {
+    font-size: clamp(0.91rem, 3.65vw, 1rem);
+    line-height: 2;
+    letter-spacing: 0;
+  }
+
+  .notice-img {
+    max-height: none;
+    border-radius: 12px;
+    margin-top: 12px;
+  }
+
+  .notice-actions { gap: 8px; margin-top: 13px; padding-top: 11px; }
+  .action-btn {
+    min-height: 46px;
+    padding: 9px 10px;
+    font-size: 0.8rem;
+  }
+
+  .right-rail.mob-active {
+    width: 100%;
+    padding: 0 12px 16px;
+    gap: 12px;
+  }
+
+  .widget { border-radius: 16px; }
+  .widget-header { padding: 13px 16px; font-size: 0.98rem; }
+  .ql-item { min-height: 62px; padding: 10px 11px; gap: 11px; }
+  .ql-icon { width: 40px; height: 40px; }
+  .ql-item-text strong { font-size: 0.86rem; line-height: 1.55; }
+  .ql-item-text span { font-size: 0.73rem; line-height: 1.55; }
+
+  .mobile-nav {
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+    min-height: calc(66px + env(safe-area-inset-bottom));
+  }
+  .mob-tab {
+    flex: 1;
+    max-width: 180px;
+    font-size: 0.67rem;
+    padding: 6px 12px;
+  }
+  .mob-tab i { font-size: 19px; }
+
+  .toast {
+    max-width: calc(100vw - 28px);
+    bottom: calc(82px + env(safe-area-inset-bottom));
+    padding: 11px 20px;
+    font-size: 0.8rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.6;
+  }
+}
+
+/* الهواتف الشائعة 360–480px */
+@media (max-width: 480px) {
+  .header-top { align-items: center; }
+  .logo-wrap { width: 40px; height: 40px; font-size: 18px; }
+  .brand-text h1 { font-size: 1.22rem; }
+  .brand-text p { font-size: 0.62rem; }
+
+  .icon-btn { width: 42px; height: 42px; min-width: 42px; min-height: 42px; }
+  .hbtn-link { min-height: 42px; padding: 7px 10px; font-size: 0.7rem; gap: 5px; }
+
+  .ctab { padding-inline: 13px; }
+  .cbdg { padding-inline: 7px; }
+
+  .welcome-inner { align-items: flex-start; }
+  .welcome-icon-wrap { width: 52px; height: 52px; font-size: 24px; }
+
+  .card-header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card-header .last-update {
+    width: 100%;
+    justify-content: flex-start;
+    padding-right: 42px;
+    margin-top: -3px;
+  }
+
+  .notice-item { margin-inline: 0; }
+  .notice-actions .action-btn { border-radius: 12px; }
+}
+
+/* الشاشات الضيقة جدًا مثل 320px */
+@media (max-width: 360px) {
+  .header-inner { padding-inline: 10px; }
+  .header-top { gap: 7px; }
+  .brand { gap: 7px; }
+  .logo-wrap { width: 36px; height: 36px; min-width: 36px; border-radius: 10px; font-size: 17px; }
+  .brand-text h1 { font-size: 1.08rem; }
+  .brand-text p { font-size: 0.56rem; line-height: 1.45; }
+
+  .header-actions { gap: 4px; }
+  .icon-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+  .hbtn-link { min-height: 38px; padding: 6px 8px; font-size: 0.64rem; }
+
+  .ctab { min-height: 40px; padding: 7px 11px; font-size: 0.72rem; }
+  .cbdg { font-size: 0.6rem; }
+
+  .welcome-inner { padding-inline: 13px; gap: 10px; }
+  .welcome-icon-wrap { width: 46px; height: 46px; min-width: 46px; border-radius: 13px; font-size: 21px; }
+  .welcome-text h2 { font-size: 1rem; }
+  .welcome-text p { font-size: 0.78rem; }
+  .school-tag { padding-inline: 13px; }
+
+  .card-body { padding-inline: 10px; }
+  .notice-item { padding-inline: 12px; }
+  .author-avatar { width: 36px; height: 36px; min-width: 36px; font-size: 17px; }
+  .author-name { font-size: 0.78rem; }
+  .notice-title { font-size: 0.98rem; }
+  .notice-det { font-size: 0.9rem; line-height: 1.95; }
+  .action-btn { font-size: 0.75rem; }
+}
+
+/* تحسين الحركة والأداء للمستخدم الذي يفضّل تقليل المؤثرات */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* منع تأثيرات hover غير الضرورية على الأجهزة اللمسية */
+@media (hover: none) and (pointer: coarse) {
+  .feed-card:hover,
+  .widget:hover,
+  .notice-item:hover,
+  .notice-img:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .notice-img:hover { opacity: 1; }
+}
+
+/* إبقاء الحقول مقروءة وتجنب التكبير التلقائي في iOS */
+@media (max-width: 900px) {
+  .field-input,
+  select.field-input,
+  textarea.field-input {
+    font-size: 16px;
+  }
 }
 
 </style>
