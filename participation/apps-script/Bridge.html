@@ -1,0 +1,6 @@
+<!doctype html><html><head><meta charset="UTF-8"><meta name="referrer" content="no-referrer"></head><body><script>
+const nonce=__NONCE__,hostOrigin=__ORIGIN__;
+function send(data){window.top.postMessage({channel:'participation-bridge',nonce,...data},hostOrigin);}
+window.addEventListener('message',event=>{const m=event.data;if(event.source!==window.top||event.origin!==hostOrigin||!m||m.channel!=='participation-bridge'||m.nonce!==nonce||m.kind!=='request'||typeof m.id!=='string')return;google.script.run.withSuccessHandler(result=>send({kind:'response',id:m.id,result})).withFailureHandler(error=>send({kind:'response',id:m.id,error:error.message||'تعذر الاتصال بجدول Google'})).callParticipation(m.payload);});
+send({kind:'ready'});
+</script></body></html>
