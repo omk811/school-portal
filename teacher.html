@@ -203,6 +203,22 @@ a { text-decoration: none; color: inherit; }
 .del-btn { position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 50%; background: white; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--slate); transition: all 0.2s; }
 .del-btn:hover { background: var(--red); border-color: var(--red); color: white; }
 
+.comment-admin { border-top:3px solid var(--gold); }
+.comment-admin-item { padding:16px; margin-bottom:12px; border:1px solid var(--border); border-right:4px solid var(--blue-mid); border-radius:12px; background:#f8fafc; }
+.comment-admin-item:last-child { margin-bottom:0; }
+.comment-admin-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-bottom:8px; color:var(--slate); font-size:12px; }
+.comment-admin-meta strong { color:var(--navy); font-size:14px; }
+.comment-topic { margin-bottom:8px; color:var(--blue-mid); font-size:12px; font-weight:700; }
+.comment-admin-text { color:var(--slate); font-size:14px; line-height:1.8; white-space:pre-wrap; overflow-wrap:anywhere; }
+.comment-admin-reply { margin-top:10px; padding:10px 12px; border-right:3px solid #10b981; border-radius:8px; background:#ecfdf5; color:#065f46; font-size:13px; white-space:pre-wrap; }
+.comment-reply-box { display:flex; gap:8px; align-items:flex-end; margin-top:12px; }
+.comment-reply-box textarea { flex:1; min-height:54px; resize:vertical; padding:10px 12px; border:1px solid var(--border); border-radius:9px; font:inherit; font-size:13px; }
+.comment-reply-box button { padding:10px 14px; border-radius:9px; background:var(--navy); color:#fff; font-weight:700; white-space:nowrap; }
+.comment-reply-box button:disabled { opacity:.55; cursor:wait; }
+.comment-reply-box .comment-delete { background:#fff; color:#b42318; border:1px solid #f3c3be; }
+@media(max-width:520px){.comment-reply-box{flex-direction:column;align-items:stretch}.comment-reply-box button{width:100%}}
+
+
 /* ── Sidebar ── */
 .sticky-side { position: sticky; top: 120px; }
 .class-summary { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #f8fafc; border-radius: 10px; border: 2px solid var(--border); margin-bottom: 10px; transition: all 0.2s; }
@@ -359,6 +375,16 @@ a { text-decoration: none; color: inherit; }
             </div>
             <div id="noticesList"></div>
           </div>
+        </div>
+        <div class="card comment-admin">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-icon slate"><i class="fa fa-comments"></i></div>
+              تعليقات أولياء الأمور على الموضوعات
+            </div>
+            <span class="badge badge-class" id="commentsCount">0 تعليق</span>
+          </div>
+          <div class="card-body" id="commentsList"><div class="list-empty"><i class="fa fa-comments"></i><p>جاري تحميل التعليقات...</p></div></div>
         </div>
       </div>
 
@@ -572,6 +598,7 @@ function render() {
     document.getElementById('badge-' + c).textContent = notices.filter(n => n.cls === c || n.cls === 'all').length;
   });
   renderNotices();
+  renderComments();
   renderClassSummary();
 }
 
@@ -596,6 +623,53 @@ function renderNotices() {
       ${n.det ? `<div class="notice-det">${makeLinks(escHtml(n.det))}</div>` : ''}
       ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
     </div>`).join('');
+}
+
+function renderComments() {
+  const el = document.getElementById('commentsList');
+  const all = (appData?.queries || []).filter(q => q.noticeId !== undefined && q.noticeId !== null && q.noticeId !== '');
+  const list = all.filter(q => selectedClass === 'all' || q.cls === selectedClass).sort((a,b) => Number(b.id)-Number(a.id));
+  document.getElementById('commentsCount').textContent = `${list.length} تعليق`;
+  if (!list.length) { el.innerHTML = '<div class="list-empty"><i class="fa fa-comments"></i><p>لا توجد تعليقات لهذه الشعبة حتى الآن</p></div>'; return; }
+  el.innerHTML = list.map(q => `<article class="comment-admin-item">
+    <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(q.date || '')}</span></div>
+    <div class="comment-topic">حول: ${escHtml(q.noticeTitle || 'إعلان أو تنبيه')}</div>
+    <div class="comment-admin-text">${makeLinks(escHtml(q.msg || ''))}</div>
+    ${q.reply ? `<div class="comment-admin-reply"><strong>رد الأستاذ خليل:</strong> ${makeLinks(escHtml(q.reply))}</div>` : ''}
+    <form class="comment-reply-box" onsubmit="sendCommentReply(event,${Number(q.id)})">
+      <textarea maxlength="500" aria-label="رد الأستاذ" placeholder="اكتب ردك ليظهر أسفل التعليق">${escHtml(q.reply || '')}</textarea>
+      <button type="submit"><i class="fa fa-reply"></i> ${q.reply ? 'تحديث الرد' : 'إرسال الرد'}</button>
+      <button type="button" class="comment-delete" onclick="deleteParentComment(${Number(q.id)})"><i class="fa fa-trash"></i> حذف</button>
+    </form>
+  </article>`).join('');
+}
+
+async function sendCommentReply(event, id) {
+  event.preventDefault();
+  const form = event.currentTarget, textarea = form.querySelector('textarea'), reply = textarea.value.trim(), q = appData?.queries?.find(item => Number(item.id) === Number(id));
+  if (!q || !reply) { toast('⚠️ اكتب الرد أولاً', 'warn'); return; }
+  const oldReply = q.reply || '', oldStatus = q.status, button = form.querySelector('button[type="submit"]');
+  button.disabled = true; q.reply = reply; q.status = 'replied'; saveCache(appData);
+  try {
+    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'updateQuery', id:String(id), status:'replied', reply }) });
+    if (!response.ok) throw new Error('تعذر حفظ الرد');
+    renderComments(); toast('✅ ظهر ردك تحت الموضوع');
+  } catch {
+    q.reply = oldReply; q.status = oldStatus; saveCache(appData); renderComments(); toast('⚠️ تعذر حفظ الرد. حدّث البيانات وحاول مجدداً', 'warn');
+  }
+}
+
+async function deleteParentComment(id) {
+  if (!confirm('هل تريد حذف هذا التعليق؟')) return;
+  const old = appData.queries.slice();
+  appData.queries = appData.queries.filter(q => Number(q.id) !== Number(id)); saveCache(appData); renderComments();
+  try {
+    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'deleteQuery', id:String(id) }) });
+    if (!response.ok) throw new Error('تعذر حذف التعليق');
+    toast('🗑 تم حذف التعليق', 'warn');
+  } catch {
+    appData.queries = old; saveCache(appData); renderComments(); toast('⚠️ تعذر حذف التعليق. حدّث البيانات وحاول مجدداً', 'warn');
+  }
 }
 
 function renderClassSummary() {
