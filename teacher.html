@@ -216,6 +216,10 @@ a { text-decoration: none; color: inherit; }
 .comment-reply-box button { padding:10px 14px; border-radius:9px; background:var(--navy); color:#fff; font-weight:700; white-space:nowrap; }
 .comment-reply-box button:disabled { opacity:.55; cursor:wait; }
 .comment-reply-box .comment-delete { background:#fff; color:#b42318; border:1px solid #f3c3be; }
+.comment-link-form { display:flex; gap:8px; margin:10px 0; }
+.comment-link-form select { flex:1; min-width:0; padding:9px; border:1px solid var(--border); border-radius:8px; font:inherit; }
+.comment-link-form button { padding:9px 12px; border-radius:8px; background:#0c665c; color:white; font-weight:700; }
+@media(max-width:520px){.comment-link-form{flex-direction:column}.comment-link-form button{width:100%}}
 @media(max-width:520px){.comment-reply-box{flex-direction:column;align-items:stretch}.comment-reply-box button{width:100%}}
 
 
@@ -504,6 +508,7 @@ function makeLinks(t) {
     return `<a href="${h}" target="_blank" rel="noopener" class="text-link">${u}</a>`;
   });
 }
+function hydrateNoticeComments(d) { if(!d||!Array.isArray(d.queries)) return d; for(const q of d.queries){ if(q.noticeId!==undefined&&q.noticeId!==null) continue; const m=String(q.student||'').match(/^@post:(\d+)$/); if(m){ q.noticeId=m[1]; q.noticeTitle=(d.notices||[]).find(n=>String(n.id)===m[1])?.title||''; } } return d; }
 function escHtml(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -538,7 +543,7 @@ async function handleLogin(e) {
 function loginSuccess(data, fromCache = false) {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appShell').classList.add('show');
-  if (data) { appData = data; saveCache(data); }
+  if (data) { appData = hydrateNoticeComments(data); saveCache(appData); }
   render();
   if (fromCache) toast('⚠️ يعمل بنسخة محفوظة', 'warn');
 }
@@ -554,7 +559,7 @@ function handleLogout() {
 async function fetchData() {
   const res = await fetch(`${API}?action=loadData&t=${Date.now()}`);
   const j = await res.json();
-  if (j.status === 'success' && j.data) return j.data;
+  if (j.status === 'success' && j.data) return hydrateNoticeComments(j.data);
   throw new Error('no data');
 }
 function saveCache(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch {} }
@@ -627,13 +632,14 @@ function renderNotices() {
 
 function renderComments() {
   const el = document.getElementById('commentsList');
-  const all = (appData?.queries || []).filter(q => q.noticeId !== undefined && q.noticeId !== null && q.noticeId !== '');
+  const all = appData?.queries || [];
   const list = all.filter(q => selectedClass === 'all' || q.cls === selectedClass).sort((a,b) => Number(b.id)-Number(a.id));
   document.getElementById('commentsCount').textContent = `${list.length} تعليق`;
   if (!list.length) { el.innerHTML = '<div class="list-empty"><i class="fa fa-comments"></i><p>لا توجد تعليقات لهذه الشعبة حتى الآن</p></div>'; return; }
   el.innerHTML = list.map(q => `<article class="comment-admin-item">
     <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(q.date || '')}</span></div>
-    <div class="comment-topic">حول: ${escHtml(q.noticeTitle || 'إعلان أو تنبيه')}</div>
+    <div class="comment-topic">حول: ${escHtml(q.noticeTitle || 'تعليق سابق غير مرتبط بموضوع')}</div>
+    ${q.noticeId ? '' : `<form class="comment-link-form" onsubmit="linkCommentToNotice(event,${Number(q.id)})"><select required aria-label="اختر الموضوع"><option value="">اربط التعليق بموضوع</option>${(appData.notices||[]).map(n=>`<option value="${Number(n.id)}">${escHtml(n.title||'موضوع')}</option>`).join('')}</select><button type="submit">ربط التعليق</button></form>`}
     <div class="comment-admin-text">${makeLinks(escHtml(q.msg || ''))}</div>
     ${q.reply ? `<div class="comment-admin-reply"><strong>رد الأستاذ خليل:</strong> ${makeLinks(escHtml(q.reply))}</div>` : ''}
     <form class="comment-reply-box" onsubmit="sendCommentReply(event,${Number(q.id)})">
@@ -657,6 +663,15 @@ async function sendCommentReply(event, id) {
   } catch {
     q.reply = oldReply; q.status = oldStatus; saveCache(appData); renderComments(); toast('⚠️ تعذر حفظ الرد. حدّث البيانات وحاول مجدداً', 'warn');
   }
+}
+
+async function linkCommentToNotice(event,id) {
+  event.preventDefault(); const form=event.currentTarget, noticeId=form.querySelector('select').value, q=appData?.queries?.find(item=>Number(item.id)===Number(id));
+  const notice=(appData?.notices||[]).find(item=>String(item.id)===String(noticeId)); if(!q||!notice)return;
+  const oldStudent=q.student||'', oldNoticeId=q.noticeId; q.student='@post:'+noticeId; q.noticeId=String(noticeId); q.noticeTitle=notice.title||'';
+  const button=form.querySelector('button'); button.disabled=true;
+  try { const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(appData.queries)})}); if(!response.ok)throw new Error('تعذر الحفظ'); saveCache(appData); renderComments(); toast('✅ تم ربط التعليق بالموضوع'); }
+  catch { q.student=oldStudent; if(oldNoticeId===undefined)delete q.noticeId;else q.noticeId=oldNoticeId; delete q.noticeTitle; button.disabled=false; toast('⚠️ تعذر ربط التعليق. حاول مجدداً','warn'); }
 }
 
 async function deleteParentComment(id) {
