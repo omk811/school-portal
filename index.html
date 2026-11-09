@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -73,7 +73,7 @@
   --r-sm:   6px;
   --tr: 0.22s ease;
   --tr-slow: 0.4s cubic-bezier(0.16,1,0.3,1);
-  --f: 'Cairo', sans-serif;
+  --f: 'Noto Sans Arabic', 'Cairo', Tahoma, sans-serif;
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
@@ -86,7 +86,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.75;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   position: relative;
 }
@@ -139,7 +140,7 @@ header::after {
     repeating-linear-gradient(-45deg, transparent, transparent 28px, rgba(10,122,109,0.015) 28px, rgba(10,122,109,0.015) 29px);
 }
 
-.header-inner { max-width: 1160px; margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
+.header-inner { max-width: 1600px; width: calc(100% - 48px); margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
 
 .header-top {
   display: flex; align-items: center;
@@ -234,7 +235,7 @@ header::after {
 .tabs-sep { width: 1px; align-self: stretch; margin: 2px 4px; background: rgba(200,145,58,0.12); flex-shrink: 0; }
 
 .page-wrap {
-  max-width: 1160px; margin: 0 auto; padding: 26px 22px 110px;
+  max-width: 1600px; width: calc(100% - 48px); margin: 0 auto; padding: 26px 0 110px;
   display: grid; grid-template-columns: 1fr 300px; gap: 24px;
   align-items: start; position: relative; z-index: 1;
 }
@@ -319,7 +320,7 @@ header::after {
 
 .notice-title {
   font-family: var(--f);
-  font-size: clamp(1.05rem, 2.8vw, 1.18rem);
+  font-size: clamp(1.18rem, 1.2vw + 0.8rem, 1.35rem);
   font-weight: 700;
   color: var(--text-main);
   margin-bottom: 7px;
@@ -328,10 +329,10 @@ header::after {
 
 .notice-det {
   font-family: var(--f);
-  font-size: clamp(0.87rem, 2.3vw, 0.96rem);
-  color: var(--text-sub); line-height: 1.85;
+  font-size: clamp(1rem, 0.35vw + 0.92rem, 1.08rem);
+  color: #493f31; line-height: 1.95;
   white-space: pre-wrap; word-break: break-word;
-  font-weight: 400; flex: 1;
+  font-weight: 500; flex: 1;
 }
 
 .notice-img { width: 100%; max-height: 340px; object-fit: cover; border-radius: var(--r-md); margin-top: 14px; cursor: zoom-in; transition: var(--tr); border: 1px solid var(--border); }
@@ -469,8 +470,8 @@ html {
 
 body {
   min-height: 100dvh;
-  font-size: clamp(15px, 0.25vw + 14px, 16px);
-  line-height: 1.85;
+  font-size: clamp(16px, 0.25vw + 15px, 17px);
+  line-height: 1.9;
   text-rendering: optimizeLegibility;
   -webkit-tap-highlight-color: transparent;
 }
@@ -502,10 +503,10 @@ img { max-width: 100%; height: auto; }
 /* الأجهزة اللوحية والشاشات المتوسطة */
 @media (max-width: 1024px) {
   .header-inner { padding-inline: 18px; }
-  .page-wrap { gap: 18px; padding-inline: 18px; }
+  .page-wrap { width: calc(100% - 36px); gap: 18px; padding-inline: 0; }
   .right-rail { width: 100%; }
-  .notice-title { font-size: 1.08rem; }
-  .notice-det { font-size: 0.95rem; }
+  .notice-title { font-size: 1.2rem; }
+  .notice-det { font-size: 1rem; }
 }
 
 /* الهواتف والأجهزة اللوحية الصغيرة */
@@ -668,13 +669,13 @@ img { max-width: 100%; height: auto; }
   .author-date { font-size: 0.68rem; line-height: 1.5; }
 
   .notice-title {
-    font-size: clamp(1rem, 4.2vw, 1.14rem);
+    font-size: clamp(1.08rem, 4.2vw, 1.22rem);
     line-height: 1.75;
     margin-bottom: 8px;
   }
 
   .notice-det {
-    font-size: clamp(0.91rem, 3.65vw, 1rem);
+    font-size: clamp(1rem, 3.7vw, 1.08rem);
     line-height: 2;
     letter-spacing: 0;
   }
@@ -785,8 +786,8 @@ img { max-width: 100%; height: auto; }
   .notice-item { padding-inline: 12px; }
   .author-avatar { width: 36px; height: 36px; min-width: 36px; font-size: 17px; }
   .author-name { font-size: 0.78rem; }
-  .notice-title { font-size: 0.98rem; }
-  .notice-det { font-size: 0.9rem; line-height: 1.95; }
+  .notice-title { font-size: 1.04rem; }
+  .notice-det { font-size: 0.98rem; line-height: 1.95; }
   .action-btn { font-size: 0.75rem; }
 }
 
