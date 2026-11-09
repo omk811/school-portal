@@ -509,6 +509,24 @@ function makeLinks(t) {
   });
 }
 function hydrateNoticeComments(d) { if(!d||!Array.isArray(d.queries)) return d; for(const q of d.queries){ if(q.noticeId!==undefined&&q.noticeId!==null) continue; const m=String(q.student||'').match(/^@post:(\d+)$/); if(m){ q.noticeId=m[1]; q.noticeTitle=(d.notices||[]).find(n=>String(n.id)===m[1])?.title||''; } } return d; }
+function displayNoticeTitle(value){
+  let title=String(value??'').replace(/^\u200B/,'');
+  if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(title)){
+    const date=new Date(title);
+    if(!Number.isNaN(date.getTime())) title=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Muscat',day:'2-digit',month:'2-digit',year:'numeric'}).format(date);
+  }
+  return title;
+}
+function protectNoticeTitle(value){
+  let title=String(value??'').trim();
+  if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(title)) title=displayNoticeTitle(title);
+  if(/^\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4}(?:\s+\d{1,2}:\d{2})?$/.test(title)&&!title.startsWith('\u200B')) title='\u200B'+title;
+  return title;
+}
+function normalizeNoticeTitles(data){
+  if(data&&Array.isArray(data.notices)) data.notices.forEach(n=>{n.title=protectNoticeTitle(n.title);});
+  return data;
+}
 function escHtml(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -543,7 +561,7 @@ async function handleLogin(e) {
 function loginSuccess(data, fromCache = false) {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appShell').classList.add('show');
-  if (data) { appData = hydrateNoticeComments(data); saveCache(appData); }
+  if (data) { appData = normalizeNoticeTitles(hydrateNoticeComments(data)); saveCache(appData); }
   render();
   if (fromCache) toast('⚠️ يعمل بنسخة محفوظة', 'warn');
 }
@@ -559,7 +577,7 @@ function handleLogout() {
 async function fetchData() {
   const res = await fetch(`${API}?action=loadData&t=${Date.now()}`);
   const j = await res.json();
-  if (j.status === 'success' && j.data) return hydrateNoticeComments(j.data);
+  if (j.status === 'success' && j.data) return hydrateNoticeComments(normalizeNoticeTitles(j.data));
   throw new Error('no data');
 }
 function saveCache(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch {} }
@@ -624,7 +642,7 @@ function renderNotices() {
         </div>
         <span class="notice-date">${n.date || ''}</span>
       </div>
-      <div class="notice-title">${escHtml(n.title)}</div>
+      <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
       ${n.det ? `<div class="notice-det">${makeLinks(escHtml(n.det))}</div>` : ''}
       ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
     </div>`).join('');
@@ -638,7 +656,7 @@ function renderComments() {
   if (!list.length) { el.innerHTML = '<div class="list-empty"><i class="fa fa-comments"></i><p>لا توجد تعليقات لهذه الشعبة حتى الآن</p></div>'; return; }
   el.innerHTML = list.map(q => `<article class="comment-admin-item">
     <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(q.date || '')}</span></div>
-    <div class="comment-topic">حول: ${escHtml(q.noticeTitle || 'تعليق سابق غير مرتبط بموضوع')}</div>
+    <div class="comment-topic">حول: ${escHtml(displayNoticeTitle(q.noticeTitle) || 'تعليق سابق غير مرتبط بموضوع')}</div>
     ${q.noticeId ? '' : `<form class="comment-link-form" onsubmit="linkCommentToNotice(event,${Number(q.id)})"><select required aria-label="اختر الموضوع"><option value="">اربط التعليق بموضوع</option>${(appData.notices||[]).map(n=>`<option value="${Number(n.id)}">${escHtml(n.title||'موضوع')}</option>`).join('')}</select><button type="submit">ربط التعليق</button></form>`}
     <div class="comment-admin-text">${makeLinks(escHtml(q.msg || ''))}</div>
     ${q.reply ? `<div class="comment-admin-reply"><strong>رد الأستاذ خليل:</strong> ${makeLinks(escHtml(q.reply))}</div>` : ''}
@@ -735,7 +753,7 @@ async function saveNotice() {
     id:    (appData?.nId || 0) + 1,
     type:  document.getElementById('m-type').value,
     cls:   document.getElementById('m-class').value,
-    title, det: document.getElementById('m-det').value.trim() || undefined,
+    title: protectNoticeTitle(title), det: document.getElementById('m-det').value.trim() || undefined,
     img:   imgBase64 || undefined,
     date:  now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM', {hour:'2-digit',minute:'2-digit'})
   };
