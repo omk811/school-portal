@@ -1093,17 +1093,47 @@ async function loadData(){try{const ctrl=new AbortController();const tid=setTime
 
 async function render(){const d=await loadData();renderTicker(d);renderNotices(d);updateBadges(d);updateStats(d);}
 
+let tickerFrame=0,tickerDistance=0,tickerOffset=0,tickerPrevious=0;
+function stopTickerMotion(){if(tickerFrame)cancelAnimationFrame(tickerFrame);tickerFrame=0;tickerPrevious=0;}
+function tickerMotionFrame(now){
+  const card=document.getElementById('featuredTicker'),track=document.getElementById('tickerTrack');
+  if(!card||!track||card.hidden||!tickerDistance||card.classList.contains('ticker-paused')){stopTickerMotion();return;}
+  if(!document.hidden&&tickerPrevious){tickerOffset=(tickerOffset+Math.min(now-tickerPrevious,100)*0.045)%tickerDistance;}
+  tickerPrevious=now;
+  track.style.transform=`translate3d(${tickerOffset-tickerDistance}px,0,0)`;
+  tickerFrame=requestAnimationFrame(tickerMotionFrame);
+}
+function startTickerMotion(reset=false){
+  const card=document.getElementById('featuredTicker'),track=document.getElementById('tickerTrack');
+  if(!card||!track||card.hidden)return;
+  stopTickerMotion();
+  const copy=track.querySelector('.ticker-copy:not([aria-hidden="true"])')||track.querySelector('.ticker-copy');
+  if(!copy)return;
+  const width=copy.getBoundingClientRect().width;
+  if(width<=0)return;
+  tickerDistance=width;
+  if(reset)tickerOffset=0;else tickerOffset%=tickerDistance;
+  track.style.animation='none';
+  track.style.width='max-content';
+  track.style.willChange='transform';
+  track.style.transform=`translate3d(${tickerOffset-tickerDistance}px,0,0)`;
+  if(!card.classList.contains('ticker-paused')&&!document.hidden) tickerFrame=requestAnimationFrame(tickerMotionFrame);
+}
+window.addEventListener('resize',()=>startTickerMotion(true),{passive:true});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)startTickerMotion(false);else stopTickerMotion();});
+
 function renderTicker(d){
   const card=document.getElementById('featuredTicker'),track=document.getElementById('tickerTrack');
   if(!card||!track)return;
   const n=(d.notices||[]).find(hasBannerMarker);
-  if(!n||(curClass!=='all'&&n.cls!=='all'&&n.cls!==curClass)){card.hidden=true;return;}
+  if(!n||(curClass!=='all'&&n.cls!=='all'&&n.cls!==curClass)){card.hidden=true;stopTickerMotion();return;}
   const t=TN[n.type]||{label:'منشور',icon:'📌'};
   const detail=stripBannerMarker(n.det);
   const message=[t.label,displayNoticeTitle(n.title),CN[n.cls]||n.cls,detail].filter(Boolean).join('  •  ');
   const safe=escapeHtml(message);
   track.innerHTML='<span class="ticker-copy">'+safe+'</span><span class="ticker-copy" aria-hidden="true">'+safe+'</span>';
   card.hidden=false;
+  requestAnimationFrame(()=>startTickerMotion(true));
 }
 
 function renderNotices(d){const list=(d.notices||[]).filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));const commentsByNotice=new Map();(d.queries||[]).forEach(q=>{const key=String(q.noticeId??'');if(!key)return;if(!commentsByNotice.has(key))commentsByNotice.set(key,[]);commentsByNotice.get(key).push(q);});const el=document.getElementById('nList');if(!list.length){el.innerHTML=`<div class="empty-state"><span class="e-icon">📭</span><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;return;}el.innerHTML=list.map((n,i)=>{const storeId='n_'+(n.id||i), noticeId=String(n.id||i);noticeStore[storeId]={title:displayNoticeTitle(n.title)||'',det:stripBannerMarker(n.det),img:n.img||''};const t=TN[n.type]||{label:n.type||'تحديث',icon:'📌',cls:'hw'};const comments=commentsByNotice.get(noticeId)||[];return`<div class="notice-item type-${escapeHtml(n.type||'homework')}" style="animation-delay:${i*0.04}s" id="${storeId}" data-type-glyph="${t.icon}"><div class="notice-author"><div class="author-avatar ${t.cls}">${t.icon}</div><div class="author-meta"><div class="author-name">الأستاذ خليل البلوشي <span class="type-badge ${escapeHtml(n.type)}">${t.label}</span><span class="cls-badge">${escapeHtml(CN[n.cls]||n.cls||'')}</span></div><div class="author-date">${escapeHtml(n.date||'')}</div></div></div><div class="notice-title">${escapeHtml(displayNoticeTitle(n.title)||'')}</div><div class="notice-det">${makeLinks(stripBannerMarker(n.det))}</div>${n.img?`<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">`:''}<div class="notice-actions"><button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button><button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button></div><section class="comment-area" aria-label="التعليقات على ${escapeHtml(displayNoticeTitle(n.title)||'الإعلان')}"><div class="comment-head"><span><i class="fa fa-comments"></i> مساحة الحوار حول الموضوع</span><span class="comment-count">${comments.length} تعليق</span></div><div class="comment-list">${comments.length?comments.map(q=>`<article class="comment-card"><div class="comment-meta"><strong>${escapeHtml(q.name||'ولي أمر')}</strong><span>· ${escapeHtml(CN[q.cls]||q.cls||'')}</span><span>· ${escapeHtml(q.date||'')}</span></div><div class="comment-text">${makeLinks(q.msg||'')}</div>${q.reply?`<div class="comment-reply"><span class="comment-reply-label">رد الأستاذ خليل</span><div class="comment-text">${makeLinks(q.reply)}</div></div>`:''}</article>`).join(''):`<div class="comment-empty">كن أول من يشارك برأيه أو استفساره حول هذا الموضوع.</div>`}</div><form class="comment-form" data-notice-id="${escapeHtml(noticeId)}"><input class="field-input" name="parentName" maxlength="60" placeholder="اسم ولي الأمر" aria-label="اسم ولي الأمر" required><select class="field-input" name="parentClass" aria-label="الشعبة" required><option value="">اختر الشعبة</option><option value="5A">الخامس ١</option><option value="5B">الخامس ٢</option><option value="5C">الخامس ٣</option></select><textarea class="field-input" name="parentMessage" maxlength="500" placeholder="اكتب تعليقك أو استفسارك حول الموضوع…" aria-label="التعليق" required></textarea><button class="comment-send" type="submit"><i class="fa fa-paper-plane"></i> إرسال التعليق</button><small class="comment-note">تعليقاتك يراها أولياء الأمور والمعلم. لا تكتب بيانات الطالب الشخصية.</small></form></section></div>`;}).join('');}
@@ -1122,6 +1152,7 @@ function shareNotice(storeId){const item=noticeStore[storeId];if(!item)return sh
 document.addEventListener('click',e=>{
   const toggle=e.target.closest('#tickerToggle');if(!toggle)return;
   const card=document.getElementById('featuredTicker'),paused=card.classList.toggle('ticker-paused');
+  if(paused)stopTickerMotion();else startTickerMotion(false);
   toggle.setAttribute('aria-pressed',String(paused));
   toggle.setAttribute('aria-label',paused?'استئناف حركة الشريط':'إيقاف حركة الشريط');
   toggle.title=paused?'استئناف الحركة':'إيقاف الحركة';
