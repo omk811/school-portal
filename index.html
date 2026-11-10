@@ -248,7 +248,7 @@ header::after {
 .ticker-track { display:flex; width:max-content; animation:ticker-flow 28s linear infinite; }
 .ticker-card:hover .ticker-track,.ticker-card:focus-within .ticker-track,.ticker-card.ticker-paused .ticker-track { animation-play-state:paused; }
 .ticker-copy { flex:0 0 auto; padding-inline:30px; color:var(--text-main); font-size:1rem; font-weight:700; line-height:1.7; white-space:nowrap; direction:rtl; }
-@keyframes ticker-flow { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@keyframes ticker-flow { from { transform:translateX(-50%); } to { transform:translateX(0); } }
 .ticker-toggle { flex:0 0 auto; width:38px; height:38px; border:1px solid var(--border); border-radius:50%; background:#fff; color:var(--teal-deep); cursor:pointer; }
 @media(max-width:700px) {
   .ticker-card { gap:8px; margin:0 12px 12px; padding:9px; border-radius:12px; }
