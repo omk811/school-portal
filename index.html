@@ -256,12 +256,6 @@ header::after {
   .ticker-copy { padding-inline:22px; font-size:.94rem; }
   .ticker-toggle { width:36px; height:36px; }
 }
-@media(prefers-reduced-motion:reduce) {
-  .ticker-track { animation:none; width:100%; }
-  .ticker-copy[aria-hidden="true"] { display:none; }
-  .ticker-copy { white-space:normal; }
-}
-
 /* Keep the announcement ticker inside its own fixed-size viewport. */
 #featuredTicker {
   width:100%;
@@ -304,17 +298,7 @@ header::after {
   #featuredTicker .ticker-window { height:1.7em; }
   #featuredTicker .ticker-copy { font-size:.94rem; }
 }
-@media(prefers-reduced-motion:reduce) {
-  #featuredTicker .ticker-track { display:block; width:100%; transform:none !important; }
-  #featuredTicker .ticker-copy:not([aria-hidden="true"]) {
-    display:block;
-    max-width:100%;
-    padding-inline:8px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-}
+
 
 
 .welcome-card {
