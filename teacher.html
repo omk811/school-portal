@@ -388,10 +388,9 @@ a { text-decoration: none; color: inherit; }
               <button class="banner-save-btn" id="bannerSaveBtn" type="button" onclick="saveBannerSelection()"><i class="fa fa-bullhorn"></i> حفظ اختيار الشريط</button>
             </div>
             <div class="banner-preview" id="bannerPreview" aria-live="polite"></div>
-            <p style="margin-top:9px;color:var(--slate);font-size:12px">يظهر المنشور المختار في شريط أعلى ملاحظات أولياء الأمور. اختر «إيقاف الشريط» لإخفائه.</p>
+            <p style="margin-top:9px;color:var(--slate);font-size:12px">يظهر المنشور المختار في أعلى صفحة أولياء الأمور. اختر «إيقاف الشريط» لإخفائه.</p>
           </div>
         </div>
-        
         <div class="card">
           <div class="card-head">
             <div class="card-title">
@@ -557,7 +556,11 @@ function protectNoticeTitle(value){
   return title;
 }
 function stripBannerMarker(value){
-  return String(value??'').replace(new RegExp('\\s*'+BANNER_MARKER+'\\s*
+  const text=String(value??''),at=text.lastIndexOf(BANNER_MARKER);
+  return (at<0?text:text.slice(0,at)).trimEnd();
+}
+function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
+function normalizeNoticeTitles(data){
   if(data&&Array.isArray(data.notices)) data.notices.forEach(n=>{n.title=protectNoticeTitle(n.title);});
   return data;
 }
@@ -703,7 +706,7 @@ async function saveBannerSelection(){
   const selectedId=select.value,oldNotices=appData.notices.map(n=>({...n}));
   appData.notices=appData.notices.map(n=>{
     const details=stripBannerMarker(n.det);
-    const det=String(n.id)===selectedId?(details?details+'\\n':'')+BANNER_MARKER:details;
+    const det=String(n.id)===selectedId?(details?details+'\n':'')+BANNER_MARKER:details;
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
@@ -715,287 +718,6 @@ async function saveBannerSelection(){
   }catch{
     appData.notices=oldNotices;saveCache(appData);render();toast('⚠️ تعذر حفظ اختيار الشريط','warn');
   }finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-bullhorn"></i> حفظ اختيار الشريط';}
-}
-
-function renderComments() {
-  const el = document.getElementById('commentsList');
-  const all = appData?.queries || [];
-  const list = all.filter(q => selectedClass === 'all' || q.cls === selectedClass).sort((a,b) => Number(b.id)-Number(a.id));
-  document.getElementById('commentsCount').textContent = `${list.length} تعليق`;
-  if (!list.length) { el.innerHTML = '<div class="list-empty"><i class="fa fa-comments"></i><p>لا توجد تعليقات لهذه الشعبة حتى الآن</p></div>'; return; }
-  el.innerHTML = list.map(q => `<article class="comment-admin-item">
-    <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(q.date || '')}</span></div>
-    <div class="comment-topic">حول: ${escHtml(displayNoticeTitle(q.noticeTitle) || 'تعليق سابق غير مرتبط بموضوع')}</div>
-    ${q.noticeId ? '' : `<form class="comment-link-form" onsubmit="linkCommentToNotice(event,${Number(q.id)})"><select required aria-label="اختر الموضوع"><option value="">اربط التعليق بموضوع</option>${(appData.notices||[]).map(n=>`<option value="${Number(n.id)}">${escHtml(n.title||'موضوع')}</option>`).join('')}</select><button type="submit">ربط التعليق</button></form>`}
-    <div class="comment-admin-text">${makeLinks(escHtml(q.msg || ''))}</div>
-    ${q.reply ? `<div class="comment-admin-reply"><strong>رد الأستاذ خليل:</strong> ${makeLinks(escHtml(q.reply))}</div>` : ''}
-    <form class="comment-reply-box" onsubmit="sendCommentReply(event,${Number(q.id)})">
-      <textarea maxlength="500" aria-label="رد الأستاذ" placeholder="اكتب ردك ليظهر أسفل التعليق">${escHtml(q.reply || '')}</textarea>
-      <button type="submit"><i class="fa fa-reply"></i> ${q.reply ? 'تحديث الرد' : 'إرسال الرد'}</button>
-      <button type="button" class="comment-delete" onclick="deleteParentComment(${Number(q.id)})"><i class="fa fa-trash"></i> حذف</button>
-    </form>
-  </article>`).join('');
-}
-
-async function sendCommentReply(event, id) {
-  event.preventDefault();
-  const form = event.currentTarget, textarea = form.querySelector('textarea'), reply = textarea.value.trim(), q = appData?.queries?.find(item => Number(item.id) === Number(id));
-  if (!q || !reply) { toast('⚠️ اكتب الرد أولاً', 'warn'); return; }
-  const oldReply = q.reply || '', oldStatus = q.status, button = form.querySelector('button[type="submit"]');
-  button.disabled = true; q.reply = reply; q.status = 'replied'; saveCache(appData);
-  try {
-    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'updateQuery', id:String(id), status:'replied', reply }) });
-    if (!response.ok) throw new Error('تعذر حفظ الرد');
-    renderComments(); toast('✅ ظهر ردك تحت الموضوع');
-  } catch {
-    q.reply = oldReply; q.status = oldStatus; saveCache(appData); renderComments(); toast('⚠️ تعذر حفظ الرد. حدّث البيانات وحاول مجدداً', 'warn');
-  }
-}
-
-async function linkCommentToNotice(event,id) {
-  event.preventDefault(); const form=event.currentTarget, noticeId=form.querySelector('select').value, q=appData?.queries?.find(item=>Number(item.id)===Number(id));
-  const notice=(appData?.notices||[]).find(item=>String(item.id)===String(noticeId)); if(!q||!notice)return;
-  const oldStudent=q.student||'', oldNoticeId=q.noticeId; q.student='@post:'+noticeId; q.noticeId=String(noticeId); q.noticeTitle=notice.title||'';
-  const button=form.querySelector('button'); button.disabled=true;
-  try { const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(appData.queries)})}); if(!response.ok)throw new Error('تعذر الحفظ'); saveCache(appData); renderComments(); toast('✅ تم ربط التعليق بالموضوع'); }
-  catch { q.student=oldStudent; if(oldNoticeId===undefined)delete q.noticeId;else q.noticeId=oldNoticeId; delete q.noticeTitle; button.disabled=false; toast('⚠️ تعذر ربط التعليق. حاول مجدداً','warn'); }
-}
-
-async function deleteParentComment(id) {
-  if (!confirm('هل تريد حذف هذا التعليق؟')) return;
-  const old = appData.queries.slice();
-  appData.queries = appData.queries.filter(q => Number(q.id) !== Number(id)); saveCache(appData); renderComments();
-  try {
-    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'deleteQuery', id:String(id) }) });
-    if (!response.ok) throw new Error('تعذر حذف التعليق');
-    toast('🗑 تم حذف التعليق', 'warn');
-  } catch {
-    appData.queries = old; saveCache(appData); renderComments(); toast('⚠️ تعذر حذف التعليق. حدّث البيانات وحاول مجدداً', 'warn');
-  }
-}
-
-function renderClassSummary() {
-  document.getElementById('classSummary').innerHTML = ['5A','5B','5C'].map(c => {
-    const cnt = (appData.notices || []).filter(n => n.cls === c || n.cls === 'all').length;
-    return `<div class="class-summary"><span class="cls-name">${CLASS_NAMES[c]}</span><span class="cls-count">📌 ${cnt}</span></div>`;
-  }).join('');
-}
-
-// ── Modal ──
-function openModal() {
-  document.getElementById('modalOverlay').classList.add('open');
-  ['m-title','m-det'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('m-img').value = '';
-  document.getElementById('previewImg').className = 'preview-img';
-  imgBase64 = '';
-}
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-
-function handleImg(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const MAX = 600; let w = img.width, h = img.height;
-      if (w > MAX) { h = Math.round(h*MAX/w); w = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      imgBase64 = canvas.toDataURL('image/jpeg', 0.6);
-      const p = document.getElementById('previewImg');
-      p.src = imgBase64; p.className = 'preview-img show';
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-async function saveNotice() {
-  const title = document.getElementById('m-title').value.trim();
-  if (!title) { toast('⚠️ أدخل عنوان الملاحظة', 'warn'); return; }
-  const btn = document.getElementById('mSaveBtn');
-  btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> جاري الحفظ...';
-  const now = new Date();
-  const n = {
-    id:    (appData?.nId || 0) + 1,
-    type:  document.getElementById('m-type').value,
-    cls:   document.getElementById('m-class').value,
-    title: protectNoticeTitle(title), det: document.getElementById('m-det').value.trim() || undefined,
-    img:   imgBase64 || undefined,
-    date:  now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM', {hour:'2-digit',minute:'2-digit'})
-  };
-  if (!appData) appData = { notices:[], nId:0 };
-  appData.nId = n.id; appData.notices.unshift(n);
-  saveCache(appData); render(); closeModal(); toast('✅ تمت الإضافة بنجاح');
-  postBg('saveNotices', { data: JSON.stringify(appData.notices) });
-  btn.disabled = false; btn.innerHTML = '<i class="fa fa-check-circle"></i> حفظ ونشر الملاحظة';
-}
-
-async function deleteNotice(id) {
-  if (!confirm('هل تريد حذف هذه الملاحظة؟')) return;
-  appData.notices = appData.notices.filter(n => n.id !== id);
-  saveCache(appData); render(); toast('🗑 تم الحذف', 'warn');
-  postBg('deleteNotice', { id });
-}
-
-// ── Settings ──
-function savePassword() {
-  const p1 = document.getElementById('newPwd1').value;
-  const p2 = document.getElementById('newPwd2').value;
-  if (!p1) { toast('⚠️ أدخل كلمة المرور', 'warn'); return; }
-  if (p1 !== p2) { toast('⚠️ كلمتا المرور غير متطابقتين', 'warn'); return; }
-  localStorage.setItem(PWD_KEY, p1);
-  if (appData) { appData.settings = { ...(appData.settings||{}), password: p1 }; saveCache(appData); }
-  document.getElementById('newPwd1').value = '';
-  document.getElementById('newPwd2').value = '';
-  toast('✅ تم تغيير كلمة المرور');
-}
-
-// ── Background POST ──
-function postBg(action, params) {
-  const fd = new FormData(); fd.append('action', action);
-  Object.entries(params).forEach(([k,v]) => fd.append(k, typeof v==='object'?JSON.stringify(v):String(v)));
-  fetch(API, { method:'POST', body: fd }).catch(()=>{});
-}
-
-// ── Init ──
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => document.getElementById('splash').classList.add('hidden'), 2200);
-  setInterval(() => { if (appData) document.getElementById('dateText').textContent = formatDate(new Date()); }, 60000);
-  const cached = loadCache();
-  if (cached) appData = cached;
-});
-</script>
-</body>
-</html>
-),'').trimEnd();
-}
-function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
-function normalizeNoticeTitles(data){
-  if(data&&Array.isArray(data.notices)) data.notices.forEach(n=>{n.title=protectNoticeTitle(n.title);});
-  return data;
-}
-function escHtml(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Auth ──
-function toggleEye() {
-  const inp = document.getElementById('pwdInput'), ico = document.getElementById('eyeIcon');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-  ico.className = inp.type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash';
-}
-
-async function handleLogin(e) {
-  e.preventDefault();
-  const pwd = document.getElementById('pwdInput').value;
-  const btn = document.getElementById('loginBtn'), err = document.getElementById('loginError');
-  btn.disabled = true; btn.textContent = 'جاري التحقق...'; err.className = 'login-error';
-  try {
-    const data = await fetchData();
-    const sp = (data?.settings?.password) || getPassword();
-    if (pwd === sp) { loginSuccess(data); }
-    else { err.textContent = '⚠️ كلمة المرور غير صحيحة'; err.className = 'login-error show'; }
-  } catch {
-    const cached = loadCache();
-    const sp = (cached?.settings?.password) || getPassword();
-    if (pwd === sp) { loginSuccess(cached, true); }
-    else { err.textContent = '⚠️ كلمة المرور غير صحيحة'; err.className = 'login-error show'; }
-  }
-  btn.disabled = false; btn.textContent = 'دخول اللوحة';
-}
-
-function loginSuccess(data, fromCache = false) {
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('appShell').classList.add('show');
-  if (data) { appData = normalizeNoticeTitles(hydrateNoticeComments(data)); saveCache(appData); }
-  render();
-  if (fromCache) toast('⚠️ يعمل بنسخة محفوظة', 'warn');
-}
-
-function handleLogout() {
-  document.getElementById('appShell').classList.remove('show');
-  document.getElementById('loginScreen').classList.remove('hidden');
-  document.getElementById('pwdInput').value = '';
-  appData = null;
-}
-
-// ── Data ──
-async function fetchData() {
-  const res = await fetch(`${API}?action=loadData&t=${Date.now()}`);
-  const j = await res.json();
-  if (j.status === 'success' && j.data) return hydrateNoticeComments(normalizeNoticeTitles(j.data));
-  throw new Error('no data');
-}
-function saveCache(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch {} }
-function loadCache() { try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; } }
-
-async function handleRefresh() {
-  const ico = document.getElementById('refreshIcon');
-  ico.classList.add('spinning'); showLoad();
-  try { const d = await fetchData(); appData = d; saveCache(d); render(); toast('✅ تم التحديث'); }
-  catch { toast('⚠️ تعذّر الاتصال', 'warn'); }
-  ico.classList.remove('spinning'); hideLoad();
-}
-
-// ── Filter ──
-function setClass(cls) {
-  selectedClass = cls;
-  document.querySelectorAll('.class-tab').forEach(t => t.classList.toggle('active', t.dataset.cls === cls));
-  render();
-}
-function setFilter(flt) {
-  noticeFilter = flt;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.flt === flt));
-  renderNotices();
-}
-function getFiltered() {
-  if (!appData) return [];
-  return (appData.notices || []).filter(n =>
-    (selectedClass === 'all' || n.cls === 'all' || n.cls === selectedClass) &&
-    (noticeFilter  === 'all' || n.type === noticeFilter)
-  );
-}
-
-// ── Render ──
-function render() {
-  if (!appData) return;
-  document.getElementById('dateText').textContent = formatDate(new Date());
-  const notices = appData.notices || [];
-  document.getElementById('s-notices').textContent = notices.length;
-  document.getElementById('s-alerts').textContent  = notices.filter(n => n.type === 'alert').length;
-  ['5A','5B','5C'].forEach(c => {
-    document.getElementById('badge-' + c).textContent = notices.filter(n => n.cls === c || n.cls === 'all').length;
-  });
-  renderNotices();
-  renderComments();
-  renderClassSummary();
-}
-
-function renderNotices() {
-  const el = document.getElementById('noticesList');
-  const list = getFiltered();
-  if (!list.length) {
-    el.innerHTML = `<div class="list-empty"><i class="fa fa-file-alt"></i><p>لا توجد ملاحظات في هذا القسم</p></div>`;
-    return;
-  }
-  el.innerHTML = list.map((n, i) => `
-    <div class="notice-item ${n.type}" style="animation-delay:${i*0.05}s">
-      <button class="del-btn" onclick="deleteNotice(${n.id})"><i class="fa fa-times"></i></button>
-      <div class="notice-meta">
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <span class="badge ${TYPE_BADGE[n.type]}">${TYPE_NAMES[n.type]}</span>
-          <span class="badge badge-class">${CLASS_NAMES[n.cls] || n.cls}</span>
-        </div>
-        <span class="notice-date">${n.date || ''}</span>
-      </div>
-      <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
-      ${n.det ? `<div class="notice-det">${makeLinks(escHtml(n.det))}</div>` : ''}
-      ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
-    </div>`).join('');
 }
 
 function renderComments() {
