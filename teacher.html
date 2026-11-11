@@ -562,6 +562,7 @@ const CLASS_NAMES = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'ا
 const TYPE_NAMES  = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔', announcement:'إعلان 📣' };
 const TYPE_BADGE  = { homework:'badge-homework', activity:'badge-activity', alert:'badge-alert', announcement:'badge-announcement' };
 const BANNER_MARKER = '[[MIHBARA_FEATURED_BANNER]]';
+const TICKER_ONLY_MARKER = '[[MIHBARA_TICKER_ONLY]]';
 
 let appData = null, selectedClass = 'all', noticeFilter = 'all', imgBase64 = '';
 
@@ -600,10 +601,10 @@ function protectNoticeTitle(value){
   return title;
 }
 function stripBannerMarker(value){
-  const text=String(value??''),at=text.lastIndexOf(BANNER_MARKER);
-  return (at<0?text:text.slice(0,at)).trimEnd();
+  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').trimEnd();
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
+function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
 function normalizeNoticeTitles(data){
   if(data&&Array.isArray(data.notices)) data.notices.forEach(n=>{n.title=protectNoticeTitle(n.title);});
   return data;
@@ -686,6 +687,7 @@ function setFilter(flt) {
 function getFiltered() {
   if (!appData) return [];
   return (appData.notices || []).filter(n =>
+    !hasTickerOnlyMarker(n) &&
     (selectedClass === 'all' || n.cls === 'all' || n.cls === selectedClass) &&
     (noticeFilter  === 'all' || n.type === noticeFilter)
   );
@@ -695,7 +697,7 @@ function getFiltered() {
 function render() {
   if (!appData) return;
   document.getElementById('dateText').textContent = formatDate(new Date());
-  const notices = appData.notices || [];
+  const notices = (appData.notices || []).filter(n=>!hasTickerOnlyMarker(n));
   document.getElementById('s-notices').textContent = notices.length;
   document.getElementById('s-alerts').textContent  = notices.filter(n => n.type === 'alert').length;
   ['5A','5B','5C'].forEach(c => {
@@ -735,7 +737,7 @@ function renderBannerSettings(){
   if(!listEl||!preview||!appData)return;
   const notices=appData.notices||[],selected=notices.filter(hasBannerMarker);
   listEl.innerHTML=notices.map(n=>{
-    const label=(TYPE_NAMES[n.type]||'منشور')+' — '+displayNoticeTitle(n.title)+' · '+(CLASS_NAMES[n.cls]||n.cls||'');
+    const label=(hasTickerOnlyMarker(n)?'للشريط فقط · ':'')+(TYPE_NAMES[n.type]||'منشور')+' — '+displayNoticeTitle(n.title)+' · '+(CLASS_NAMES[n.cls]||n.cls||'');
     return '<label class="banner-option"><input type="checkbox" value="'+Number(n.id)+'" '+(hasBannerMarker(n)?'checked':'')+'><span>'+escHtml(label)+'</span></label>';
   }).join('')||'<p style="margin:0;padding:8px;color:var(--slate);font-size:13px">لا توجد منشورات بعد.</p>';
   updateBannerPreview();
@@ -757,8 +759,10 @@ async function saveBannerSelection(){
   const selectedIds=new Set([...listEl.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value));
   const oldNotices=appData.notices.map(n=>({...n}));
   appData.notices=appData.notices.map(n=>{
-    const details=stripBannerMarker(n.det);
-    const det=selectedIds.has(String(n.id))?(details?details+'\n':'')+BANNER_MARKER:details;
+    const details=stripBannerMarker(n.det),flags=[];
+    if(hasTickerOnlyMarker(n))flags.push(TICKER_ONLY_MARKER);
+    if(selectedIds.has(String(n.id)))flags.push(BANNER_MARKER);
+    const det=[details,...flags].filter(Boolean).join(String.fromCharCode(10));
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
@@ -784,7 +788,7 @@ async function createTickerAnnouncement(){
   const announcement={
     id,type:'announcement',cls:classEl.value||'all',
     title:protectNoticeTitle(title),
-    det:[details,BANNER_MARKER].filter(Boolean).join('\n'),
+    det:[details,TICKER_ONLY_MARKER,BANNER_MARKER].filter(Boolean).join(String.fromCharCode(10)),
     date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})
   };
   appData.nId=id;
@@ -862,7 +866,7 @@ async function deleteParentComment(id) {
 
 function renderClassSummary() {
   document.getElementById('classSummary').innerHTML = ['5A','5B','5C'].map(c => {
-    const cnt = (appData.notices || []).filter(n => n.cls === c || n.cls === 'all').length;
+    const cnt = (appData.notices || []).filter(n => !hasTickerOnlyMarker(n) && (n.cls === c || n.cls === 'all')).length;
     return `<div class="class-summary"><span class="cls-name">${CLASS_NAMES[c]}</span><span class="cls-count">📌 ${cnt}</span></div>`;
   }).join('');
 }
