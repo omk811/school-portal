@@ -784,7 +784,7 @@ async function createTickerAnnouncement(){
   const announcement={
     id,type:'announcement',cls:classEl.value||'all',
     title:protectNoticeTitle(title),
-    det:[details,BANNER_MARKER].filter(Boolean).join('\\n'),
+    det:[details,BANNER_MARKER].filter(Boolean).join('\n'),
     date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})
   };
   appData.nId=id;
