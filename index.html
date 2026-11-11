@@ -385,6 +385,7 @@ header::after {
 .type-badge.homework { background: var(--indigo-light); color: var(--indigo); }
 .type-badge.activity { background: var(--forest-light); color: var(--forest); }
 .type-badge.alert    { background: var(--rust-light); color: var(--rust); }
+.type-badge.announcement { background:#ede9fe; color:#6d28d9; }
 .cls-badge { font-size: 0.61rem; font-weight: 700; padding: 2px 9px; border-radius: var(--r-full); background: var(--parchment3); color: var(--text-mute); border: 1px solid var(--border); }
 .author-date { font-size: 0.69rem; color: var(--text-mute); direction: ltr; text-align: right; margin-top: 2px; }
 
@@ -943,8 +944,8 @@ img { max-width: 100%; height: auto; }
       </div>
     </div>
 
-        <div class="ticker-card" id="featuredTicker" hidden aria-label="الإعلان المختار">
-      <span class="ticker-label"><i class="fa fa-bullhorn"></i> إعلان مختار</span>
+        <div class="ticker-card" id="featuredTicker" hidden aria-label="الإعلانات المختارة">
+      <span class="ticker-label"><i class="fa fa-bullhorn"></i> إعلانات</span>
       <div class="ticker-window"><div class="ticker-track" id="tickerTrack"></div></div>
       <button class="ticker-toggle" id="tickerToggle" type="button" aria-label="إيقاف حركة الشريط" aria-pressed="false" title="إيقاف الحركة"><i class="fa fa-pause"></i></button>
     </div>
@@ -1051,7 +1052,7 @@ const API_URL   = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98
 const STORE_KEY = 'school_data_v2';
 const BANNER_MARKER = '[[MIHBARA_FEATURED_BANNER]]';
 const CN = { all:'عام','5A':'خامس ١','5B':'خامس ٢','5C':'خامس ٣' };
-const TN = { homework:{label:'واجب',icon:'📝',cls:'hw'}, activity:{label:'نشاط',icon:'🎯',cls:'act'}, alert:{label:'تنبيه',icon:'🔔',cls:'alt'} };
+const TN = { homework:{label:'واجب',icon:'📝',cls:'hw'}, activity:{label:'نشاط',icon:'🎯',cls:'act'}, alert:{label:'تنبيه',icon:'🔔',cls:'alt'}, announcement:{label:'إعلان',icon:'📣',cls:'ann'} };
 let curClass='all', nFlt='all';
 const noticeStore={};
 
@@ -1125,11 +1126,12 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)startTicke
 function renderTicker(d){
   const card=document.getElementById('featuredTicker'),track=document.getElementById('tickerTrack');
   if(!card||!track)return;
-  const n=(d.notices||[]).find(hasBannerMarker);
-  if(!n||(curClass!=='all'&&n.cls!=='all'&&n.cls!==curClass)){card.hidden=true;stopTickerMotion();return;}
-  const t=TN[n.type]||{label:'منشور',icon:'📌'};
-  const detail=stripBannerMarker(n.det);
-  const message=[t.label,displayNoticeTitle(n.title),CN[n.cls]||n.cls,detail].filter(Boolean).join('  •  ');
+  const selected=(d.notices||[]).filter(hasBannerMarker).filter(n=>curClass==='all'||n.cls==='all'||n.cls===curClass);
+  if(!selected.length){card.hidden=true;stopTickerMotion();return;}
+  const message=selected.map(n=>{
+    const t=TN[n.type]||{label:'منشور',icon:'📌'};
+    return [t.icon, t.label, displayNoticeTitle(n.title), CN[n.cls]||n.cls, stripBannerMarker(n.det)].filter(Boolean).join('  •  ');
+  }).join('     ✦     ');
   const safe=escapeHtml(message);
   track.innerHTML='<span class="ticker-copy">'+safe+'</span><span class="ticker-copy" aria-hidden="true">'+safe+'</span>';
   card.hidden=false;
