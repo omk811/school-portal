@@ -191,11 +191,13 @@ a { text-decoration: none; color: inherit; }
 .notice-item.homework { border-right-color: #3b82f6; }
 .notice-item.activity { border-right-color: #10b981; }
 .notice-item.alert    { border-right-color: #f59e0b; }
+.notice-item.announcement { border-right-color:#8b5cf6; }
 .notice-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
 .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; }
 .badge-homework { background: #dbeafe; color: #1d4ed8; }
 .badge-activity { background: #d1fae5; color: #065f46; }
 .badge-alert    { background: #fef3c7; color: #92400e; }
+.badge-announcement { background:#ede9fe; color:#6d28d9; }
 .badge-class    { background: #f1f5f9; color: #475569; }
 .notice-date { font-size: 12px; color: var(--slate-light); }
 .notice-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
@@ -209,6 +211,10 @@ a { text-decoration: none; color: inherit; }
 .banner-preview { margin-top:12px; padding:12px 14px; border-radius:10px; background:#fff8e8; border:1px solid #f3dfb5; color:var(--navy); }
 .banner-preview strong { display:block; margin-bottom:3px; }
 .banner-preview p { color:var(--slate); font-size:13px; white-space:pre-wrap; }
+.banner-notice-options { display:grid; gap:7px; max-height:230px; overflow:auto; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+.banner-option { display:flex; align-items:flex-start; gap:9px; padding:8px 10px; border-radius:8px; background:#f8fafc; color:var(--navy); font-size:13px; line-height:1.6; cursor:pointer; }
+.banner-option:has(input:checked) { background:#fff8e8; outline:1px solid rgba(245,158,11,.45); }
+.banner-option input { margin-top:5px; accent-color:#0c665c; flex:0 0 auto; }
 @media(max-width:560px){.banner-settings-row{grid-template-columns:1fr}.banner-save-btn{width:100%}}
 
 .notice-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; margin-top: 12px; border: 2px solid var(--border); }
@@ -376,19 +382,19 @@ a { text-decoration: none; color: inherit; }
           <div class="card-head">
             <div class="card-title">
               <div class="card-icon slate"><i class="fa fa-bullhorn"></i></div>
-              الشريط الإعلاني المتحرك
+              شريط الإعلانات المتحرك
             </div>
           </div>
           <div class="card-body">
             <div class="banner-settings-row">
               <div class="banner-settings-field">
-                <label for="bannerNoticeSelect">اختر منشورًا منشورًا لإبرازه</label>
-                <select id="bannerNoticeSelect" aria-label="اختر المنشور الذي سيظهر في الشريط"></select>
+                <label>اختر إعلانًا أو أكثر لعرضها في الشريط</label>
+                <div id="bannerNoticeSelect" class="banner-notice-options" role="group" aria-label="اختيار عدة منشورات للإعلانات" onchange="updateBannerPreview()"></div>
               </div>
-              <button class="banner-save-btn" id="bannerSaveBtn" type="button" onclick="saveBannerSelection()"><i class="fa fa-bullhorn"></i> حفظ اختيار الشريط</button>
+              <button class="banner-save-btn" id="bannerSaveBtn" type="button" onclick="saveBannerSelection()"><i class="fa fa-bullhorn"></i> حفظ الإعلانات المختارة</button>
             </div>
             <div class="banner-preview" id="bannerPreview" aria-live="polite"></div>
-            <p style="margin-top:9px;color:var(--slate);font-size:12px">يظهر المنشور المختار في أعلى صفحة أولياء الأمور. اختر «إيقاف الشريط» لإخفائه.</p>
+            <p style="margin-top:9px;color:var(--slate);font-size:12px">تظهر المنشورات المحددة بالتتابع في أعلى صفحة أولياء الأمور. أزل التحديد من الجميع لإيقاف الشريط.</p>
           </div>
         </div>
         <div class="card">
@@ -407,6 +413,7 @@ a { text-decoration: none; color: inherit; }
               <button class="filter-btn" data-flt="homework" onclick="setFilter('homework')">📝 واجبات</button>
               <button class="filter-btn" data-flt="activity" onclick="setFilter('activity')">🎯 أنشطة</button>
               <button class="filter-btn" data-flt="alert" onclick="setFilter('alert')">🔔 تنبيهات</button>
+              <button class="filter-btn" data-flt="announcement" onclick="setFilter('announcement')">📣 إعلانات</button>
             </div>
             <div id="noticesList"></div>
           </div>
@@ -476,6 +483,7 @@ a { text-decoration: none; color: inherit; }
           <option value="homework">📝 واجب</option>
           <option value="activity">🎯 نشاط</option>
           <option value="alert">🔔 تنبيه</option>
+          <option value="announcement">📣 إعلان</option>
         </select>
       </div>
       <div>
@@ -515,8 +523,8 @@ const STORE_KEY = 'mihbara_data_v3';
 const PWD_KEY   = 'mihbara_pwd';
 const DEFAULT_PWD = 'aysha123';
 const CLASS_NAMES = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3' };
-const TYPE_NAMES  = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔' };
-const TYPE_BADGE  = { homework:'badge-homework', activity:'badge-activity', alert:'badge-alert' };
+const TYPE_NAMES  = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔', announcement:'إعلان 📣' };
+const TYPE_BADGE  = { homework:'badge-homework', activity:'badge-activity', alert:'badge-alert', announcement:'badge-announcement' };
 const BANNER_MARKER = '[[MIHBARA_FEATURED_BANNER]]';
 
 let appData = null, selectedClass = 'all', noticeFilter = 'all', imgBase64 = '';
@@ -687,26 +695,34 @@ function renderNotices() {
 }
 
 function renderBannerSettings(){
-  const select=document.getElementById('bannerNoticeSelect'),preview=document.getElementById('bannerPreview');
-  if(!select||!preview||!appData)return;
-  const notices=appData.notices||[],selected=notices.find(hasBannerMarker);
-  select.innerHTML='<option value="">إيقاف الشريط الإعلاني</option>'+notices.map(n=>{
+  const listEl=document.getElementById('bannerNoticeSelect'),preview=document.getElementById('bannerPreview');
+  if(!listEl||!preview||!appData)return;
+  const notices=appData.notices||[],selected=notices.filter(hasBannerMarker);
+  listEl.innerHTML=notices.map(n=>{
     const label=(TYPE_NAMES[n.type]||'منشور')+' — '+displayNoticeTitle(n.title)+' · '+(CLASS_NAMES[n.cls]||n.cls||'');
-    return '<option value="'+Number(n.id)+'">'+escHtml(label)+'</option>';
-  }).join('');
-  select.value=selected?String(selected.id):'';
-  preview.innerHTML=selected
-    ? '<strong>'+escHtml(TYPE_NAMES[selected.type]||'منشور')+' · '+escHtml(displayNoticeTitle(selected.title))+'</strong><p>'+escHtml(stripBannerMarker(selected.det)||'سيظهر عنوان المنشور في الشريط المتحرك.')+'</p>'
-    : '<strong>الشريط متوقف</strong><p>اختر ملاحظة أو نشاطًا أو تنبيهًا منشورًا لعرضه في البوابة.</p>';
+    return '<label class="banner-option"><input type="checkbox" value="'+Number(n.id)+'" '+(hasBannerMarker(n)?'checked':'')+'><span>'+escHtml(label)+'</span></label>';
+  }).join('')||'<p style="margin:0;padding:8px;color:var(--slate);font-size:13px">لا توجد منشورات بعد.</p>';
+  updateBannerPreview();
+}
+
+function updateBannerPreview(){
+  const listEl=document.getElementById('bannerNoticeSelect'),preview=document.getElementById('bannerPreview');
+  if(!listEl||!preview)return;
+  const ids=new Set([...listEl.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value));
+  const selected=(appData?.notices||[]).filter(n=>ids.has(String(n.id)));
+  preview.innerHTML=selected.length
+    ? '<strong>عدد الإعلانات المختارة: '+selected.length+'</strong><p>'+selected.map(n=>escHtml(displayNoticeTitle(n.title))+' — '+escHtml(TYPE_NAMES[n.type]||'منشور')).join('<br>')+'</p>'
+    : '<strong>الشريط متوقف</strong><p>حدد إعلانًا واحدًا أو أكثر من المنشورات المنشورة لعرضها بالتتابع.</p>';
 }
 
 async function saveBannerSelection(){
   if(!appData)return;
-  const select=document.getElementById('bannerNoticeSelect'),btn=document.getElementById('bannerSaveBtn');
-  const selectedId=select.value,oldNotices=appData.notices.map(n=>({...n}));
+  const listEl=document.getElementById('bannerNoticeSelect'),btn=document.getElementById('bannerSaveBtn');
+  const selectedIds=new Set([...listEl.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value));
+  const oldNotices=appData.notices.map(n=>({...n}));
   appData.notices=appData.notices.map(n=>{
     const details=stripBannerMarker(n.det);
-    const det=String(n.id)===selectedId?(details?details+'\n':'')+BANNER_MARKER:details;
+    const det=selectedIds.has(String(n.id))?(details?details+'\\n':'')+BANNER_MARKER:details;
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
@@ -714,10 +730,10 @@ async function saveBannerSelection(){
   try{
     const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(appData.notices)})});
     if(!response.ok)throw new Error('تعذر الحفظ');
-    toast(selectedId?'✅ تم نشر الاختيار في الشريط':'✅ تم إيقاف الشريط');
+    toast(selectedIds.size?'✅ تم نشر '+selectedIds.size+' من الإعلانات في الشريط':'✅ تم إيقاف الشريط');
   }catch{
     appData.notices=oldNotices;saveCache(appData);render();toast('⚠️ تعذر حفظ اختيار الشريط','warn');
-  }finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-bullhorn"></i> حفظ اختيار الشريط';}
+  }finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-bullhorn"></i> حفظ الإعلانات المختارة';}
 }
 
 function renderComments() {
