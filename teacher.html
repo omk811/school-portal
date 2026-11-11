@@ -215,6 +215,16 @@ a { text-decoration: none; color: inherit; }
 .banner-option { display:flex; align-items:flex-start; gap:9px; padding:8px 10px; border-radius:8px; background:#f8fafc; color:var(--navy); font-size:13px; line-height:1.6; cursor:pointer; }
 .banner-option:has(input:checked) { background:#fff8e8; outline:1px solid rgba(245,158,11,.45); }
 .banner-option input { margin-top:5px; accent-color:#0c665c; flex:0 0 auto; }
+.banner-compose { margin-top:16px; padding:16px; border:1px dashed rgba(12,102,92,.4); border-radius:12px; background:#f7fbf9; }
+.banner-compose-head { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+.banner-compose-head strong { color:var(--navy); font-size:14px; }
+.banner-compose-head strong i { color:#0c665c; margin-left:5px; }
+.banner-compose-head span { color:var(--slate); font-size:12px; }
+.banner-compose-grid { display:grid; grid-template-columns:minmax(0,1fr) 190px; gap:10px; margin-bottom:10px; }
+.banner-compose .banner-settings-field input,.banner-compose .banner-settings-field textarea { width:100%; min-height:44px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--navy); font:inherit; }
+.banner-compose .banner-settings-field textarea { min-height:78px; resize:vertical; }
+.banner-compose-btn { margin-top:10px; }
+@media(max-width:560px){.banner-compose-grid{grid-template-columns:1fr}.banner-compose-btn{width:100%}}
 @media(max-width:560px){.banner-settings-row{grid-template-columns:1fr}.banner-save-btn{width:100%}}
 
 .notice-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; margin-top: 12px; border: 2px solid var(--border); }
@@ -395,6 +405,32 @@ a { text-decoration: none; color: inherit; }
             </div>
             <div class="banner-preview" id="bannerPreview" aria-live="polite"></div>
             <p style="margin-top:9px;color:var(--slate);font-size:12px">تظهر المنشورات المحددة بالتتابع في أعلى صفحة أولياء الأمور. أزل التحديد من الجميع لإيقاف الشريط.</p>
+            <div class="banner-compose">
+              <div class="banner-compose-head">
+                <strong><i class="fa fa-pen-to-square"></i> كتابة إعلان جديد</strong>
+                <span>يُنشر الإعلان مباشرة في الشريط وقائمة الإعلانات.</span>
+              </div>
+              <div class="banner-compose-grid">
+                <div class="banner-settings-field">
+                  <label for="bannerDraftTitle">عنوان الإعلان *</label>
+                  <input id="bannerDraftTitle" type="text" maxlength="120" placeholder="اكتب عنوان الإعلان">
+                </div>
+                <div class="banner-settings-field">
+                  <label for="bannerDraftClass">الشعبة</label>
+                  <select id="bannerDraftClass">
+                    <option value="all">جميع الشعب</option>
+                    <option value="5A">الخامس 1</option>
+                    <option value="5B">الخامس 2</option>
+                    <option value="5C">الخامس 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="banner-settings-field">
+                <label for="bannerDraftText">نص الإعلان (اختياري)</label>
+                <textarea id="bannerDraftText" rows="3" maxlength="1000" placeholder="اكتب تفاصيل الإعلان هنا"></textarea>
+              </div>
+              <button class="banner-save-btn banner-compose-btn" id="bannerComposeBtn" type="button" onclick="createTickerAnnouncement()"><i class="fa fa-paper-plane"></i> نشر الإعلان في الشريط</button>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -734,6 +770,37 @@ async function saveBannerSelection(){
   }catch{
     appData.notices=oldNotices;saveCache(appData);render();toast('⚠️ تعذر حفظ اختيار الشريط','warn');
   }finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-bullhorn"></i> حفظ الإعلانات المختارة';}
+}
+
+async function createTickerAnnouncement(){
+  if(!appData)return;
+  const titleEl=document.getElementById('bannerDraftTitle'),textEl=document.getElementById('bannerDraftText');
+  const classEl=document.getElementById('bannerDraftClass'),btn=document.getElementById('bannerComposeBtn');
+  const title=titleEl.value.trim(),details=textEl.value.trim();
+  if(!title){toast('⚠️ اكتب عنوان الإعلان أولًا','warn');titleEl.focus();return;}
+  const oldNotices=appData.notices.map(n=>({...n})),oldNId=appData.nId;
+  const id=Math.max(Number(appData.nId)||100,...appData.notices.map(n=>Number(n.id)||0))+1;
+  const now=new Date();
+  const announcement={
+    id,type:'announcement',cls:classEl.value||'all',
+    title:protectNoticeTitle(title),
+    det:[details,BANNER_MARKER].filter(Boolean).join('\\n'),
+    date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})
+  };
+  appData.nId=id;
+  appData.notices=[announcement,...appData.notices];
+  saveCache(appData);renderBannerSettings();
+  btn.disabled=true;btn.innerHTML='<i class="fa fa-spinner fa-spin"></i> جارٍ النشر';
+  try{
+    const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(appData.notices)})});
+    if(!response.ok)throw new Error('تعذر الحفظ');
+    titleEl.value='';textEl.value='';
+    await render();
+    toast('✅ نُشر الإعلان في الشريط وقائمة الإعلانات');
+  }catch{
+    appData.notices=oldNotices;appData.nId=oldNId;saveCache(appData);render();
+    toast('⚠️ تعذر نشر الإعلان. حاول مرة أخرى','warn');
+  }finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-paper-plane"></i> نشر الإعلان في الشريط';}
 }
 
 function renderComments() {
