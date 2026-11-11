@@ -722,7 +722,7 @@ async function saveBannerSelection(){
   const oldNotices=appData.notices.map(n=>({...n}));
   appData.notices=appData.notices.map(n=>{
     const details=stripBannerMarker(n.det);
-    const det=selectedIds.has(String(n.id))?(details?details+'\\n':'')+BANNER_MARKER:details;
+    const det=selectedIds.has(String(n.id))?(details?details+'\n':'')+BANNER_MARKER:details;
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
