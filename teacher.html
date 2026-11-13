@@ -779,7 +779,7 @@ async function saveBannerSelection(){
     const raw=String(n.det||''),details=stripBannerMarker(raw),flags=[];
     if(hasTickerOnlyMarker(n))flags.push(TICKER_ONLY_MARKER);
     if(selectedIds.has(String(n.id)))flags.push(BANNER_MARKER);
-    const reactionMarker=raw.match(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/)?.[0]||'';
+    const reactionMarker=raw.match(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/)?.[0]||'';
     const det=[details,...flags,reactionMarker].filter(Boolean).join(String.fromCharCode(10));
     return {...n,det:det||undefined};
   });
