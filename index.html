@@ -1098,13 +1098,13 @@ function normalizeNoticeTitles(data){
   return data;
 }
 function stripBannerMarker(value){
-  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/g,'').trimEnd();
+  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,'').trimEnd();
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
 function getReactionMarker(notice){return String(notice?.det||'').match(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/)?.[0]||'';}
 function getReactionCounts(notice){
-  const marker=getReactionMarker(notice),match=marker.match(/^\\[\\[MIHBARA_REACTIONS:([^\\]]*)\\]\\]$/),counts={};
+  const marker=getReactionMarker(notice),match=marker.match(/^\[\[MIHBARA_REACTIONS:([^\]]*)\]\]$/),counts={};
   if(!match)return counts;
   match[1].split(';').forEach(part=>{const [key,value]=part.split('=');if(REACTION_DEFS.some(r=>r.key===key))counts[key]=Math.max(0,Number(value)||0);});
   return counts;
