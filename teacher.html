@@ -561,8 +561,7 @@ a { text-decoration: none; color: inherit; }
 <script>
 const API       = 'https://script.google.com/macros/s/AKfycbxao2vzL5tPFhirn-Bb98Dx9XobBJEH0M89Dzsma2aqvshgzSL4dx6ebPhSgR8WO-WoRQ/exec';
 const STORE_KEY = 'mihbara_data_v3';
-const PWD_KEY   = 'mihbara_pwd';
-const DEFAULT_PWD = 'aysha123';
+const TOKEN_KEY = 'mihbara_teacher_token_v1';
 const CLASS_NAMES = { all:'جميع الشعب', '5A':'الخامس 1', '5B':'الخامس 2', '5C':'الخامس 3' };
 const TYPE_NAMES  = { homework:'واجب 📝', activity:'نشاط 🎯', alert:'تنبيه 🔔', announcement:'إعلان 📣' };
 const TYPE_BADGE  = { homework:'badge-homework', activity:'badge-activity', alert:'badge-alert', announcement:'badge-announcement' };
@@ -582,7 +581,6 @@ function formatDate(d) {
   return d.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'}) + ' | ' +
          d.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'});
 }
-function getPassword() { return localStorage.getItem(PWD_KEY) || DEFAULT_PWD; }
 function makeLinks(t) {
   if (!t) return '';
   return t.replace(/(https?:\/\/[^\s]+|www\.[^\s]+)/gi, u => {
@@ -634,56 +632,61 @@ function toggleEye() {
   ico.className = inp.type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash';
 }
 
-async function handleLogin(e) {
-  e.preventDefault();
-  const pwd = document.getElementById('pwdInput').value;
-  const btn = document.getElementById('loginBtn'), err = document.getElementById('loginError');
-  btn.disabled = true; btn.textContent = 'جاري التحقق...'; err.className = 'login-error';
-  try {
-    const data = await fetchData();
-    const sp = (data?.settings?.password) || getPassword();
-    if (pwd === sp) { loginSuccess(data); }
-    else { err.textContent = '⚠️ كلمة المرور غير صحيحة'; err.className = 'login-error show'; }
-  } catch {
-    const cached = loadCache();
-    const sp = (cached?.settings?.password) || getPassword();
-    if (pwd === sp) { loginSuccess(cached, true); }
-    else { err.textContent = '⚠️ كلمة المرور غير صحيحة'; err.className = 'login-error show'; }
+async function apiPost(action, params={}, token){
+  const authToken=token===undefined?(sessionStorage.getItem(TOKEN_KEY)||''):token;
+  const body=new URLSearchParams({action});
+  Object.entries(params).forEach(([key,value])=>body.set(key,typeof value==='object'?JSON.stringify(value):String(value)));
+  if(authToken)body.set('token',authToken);
+  const response=await fetch(API,{method:'POST',body});
+  const result=await response.json();
+  if(!response.ok||result.status!=='success'){
+    const error=new Error(result.message||'تعذر الاتصال بالخادم');error.code=result.code||'';throw error;
   }
-  btn.disabled = false; btn.textContent = 'دخول اللوحة';
+  return result;
 }
 
-function loginSuccess(data, fromCache = false) {
+async function handleLogin(e) {
+  e.preventDefault();
+  const pwd=document.getElementById('pwdInput').value;
+  const btn=document.getElementById('loginBtn'),err=document.getElementById('loginError');
+  btn.disabled=true;btn.textContent='جاري التحقق...';err.className='login-error';
+  try{
+    const auth=await apiPost('authLogin',{password:pwd},'');
+    const data=(await apiPost('teacherLoadData',{},auth.token)).data;
+    sessionStorage.setItem(TOKEN_KEY,auth.token);
+    loginSuccess(data);
+  }catch(error){
+    err.textContent=error.code==='INVALID_CREDENTIALS'?'⚠️ كلمة المرور غير صحيحة':error.message||'⚠️ تعذر تسجيل الدخول';
+    err.className='login-error show';
+  }finally{btn.disabled=false;btn.textContent='دخول اللوحة';}
+}
+
+function loginSuccess(data) {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appShell').classList.add('show');
-  if (data) { appData = normalizeNoticeTitles(hydrateNoticeComments(data)); saveCache(appData); }
-  render();
-  if (fromCache) toast('⚠️ يعمل بنسخة محفوظة', 'warn');
+  appData=normalizeNoticeTitles(hydrateNoticeComments(data||{}));saveCache(appData);render();
 }
 
 function handleLogout() {
+  sessionStorage.removeItem(TOKEN_KEY);sessionStorage.removeItem(STORE_KEY);
   document.getElementById('appShell').classList.remove('show');
   document.getElementById('loginScreen').classList.remove('hidden');
-  document.getElementById('pwdInput').value = '';
-  appData = null;
+  document.getElementById('pwdInput').value='';appData=null;
 }
 
 // ── Data ──
-async function fetchData() {
-  const res = await fetch(`${API}?action=loadData&t=${Date.now()}`);
-  const j = await res.json();
-  if (j.status === 'success' && j.data) return hydrateNoticeComments(normalizeNoticeTitles(j.data));
-  throw new Error('no data');
+async function fetchData(token) {
+  const result=await apiPost('teacherLoadData',{},token);
+  return hydrateNoticeComments(normalizeNoticeTitles(result.data));
 }
-function saveCache(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch {} }
-function loadCache() { try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; } }
+function saveCache(data){try{sessionStorage.setItem(STORE_KEY,JSON.stringify(data));}catch{}}
+function loadCache(){try{return JSON.parse(sessionStorage.getItem(STORE_KEY));}catch{return null;}}
 
 async function handleRefresh() {
-  const ico = document.getElementById('refreshIcon');
-  ico.classList.add('spinning'); showLoad();
-  try { const d = await fetchData(); appData = d; saveCache(d); render(); toast('✅ تم التحديث'); }
-  catch { toast('⚠️ تعذّر الاتصال', 'warn'); }
-  ico.classList.remove('spinning'); hideLoad();
+  const ico=document.getElementById('refreshIcon');ico.classList.add('spinning');showLoad();
+  try{const d=await fetchData();appData=d;saveCache(d);render();toast('✅ تم التحديث');}
+  catch(error){if(error.code==='AUTH_REQUIRED')handleLogout();toast('⚠️ تعذّر التحديث أو انتهت الجلسة','warn');}
+  ico.classList.remove('spinning');hideLoad();
 }
 
 // ── Filter ──
@@ -783,8 +786,7 @@ async function saveBannerSelection(){
   saveCache(appData);renderBannerSettings();
   btn.disabled=true;btn.innerHTML='<i class="fa fa-spinner fa-spin"></i> جارٍ الحفظ';
   try{
-    const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(appData.notices)})});
-    if(!response.ok)throw new Error('تعذر الحفظ');
+    await apiPost('saveNotices',{data:JSON.stringify(appData.notices)});
     toast(selectedIds.size?'✅ تم نشر '+selectedIds.size+' من الإعلانات في الشريط':'✅ تم إيقاف الشريط');
   }catch{
     appData.notices=oldNotices;saveCache(appData);render();toast('⚠️ تعذر حفظ اختيار الشريط','warn');
@@ -811,8 +813,7 @@ async function createTickerAnnouncement(){
   saveCache(appData);renderBannerSettings();
   btn.disabled=true;btn.innerHTML='<i class="fa fa-spinner fa-spin"></i> جارٍ النشر';
   try{
-    const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(appData.notices)})});
-    if(!response.ok)throw new Error('تعذر الحفظ');
+    await apiPost('saveNotices',{data:JSON.stringify(appData.notices)});
     titleEl.value='';textEl.value='';
     await render();
     toast('✅ نُشر الإعلان في الشريط وقائمة الإعلانات');
@@ -862,7 +863,7 @@ async function linkCommentToNotice(event,id) {
   const notice=(appData?.notices||[]).find(item=>String(item.id)===String(noticeId)); if(!q||!notice)return;
   const oldStudent=q.student||'', oldNoticeId=q.noticeId; q.student='@post:'+noticeId; q.noticeId=String(noticeId); q.noticeTitle=notice.title||'';
   const button=form.querySelector('button'); button.disabled=true;
-  try { const response=await fetch(API,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(appData.queries)})}); if(!response.ok)throw new Error('تعذر الحفظ'); saveCache(appData); renderComments(); toast('✅ تم ربط التعليق بالموضوع'); }
+  try { await apiPost('saveQueries',{data:JSON.stringify(appData.queries)}); saveCache(appData); renderComments(); toast('✅ تم ربط التعليق بالموضوع'); }
   catch { q.student=oldStudent; if(oldNoticeId===undefined)delete q.noticeId;else q.noticeId=oldNoticeId; delete q.noticeTitle; button.disabled=false; toast('⚠️ تعذر ربط التعليق. حاول مجدداً','warn'); }
 }
 
@@ -871,8 +872,7 @@ async function deleteParentComment(id) {
   const old = appData.queries.slice();
   appData.queries = appData.queries.filter(q => Number(q.id) !== Number(id)); saveCache(appData); renderComments();
   try {
-    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'deleteQuery', id:String(id) }) });
-    if (!response.ok) throw new Error('تعذر حذف التعليق');
+    await apiPost('deleteQuery',{id:String(id)});
     toast('🗑 تم حذف التعليق', 'warn');
   } catch {
     appData.queries = old; saveCache(appData); renderComments(); toast('⚠️ تعذر حذف التعليق. حدّث البيانات وحاول مجدداً', 'warn');
@@ -946,31 +946,27 @@ async function deleteNotice(id) {
 }
 
 // ── Settings ──
-function savePassword() {
-  const p1 = document.getElementById('newPwd1').value;
-  const p2 = document.getElementById('newPwd2').value;
-  if (!p1) { toast('⚠️ أدخل كلمة المرور', 'warn'); return; }
-  if (p1 !== p2) { toast('⚠️ كلمتا المرور غير متطابقتين', 'warn'); return; }
-  localStorage.setItem(PWD_KEY, p1);
-  if (appData) { appData.settings = { ...(appData.settings||{}), password: p1 }; saveCache(appData); }
-  document.getElementById('newPwd1').value = '';
-  document.getElementById('newPwd2').value = '';
-  toast('✅ تم تغيير كلمة المرور');
-}
-
-// ── Background POST ──
-function postBg(action, params) {
-  const fd = new FormData(); fd.append('action', action);
-  Object.entries(params).forEach(([k,v]) => fd.append(k, typeof v==='object'?JSON.stringify(v):String(v)));
-  fetch(API, { method:'POST', body: fd }).catch(()=>{});
+async function savePassword() {
+  const p1=document.getElementById('newPwd1').value,p2=document.getElementById('newPwd2').value;
+  if(p1.length<12){toast('⚠️ استخدم كلمة مرور من 12 محرفًا على الأقل','warn');return;}
+  if(p1!==p2){toast('⚠️ كلمتا المرور غير متطابقتين','warn');return;}
+  try{
+    await apiPost('changePassword',{newPassword:p1});
+    document.getElementById('newPwd1').value='';document.getElementById('newPwd2').value='';
+    toast('✅ تغيرت كلمة المرور. سجّل الدخول مجددًا');handleLogout();
+  }catch(error){toast('⚠️ تعذر تغيير كلمة // ── Authenticated background writes ──
+async function postBg(action, params) {
+  try{return await apiPost(action,params);}
+  catch(error){if(error.code==='AUTH_REQUIRED')handleLogout();toast('⚠️ تعذر حفظ التغيير. سجّل الدخول مجددًا','warn');return null;}
 }
 
 // ── Init ──
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => document.getElementById('splash').classList.add('hidden'), 2200);
-  setInterval(() => { if (appData) document.getElementById('dateText').textContent = formatDate(new Date()); }, 60000);
-  const cached = loadCache();
-  if (cached) appData = cached;
+window.addEventListener('DOMContentLoaded',()=>{
+  localStorage.removeItem('mihbara_pwd');localStorage.removeItem('mihbara_data_v3');
+  setTimeout(()=>document.getElementById('splash').classList.add('hidden'),2200);
+  setInterval(()=>{if(appData)document.getElementById('dateText').textContent=formatDate(new Date());},60000);
+  const token=sessionStorage.getItem(TOKEN_KEY);
+  if(token)fetchData(token).then(data=>loginSuccess(data)).catch(()=>handleLogout());
 });
 </script>
 </body>
