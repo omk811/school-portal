@@ -893,6 +893,15 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+
+.reaction-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:12px 0 4px; direction:rtl; }
+.reaction-btn { min-width:48px; height:38px; display:inline-flex; align-items:center; justify-content:center; gap:5px; padding:0 9px; border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--text-main); cursor:pointer; transition:transform .15s ease,background .15s ease,border-color .15s ease; }
+.reaction-btn:hover { transform:translateY(-2px); background:#fff8e9; border-color:var(--gold); }
+.reaction-btn.is-active { background:#fff2d7; border-color:var(--gold); box-shadow:0 0 0 2px rgba(200,145,58,.12); }
+.reaction-btn:disabled { opacity:.6; cursor:wait; transform:none; }
+.reaction-emoji { font-size:1.15rem; line-height:1; }
+.reaction-count { min-width:0; color:var(--text-mute); font-size:.76rem; font-weight:800; }
+@media(max-width:540px){.reaction-bar{gap:6px}.reaction-btn{min-width:43px;height:36px;padding:0 7px}}
 </style>
 </head>
 <body>
@@ -1055,6 +1064,15 @@ const BANNER_MARKER = '[[MIHBARA_FEATURED_BANNER]]';
 const TICKER_ONLY_MARKER = '[[MIHBARA_TICKER_ONLY]]';
 const CN = { all:'عام','5A':'خامس ١','5B':'خامس ٢','5C':'خامس ٣' };
 const TN = { homework:{label:'واجب',icon:'📝',cls:'hw'}, activity:{label:'نشاط',icon:'🎯',cls:'act'}, alert:{label:'تنبيه',icon:'🔔',cls:'alt'}, announcement:{label:'إعلان',icon:'📣',cls:'ann'} };
+const REACTION_DEFS = [
+  {key:'like',emoji:'👍',label:'أعجبني'},
+  {key:'love',emoji:'❤️',label:'أحببته'},
+  {key:'thanks',emoji:'🙏',label:'شكرًا'},
+  {key:'applause',emoji:'👏',label:'أحسنت'},
+  {key:'star',emoji:'⭐',label:'مميز'}
+];
+const REACTIONS_STORE_KEY='mihbara_parent_reactions_v1';
+const REACTION_MARKER_PREFIX='[[MIHBARA_REACTIONS:';
 let curClass='all', nFlt='all';
 const noticeStore={};
 
@@ -1080,10 +1098,57 @@ function normalizeNoticeTitles(data){
   return data;
 }
 function stripBannerMarker(value){
-  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').trimEnd();
+  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/g,'').trimEnd();
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
+function getReactionMarker(notice){return String(notice?.det||'').match(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/)?.[0]||'';}
+function getReactionCounts(notice){
+  const marker=getReactionMarker(notice),match=marker.match(/^\\[\\[MIHBARA_REACTIONS:([^\\]]*)\\]\\]$/),counts={};
+  if(!match)return counts;
+  match[1].split(';').forEach(part=>{const [key,value]=part.split('=');if(REACTION_DEFS.some(r=>r.key===key))counts[key]=Math.max(0,Number(value)||0);});
+  return counts;
+}
+function encodeReactionCounts(counts){
+  const data=REACTION_DEFS.map(r=>[r.key,Math.max(0,Math.floor(Number(counts[r.key])||0))]).filter(([,count])=>count>0).map(([key,count])=>key+'='+count).join(';');
+  return data?REACTION_MARKER_PREFIX+data+']]':'';
+}
+function readMyReactions(){try{return JSON.parse(localStorage.getItem(REACTIONS_STORE_KEY)||'{}')||{};}catch{return{};}}
+function renderReactionBar(notice){
+  const counts=getReactionCounts(notice),mine=readMyReactions()[String(notice.id)]||'';
+  return '<div class="reaction-bar" role="group" aria-label="تفاعلات '+escapeHtml(displayNoticeTitle(notice.title)||'الملاحظة')+'">'+REACTION_DEFS.map(r=>'<button class="reaction-btn'+(mine===r.key?' is-active':'')+'" type="button" data-notice-id="'+escapeHtml(notice.id)+'" data-reaction="'+r.key+'" aria-label="'+r.label+'" aria-pressed="'+(mine===r.key)+'" title="'+r.label+'"><span class="reaction-emoji">'+r.emoji+'</span><span class="reaction-count">'+(counts[r.key]||'')+'</span></button>').join('')+'</div>';
+}
+async function toggleNoticeReaction(noticeId,reactionKey,button){
+  const bar=button.closest('.reaction-bar');if(!bar)return;
+  bar.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{
+    const res=await fetch(API_URL+'?action=loadData&t='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('تعذر تحميل البيانات');
+    const payload=await res.json();
+    if(payload.status!=='success'||!payload.data)throw new Error('تعذر تحميل البيانات');
+    const data=normalizeNoticeTitles(hydrateNoticeComments(payload.data));
+    const notice=(data.notices||[]).find(n=>String(n.id)===String(noticeId));
+    if(!notice)throw new Error('الملاحظة غير متاحة');
+    const mine=readMyReactions(),previous=mine[String(noticeId)]||'';
+    const counts=getReactionCounts(notice);
+    if(previous===reactionKey){counts[reactionKey]=Math.max(0,(counts[reactionKey]||0)-1);delete mine[String(noticeId)];}
+    else{if(previous)counts[previous]=Math.max(0,(counts[previous]||0)-1);counts[reactionKey]=(counts[reactionKey]||0)+1;mine[String(noticeId)]=reactionKey;}
+    const details=stripBannerMarker(notice.det),flags=[];
+    if(hasTickerOnlyMarker(notice))flags.push(TICKER_ONLY_MARKER);
+    if(hasBannerMarker(notice))flags.push(BANNER_MARKER);
+    const reactionMarker=encodeReactionCounts(counts);
+    notice.det=[details,...flags,reactionMarker].filter(Boolean).join(String.fromCharCode(10))||undefined;
+    const saved=await fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'saveNotices',data:JSON.stringify(data.notices||[])})});
+    if(!saved.ok)throw new Error('تعذر حفظ التفاعل');
+    localStorage.setItem(REACTIONS_STORE_KEY,JSON.stringify(mine));
+    localStorage.setItem(STORE_KEY,JSON.stringify(data));
+    renderNotices(data);
+    showToast(previous===reactionKey?'تم إلغاء تفاعلك':'تم حفظ تفاعلك','ok');
+  }catch(e){
+    showToast('تعذر حفظ التفاعل. حاول مرة أخرى','err');
+    bar.querySelectorAll('button').forEach(b=>b.disabled=false);
+  }
+}
 function showToast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),3200);}
 function updateClock(){const now=new Date();document.getElementById('hdate').innerHTML=now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})+' · '+now.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'});}
 function setStatus(state){['statusDot','statusDot2'].forEach(id=>{const dot=document.getElementById(id);if(!dot)return;dot.className=state==='loading'?'status-dot loading':state==='ok'?'status-dot':'status-dot error';});const now=new Date();const txt=state==='loading'?'جاري التحميل...':state==='ok'?'آخر تحديث: '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}):'تعذّر التحديث';['lastUpdateText','lastUpdateText2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=txt;});}
@@ -1140,7 +1205,7 @@ function renderTicker(d){
   requestAnimationFrame(()=>startTickerMotion(true));
 }
 
-function renderNotices(d){const list=(d.notices||[]).filter(n=>!hasTickerOnlyMarker(n)).filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));const commentsByNotice=new Map();(d.queries||[]).forEach(q=>{const key=String(q.noticeId??'');if(!key)return;if(!commentsByNotice.has(key))commentsByNotice.set(key,[]);commentsByNotice.get(key).push(q);});const el=document.getElementById('nList');if(!list.length){el.innerHTML=`<div class="empty-state"><span class="e-icon">📭</span><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;return;}el.innerHTML=list.map((n,i)=>{const storeId='n_'+(n.id||i), noticeId=String(n.id||i);noticeStore[storeId]={title:displayNoticeTitle(n.title)||'',det:stripBannerMarker(n.det),img:n.img||''};const t=TN[n.type]||{label:n.type||'تحديث',icon:'📌',cls:'hw'};const comments=commentsByNotice.get(noticeId)||[];return`<div class="notice-item type-${escapeHtml(n.type||'homework')}" style="animation-delay:${i*0.04}s" id="${storeId}" data-type-glyph="${t.icon}"><div class="notice-author"><div class="author-avatar ${t.cls}">${t.icon}</div><div class="author-meta"><div class="author-name">الأستاذ خليل البلوشي <span class="type-badge ${escapeHtml(n.type)}">${t.label}</span><span class="cls-badge">${escapeHtml(CN[n.cls]||n.cls||'')}</span></div><div class="author-date">${escapeHtml(n.date||'')}</div></div></div><div class="notice-title">${escapeHtml(displayNoticeTitle(n.title)||'')}</div><div class="notice-det">${makeLinks(stripBannerMarker(n.det))}</div>${n.img?`<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">`:''}<div class="notice-actions"><button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button><button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button></div><section class="comment-area" aria-label="التعليقات على ${escapeHtml(displayNoticeTitle(n.title)||'الإعلان')}"><div class="comment-head"><span><i class="fa fa-comments"></i> مساحة الحوار حول الموضوع</span><span class="comment-count">${comments.length} تعليق</span></div><div class="comment-list">${comments.length?comments.map(q=>`<article class="comment-card"><div class="comment-meta"><strong>${escapeHtml(q.name||'ولي أمر')}</strong><span>· ${escapeHtml(CN[q.cls]||q.cls||'')}</span><span>· ${escapeHtml(q.date||'')}</span></div><div class="comment-text">${makeLinks(q.msg||'')}</div>${q.reply?`<div class="comment-reply"><span class="comment-reply-label">رد الأستاذ خليل</span><div class="comment-text">${makeLinks(q.reply)}</div></div>`:''}</article>`).join(''):`<div class="comment-empty">كن أول من يشارك برأيه أو استفساره حول هذا الموضوع.</div>`}</div><form class="comment-form" data-notice-id="${escapeHtml(noticeId)}"><input class="field-input" name="parentName" maxlength="60" placeholder="اسم ولي الأمر" aria-label="اسم ولي الأمر" required><select class="field-input" name="parentClass" aria-label="الشعبة" required><option value="">اختر الشعبة</option><option value="5A">الخامس ١</option><option value="5B">الخامس ٢</option><option value="5C">الخامس ٣</option></select><textarea class="field-input" name="parentMessage" maxlength="500" placeholder="اكتب تعليقك أو استفسارك حول الموضوع…" aria-label="التعليق" required></textarea><button class="comment-send" type="submit"><i class="fa fa-paper-plane"></i> إرسال التعليق</button><small class="comment-note">تعليقاتك يراها أولياء الأمور والمعلم. لا تكتب بيانات الطالب الشخصية.</small></form></section></div>`;}).join('');}
+function renderNotices(d){const list=(d.notices||[]).filter(n=>!hasTickerOnlyMarker(n)).filter(n=>(curClass==='all'||n.cls==='all'||n.cls===curClass)&&(nFlt==='all'||n.type===nFlt));const commentsByNotice=new Map();(d.queries||[]).forEach(q=>{const key=String(q.noticeId??'');if(!key)return;if(!commentsByNotice.has(key))commentsByNotice.set(key,[]);commentsByNotice.get(key).push(q);});const el=document.getElementById('nList');if(!list.length){el.innerHTML=`<div class="empty-state"><span class="e-icon">📭</span><p>لا توجد تحديثات لهذه الشعبة حالياً</p></div>`;return;}el.innerHTML=list.map((n,i)=>{const storeId='n_'+(n.id||i), noticeId=String(n.id||i);noticeStore[storeId]={title:displayNoticeTitle(n.title)||'',det:stripBannerMarker(n.det),img:n.img||''};const t=TN[n.type]||{label:n.type||'تحديث',icon:'📌',cls:'hw'};const comments=commentsByNotice.get(noticeId)||[];return`<div class="notice-item type-${escapeHtml(n.type||'homework')}" style="animation-delay:${i*0.04}s" id="${storeId}" data-type-glyph="${t.icon}"><div class="notice-author"><div class="author-avatar ${t.cls}">${t.icon}</div><div class="author-meta"><div class="author-name">الأستاذ خليل البلوشي <span class="type-badge ${escapeHtml(n.type)}">${t.label}</span><span class="cls-badge">${escapeHtml(CN[n.cls]||n.cls||'')}</span></div><div class="author-date">${escapeHtml(n.date||'')}</div></div></div><div class="notice-title">${escapeHtml(displayNoticeTitle(n.title)||'')}</div><div class="notice-det">${makeLinks(stripBannerMarker(n.det))}</div>${n.img?`<img src="${n.img}" class="notice-img" alt="مرفق" loading="lazy" data-img-src="${n.img}">`:''}<div class="notice-actions"><button class="action-btn btn-copy" data-id="${storeId}"><i class="fa fa-copy"></i> نسخ</button><button class="action-btn btn-share" data-id="${storeId}"><i class="fa fa-share-nodes"></i> مشاركة</button></div>${renderReactionBar(n)}<section class="comment-area" aria-label="التعليقات على ${escapeHtml(displayNoticeTitle(n.title)||'الإعلان')}"><div class="comment-head"><span><i class="fa fa-comments"></i> مساحة الحوار حول الموضوع</span><span class="comment-count">${comments.length} تعليق</span></div><div class="comment-list">${comments.length?comments.map(q=>`<article class="comment-card"><div class="comment-meta"><strong>${escapeHtml(q.name||'ولي أمر')}</strong><span>· ${escapeHtml(CN[q.cls]||q.cls||'')}</span><span>· ${escapeHtml(q.date||'')}</span></div><div class="comment-text">${makeLinks(q.msg||'')}</div>${q.reply?`<div class="comment-reply"><span class="comment-reply-label">رد الأستاذ خليل</span><div class="comment-text">${makeLinks(q.reply)}</div></div>`:''}</article>`).join(''):`<div class="comment-empty">كن أول من يشارك برأيه أو استفساره حول هذا الموضوع.</div>`}</div><form class="comment-form" data-notice-id="${escapeHtml(noticeId)}"><input class="field-input" name="parentName" maxlength="60" placeholder="اسم ولي الأمر" aria-label="اسم ولي الأمر" required><select class="field-input" name="parentClass" aria-label="الشعبة" required><option value="">اختر الشعبة</option><option value="5A">الخامس ١</option><option value="5B">الخامس ٢</option><option value="5C">الخامس ٣</option></select><textarea class="field-input" name="parentMessage" maxlength="500" placeholder="اكتب تعليقك أو استفسارك حول الموضوع…" aria-label="التعليق" required></textarea><button class="comment-send" type="submit"><i class="fa fa-paper-plane"></i> إرسال التعليق</button><small class="comment-note">تعليقاتك يراها أولياء الأمور والمعلم. لا تكتب بيانات الطالب الشخصية.</small></form></section></div>`;}).join('');}
 
 async function submitNoticeComment(form){const data=new FormData(form),noticeId=form.dataset.noticeId,name=String(data.get('parentName')||'').trim(),cls=String(data.get('parentClass')||''),msg=String(data.get('parentMessage')||'').trim();if(!noticeId||!name||!['5A','5B','5C'].includes(cls)||!msg||msg.length>500)return showToast('⚠️ تحقق من الاسم والشعبة والتعليق','err');const btn=form.querySelector('button[type=submit]');btn.disabled=true;btn.innerHTML='<i class="fa fa-spinner fa-spin"></i> جارٍ الإرسال';try{const d=JSON.parse(localStorage.getItem(STORE_KEY)||'null');if(!d)throw Error('لا توجد بيانات محملة');d.queries=Array.isArray(d.queries)?d.queries:[];const notice=(d.notices||[]).find(n=>String(n.id)===noticeId);if(!notice)throw Error('لم يعد هذا الموضوع متاحاً');const id=Math.max(Number(d.qId)||100,...d.queries.map(q=>Number(q.id)||0))+1;const now=new Date();const q={id,name,student:'@post:'+noticeId,cls,msg,date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}),status:'new',reply:''};const queries=[q,...d.queries];d.qId=id;const response=await fetch(API_URL,{method:'POST',body:new URLSearchParams({action:'saveQueries',data:JSON.stringify(queries)})});if(!response.ok)throw Error('تعذر حفظ التعليق');d.queries=queries;hydrateNoticeComments(d);localStorage.setItem(STORE_KEY,JSON.stringify(d));showToast('✅ وصل تعليقك، وسيظهر الرد هنا','ok');form.reset();renderNotices(d);}catch(e){showToast('⚠️ تعذر إرسال التعليق. حدّث الصفحة وحاول مجدداً','err');}finally{btn.disabled=false;btn.innerHTML='<i class="fa fa-paper-plane"></i> إرسال التعليق';}}
 
@@ -1162,6 +1227,7 @@ document.addEventListener('click',e=>{
   toggle.title=paused?'استئناف الحركة':'إيقاف الحركة';
   toggle.innerHTML=paused?'<i class="fa fa-play"></i>':'<i class="fa fa-pause"></i>';
 });
+document.addEventListener('click',e=>{const button=e.target.closest('.reaction-btn');if(button&&!button.disabled)toggleNoticeReaction(button.dataset.noticeId,button.dataset.reaction,button);});
 document.addEventListener('submit',e=>{const form=e.target.closest('.comment-form');if(form){e.preventDefault();submitNoticeComment(form);}});
 document.addEventListener('click',e=>{const copyBtn=e.target.closest('.btn-copy');if(copyBtn){copyNotice(copyBtn.dataset.id);return;}const shareBtn=e.target.closest('.btn-share');if(shareBtn){shareNotice(shareBtn.dataset.id);return;}const img=e.target.closest('.notice-img');if(img&&img.dataset.imgSrc){document.getElementById('fullImg').src=img.dataset.imgSrc;document.getElementById('imgModal').classList.add('open');}});
 document.getElementById('tabsBar').addEventListener('click',e=>{const tab=e.target.closest('.ctab');if(tab&&tab.dataset.class)setClass(tab.dataset.class);});
