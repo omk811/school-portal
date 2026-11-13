@@ -202,6 +202,11 @@ a { text-decoration: none; color: inherit; }
 .notice-date { font-size: 12px; color: var(--slate-light); }
 .notice-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .notice-det { font-size: 16px; font-weight: 500; color: #334155; line-height: 1.95; white-space: pre-wrap; }
+.teacher-reactions { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-top:14px; padding-top:11px; border-top:1px solid var(--border); }
+.teacher-reactions-label { color:var(--slate); font-size:12px; font-weight:700; margin-left:3px; }
+.teacher-reaction { display:inline-flex; align-items:center; gap:4px; min-width:42px; justify-content:center; padding:4px 9px; border:1px solid #e8edf3; border-radius:999px; background:#fff; font-size:14px; }
+.teacher-reaction b { color:var(--navy); font-size:12px; }
+.teacher-reactions-empty { color:var(--slate-light); font-size:12px; }
 
 .banner-settings-card { border-top:4px solid var(--gold); }
 .banner-settings-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:end; }
@@ -605,6 +610,14 @@ function stripBannerMarker(value){
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
+const TEACHER_REACTIONS=[['like','👍'],['love','❤️'],['thanks','🙏'],['applause','👏'],['star','⭐']];
+function renderNoticeReactions(notice){
+  const match=String(notice?.det||'').match(/\[\[MIHBARA_REACTIONS:([^\]]*)\]\]/);
+  const counts={};
+  if(match)match[1].split(';').forEach(part=>{const [key,value]=part.split('=');if(TEACHER_REACTIONS.some(([known])=>known===key))counts[key]=Math.max(0,Number(value)||0);});
+  const active=TEACHER_REACTIONS.filter(([key])=>(counts[key]||0)>0);
+  return '<div class="teacher-reactions" aria-label="تفاعلات أولياء الأمور"><span class="teacher-reactions-label">تفاعلات أولياء الأمور</span>'+(active.length?active.map(([key,emoji])=>'<span class="teacher-reaction" title="'+emoji+'">'+emoji+' <b>'+counts[key]+'</b></span>').join(''):'<span class="teacher-reactions-empty">لا توجد تفاعلات بعد</span>')+'</div>';
+}
 function normalizeNoticeTitles(data){
   if(data&&Array.isArray(data.notices)) data.notices.forEach(n=>{n.title=protectNoticeTitle(n.title);});
   return data;
@@ -729,6 +742,7 @@ function renderNotices() {
       <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
       ${stripBannerMarker(n.det) ? `<div class="notice-det">${makeLinks(escHtml(stripBannerMarker(n.det)))}</div>` : ''}
       ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
+      ${renderNoticeReactions(n)}
     </div>`).join('');
 }
 
