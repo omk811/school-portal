@@ -601,7 +601,7 @@ function protectNoticeTitle(value){
   return title;
 }
 function stripBannerMarker(value){
-  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/g,'').trimEnd();
+  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,'').trimEnd();
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
