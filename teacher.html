@@ -850,8 +850,7 @@ async function sendCommentReply(event, id) {
   const oldReply = q.reply || '', oldStatus = q.status, button = form.querySelector('button[type="submit"]');
   button.disabled = true; q.reply = reply; q.status = 'replied'; saveCache(appData);
   try {
-    const response = await fetch(API, { method:'POST', body:new URLSearchParams({ action:'updateQuery', id:String(id), status:'replied', reply }) });
-    if (!response.ok) throw new Error('تعذر حفظ الرد');
+    await apiPost('updateQuery',{id:String(id),status:'replied',reply});
     renderComments(); toast('✅ ظهر ردك تحت الموضوع');
   } catch {
     q.reply = oldReply; q.status = oldStatus; saveCache(appData); renderComments(); toast('⚠️ تعذر حفظ الرد. حدّث البيانات وحاول مجدداً', 'warn');
