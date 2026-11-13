@@ -601,7 +601,7 @@ function protectNoticeTitle(value){
   return title;
 }
 function stripBannerMarker(value){
-  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').trimEnd();
+  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/g,'').trimEnd();
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
@@ -759,10 +759,11 @@ async function saveBannerSelection(){
   const selectedIds=new Set([...listEl.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value));
   const oldNotices=appData.notices.map(n=>({...n}));
   appData.notices=appData.notices.map(n=>{
-    const details=stripBannerMarker(n.det),flags=[];
+    const raw=String(n.det||''),details=stripBannerMarker(raw),flags=[];
     if(hasTickerOnlyMarker(n))flags.push(TICKER_ONLY_MARKER);
     if(selectedIds.has(String(n.id)))flags.push(BANNER_MARKER);
-    const det=[details,...flags].filter(Boolean).join(String.fromCharCode(10));
+    const reactionMarker=raw.match(/\\[\\[MIHBARA_REACTIONS:[^\\]]*\\]\\]/)?.[0]||'';
+    const det=[details,...flags,reactionMarker].filter(Boolean).join(String.fromCharCode(10));
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
