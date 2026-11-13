@@ -954,7 +954,10 @@ async function savePassword() {
     await apiPost('changePassword',{newPassword:p1});
     document.getElementById('newPwd1').value='';document.getElementById('newPwd2').value='';
     toast('✅ تغيرت كلمة المرور. سجّل الدخول مجددًا');handleLogout();
-  }catch(error){toast('⚠️ تعذر تغيير كلمة // ── Authenticated background writes ──
+  }catch(error){toast('⚠️ تعذر تغيير كلمة المرور: '+(error.message||''),'warn');}
+}
+
+// ── Authenticated background writes ──
 async function postBg(action, params) {
   try{return await apiPost(action,params);}
   catch(error){if(error.code==='AUTH_REQUIRED')handleLogout();toast('⚠️ تعذر حفظ التغيير. سجّل الدخول مجددًا','warn');return null;}
