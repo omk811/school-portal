@@ -656,7 +656,7 @@ async function handleLogin(e) {
     sessionStorage.setItem(TOKEN_KEY,auth.token);
     loginSuccess(data);
   }catch(error){
-    err.textContent=error.code==='INVALID_CREDENTIALS'?'⚠️ كلمة المرور غير صحيحة':error.message||'⚠️ تعذر تسجيل الدخول';
+    err.textContent=error.code==='INVALID_CREDENTIALS'?'⚠️ كلمة المرور غير صحيحة':error.code==='SETUP_REQUIRED'?'⚠️ أكمل إعداد الحماية في Apps Script أولًا':error.message||'⚠️ تعذر تسجيل الدخول';
     err.className='login-error show';
   }finally{btn.disabled=false;btn.textContent='دخول اللوحة';}
 }
