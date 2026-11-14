@@ -589,6 +589,14 @@ function makeLinks(t) {
   });
 }
 function hydrateNoticeComments(d) { if(!d||!Array.isArray(d.queries)) return d; for(const q of d.queries){ if(q.noticeId!==undefined&&q.noticeId!==null) continue; const m=String(q.student||'').match(/^@post:(\d+)$/); if(m){ q.noticeId=m[1]; q.noticeTitle=(d.notices||[]).find(n=>String(n.id)===m[1])?.title||''; } } return d; }
+function formatCommentDate(value){
+  const raw=String(value??'').trim();
+  if(!raw)return'';
+  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(raw))return raw;
+  const date=new Date(raw);
+  if(Number.isNaN(date.getTime()))return raw;
+  return new Intl.DateTimeFormat('ar-OM',{timeZone:'Asia/Muscat',day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}).format(date);
+}
 function displayNoticeTitle(value){
   let title=String(value??'').replace(/^\u200B/,'');
   if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(title)){
@@ -830,7 +838,7 @@ function renderComments() {
   document.getElementById('commentsCount').textContent = `${list.length} تعليق`;
   if (!list.length) { el.innerHTML = '<div class="list-empty"><i class="fa fa-comments"></i><p>لا توجد تعليقات لهذه الشعبة حتى الآن</p></div>'; return; }
   el.innerHTML = list.map(q => `<article class="comment-admin-item">
-    <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(q.date || '')}</span></div>
+    <div class="comment-admin-meta"><strong>${escHtml(q.name || 'ولي أمر')}</strong><span>${escHtml(CLASS_NAMES[q.cls] || q.cls || '')} · ${escHtml(formatCommentDate(q.date))}</span></div>
     <div class="comment-topic">حول: ${escHtml(displayNoticeTitle(q.noticeTitle) || 'تعليق سابق غير مرتبط بموضوع')}</div>
     ${q.noticeId ? '' : `<form class="comment-link-form" onsubmit="linkCommentToNotice(event,${Number(q.id)})"><select required aria-label="اختر الموضوع"><option value="">اربط التعليق بموضوع</option>${(appData.notices||[]).map(n=>`<option value="${Number(n.id)}">${escHtml(n.title||'موضوع')}</option>`).join('')}</select><button type="submit">ربط التعليق</button></form>`}
     <div class="comment-admin-text">${makeLinks(escHtml(q.msg || ''))}</div>
