@@ -902,6 +902,32 @@ img { max-width: 100%; height: auto; }
 .reaction-emoji { font-size:1.15rem; line-height:1; }
 .reaction-count { min-width:0; color:var(--text-mute); font-size:.76rem; font-weight:800; }
 @media(max-width:540px){.reaction-bar{gap:6px}.reaction-btn{min-width:43px;height:36px;padding:0 7px}}
+
+/* Selected announcements popup */
+.announcement-modal[hidden]{display:none!important}
+.announcement-modal{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;padding:16px;background:rgba(15,20,32,.58);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.announcement-dialog{width:min(620px,100%);max-height:min(84vh,760px);overflow:auto;background:var(--parchment);color:var(--text-main);border:1px solid var(--border2);border-radius:22px;box-shadow:0 24px 80px rgba(0,0,0,.32);animation:announcementIn .24s ease-out}
+@keyframes announcementIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.announcement-head{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(135deg,var(--ink2),var(--teal-deep));color:#fff;border-bottom:3px solid var(--gold)}
+.announcement-heading{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.08rem}
+.announcement-heading i{color:var(--gold-light)}
+.announcement-close{width:40px;height:40px;flex:0 0 auto;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:1.1rem;cursor:pointer}
+.announcement-close:hover{background:rgba(255,255,255,.22)}
+.announcement-intro{padding:10px 18px 0;color:var(--text-sub);font-size:.88rem}
+.announcement-list{display:grid;gap:12px;padding:14px 18px 18px}
+.announcement-entry{padding:14px;border:1px solid var(--border);border-right:4px solid var(--gold);border-radius:14px;background:#fff;box-shadow:var(--shadow-xs)}
+.announcement-entry-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.announcement-kind{display:inline-flex;align-items:center;gap:6px;color:var(--teal-deep);font-size:.8rem;font-weight:800}
+.announcement-date{color:var(--text-mute);font-size:.75rem}
+.announcement-title{font-size:1.05rem;font-weight:800;line-height:1.7;margin:3px 0 6px}
+.announcement-details{font-size:.94rem;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.announcement-details a{color:var(--teal);text-decoration:underline}
+.announcement-image{display:block;width:100%;max-height:260px;object-fit:contain;margin-top:10px;border-radius:10px;background:var(--parchment2)}
+.announcement-footer{display:flex;justify-content:flex-end;padding:0 18px 18px}
+.announcement-dismiss{min-height:44px;padding:9px 22px;border:0;border-radius:999px;background:var(--teal-deep);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.announcement-dismiss:hover{background:var(--teal)}
+@media(max-width:520px){.announcement-modal{padding:10px}.announcement-dialog{max-height:88vh;border-radius:17px}.announcement-head{padding:12px 14px}.announcement-intro{padding-inline:14px}.announcement-list{padding:12px 14px}.announcement-footer{padding:0 14px 14px}.announcement-title{font-size:1rem}}
+
 </style>
 </head>
 <body>
@@ -1154,7 +1180,7 @@ async function manualRefresh(){const btn=document.getElementById('refreshBtn');b
 function sanitizePublicData(data){if(!data||typeof data!=='object')return{notices:[],queries:[]};data.queries=(Array.isArray(data.queries)?data.queries:[]).filter(q=>/^@post:\d+$/.test(String(q.student||'')));return data;}
 async function loadData(){try{const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),8000);const res=await fetch(`${API_URL}?action=loadData&t=${Date.now()}`,{signal:ctrl.signal});clearTimeout(tid);const r=await res.json();if(r.status==='success'){const data=sanitizePublicData(normalizeNoticeTitles(hydrateNoticeComments(r.data)));localStorage.setItem(STORE_KEY,JSON.stringify(data));setStatus('ok');return data;}}catch(e){setStatus('error');}const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){const data=sanitizePublicData(normalizeNoticeTitles(hydrateNoticeComments(cached)));localStorage.setItem(STORE_KEY,JSON.stringify(data));setStatus('ok');return data;}return{notices:[],queries:[],nId:100,qId:100};}
 
-async function render(){const d=await loadData();renderTicker(d);renderNotices(d);updateBadges(d);updateStats(d);}
+async function render(){const d=await loadData();renderTicker(d);renderAnnouncementPopup(d);renderNotices(d);updateBadges(d);updateStats(d);}
 
 let tickerFrame=0,tickerDistance=0,tickerOffset=0,tickerPrevious=0;
 function stopTickerMotion(){if(tickerFrame)cancelAnimationFrame(tickerFrame);tickerFrame=0;tickerPrevious=0;}
@@ -1184,6 +1210,41 @@ function startTickerMotion(reset=false){
 }
 window.addEventListener('resize',()=>startTickerMotion(true),{passive:true});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)startTickerMotion(false);else stopTickerMotion();});
+
+const DISMISSED_ADS_KEY='mihbara_dismissed_ads_v1';
+let activePopupKeys=[];
+function announcementKey(notice){
+  const value=[notice.id,notice.type,notice.cls,notice.title,stripBannerMarker(notice.det),notice.date].join('|');
+  let hash=2166136261;
+  for(let i=0;i<value.length;i++){hash^=value.charCodeAt(i);hash=Math.imul(hash,16777619);}
+  return String(notice.id)+':'+(hash>>>0).toString(36);
+}
+function getDismissedAnnouncementKeys(){try{return JSON.parse(localStorage.getItem(DISMISSED_ADS_KEY)||'[]')||[];}catch{return[];}}
+function renderAnnouncementPopup(d){
+  const modal=document.getElementById('announcementPopup'),list=document.getElementById('announcementPopupList');
+  if(!modal||!list||!modal.hidden)return;
+  const ads=(d.notices||[]).filter(hasBannerMarker).filter(n=>curClass==='all'||n.cls==='all'||n.cls===curClass);
+  if(!ads.length)return;
+  const dismissed=new Set(getDismissedAnnouncementKeys()),unseen=ads.filter(n=>!dismissed.has(announcementKey(n)));
+  if(!unseen.length)return;
+  activePopupKeys=ads.map(announcementKey);
+  list.innerHTML=ads.map(n=>{
+    const type=TN[n.type]||{label:'إعلان',icon:'📣'};
+    const details=stripBannerMarker(n.det);
+    return '<article class="announcement-entry"><div class="announcement-entry-head"><span class="announcement-kind">'+type.icon+' '+escapeHtml(type.label)+' · '+escapeHtml(CN[n.cls]||n.cls||'عام')+'</span><time class="announcement-date">'+escapeHtml(formatCommentDate(n.date||''))+'</time></div><h3 class="announcement-title">'+escapeHtml(displayNoticeTitle(n.title)||'إعلان')+'</h3>'+(details?'<div class="announcement-details">'+makeLinks(details)+'</div>':'')+(n.img?'<img class="announcement-image" src="'+escapeHtml(n.img)+'" alt="مرفق الإعلان" loading="lazy">':'')+'</article>';
+  }).join('');
+  modal.hidden=false;document.body.classList.add('announcement-open');
+  requestAnimationFrame(()=>modal.querySelector('.announcement-close')?.focus());
+}
+function closeAnnouncementPopup(){
+  const modal=document.getElementById('announcementPopup');
+  if(!modal||modal.hidden)return;
+  const dismissed=new Set(getDismissedAnnouncementKeys());
+  activePopupKeys.forEach(key=>dismissed.add(key));
+  try{localStorage.setItem(DISMISSED_ADS_KEY,JSON.stringify([...dismissed]));}catch{}
+  modal.hidden=true;document.body.classList.remove('announcement-open');
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape')closeAnnouncementPopup();});
 
 function renderTicker(d){
   const card=document.getElementById('featuredTicker'),track=document.getElementById('tickerTrack');
@@ -1253,5 +1314,17 @@ const cached = JSON.parse(localStorage.getItem(STORE_KEY));
 if (cached?.notices?.length) { renderTicker(cached); renderNotices(cached); updateBadges(cached); updateStats(cached); setStatus('ok'); }
 render();
 </script>
+
+<div class="announcement-modal" id="announcementPopup" hidden onclick="closeAnnouncementPopup()">
+  <section class="announcement-dialog" role="dialog" aria-modal="true" aria-labelledby="announcementPopupTitle" onclick="event.stopPropagation()">
+    <div class="announcement-head">
+      <div class="announcement-heading" id="announcementPopupTitle"><i class="fa fa-bullhorn"></i><span>إعلانات المدرسة</span></div>
+      <button class="announcement-close" type="button" onclick="closeAnnouncementPopup()" aria-label="إغلاق الإعلانات"><i class="fa fa-times"></i></button>
+    </div>
+    <p class="announcement-intro">إعلانات اختارها المعلم لتظهر لكم.</p>
+    <div class="announcement-list" id="announcementPopupList"></div>
+    <div class="announcement-footer"><button class="announcement-dismiss" type="button" onclick="closeAnnouncementPopup()">إغلاق</button></div>
+  </section>
+</div>
 </body>
 </html>
