@@ -12,7 +12,7 @@ const order=(list,now=Date.now())=>list.slice().sort((a,b)=>Number(pinned(b,now)
 const omanFmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Muscat',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 function toInput(ms){if(!ms)return '';const p=Object.fromEntries(omanFmt.formatToParts(new Date(ms)).map(x=>[x.type,x.value]));return p.year+'-'+p.month+'-'+p.day+'T'+p.hour+':'+p.minute}
 function timestamp(v){if(!v)return 0;if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(v))return NaN;const time=Date.parse(v+':00+04:00');return Number.isFinite(time)&&toInput(time)===v?time:NaN}
-function dateLabel(v){if(!validDate(v))return '';return new Intl.DateTimeFormat('ar-OM',{timeZone:'Asia/Muscat',weekday:'short',day:'numeric',month:'long',year:'numeric'}).format(new Date(v+'T12:00:00+04:00'))}
-function timeLabel(ms){return new Intl.DateTimeFormat('ar-OM',{timeZone:'Asia/Muscat',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(ms))}
+function dateLabel(v){if(!validDate(v))return '';return MihbaraDate.dateLabel(v,true)}
+function timeLabel(ms){return MihbaraDate.format(ms)}
 return{read,strip,marker,isVisible,pinned,order,toInput,timestamp,dateLabel,timeLabel,eventNames};
 })();

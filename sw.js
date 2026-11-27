@@ -1,7 +1,7 @@
 /* المحبرة: ملفات الواجهة العامة فقط. لا تُخزّن بيانات المعلم أو طلبات Google Apps Script. */
-const CACHE='mihbara-public-v20261127g';
+const CACHE='mihbara-public-v20261127h';
 const ROOT=new URL('./',self.location.href);
-const PUBLIC=['./','./index.html','./schedule.html','./links.html','./calendar.html','./notice-meta.js?v=1','./read-more.js?v=1','./calendar.js?v=1','./manifest.json','./brand.svg','./icon-192.png','./icon-512.png','./identity.css?v=20261127g','./timetable-data.js?v=20261127b','./schedule.js?v=20261127f'];
+const PUBLIC=['./','./index.html','./schedule.html','./links.html','./calendar.html','./date-time.js?v=1','./notice-meta.js?v=2','./read-more.js?v=1','./calendar.js?v=2','./manifest.json','./brand.svg','./icon-192.png','./icon-512.png','./identity.css?v=20261127g','./timetable-data.js?v=20261127b','./schedule.js?v=20261127h'];
 const URLS=new Set(PUBLIC.map(path=>new URL(path,ROOT).href));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(PUBLIC)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('mihbara-public-')||k==='khalil-app-v2')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

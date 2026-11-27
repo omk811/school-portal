@@ -315,10 +315,12 @@ a { text-decoration: none; color: inherit; }
 
 <link rel="stylesheet" href="identity.css?v=20261127g">
 <link rel="icon" href="brand.svg" type="image/svg+xml">
+<script src="date-time.js?v=1"></script>
 <script defer src="timetable-data.js?v=20261127b"></script>
-<script defer src="schedule.js?v=20261127f"></script>
-<script src="notice-meta.js?v=1"></script>
+<script defer src="schedule.js?v=20261127h"></script>
+<script src="notice-meta.js?v=2"></script>
 <script src="read-more.js?v=1"></script>
+<style>#mihSchedule .mh-time,#mhPrintSheet .mh-time{direction:rtl;white-space:normal}</style>
 </head>
 <body class="mh-teacher">
 
@@ -389,7 +391,7 @@ a { text-decoration: none; color: inherit; }
 
     <nav class="mh-jump" aria-label="التنقل السريع"><a href="#mihSchedule" onclick="window.MihbaraSchedule?.open()">الجدول الدراسي</a><a href="calendar.html" target="_blank" rel="noopener noreferrer">تقويم المهام</a><a href="#mhJumpBanner">الإعلانات</a><a href="#mhJumpNotices">الملاحظات</a><a href="#mhJumpComments">التعليقات</a><a href="#mhJumpSettings">الإعدادات</a></nav>
     <section id="mihSchedule" class="mh-schedule" data-mode="teacher" aria-labelledby="mhTitle">
-  <div class="mh-heading"><div><h2 id="mhTitle">الحصة المجدولة الآن والجدول الدراسي</h2></div><div class="mh-clockbox"><time id="mhClock" dir="ltr">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
+  <div class="mh-heading"><div><h2 id="mhTitle">الحصة المجدولة الآن والجدول الدراسي</h2></div><div class="mh-clockbox"><time id="mhClock" dir="rtl">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
   <div id="mhPhase" class="mh-phase" aria-live="polite">جاري تحديد التوقيت…</div>
   <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status" hidden></p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button> <button type="button" id="mhPrint" class="mh-button">طباعة جدول الشعبة</button>
   <ul id="mhChanges" class="mh-changes" hidden></ul>
@@ -603,8 +605,7 @@ function toast(msg, type='ok') {
 function showLoad() { document.getElementById('loadBar').style.display = 'block'; }
 function hideLoad() { document.getElementById('loadBar').style.display = 'none'; }
 function formatDate(d) {
-  return d.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'}) + ' | ' +
-         d.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'});
+  return MihbaraDate.header(d);
 }
 function makeLinks(t) {
   if (!t) return '';
@@ -614,21 +615,14 @@ function makeLinks(t) {
   });
 }
 function hydrateNoticeComments(d) { if(!d||!Array.isArray(d.queries)) return d; for(const q of d.queries){ if(q.noticeId!==undefined&&q.noticeId!==null) continue; const m=String(q.student||'').match(/^@post:(\d+)$/); if(m){ q.noticeId=m[1]; q.noticeTitle=(d.notices||[]).find(n=>String(n.id)===m[1])?.title||''; } } return d; }
-function formatCommentDate(value){
-  const raw=String(value??'').trim();
-  if(!raw)return'';
-  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(raw))return raw;
-  const date=new Date(raw);
-  if(Number.isNaN(date.getTime()))return raw;
-  return new Intl.DateTimeFormat('ar-OM',{timeZone:'Asia/Muscat',day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}).format(date);
-}
+function formatCommentDate(value){return MihbaraDate.format(value);}
 function displayNoticeTitle(value){
   let title=String(value??'').replace(/^\u200B/,'');
   if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(title)){
     const date=new Date(title);
-    if(!Number.isNaN(date.getTime())) title=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Muscat',day:'2-digit',month:'2-digit',year:'numeric'}).format(date);
+    if(!Number.isNaN(date.getTime())) title=MihbaraDate.dateLabel(date);
   }
-  return title;
+  return MihbaraDate.title(title);
 }
 function protectNoticeTitle(value){
   let title=String(value??'').trim();
@@ -776,7 +770,7 @@ function renderNotices() {
           <span class="badge ${TYPE_BADGE[n.type]}">${TYPE_NAMES[n.type]}</span>
           <span class="badge badge-class">${CLASS_NAMES[n.cls] || n.cls}</span>
         </div>
-        <span class="notice-date">${escHtml(n.date || '')}</span>
+        <span class="notice-date">${escHtml(MihbaraMeta.read(n).publish?MihbaraMeta.timeLabel(MihbaraMeta.read(n).publish):formatCommentDate(n.date))}</span>
       </div>
       <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
       ${noticeMetaBadges(n)}
@@ -844,7 +838,7 @@ async function createTickerAnnouncement(){
     id,type:'announcement',cls:classEl.value||'all',
     title:protectNoticeTitle(title),
     det:[details,TICKER_ONLY_MARKER,BANNER_MARKER].filter(Boolean).join(String.fromCharCode(10)),
-    date:now.toLocaleDateString('ar-OM')+' '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})
+    date:now.toISOString()
   };
   appData.nId=id;
   appData.notices=[announcement,...appData.notices];
@@ -994,7 +988,7 @@ async function saveNotice() {
       const original=editingNoticeId===null?null:notices.find(x=>String(x.id)===String(editingNoticeId));
       if(editingNoticeId!==null&&!original)throw Error('تعذّر العثور على المنشور');
       const raw=String(original?.det||''),flags=[hasBannerMarker(original)?BANNER_MARKER:'',hasTickerOnlyMarker(original)?TICKER_ONLY_MARKER:'',raw.match(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/)?.[0]||''];
-      const n={...item,id:original?.id??Math.max(Number(latest.nId)||100,...notices.map(x=>Number(x.id)||0))+1,date:original?.date||new Date().toLocaleDateString('ar-OM',{timeZone:'Asia/Muscat'})+' '+new Date().toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'}),det:[item.det,...flags].filter(Boolean).join('\n')};
+      const n={...item,id:original?.id??Math.max(Number(latest.nId)||100,...notices.map(x=>Number(x.id)||0))+1,date:original?.date||new Date().toISOString(),det:[item.det,...flags].filter(Boolean).join('\n')};
       const updated=original?notices.map(x=>String(x.id)===String(original.id)?n:x):[n,...notices];
       await apiPost('saveNotices',{data:JSON.stringify(updated)});
     }
