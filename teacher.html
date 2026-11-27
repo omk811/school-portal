@@ -313,7 +313,7 @@ a { text-decoration: none; color: inherit; }
 }
 </style>
 
-<link rel="stylesheet" href="identity.css?v=20261127b">
+<link rel="stylesheet" href="identity.css?v=20261127d">
 <link rel="icon" href="brand.svg" type="image/svg+xml">
 <script defer src="timetable-data.js?v=20261127b"></script>
 <script defer src="schedule.js?v=20261127c"></script>
@@ -527,6 +527,7 @@ a { text-decoration: none; color: inherit; }
       </div>
     </div>
   </main>
+  <button id="mhBackTop" class="mh-back-top" type="button" aria-label="العودة إلى أعلى الصفحة" title="العودة إلى أعلى الصفحة" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
@@ -998,6 +999,21 @@ window.addEventListener('DOMContentLoaded',()=>{
   const token=sessionStorage.getItem(TOKEN_KEY);
   if(token)fetchData(token).then(data=>loginSuccess(data)).catch(()=>handleLogout());
 });
+</script>
+<script>
+(() => {
+  const button=document.getElementById('mhBackTop');
+  if(!button)return;
+  let ticking=false;
+  const update=()=>{button.hidden=window.scrollY<300;ticking=false;};
+  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}}, {passive:true});
+  window.addEventListener('pageshow',update);
+  button.addEventListener('click',()=>{
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:0,left:0,behavior:reduced?'instant':'smooth'});
+  });
+  update();
+})();
 </script>
 </body>
 </html>

@@ -87,3 +87,8 @@ body.mh-teacher{--navy:#123c37;--navy-mid:#145b50;--navy-light:#35655b;--blue:#1
 
 /* إظهار المادة أولًا ثم اسم المعلم في كل حصة */
 .mh-lesson-pair{min-width:0;overflow-wrap:anywhere}.mh-pair{display:flex;flex-direction:column;gap:2px;line-height:1.55}.mh-pair+.mh-pair{margin-top:6px}.mh-subject{display:block;font-weight:800;color:var(--mh-green);font-size:.94rem}.mh-teacher-name{display:block;color:var(--mh-muted);font-size:.79rem;font-weight:500}.mh-week .mh-subject{font-size:.88rem}.mh-week .mh-teacher-name{font-size:.76rem}.mh-next .mh-pair{margin-top:4px}.mh-next .mh-subject{font-size:.84rem}.mh-next .mh-teacher-name{font-size:.74rem}
+
+/* زر العودة إلى أعلى الصفحة */
+.mh-back-top{position:fixed;inset-inline-end:clamp(12px,2vw,24px);bottom:calc(20px + env(safe-area-inset-bottom,0px));width:48px;height:48px;display:grid;place-items:center;z-index:260;background:#145b50;color:#fff;border:1px solid #ffffff44;border-radius:15px;box-shadow:0 4px 16px #173b2940;cursor:pointer;padding:0;transition:background .15s ease,transform .15s ease}.mh-back-top[hidden]{display:none!important}.mh-back-top:hover{background:#123c37;transform:translateY(-2px)}.mh-back-top:focus-visible{outline:3px solid #c69a50;outline-offset:3px}.mh-teacher .mh-back-top{z-index:600}.mh-teacher #appShell:not(.show) .mh-back-top{display:none!important}
+@media(max-width:900px){.mh-public .mh-back-top{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+@media print{.mh-back-top{display:none!important}}
