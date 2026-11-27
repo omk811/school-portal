@@ -84,3 +84,6 @@ body.mh-teacher{--navy:#123c37;--navy-mid:#145b50;--navy-light:#35655b;--blue:#1
 
 @media(max-width:900px){.mh-public .ticker-card.mob-active:not([hidden]){display:flex}}
 .mh-teacher #mihSchedule{scroll-margin-top:150px}
+
+/* إظهار المادة أولًا ثم اسم المعلم في كل حصة */
+.mh-lesson-pair{min-width:0;overflow-wrap:anywhere}.mh-pair{display:flex;flex-direction:column;gap:2px;line-height:1.55}.mh-pair+.mh-pair{margin-top:6px}.mh-subject{display:block;font-weight:800;color:var(--mh-green);font-size:.94rem}.mh-teacher-name{display:block;color:var(--mh-muted);font-size:.79rem;font-weight:500}.mh-week .mh-subject{font-size:.88rem}.mh-week .mh-teacher-name{font-size:.76rem}.mh-next .mh-pair{margin-top:4px}.mh-next .mh-subject{font-size:.84rem}.mh-next .mh-teacher-name{font-size:.74rem}
