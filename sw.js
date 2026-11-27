@@ -1,7 +1,7 @@
 /* المحبرة: ملفات الواجهة العامة فقط. لا تُخزّن بيانات المعلم أو طلبات Google Apps Script. */
-const CACHE='mihbara-public-v20261127b';
+const CACHE='mihbara-public-v20261127c';
 const ROOT=new URL('./',self.location.href);
-const PUBLIC=['./','./index.html','./manifest.json','./brand.svg','./icon-192.png','./icon-512.png','./identity.css?v=20261127b','./timetable-data.js?v=20261127b','./schedule.js?v=20261127b'];
+const PUBLIC=['./','./index.html','./manifest.json','./brand.svg','./icon-192.png','./icon-512.png','./identity.css?v=20261127b','./timetable-data.js?v=20261127b','./schedule.js?v=20261127c'];
 const URLS=new Set(PUBLIC.map(path=>new URL(path,ROOT).href));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(PUBLIC)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('mihbara-public-')||k==='khalil-app-v2')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

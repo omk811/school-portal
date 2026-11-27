@@ -935,7 +935,7 @@ body.announcement-open{overflow:hidden}
 <link rel="stylesheet" href="identity.css?v=20261127b">
 <link rel="icon" href="brand.svg" type="image/svg+xml">
 <script defer src="timetable-data.js?v=20261127b"></script>
-<script defer src="schedule.js?v=20261127b"></script>
+<script defer src="schedule.js?v=20261127c"></script>
 </head>
 <body class="mh-public">
 
@@ -992,14 +992,13 @@ body.announcement-open{overflow:hidden}
       <button class="ticker-toggle" id="tickerToggle" type="button" aria-label="إيقاف حركة الشريط" aria-pressed="false" title="إيقاف الحركة"><i class="fa fa-pause"></i></button>
     </div>
     <section id="mihSchedule" class="mh-schedule mobile-section mob-active" data-mode="public" aria-labelledby="mhTitle">
-  <div class="mh-heading"><div><span class="mh-kicker">دليل اليوم الدراسي · الشعب الثلاث</span><h2 id="mhTitle">الحصة الحالية والجدول الدراسي</h2><p class="mh-sub">وفق الجدول المعتمد، وليس رصدًا لحضور المعلمين.</p></div><div class="mh-clockbox"><time id="mhClock" dir="ltr">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
+  <div class="mh-heading"><div><h2 id="mhTitle">الحصة المجدولة الآن والجدول الدراسي</h2></div><div class="mh-clockbox"><time id="mhClock" dir="ltr">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
   <div id="mhPhase" class="mh-phase" aria-live="polite">جاري تحديد التوقيت…</div>
-  <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status">جاري عرض الجدول…</p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button>
+  <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status" hidden></p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button>
   <ul id="mhChanges" class="mh-changes" hidden></ul>
   <details id="mhDetails" class="mh-details"><summary>عرض الجدول اليومي والأسبوعي</summary>
     <div class="mh-tools"><label>الشعبة<select id="mhClass"><option value="5A">خامس ١</option><option value="5B">خامس ٢</option><option value="5C">خامس ٣</option></select></label><label>طريقة العرض<select id="mhView"><option value="day">جدول يوم</option><option value="week">أسبوع كامل</option></select></label><label id="mhDayWrap">اليوم<select id="mhDay"><option>الأحد</option><option>الإثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select></label></div>
-    <div id="mhTable" class="mh-table" tabindex="0" aria-label="الجدول الدراسي"></div><p id="mhNote" class="mh-note"></p>
-    <p class="mh-note">الإجازات الرسمية وتغييرات الجدول غير المنشورة قد لا تظهر هنا. التوقيت الشتوي صالح حتى ٢٥ مارس ٢٠٢٧.</p>
+    <div id="mhTable" class="mh-table" tabindex="0" aria-label="الجدول الدراسي"></div>
   </details>
 </section>
     <div class="feed-card mobile-section mob-active" id="noticesBlock">
