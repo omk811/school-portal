@@ -1,0 +1,86 @@
+/* هوية المحبرة · الأستاذ خليل البلوشي */
+:root{--mh-green:#145b50;--mh-deep:#123c37;--mh-gold:#c69a50;--mh-paper:#f4f7f3;--mh-border:#d9e5dd;--mh-text:#18332e;--mh-muted:#52665d;--mh-soft:#e8f2ec}
+body.mh-public{--ink:#102f2a;--ink2:#123c37;--ink3:#145b50;--parchment:#f4f7f3;--parchment2:#edf4ef;--parchment3:#e6ede8;--gold:#b1853f;--gold-light:#f2d59d;--gold-bright:#e3b96d;--gold-dim:#f5ecd9;--text-main:#18332e;--text-sub:#3d594e;--text-mute:#52665d;--border:#d9e5dd;--border2:#b9cfc2;--teal:#145b50;--teal-deep:#123c37;--teal-light:#e8f2ec;--shadow-sm:0 2px 12px #163b2910;--shadow-md:0 5px 22px #163b2915}
+body.mh-public::before,body.mh-public::after{display:none}
+.mh-public header{background:var(--mh-deep);box-shadow:0 3px 14px #173b2920}
+.mh-public .welcome-card{background:var(--mh-green);border-radius:18px;box-shadow:none}
+.mh-public .welcome-card::before,.mh-public .welcome-card::after,.mh-public .welcome-icon-wrap::after{display:none}
+.mh-public .welcome-text h2{color:white;text-shadow:none;font-size:clamp(1.22rem,2vw,1.6rem)}
+.mh-public .welcome-text p,.mh-public .brand-text p{color:#e2efe7;font-size:.84rem}
+.mh-public .welcome-icon-wrap{background:transparent;border:0;width:64px;height:64px;box-shadow:none}
+.mh-public .feed-card,.mh-public .widget{border-radius:16px}
+.mh-public .page-wrap{max-width:1320px}
+.mh-public .card-header,.mh-public .widget-header{background:#f7faf7}
+.mh-public .mobile-nav{background:var(--mh-deep);box-shadow:0 -3px 14px #173b2920;backdrop-filter:none}
+.mh-public .mob-tab{font-size:.73rem;color:#d4e6db}
+.mh-public .ctab{color:#e6f0e9}
+.mh-logo{display:block!important;object-fit:contain;width:48px!important;height:48px!important;padding:0!important;background:none!important;border:0!important;border-radius:12px!important;box-shadow:none!important;flex:0 0 auto}
+.mh-public .logo-wrap::before{display:none}
+body.mh-teacher{--navy:#123c37;--navy-mid:#145b50;--navy-light:#35655b;--blue:#145b50;--blue-mid:#197567;--bg:#f4f7f3;--card:#fff;--border:#d9e5dd;--text:#18332e;--text-muted:#52665d;--slate:#52665d;--gold:#d8af6b;--gold-dark:#b1853f;--gold-light:#f6d9a2;--shadow:0 2px 14px #173b2910;--shadow-lg:0 7px 24px #173b2920}
+.mh-teacher .header,.mh-teacher #loginScreen,.mh-teacher #splash{background:#123c37;box-shadow:none}
+.mh-teacher #splash{display:none}
+.mh-teacher .login-orb{display:none}
+.mh-teacher .login-card{box-shadow:0 6px 36px #0c241e66}
+.mh-teacher .login-btn{background:#145b50}
+.mh-teacher .header-logo{background:none;box-shadow:none}
+.mh-teacher .header-top{max-width:1440px;margin:auto}
+.mh-teacher .header-tabs{max-width:1440px;margin:auto}
+.mh-teacher .main{max-width:1320px}
+.mh-teacher .stat-card{animation:none;opacity:1;border:1px solid var(--mh-border);box-shadow:none}
+.mh-teacher .card{border:1px solid var(--mh-border);box-shadow:0 2px 10px #173b290d}
+.mh-teacher .class-tab.active{box-shadow:none}
+.mh-teacher .content-main{min-width:0}
+.mh-teacher .content-side{min-width:0}
+.mh-jump{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}
+.mh-jump a{display:inline-flex;align-items:center;min-height:44px;background:white;color:var(--mh-green);border:1px solid var(--mh-border);border-radius:10px;padding:7px 13px;font-size:.85rem;font-weight:700}
+.mh-teacher [id^="mhJump"]{scroll-margin-top:150px}
+.mh-schedule{background:#fff;color:var(--mh-text);border:1px solid var(--mh-border);border-radius:16px;margin:0 0 16px;padding:clamp(13px,2vw,21px);box-shadow:0 2px 12px #163b2910;min-width:0}
+.mh-schedule[hidden],.mh-schedule [hidden]{display:none!important}
+.mh-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.mh-kicker{display:block;color:var(--mh-green);font-size:.76rem;font-weight:800}
+.mh-heading h2{margin:3px 0 2px;font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.5}
+.mh-heading .mh-sub{font-size:.8rem;color:var(--mh-muted);margin:0}
+.mh-clockbox{text-align:end;min-width:105px}
+.mh-clockbox time{display:block;font:bold 1.7rem/1.25 Tahoma,Arial,sans-serif;font-variant-numeric:tabular-nums;color:var(--mh-green)}
+.mh-clockbox small{font-size:.73rem;color:var(--mh-muted)}
+.mh-phase{display:inline-flex;align-items:center;color:var(--mh-green);background:var(--mh-soft);padding:5px 10px;border-radius:8px;font-size:.85rem;font-weight:800;margin:10px 0}
+.mh-schedule[data-phase=lesson] .mh-phase::before{content:'';width:8px;height:8px;background:#2b8058;border-radius:50%;margin-inline-end:7px}
+.mh-live{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:8px}
+.mh-live-card{border:1px solid var(--mh-border);padding:12px;border-radius:12px;min-width:0;background:#fafcfa;display:flex;flex-direction:column;gap:4px;overflow-wrap:anywhere}
+.mh-class{font-size:.75rem;color:var(--mh-muted);font-weight:700}
+.mh-live-name{font-size:.94rem;line-height:1.65;font-weight:800}
+.mh-time{display:block;font:600 .83rem/1.4 Tahoma,Arial,sans-serif;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;white-space:nowrap;color:var(--mh-muted)}
+.mh-remaining{color:var(--mh-green);font-size:.75rem;font-weight:700}
+.mh-next{border-top:1px solid var(--mh-border);padding-top:6px;margin-top:auto;color:var(--mh-muted);font-size:.77rem;line-height:1.6}
+.mh-own{background:var(--mh-soft)!important;color:#145b50!important;border-color:#93bfaa!important}
+.mh-current{outline:2px solid #b1853f;outline-offset:-2px}
+.mh-status{font-size:.76rem;line-height:1.7;color:var(--mh-muted);margin:9px 0}
+.mh-warning{color:#835719}
+.mh-changes{margin:8px 16px;font-size:.84rem;color:var(--mh-text)}
+.mh-details{border-top:1px solid var(--mh-border);margin-top:9px;padding-top:8px}
+.mh-details summary{cursor:pointer;color:var(--mh-green);font-weight:800;min-height:44px;padding:8px 0;font-size:.96rem}
+.mh-tools{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 13px}
+.mh-tools label{display:flex;flex-direction:column;flex:1 1 100px;font-size:.77rem;color:var(--mh-muted);gap:3px;min-width:0}
+.mh-tools select,.mh-button{min-height:44px;border-radius:9px;border:1px solid var(--mh-border);font:inherit;background:#f7faf7;color:var(--mh-text);padding:6px 9px;max-width:100%}
+.mh-button{font-size:.82rem;font-weight:700;cursor:pointer}
+.mh-button:disabled{opacity:.6;cursor:wait}
+.mh-day-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.mh-slot{display:grid;grid-template-columns:29px minmax(0,1fr);gap:5px 8px;align-items:center;padding:9px;border:1px solid var(--mh-border);border-radius:9px;background:#fff}
+.mh-slot .mh-time{grid-column:2;justify-self:start}
+.mh-num{display:grid;place-items:center;background:#edf3ef;border-radius:8px;width:29px;height:29px;color:var(--mh-green);font-weight:800}
+.mh-slot-label{font-size:.9rem;font-weight:700;overflow-wrap:anywhere}
+.mh-break{grid-column:1/-1;text-align:center;background:#faf4e5;padding:5px;border-radius:7px;color:#79581e;font-size:.78rem}
+.mh-table{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.mh-week{border-collapse:separate;border-spacing:3px;width:100%;min-width:840px;table-layout:fixed;font-size:.8rem;line-height:1.55}
+.mh-week th,.mh-week td{border:1px solid var(--mh-border);border-radius:7px;padding:8px;text-align:center;overflow-wrap:anywhere}
+.mh-week th{background:#f0f5f1;color:var(--mh-green)}
+.mh-week th:first-child{width:74px}
+.mh-week .mh-time{font-size:.7rem;margin-top:4px}
+.mh-note{font-size:.73rem;color:var(--mh-muted);margin-top:8px}
+.mh-schedule :focus-visible,.mh-jump a:focus-visible{outline:3px solid #b1853f;outline-offset:2px}
+@media(max-width:900px){.mh-public .page-wrap{width:calc(100% - 24px)}.mh-public .welcome-card,.mh-public .feed-card{border-radius:15px}.mh-public .ticker-card.mobile-section:not(.mob-active){display:none}.mh-public .brand-text p{font-size:.68rem}}
+@media(max-width:600px){.mh-live{grid-template-columns:1fr}.mh-day-list{grid-template-columns:1fr}.mh-clockbox{min-width:86px}.mh-clockbox time{font-size:1.4rem}.mh-schedule{padding:13px}.mh-public .welcome-icon-wrap{display:none}.mh-public .welcome-inner{padding:18px 15px 13px}.mh-public .welcome-text p{font-size:.81rem}.mh-public .logo-wrap,.mh-teacher .header-logo{width:40px!important;height:40px!important}.mh-teacher .main{width:calc(100% - 24px)}.mh-teacher .header-date{display:none}.mh-teacher .header-actions{gap:5px}.mh-teacher .h-btn{min-height:42px;padding:6px 9px}.mh-teacher .class-tab{min-height:44px;padding:8px 12px}.mh-teacher .card-body{padding:15px}.mh-teacher .card-head{padding:15px 15px 0}.mh-teacher .login-card{padding:28px 20px}}
+@media(prefers-reduced-motion:reduce){.mh-public *,.mh-teacher *{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+@media(max-width:900px){.mh-public .ticker-card.mob-active:not([hidden]){display:flex}}
+.mh-teacher #mihSchedule{scroll-margin-top:150px}

@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="المحبرة - مساحة مخصصة لمتابعة واجبات وتنبيهات الأستاذ خليل البلوشي للصف الخامس.">
-<title>المحبرة | أ. خليل البلوشي</title>
+<title>المحبرة | الأستاذ خليل البلوشي</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="المحبرة">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#145b50">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -930,18 +931,23 @@ body.announcement-open{overflow:hidden}
 @media(max-width:520px){.announcement-modal{padding:10px}.announcement-dialog{max-height:88vh;border-radius:17px}.announcement-head{padding:12px 14px}.announcement-intro{padding-inline:14px}.announcement-list{padding:12px 14px}.announcement-footer{padding:0 14px 14px}.announcement-title{font-size:1rem}}
 
 </style>
+
+<link rel="stylesheet" href="identity.css?v=20261127">
+<link rel="icon" href="brand.svg" type="image/svg+xml">
+<script defer src="timetable-data.js?v=20261127"></script>
+<script defer src="schedule.js?v=20261127"></script>
 </head>
-<body>
+<body class="mh-public">
 
 <!-- ══════════ HEADER ══════════ -->
 <header id="mainHeader">
   <div class="header-inner">
     <div class="header-top">
       <div class="brand">
-        <div class="logo-wrap">🪶</div>
+        <img class="logo-wrap mh-logo" src="brand.svg" alt="" width="48" height="48">
         <div class="brand-text">
           <h1>المحبرة</h1>
-          <p>أ. خليل البلوشي · اللغة العربية · الصف الخامس</p>
+          <p>الأستاذ خليل البلوشي · اللغة العربية · الصف الخامس</p>
         </div>
       </div>
       <div class="header-actions">
@@ -969,8 +975,8 @@ body.announcement-open{overflow:hidden}
       <div class="welcome-inner">
         <div class="welcome-icon-wrap">🏫</div>
         <div class="welcome-text">
-          <h2>أهلاً بأولياء الأمور الكرام</h2>
-          <p>تابعوا الواجبات والأنشطة والتنبيهات الدراسية</p>
+          <h2>مرحبًا بكم في المحبرة</h2>
+          <p>رفيقكم في متابعة تعلّم اللغة العربية، والواجبات، والتنبيهات، واليوم الدراسي.</p>
         </div>
       </div>
       <hr class="welcome-divider">
@@ -980,11 +986,22 @@ body.announcement-open{overflow:hidden}
       </div>
     </div>
 
-        <div class="ticker-card" id="featuredTicker" hidden aria-label="الإعلانات المختارة">
+        <div class="ticker-card mobile-section mob-active" id="featuredTicker" hidden aria-label="الإعلانات المختارة">
       <span class="ticker-label"><i class="fa fa-bullhorn"></i> إعلانات</span>
       <div class="ticker-window"><div class="ticker-track" id="tickerTrack"></div></div>
       <button class="ticker-toggle" id="tickerToggle" type="button" aria-label="إيقاف حركة الشريط" aria-pressed="false" title="إيقاف الحركة"><i class="fa fa-pause"></i></button>
     </div>
+    <section id="mihSchedule" class="mh-schedule mobile-section mob-active" data-mode="public" aria-labelledby="mhTitle">
+  <div class="mh-heading"><div><span class="mh-kicker">دليل اليوم الدراسي · الشعب الثلاث</span><h2 id="mhTitle">الحصة الحالية والجدول الدراسي</h2><p class="mh-sub">وفق الجدول المعتمد، وليس رصدًا لحضور المعلمين.</p></div><div class="mh-clockbox"><time id="mhClock" dir="ltr">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
+  <div id="mhPhase" class="mh-phase" aria-live="polite">جاري تحديد التوقيت…</div>
+  <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status">جاري عرض الجدول…</p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button>
+  <ul id="mhChanges" class="mh-changes" hidden></ul>
+  <details id="mhDetails" class="mh-details"><summary>عرض الجدول اليومي والأسبوعي</summary>
+    <div class="mh-tools"><label>الشعبة<select id="mhClass"><option value="5A">خامس ١</option><option value="5B">خامس ٢</option><option value="5C">خامس ٣</option></select></label><label>طريقة العرض<select id="mhView"><option value="day">جدول يوم</option><option value="week">أسبوع كامل</option></select></label><label id="mhDayWrap">اليوم<select id="mhDay"><option>الأحد</option><option>الإثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select></label></div>
+    <div id="mhTable" class="mh-table" tabindex="0" aria-label="الجدول الدراسي"></div><p id="mhNote" class="mh-note"></p>
+    <p class="mh-note">الإجازات الرسمية وتغييرات الجدول غير المنشورة قد لا تظهر هنا. التوقيت الشتوي صالح حتى ٢٥ مارس ٢٠٢٧.</p>
+  </details>
+</section>
     <div class="feed-card mobile-section mob-active" id="noticesBlock">
       <div class="card-header">
         <div class="card-title">
@@ -1028,7 +1045,7 @@ body.announcement-open{overflow:hidden}
           <div class="ql-icon">✨</div>
           <div class="ql-item-text">
             <strong><span class="ql-new-badge">جديد</span>مواضيع الأستاذ الجديدة</strong>
-            <span>أ. خليل البلوشي · اللغة العربية</span>
+            <span>الأستاذ خليل البلوشي · اللغة العربية</span>
           </div>
           <div class="ql-arrow"><i class="fa fa-arrow-left fa-xs"></i></div>
         </a>
@@ -1072,6 +1089,7 @@ body.announcement-open{overflow:hidden}
   <button class="mob-tab active" data-mob="home" onclick="mobNav('home',this)">
     <i class="fa fa-home"></i> الرئيسية
   </button>
+  <button class="mob-tab" data-mob="schedule" onclick="mobNav('schedule',this)"><i class="fa fa-calendar-days"></i> الجدول</button>
   <button class="mob-tab" data-mob="links" onclick="mobNav('links',this)">
     <i class="fa fa-link"></i> روابط
   </button>
@@ -1174,9 +1192,9 @@ function showToast(msg,type=''){const el=document.getElementById('toast');el.tex
 function updateClock(){const now=new Date();document.getElementById('hdate').innerHTML=now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'})+' · '+now.toLocaleDateString('ar-OM',{weekday:'short',month:'short',day:'numeric'});}
 function setStatus(state){['statusDot','statusDot2'].forEach(id=>{const dot=document.getElementById(id);if(!dot)return;dot.className=state==='loading'?'status-dot loading':state==='ok'?'status-dot':'status-dot error';});const now=new Date();const txt=state==='loading'?'جاري التحميل...':state==='ok'?'آخر تحديث: '+now.toLocaleTimeString('ar-OM',{hour:'2-digit',minute:'2-digit'}):'تعذّر التحديث';['lastUpdateText','lastUpdateText2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=txt;});}
 
-function mobNav(section,btn){document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.mobile-section').forEach(s=>s.classList.remove('mob-active'));document.getElementById('secLinks')?.classList.remove('mob-active');if(section==='home'){document.querySelector('.welcome-card')?.classList.add('mob-active');document.getElementById('noticesBlock')?.classList.add('mob-active');}else if(section==='links'){document.getElementById('secLinks')?.classList.add('mob-active');}}
+function mobNav(section,btn){document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.mobile-section').forEach(s=>s.classList.remove('mob-active'));document.getElementById('secLinks')?.classList.remove('mob-active');if(section==='home'){document.querySelector('.welcome-card')?.classList.add('mob-active');document.getElementById('noticesBlock')?.classList.add('mob-active');document.getElementById('featuredTicker')?.classList.add('mob-active');document.getElementById('mihSchedule')?.classList.add('mob-active');}else if(section==='schedule'){document.getElementById('mihSchedule')?.classList.add('mob-active');window.MihbaraSchedule?.open();}else if(section==='links'){document.getElementById('secLinks')?.classList.add('mob-active');}}
 
-async function manualRefresh(){const btn=document.getElementById('refreshBtn');btn.disabled=true;btn.classList.add('spinning');setStatus('loading');await render();btn.disabled=false;btn.classList.remove('spinning');showToast('✅ تم التحديث بنجاح','ok');}
+async function manualRefresh(){window.MihbaraSchedule?.refresh(true);const btn=document.getElementById('refreshBtn');btn.disabled=true;btn.classList.add('spinning');setStatus('loading');await render();btn.disabled=false;btn.classList.remove('spinning');showToast('✅ تم التحديث بنجاح','ok');}
 
 function sanitizePublicData(data){if(!data||typeof data!=='object')return{notices:[],queries:[]};data.queries=(Array.isArray(data.queries)?data.queries:[]).filter(q=>/^@post:\d+$/.test(String(q.student||'')));return data;}
 async function loadData(){try{const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),8000);const res=await fetch(`${API_URL}?action=loadData&t=${Date.now()}`,{signal:ctrl.signal});clearTimeout(tid);const r=await res.json();if(r.status==='success'){const data=sanitizePublicData(normalizeNoticeTitles(hydrateNoticeComments(r.data)));localStorage.setItem(STORE_KEY,JSON.stringify(data));setStatus('ok');return data;}}catch(e){setStatus('error');}const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){const data=sanitizePublicData(normalizeNoticeTitles(hydrateNoticeComments(cached)));localStorage.setItem(STORE_KEY,JSON.stringify(data));setStatus('ok');return data;}return{notices:[],queries:[],nId:100,qId:100};}
@@ -1286,12 +1304,12 @@ async function submitNoticeComment(form){
 }
 function updateBadges(d){['5A','5B','5C'].forEach(c=>{const el=document.getElementById('b'+c);if(el)el.textContent=(d.notices||[]).filter(n=>!hasTickerOnlyMarker(n)&&(n.cls===c||n.cls==='all')).length;});}
 function updateStats(d){const sN=document.getElementById('statNotices'),sR=document.getElementById('statReplies');if(sN)sN.textContent=(d.notices||[]).filter(n=>!hasTickerOnlyMarker(n)).length;if(sR)sR.textContent=(d.queries||[]).filter(q=>q.status==='replied').length;}
-function setClass(c){curClass=c;document.querySelectorAll('.ctab').forEach(tab=>tab.classList.toggle('active',tab.dataset.class===c));const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){renderNotices(cached);}render();}
+function setClass(c){curClass=c;window.MihbaraSchedule?.selectClass(c);document.querySelectorAll('.ctab').forEach(tab=>tab.classList.toggle('active',tab.dataset.class===c));const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached){renderNotices(cached);}render();}
 function flt(f,btn){nFlt=f;document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');const cached=JSON.parse(localStorage.getItem(STORE_KEY));if(cached)renderNotices(cached);}
 
 function copyNotice(storeId){const item=noticeStore[storeId];if(!item)return showToast('❌ لا توجد بيانات','err');let txt=[item.title,item.det].filter(Boolean).join('\n\n')||'لا يوجد نص';if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(()=>showToast('✅ تم نسخ النص','ok')).catch(()=>fallbackCopy(txt));}else{fallbackCopy(txt);}}
 function fallbackCopy(text){try{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-9999px;opacity:0;';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ تم نسخ النص','ok');}catch(e){showToast('❌ فشل النسخ','err');}}
-function shareNotice(storeId){const item=noticeStore[storeId];if(!item)return showToast('❌ لا توجد بيانات','err');const txt=[item.title,item.det].filter(Boolean).join('\n\n')||'تنبيه من المحبرة';if(navigator.share){navigator.share({title:'المحبرة — أ. خليل البلوشي',text:txt,url:window.location.href}).catch(err=>{if(err.name!=='AbortError')showToast('⚠️ لم تتم المشاركة','');});}else{fallbackCopy(txt);showToast('📋 تم النسخ','');}}
+function shareNotice(storeId){const item=noticeStore[storeId];if(!item)return showToast('❌ لا توجد بيانات','err');const txt=[item.title,item.det].filter(Boolean).join('\n\n')||'تنبيه من المحبرة';if(navigator.share){navigator.share({title:'المحبرة — الأستاذ خليل البلوشي',text:txt,url:window.location.href}).catch(err=>{if(err.name!=='AbortError')showToast('⚠️ لم تتم المشاركة','');});}else{fallbackCopy(txt);showToast('📋 تم النسخ','');}}
 
 document.addEventListener('click',e=>{
   const toggle=e.target.closest('#tickerToggle');if(!toggle)return;
@@ -1327,5 +1345,6 @@ render();
     <div class="announcement-footer"><button class="announcement-dismiss" type="button" onclick="closeAnnouncementPopup()">إغلاق</button></div>
   </section>
 </div>
+<script>if('serviceWorker' in navigator && location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body>
 </html>

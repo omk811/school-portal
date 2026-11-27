@@ -1,36 +1,16 @@
-const CACHE_NAME = 'khalil-app-v2';
-const assets = [
-  './',
-  './index.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap'
-];
-
-// تثبيت ملف الخدمة وتخزين الملفات الأساسية
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(assets);
-    })
-  );
-});
-
-// تفعيل وتحديث الـ Cache
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-      );
-    })
-  );
-});
-
-// الاستجابة في حال عدم وجود انترنت
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
+/* المحبرة: ملفات الواجهة العامة فقط. لا تُخزّن بيانات المعلم أو طلبات Google Apps Script. */
+const CACHE='mihbara-public-v20261127';
+const ROOT=new URL('./',self.location.href);
+const PUBLIC=['./','./index.html','./manifest.json','./brand.svg','./icon-192.png','./icon-512.png','./identity.css?v=20261127','./timetable-data.js?v=20261127','./schedule.js?v=20261127'];
+const URLS=new Set(PUBLIC.map(path=>new URL(path,ROOT).href));
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(PUBLIC)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('mihbara-public-')||k==='khalil-app-v2')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET'||!URLS.has(request.url))return;
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE);
+    try{const response=await fetch(request);if(response.ok)await cache.put(request,response.clone());return response}
+    catch(error){const cached=await cache.match(request);if(cached)return cached;throw error}
+  })());
 });

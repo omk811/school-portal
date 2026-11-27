@@ -1,0 +1,52 @@
+/* محبرة | جدول الشعب الثلاث من النسخة المعتمدة في مشروع سعد، للعرض فقط */
+(() => {
+'use strict';
+const data=window.MIHBARA_TIMETABLE;
+const PERIODS=[['07:35','08:15'],['08:20','09:00'],['09:05','09:45'],['09:50','10:30'],['10:55','11:35'],['11:40','12:20'],['12:25','13:05'],['13:10','13:50']];
+const DAYS=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const CLASSES={'5A':'خامس ١','5B':'خامس ٢','5C':'خامس ٣'},groups={'5A':'5/1','5B':'5/2','5C':'5/3'},codes={'5A':'1/5','5B':'2/5','5C':'3/5'};
+const ENDPOINT='https://script.google.com/macros/s/AKfycbxaE54AYPy3XPTl7JUUw_nVEjA466BJqwZvwHfwPObBAxUuP_tfSZWgmbbne2xMsnxh/exec';
+const min=t=>Number(t.slice(0,2))*60+Number(t.slice(3,5)),name=n=>n==='خليل عربي'?'الأستاذ خليل البلوشي':n;
+const omanClock=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Muscat',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+const dateFormatter=new Intl.DateTimeFormat('ar-OM',{weekday:'long',day:'numeric',month:'long',timeZone:'Asia/Muscat'});
+function omanNow(date=new Date()){const p=Object.fromEntries(omanClock.formatToParts(date).map(x=>[x.type,x.value]));return {date:p.year+'-'+p.month+'-'+p.day,time:p.hour+':'+p.minute,weekday:new Date(p.year+'-'+p.month+'-'+p.day+'T12:00:00Z').getUTCDay()}}
+function phase(now){const t=min(now.time);if(now.date<'2026-11-01'||now.date>'2027-03-25')return {kind:'unavailable',label:'خارج فترة التوقيت الشتوي المعتمد'};
+if(now.weekday>4)return {kind:'weekend',label:'عطلة نهاية الأسبوع'};
+const index=PERIODS.findIndex(([a,b])=>t>=min(a)&&t<min(b));if(index>=0)return {kind:'lesson',label:'الحصة '+(index+1)+' الآن',index,ends:PERIODS[index][1],remaining:min(PERIODS[index][1])-t};
+if(t>=min('10:30')&&t<min('10:55'))return {kind:'recess',label:'الفسحة · 10:30 – 10:55'};
+if(t<min('07:20'))return {kind:'before',label:'قبل بداية الدوام'};
+if(t<min('07:35'))return {kind:'assembly',label:'الطابور الصباحي · 07:20 – 07:35'};
+if(t>=min('13:50'))return {kind:'finished',label:'انتهى الدوام الدراسي'};
+return {kind:'transition',label:'الفترة بين الحصص'};}
+function effective(base,changes,group){const rows=base.map(x=>x.slice());for(const ch of changes){if(!ch||ch.type!=='swap'||ch.group!==group)continue;for(const [slot,teacher] of [[ch.first,ch.afterFirst],[ch.second,ch.afterSecond]]){if(Number.isInteger(Number(slot))&&Number(slot)>=1&&Number(slot)<=8&&typeof teacher==='string'&&teacher.trim())rows[Number(slot)-1]=[teacher.trim()]}}return rows}
+const root=document.getElementById('mihSchedule');if(!root)return;
+const $=id=>root.querySelector('#'+id), el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
+if(!data?.classes){$('mhStatus').textContent='تعذر تحميل بيانات الجدول الدراسي.';return}
+let chosen='all',weekClass='5A',view='day',dayPick='',active=false,changesDate='',changes={},changeState={},subjects={},subjectState='idle',lastSync=0,pending=false,lastSignature='';
+function material(n,key){if(n==='خليل عربي'||n==='الأستاذ خليل البلوشي')return 'اللغة العربية';return typeof subjects[n]?.[codes[key]]==='string'?subjects[n][codes[key]]:''}
+function label(teachers,key){return teachers.length?teachers.map(n=>[material(n,key),name(n)].filter(Boolean).join(' · ')).join('، '):'لا حصة مسجّلة'}
+function lessonRows(key,day,now){const base=data.classes[key]?.[day]||Array.from({length:8},()=>[]);return day===DAYS[now.weekday]&&changesDate===now.date?effective(base,changes[key]||[],groups[key]):base}
+function nextIdx(now,rows){if(now.weekday>4||now.date<'2026-11-01'||now.date>'2027-03-25')return -1;return PERIODS.findIndex(([start],i)=>min(start)>min(now.time)&&rows[i].length)}
+function markOwn(node,names){if(names.includes('خليل عربي')||names.includes('الأستاذ خليل البلوشي'))node.classList.add('mh-own')}
+function renderCurrent(now,p){const cards=Object.keys(CLASSES).filter(k=>chosen==='all'||k===chosen);const fragment=document.createDocumentFragment();if(['weekend','finished','unavailable'].includes(p.kind)){fragment.append(el('p','mh-note','لا توجد حصة جارية؛ يمكنك فتح الجدول واختيار أي يوم دراسي.'));$('mhLive').replaceChildren(fragment);return}for(const k of cards){const card=el('article','mh-live-card');const day=DAYS[now.weekday],rows=lessonRows(k,day,now);card.append(el('div','mh-class',CLASSES[k]));if(p.kind==='lesson'){const ns=rows[p.index];markOwn(card,ns);card.append(el('strong','mh-live-name',label(ns,k)),el('div','mh-time',PERIODS[p.index].join(' – ')),el('small','mh-remaining','متبقٍّ '+p.remaining+' د'));}else{card.append(el('strong','mh-live-name',p.label));}
+const next=nextIdx(now,rows);if(next>=0)card.append(el('small','mh-next','التالية: '+(next+1)+' · '+label(rows[next],k)+' · '+PERIODS[next][0]));fragment.append(card)}$('mhLive').replaceChildren(fragment)}
+function row(key,day,now){return lessonRows(key,day,now)}
+function renderTable(now,p){const key=weekClass;const target=$('mhTable');target.replaceChildren();$('mhDayWrap').hidden=view==='week';$('mhDay').value=dayPick; $('mhClass').value=key;
+if(view==='day'){const day=dayPick||data.days[0],rows=row(key,day,now);const list=el('div','mh-day-list');for(let i=0;i<8;i++){const item=el('div','mh-slot');markOwn(item,rows[i]);if(day===DAYS[now.weekday]&&p.index===i)item.classList.add('mh-current');item.append(el('span','mh-num',String(i+1)),el('div','mh-slot-label',label(rows[i],key)),el('bdi','mh-time',PERIODS[i].join(' – ')));list.append(item);if(i===3)list.append(el('div','mh-break','الفسحة · 10:30 – 10:55'))}target.append(list)}
+else{const table=el('table','mh-week'),head=el('thead'),tr=el('tr');tr.append(el('th','','اليوم'));PERIODS.forEach((times,i)=>{const th=el('th','','الحصة '+(i+1));th.append(el('bdi','mh-time',times.join(' – ')));tr.append(th)});head.append(tr);table.append(head);const body=el('tbody');for(const day of data.days){const line=el('tr'),th=el('th','',day);th.scope='row';line.append(th);const rows=row(key,day,now);rows.forEach((ns,i)=>{const cell=el('td','',label(ns,key));markOwn(cell,ns);if(day===DAYS[now.weekday]&&p.index===i)cell.classList.add('mh-current');line.append(cell)});body.append(line)}table.append(body);target.append(table)}
+const note=$('mhNote');note.textContent='اللون الأخضر: حصص الأستاذ خليل. '+(dayPick===DAYS[now.weekday]||view==='week'?'تُطبّق تغييرات اليوم المنشورة فقط، إن توفرت.':'جدول اليوم المختار وفق الجدول الأسبوعي الأساسي.');}
+function render(force=false){if(!active)return;const now=omanNow(),p=phase(now);if(!dayPick)dayPick=now.weekday<5?DAYS[now.weekday]:DAYS[0];$('mhClock').textContent=now.time;$('mhDate').textContent=dateFormatter.format(new Date(now.date+'T12:00:00Z'))+' · توقيت عُمان';$('mhPhase').textContent=p.label;root.dataset.phase=p.kind;
+const sig=JSON.stringify([now,chosen,weekClass,view,dayPick,changesDate,changes,changeState,subjectState]);if(!force&&sig===lastSignature)return;lastSignature=sig;renderCurrent(now,p);renderTable(now,p);const keys=chosen==='all'?Object.keys(CLASSES):[chosen];const relevant=[...new Set([...keys,weekClass])];let msg='الجدول الأساسي المعتمد (15 نوفمبر 2026). ';if(now.weekday<5&&p.kind!=='unavailable'){const checked=changesDate===now.date&&relevant.every(k=>changeState[k]==='ok');msg+=checked?'تم التحقق من التغييرات المنشورة لليوم.':'لم يُؤكَّد تحديث تغييرات اليوم بعد؛ المعروض وفق الجدول الأساسي.'}else msg+='المواعيد الشتوية 1 نوفمبر 2026 – 25 مارس 2027.';if(subjectState==='failed')msg+=' قد لا تظهر أسماء بعض المواد.';$('mhStatus').textContent=msg;$('mhStatus').classList.toggle('mh-warning',now.weekday<5&&p.kind!=='unavailable'&&relevant.some(k=>changeState[k]!=='ok'));
+const publicNotes=(changesDate===now.date?relevant.flatMap(k=>(changes[k]||[]).filter(c=>c.type==='note'&&typeof c.text==='string').map(c=>CLASSES[k]+': '+c.text)):[]);$('mhChanges').replaceChildren(...publicNotes.map(n=>el('li','',n)));$('mhChanges').hidden=!publicNotes.length;}
+async function get(q){const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const response=await fetch(ENDPOINT+'?'+new URLSearchParams(q),{cache:'no-store',signal:ctrl.signal});if(!response.ok)throw Error('http');const d=await response.json();if(d.ok!==true)throw Error('api');return d}finally{clearTimeout(timer)}}
+async function refresh(force=false){if(!active||pending)return;const now=omanNow();if(!force&&Date.now()-lastSync<120000&&changesDate===now.date)return;pending=true;lastSync=Date.now();$('mhRefresh').disabled=true;if(changesDate!==now.date){changesDate=now.date;changes={};changeState={}}const jobs=[];if(now.weekday<5&&phase(now).kind!=='unavailable'){const keys=Object.keys(CLASSES);for(const k of keys){jobs.push(get({action:'schoolChangesPublic',date:now.date,group:groups[k]}).then(d=>{if(d.date!==now.date||!Array.isArray(d.changes))throw Error('data');changes[k]=d.changes.filter(c=>c.group===groups[k]);changeState[k]='ok'}).catch(()=>{changeState[k]='failed';delete changes[k]}))}}
+if(subjectState!=='ok'||force){jobs.push(get({action:'subjects'}).then(d=>{if(!d.subjects||typeof d.subjects!=='object')throw Error('data');const projected={};for(const [n,r] of Object.entries(d.subjects)){if(!r||typeof r!=='object')continue;for(const code of Object.values(codes)){if(typeof r[code]==='string'){(projected[n]||={})[code]=r[code]}}}subjects=projected;subjectState='ok'}).catch(()=>{subjectState='failed'}))}
+render(true);await Promise.allSettled(jobs);pending=false;$('mhRefresh').disabled=false;render(true)}
+function selectClass(k){chosen=Object.prototype.hasOwnProperty.call(CLASSES,k)?k:'all';if(chosen!=='all')weekClass=chosen;render(true)}
+function activate(){if(active)return;active=true;render(true);refresh(true)}
+function deactivate(){active=false}
+$('mhClass').addEventListener('change',e=>{weekClass=e.target.value;render(true)});$('mhDay').addEventListener('change',e=>{dayPick=e.target.value;render(true)});$('mhView').addEventListener('change',e=>{view=e.target.value;render(true)});$('mhRefresh').addEventListener('click',()=>refresh(true));
+window.MihbaraSchedule={selectClass,activate,deactivate,refresh,open(){ $('mhDetails').open=true; }};
+setInterval(()=>{if(active&&!document.hidden){render();refresh()}},15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&active){render(true);refresh()}});
+if(root.dataset.mode==='public')activate();
+})();
