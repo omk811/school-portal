@@ -37,7 +37,18 @@ const next=nextIdx(now,rows);if(next>=0){const upcoming=el('div','mh-next');upco
 function row(key,day,now){return lessonRows(key,day,now)}
 function renderTable(now,p){const key=weekClass;const target=$('mhTable');target.replaceChildren();$('mhDayWrap').hidden=view==='week';$('mhDay').value=dayPick; $('mhClass').value=key;
 if(view==='day'){const day=dayPick||data.days[0],rows=row(key,day,now);const list=el('div','mh-day-list');for(let i=0;i<8;i++){const item=el('div','mh-slot');markOwn(item,rows[i]);if(day===DAYS[now.weekday]&&p.index===i)item.classList.add('mh-current');item.append(el('span','mh-num',String(i+1)),lessonLabel(rows[i],key,'mh-slot-label'),el('bdi','mh-time',PERIODS[i].join(' – ')));list.append(item);if(i===3)list.append(el('div','mh-break','الفسحة · 10:30 – 10:55'))}target.append(list)}
-else{const table=el('table','mh-week'),head=el('thead'),tr=el('tr');tr.append(el('th','','اليوم'));PERIODS.forEach((times,i)=>{const th=el('th','','الحصة '+(i+1));th.append(el('bdi','mh-time',times.join(' – ')));tr.append(th)});head.append(tr);table.append(head);const body=el('tbody');for(const day of data.days){const line=el('tr'),th=el('th','',day);th.scope='row';line.append(th);const rows=row(key,day,now);rows.forEach((ns,i)=>{const cell=el('td');cell.append(lessonLabel(ns,key));markOwn(cell,ns);if(day===DAYS[now.weekday]&&p.index===i)cell.classList.add('mh-current');line.append(cell)});body.append(line)}table.append(body);target.append(table)}
+else{target.append(weeklyTable(key,now,p))}
+}
+function weeklyTable(key,now,p){const table=el('table','mh-week'),head=el('thead'),tr=el('tr');tr.append(el('th','','اليوم'));PERIODS.forEach((times,i)=>{const th=el('th','','الحصة '+(i+1));th.append(el('bdi','mh-time',times.join(' – ')));tr.append(th)});head.append(tr);table.append(head);const body=el('tbody');for(const day of data.days){const line=el('tr'),th=el('th','',day);th.scope='row';line.append(th);const rows=row(key,day,now);rows.forEach((ns,i)=>{const cell=el('td');cell.append(lessonLabel(ns,key));markOwn(cell,ns);if(day===DAYS[now.weekday]&&p.index===i)cell.classList.add('mh-current');line.append(cell)});body.append(line)}table.append(body);return table}
+function printSchedule(){
+ const old=document.getElementById('mhPrintSheet');if(old)old.remove();
+ const sheet=el('section','mh-print-sheet');sheet.id='mhPrintSheet';
+ const now=omanNow(),p=phase(now),title=el('h1','','الجدول الدراسي الأسبوعي — '+CLASSES[weekClass]);
+ sheet.append(el('p','mh-print-brand','المحبرة · الأستاذ خليل البلوشي'),title,weeklyTable(weekClass,now,p),el('p','mh-print-foot','سلطنة عُمان · مدرسة سعد بن معاذ للتعليم الأساسي'));
+ const style=el('style');style.textContent='@page { size: A4 landscape; margin: 9mm; }';sheet.append(style);
+ document.body.append(sheet);document.body.classList.add('mh-print-schedule');
+ const clean=()=>{document.body.classList.remove('mh-print-schedule');sheet.remove();};
+ window.addEventListener('afterprint',clean,{once:true});window.print();
 }
 function render(force=false){if(!active)return;const now=omanNow(),p=phase(now);if(!dayPick)dayPick=now.weekday<5?DAYS[now.weekday]:DAYS[0];$('mhClock').textContent=now.time;$('mhDate').textContent=dateFormatter.format(new Date(now.date+'T12:00:00Z'))+' · توقيت عُمان';$('mhPhase').textContent=p.label;root.dataset.phase=p.kind;
 const sig=JSON.stringify([now,chosen,weekClass,view,dayPick,changesDate,changes,changeState,subjectState]);if(!force&&sig===lastSignature)return;lastSignature=sig;renderCurrent(now,p);renderTable(now,p);const keys=chosen==='all'?Object.keys(CLASSES):[chosen];const relevant=[...new Set([...keys,weekClass])];const failed=now.weekday<5&&p.kind!=='unavailable'&&changesDate===now.date&&relevant.some(k=>changeState[k]==='failed');const status=$('mhStatus');status.hidden=!failed;status.textContent=failed?'تعذّر تحديث تغييرات اليوم.':'';status.classList.toggle('mh-warning',failed);
@@ -49,7 +60,7 @@ render(true);await Promise.allSettled(jobs);pending=false;$('mhRefresh').disable
 function selectClass(k){chosen=Object.prototype.hasOwnProperty.call(CLASSES,k)?k:'all';if(chosen!=='all')weekClass=chosen;render(true)}
 function activate(){if(active)return;active=true;render(true);refresh(true)}
 function deactivate(){active=false}
-$('mhClass').addEventListener('change',e=>{weekClass=e.target.value;render(true)});$('mhDay').addEventListener('change',e=>{dayPick=e.target.value;render(true)});$('mhView').addEventListener('change',e=>{view=e.target.value;render(true)});$('mhRefresh').addEventListener('click',()=>refresh(true));
+$('mhClass').addEventListener('change',e=>{weekClass=e.target.value;render(true)});$('mhDay').addEventListener('change',e=>{dayPick=e.target.value;render(true)});$('mhView').addEventListener('change',e=>{view=e.target.value;render(true)});$('mhRefresh').addEventListener('click',()=>refresh(true));$('mhPrint')?.addEventListener('click',printSchedule);
 window.MihbaraSchedule={selectClass,activate,deactivate,refresh,open(){ $('mhDetails').open=true; }};
 setInterval(()=>{if(active&&!document.hidden){render();refresh()}},15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&active){render(true);refresh()}});
 if(root.dataset.mode==='public')activate();

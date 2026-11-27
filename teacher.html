@@ -313,10 +313,11 @@ a { text-decoration: none; color: inherit; }
 }
 </style>
 
-<link rel="stylesheet" href="identity.css?v=20261127e">
+<link rel="stylesheet" href="identity.css?v=20261127f">
 <link rel="icon" href="brand.svg" type="image/svg+xml">
 <script defer src="timetable-data.js?v=20261127b"></script>
-<script defer src="schedule.js?v=20261127c"></script>
+<script defer src="schedule.js?v=20261127f"></script>
+<script src="notice-meta.js?v=1"></script>
 </head>
 <body class="mh-teacher">
 
@@ -385,11 +386,11 @@ a { text-decoration: none; color: inherit; }
 
   <main class="main">
 
-    <nav class="mh-jump" aria-label="التنقل السريع"><a href="#mihSchedule" onclick="window.MihbaraSchedule?.open()">الجدول الدراسي</a><a href="#mhJumpBanner">الإعلانات</a><a href="#mhJumpNotices">الملاحظات</a><a href="#mhJumpComments">التعليقات</a><a href="#mhJumpSettings">الإعدادات</a></nav>
+    <nav class="mh-jump" aria-label="التنقل السريع"><a href="#mihSchedule" onclick="window.MihbaraSchedule?.open()">الجدول الدراسي</a><a href="calendar.html" target="_blank" rel="noopener noreferrer">تقويم المهام</a><a href="#mhJumpBanner">الإعلانات</a><a href="#mhJumpNotices">الملاحظات</a><a href="#mhJumpComments">التعليقات</a><a href="#mhJumpSettings">الإعدادات</a></nav>
     <section id="mihSchedule" class="mh-schedule" data-mode="teacher" aria-labelledby="mhTitle">
   <div class="mh-heading"><div><h2 id="mhTitle">الحصة المجدولة الآن والجدول الدراسي</h2></div><div class="mh-clockbox"><time id="mhClock" dir="ltr">--:--</time><small id="mhDate">توقيت عُمان</small></div></div>
   <div id="mhPhase" class="mh-phase" aria-live="polite">جاري تحديد التوقيت…</div>
-  <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status" hidden></p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button>
+  <div id="mhLive" class="mh-live"></div><p id="mhStatus" class="mh-status" role="status" hidden></p><button id="mhRefresh" type="button" class="mh-button">↻ تحديث الجدول</button> <button type="button" id="mhPrint" class="mh-button">طباعة جدول الشعبة</button>
   <ul id="mhChanges" class="mh-changes" hidden></ul>
   <details id="mhDetails" class="mh-details"><summary>عرض الجدول اليومي والأسبوعي</summary>
     <div class="mh-tools"><label>الشعبة<select id="mhClass"><option value="5A">خامس ١</option><option value="5B">خامس ٢</option><option value="5C">خامس ٣</option></select></label><label>طريقة العرض<select id="mhView"><option value="day">جدول يوم</option><option value="week">أسبوع كامل</option></select></label><label id="mhDayWrap">اليوم<select id="mhDay"><option>الأحد</option><option>الإثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select></label></div>
@@ -533,7 +534,7 @@ a { text-decoration: none; color: inherit; }
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
-    <div class="modal-title"><i class="fa fa-plus-circle" style="color:#10b981"></i> إضافة ملاحظة جديدة</div>
+    <div class="modal-title" id="mhModalTitle">إضافة ملاحظة جديدة</div>
     <div class="m-row">
       <div>
         <label class="m-label">نوع الملاحظة</label>
@@ -567,6 +568,12 @@ a { text-decoration: none; color: inherit; }
       <input class="m-input" type="file" accept="image/*" id="m-img" onchange="handleImg(event)">
       <img class="preview-img" id="previewImg" alt="معاينة">
     </div>
+    <div class="mh-meta-fields">
+      <label for="m-publish">موعد النشر (توقيت عُمان)</label><input class="m-input" type="datetime-local" id="m-publish"><small id="mhPublishHint">اتركه فارغًا للنشر الآن.</small>
+      <label for="m-pin">تثبيت المنشور حتى (اختياري)</label><input class="m-input" type="datetime-local" id="m-pin">
+      <div class="m-row"><div><label for="m-due">موعد المهمة (اختياري)</label><input class="m-input" type="date" id="m-due"></div><div><label for="m-event">نوع الموعد</label><select class="m-select" id="m-event"><option value="homework">واجب</option><option value="exam">اختبار</option><option value="review">مراجعة</option><option value="activity">نشاط</option><option value="other">موعد</option></select></div></div>
+      <button class="mh-button" id="mhRemoveImg" type="button" onclick="removeNoticeImage()" hidden>إزالة الصورة المرفقة</button>
+    </div>
     <button class="m-save-btn" id="mSaveBtn" onclick="saveNotice()">
       <i class="fa fa-check-circle"></i> حفظ ونشر الملاحظة
     </button>
@@ -585,7 +592,7 @@ const TYPE_BADGE  = { homework:'badge-homework', activity:'badge-activity', aler
 const BANNER_MARKER = '[[MIHBARA_FEATURED_BANNER]]';
 const TICKER_ONLY_MARKER = '[[MIHBARA_TICKER_ONLY]]';
 
-let appData = null, selectedClass = 'all', noticeFilter = 'all', imgBase64 = '';
+let appData = null, selectedClass = 'all', noticeFilter = 'all', imgBase64 = '', editingNoticeId=null, noticeSaving=false;
 
 function toast(msg, type='ok') {
   const el = document.getElementById('toast');
@@ -629,7 +636,7 @@ function protectNoticeTitle(value){
   return title;
 }
 function stripBannerMarker(value){
-  return String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,'').trimEnd();
+  return MihbaraMeta.strip(String(value??'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,''));
 }
 function hasBannerMarker(notice){return String(notice?.det||'').includes(BANNER_MARKER);}
 function hasTickerOnlyMarker(notice){return String(notice?.det||'').includes(TICKER_ONLY_MARKER);}
@@ -732,7 +739,6 @@ function setFilter(flt) {
 function getFiltered() {
   if (!appData) return [];
   return (appData.notices || []).filter(n =>
-    !hasTickerOnlyMarker(n) &&
     (selectedClass === 'all' || n.cls === 'all' || n.cls === selectedClass) &&
     (noticeFilter  === 'all' || n.type === noticeFilter)
   );
@@ -756,7 +762,7 @@ function render() {
 
 function renderNotices() {
   const el = document.getElementById('noticesList');
-  const list = getFiltered();
+  const list = MihbaraMeta.order(getFiltered());
   if (!list.length) {
     el.innerHTML = `<div class="list-empty"><i class="fa fa-file-alt"></i><p>لا توجد ملاحظات في هذا القسم</p></div>`;
     return;
@@ -769,9 +775,11 @@ function renderNotices() {
           <span class="badge ${TYPE_BADGE[n.type]}">${TYPE_NAMES[n.type]}</span>
           <span class="badge badge-class">${CLASS_NAMES[n.cls] || n.cls}</span>
         </div>
-        <span class="notice-date">${n.date || ''}</span>
+        <span class="notice-date">${escHtml(n.date || '')}</span>
       </div>
       <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
+      ${noticeMetaBadges(n)}
+      <div class="mh-edit-row"><button type="button" class="mh-button" onclick="editNotice(${Number(n.id)})"><i class="fa fa-pen"></i> تعديل</button></div>
       ${stripBannerMarker(n.det) ? `<div class="notice-det">${makeLinks(escHtml(stripBannerMarker(n.det)))}</div>` : ''}
       ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
       ${renderNoticeReactions(n)}
@@ -809,7 +817,7 @@ async function saveBannerSelection(){
     if(hasTickerOnlyMarker(n))flags.push(TICKER_ONLY_MARKER);
     if(selectedIds.has(String(n.id)))flags.push(BANNER_MARKER);
     const reactionMarker=raw.match(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/)?.[0]||'';
-    const det=[details,...flags,reactionMarker].filter(Boolean).join(String.fromCharCode(10));
+    const det=[details,...flags,reactionMarker,MihbaraMeta.marker(MihbaraMeta.read(n))].filter(Boolean).join(String.fromCharCode(10));
     return {...n,det:det||undefined};
   });
   saveCache(appData);renderBannerSettings();
@@ -915,13 +923,32 @@ function renderClassSummary() {
 }
 
 // ── Modal ──
-function openModal() {
-  document.getElementById('modalOverlay').classList.add('open');
-  ['m-title','m-det'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('m-img').value = '';
-  document.getElementById('previewImg').className = 'preview-img';
-  imgBase64 = '';
+function noticeMetaBadges(n){
+ const m=MihbaraMeta.read(n),items=[];
+ if(hasTickerOnlyMarker(n))items.push('للشريط فقط');
+ if(m.publish>Date.now())items.push('مجدول: '+MihbaraMeta.timeLabel(m.publish));
+ if(MihbaraMeta.pinned(n))items.push('مثبّت حتى '+MihbaraMeta.timeLabel(m.pin));
+ if(m.due)items.push((MihbaraMeta.eventNames[m.event]||'موعد')+' · '+MihbaraMeta.dateLabel(m.due));
+ return items.length?'<div class="mh-notice-meta">'+items.map(s=>'<span>'+escHtml(s)+'</span>').join('')+'</div>':'';
 }
+function removeNoticeImage(){imgBase64='';document.getElementById('m-img').value='';document.getElementById('previewImg').className='preview-img';document.getElementById('previewImg').removeAttribute('src');document.getElementById('mhRemoveImg').hidden=true;}
+function openModal(id=null) {
+  const n=id===null?null:(appData?.notices||[]).find(x=>String(x.id)===String(id));
+  if(id!==null&&!n){toast('تعذر العثور على المنشور','warn');return;}
+  editingNoticeId=n?n.id:null;
+  const get=id=>document.getElementById(id),m=MihbaraMeta.read(n||{});
+  get('mhModalTitle').textContent=n?'تعديل المنشور':'إضافة ملاحظة جديدة';
+  get('m-title').value=n?displayNoticeTitle(n.title):'';get('m-det').value=n?stripBannerMarker(n.det):'';
+  get('m-type').value=n?n.type:'homework';get('m-class').value=n?n.cls:selectedClass;
+  get('m-publish').value=m.publish>Date.now()?MihbaraMeta.toInput(m.publish):'';
+  get('m-publish').disabled=Number(appData?.noticeFeatures)<2||!appData?.noticeFeatures;
+  get('mhPublishHint').textContent=get('m-publish').disabled?'يتطلب تفعيل الجدولة تحديث خادم المحبرة.':'اتركه فارغًا للنشر الآن.';
+  get('m-pin').value=m.pin>Date.now()?MihbaraMeta.toInput(m.pin):'';
+  get('m-due').value=m.due;get('m-event').value=m.event||'homework';
+  removeNoticeImage();if(n?.img){imgBase64=n.img;get('previewImg').src=n.img;get('previewImg').className='preview-img show';get('mhRemoveImg').hidden=false;}
+  get('modalOverlay').classList.add('open');
+}
+function editNotice(id){openModal(id);}
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 
@@ -938,7 +965,7 @@ function handleImg(e) {
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
       imgBase64 = canvas.toDataURL('image/jpeg', 0.6);
       const p = document.getElementById('previewImg');
-      p.src = imgBase64; p.className = 'preview-img show';
+      p.src = imgBase64; p.className = 'preview-img show'; document.getElementById('mhRemoveImg').hidden=false;
     };
     img.src = ev.target.result;
   };
@@ -946,24 +973,34 @@ function handleImg(e) {
 }
 
 async function saveNotice() {
-  const title = document.getElementById('m-title').value.trim();
-  if (!title) { toast('⚠️ أدخل عنوان الملاحظة', 'warn'); return; }
-  const btn = document.getElementById('mSaveBtn');
-  btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> جاري الحفظ...';
-  const now = new Date();
-  const n = {
-    id:    (appData?.nId || 0) + 1,
-    type:  document.getElementById('m-type').value,
-    cls:   document.getElementById('m-class').value,
-    title: protectNoticeTitle(title), det: document.getElementById('m-det').value.trim() || undefined,
-    img:   imgBase64 || undefined,
-    date:  now.toLocaleDateString('ar-OM') + ' ' + now.toLocaleTimeString('ar-OM', {hour:'2-digit',minute:'2-digit'})
-  };
-  if (!appData) appData = { notices:[], nId:0 };
-  appData.nId = n.id; appData.notices.unshift(n);
-  saveCache(appData); render(); closeModal(); toast('✅ تمت الإضافة بنجاح');
-  postBg('saveNotices', { data: JSON.stringify(appData.notices) });
-  btn.disabled = false; btn.innerHTML = '<i class="fa fa-check-circle"></i> حفظ ونشر الملاحظة';
+  if(noticeSaving||!appData)return;
+  const get=id=>document.getElementById(id),title=get('m-title').value.trim();
+  if(!title){toast('⚠️ أدخل عنوان الملاحظة','warn');return;}
+  const now=Date.now(),publish=MihbaraMeta.timestamp(get('m-publish').value),pin=MihbaraMeta.timestamp(get('m-pin').value),due=get('m-due').value,event=get('m-event').value;
+  if(!Number.isFinite(publish)||!Number.isFinite(pin)||(publish&&publish<=now)||(pin&&pin<=Math.max(now,publish))){toast('⚠️ تأكد من أن وقت النشر والتثبيت مستقبليان، وأن التثبيت بعد النشر','warn');return;}
+  if(publish&&Number(appData.noticeFeatures||0)<2){toast('يجب تحديث خادم المحبرة لتفعيل الجدولة','warn');return;}
+  const metadata=MihbaraMeta.marker({publish,pin,due,event:due?event:''});
+  const content=MihbaraMeta.strip(get('m-det').value.trim()).split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('').replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,'');
+  const item={id:editingNoticeId,type:get('m-type').value,cls:get('m-class').value,title:protectNoticeTitle(title),det:[content,metadata].filter(Boolean).join('\n'),img:imgBase64||''};
+  const btn=get('mSaveBtn');noticeSaving=true;btn.disabled=true;btn.textContent='جارٍ الحفظ…';
+  try{
+    if(Number(appData.noticeFeatures)>=2){
+      await apiPost('saveNoticeItem',{data:JSON.stringify(item)});
+    }else{
+      // التوافق مع الخادم السابق: قراءة أحدث السجل قبل حفظ القائمة، والحفاظ على التفاعلات والمعرّفات والوسوم.
+      const latest=await fetchData(),notices=latest.notices||[];
+      if(publish)throw Error('يتطلب النشر المجدول تحديث الخادم');
+      const original=editingNoticeId===null?null:notices.find(x=>String(x.id)===String(editingNoticeId));
+      if(editingNoticeId!==null&&!original)throw Error('تعذّر العثور على المنشور');
+      const raw=String(original?.det||''),flags=[hasBannerMarker(original)?BANNER_MARKER:'',hasTickerOnlyMarker(original)?TICKER_ONLY_MARKER:'',raw.match(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/)?.[0]||''];
+      const n={...item,id:original?.id??Math.max(Number(latest.nId)||100,...notices.map(x=>Number(x.id)||0))+1,date:original?.date||new Date().toLocaleDateString('ar-OM',{timeZone:'Asia/Muscat'})+' '+new Date().toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'}),det:[item.det,...flags].filter(Boolean).join('\n')};
+      const updated=original?notices.map(x=>String(x.id)===String(original.id)?n:x):[n,...notices];
+      await apiPost('saveNotices',{data:JSON.stringify(updated)});
+    }
+    closeModal();toast(publish?'✅ تم حفظ موعد النشر':editingNoticeId!==null?'✅ تم تعديل المنشور':'✅ تم نشر الملاحظة');
+    try{appData=await fetchData();saveCache(appData);render();}catch{toast('تم الحفظ، لكن تعذر تحديث القائمة. اضغط تحديث.','warn');}
+  }catch(error){if(error.code==='AUTH_REQUIRED')handleLogout();toast('⚠️ تعذر تأكيد الحفظ: '+(error.message||''),'warn');}
+  finally{noticeSaving=false;btn.disabled=false;btn.innerHTML='<i class="fa fa-check-circle"></i> حفظ ونشر الملاحظة';}
 }
 
 async function deleteNotice(id) {

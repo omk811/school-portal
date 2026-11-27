@@ -17,11 +17,15 @@ function handleRequest(e, isPost) {
     if (!action) return json({ status: 'error', message: 'No action specified' });
     if (action === 'loadData' && !isPost) return json(loadPublicData());
     if (action === 'authLogin' && isPost) return json(authLogin(String(p.password || '')));
-    if (action === 'addComment' && isPost) return json(addComment(p));
-    if (action === 'reactNotice' && isPost) return json(reactNotice(p));
+    if (isPost && (action === 'addComment' || action === 'reactNotice')) {
+      const publicLock = LockService.getScriptLock();
+      publicLock.waitLock(10000);
+      try { return json(action === 'addComment' ? addComment(p) : reactNotice(p)); }
+      finally { publicLock.releaseLock(); }
+    }
 
     const adminActions = ['teacherLoadData', 'saveNotices', 'saveQueries', 'updateQuery',
-      'deleteNotice', 'deleteQuery', 'changePassword'];
+      'deleteNotice', 'deleteQuery', 'changePassword', 'saveNoticeItem'];
     if (!isPost || adminActions.indexOf(action) < 0) {
       return json({ status: 'error', message: 'Invalid action' });
     }
@@ -35,6 +39,7 @@ function handleRequest(e, isPost) {
       switch (action) {
         case 'teacherLoadData': return json(loadTeacherData());
         case 'saveNotices': return json(saveNotices(p.data));
+        case 'saveNoticeItem': return json(saveNoticeItem_(p.data));
         case 'saveQueries': return json(saveQueries(p.data));
         case 'updateQuery': return json(updateQuery(p.id, p.status, p.reply));
         case 'deleteNotice': return json(deleteNotice(p.id));
@@ -57,16 +62,19 @@ function json(value) {
 
 function loadPublicData() {
   const all = readSheets();
+  const notices = all.notices.filter(function(n) { return noticeVisible_(n.det); });
+  const visibleIds = new Set(notices.map(function(n) { return String(n.id); }));
   const comments = all.queries.filter(function(q) {
-    return /^@post:\d+$/.test(String(q.student || ''));
+    const match = String(q.student || '').match(/^@post:(\d+)$/);
+    return match && visibleIds.has(match[1]);
   });
-  return { status: 'success', data: { notices: all.notices, queries: comments } };
+  return { status: 'success', data: { notices: notices, queries: comments } };
 }
 
 function loadTeacherData() {
   const all = readSheets();
   return { status: 'success', data: {
-    notices: all.notices, queries: all.queries, nId: all.nId, qId: all.qId
+    notices: all.notices, queries: all.queries, nId: all.nId, qId: all.qId, noticeFeatures: 2
   }};
 }
 
@@ -254,7 +262,7 @@ function addComment(p) {
   }
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const noticeRows = ss.getSheetByName('notices').getDataRange().getValues();
-  if (!noticeRows.slice(1).some(function(row) { return String(row[0]) === noticeId; })) {
+  if (!noticeRows.slice(1).some(function(row) { return String(row[0]) === noticeId && noticeVisible_(row[4]); })) {
     return { status: 'error', message: 'Notice not found' };
   }
   const sheet = ss.getSheetByName('queries');
@@ -277,6 +285,7 @@ function reactNotice(p) {
   const rows = sheet.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
     if (String(rows[i][0]) !== noticeId) continue;
+    if (!noticeVisible_(rows[i][4])) return { status: 'error', message: 'Notice not found' };
     const det = String(rows[i][4] || '');
     const oldMarker = det.match(/\[\[MIHBARA_REACTIONS:([^\]]*)\]\]/);
     const counts = {};
@@ -368,4 +377,44 @@ function initializeSheet() {
     sheet.appendRow(['nId', '100']);
     sheet.appendRow(['qId', '100']);
   }
+}
+/* نشر مجدول على الخادم؛ لا تُعاد المنشورات المؤجلة في الواجهة العامة. */
+function noticeVisible_(det) {
+  const text = String(det || '');
+  const matches = Array.from(text.matchAll(/\[\[MIHBARA_META:([^\]]*)\]\]/g));
+  const last = matches.length ? matches[matches.length-1][1] : '';
+  const value=last.match(/(?:^|;)publish=(\d+)(?:;|$)/);
+  return !value || Number(value[1]) <= Date.now();
+}
+function saveNoticeItem_(raw) {
+  const n=JSON.parse(raw||'{}');
+  const title=String(n.title||'').trim(), type=String(n.type||''), cls=String(n.cls||'');
+  if (!title || title.length>500 || ['homework','activity','alert','announcement'].indexOf(type)<0 ||
+      ['all','5A','5B','5C'].indexOf(cls)<0) throw Error('Invalid notice');
+  const sheet=SpreadsheetApp.getActiveSpreadsheet().getSheetByName('notices');
+  const rows=sheet.getDataRange().getValues();
+  const requested=String(n.id||'');
+  const index=requested?rows.findIndex(function(row,i){return i>0&&String(row[0])===requested;}):-1;
+  if(requested&&index<1) throw Error('Notice not found');
+  if(!requested&&rows.length>=501)throw Error('Maximum notices reached');
+  const id=requested?rows[index][0]:Math.max(100,readSheets().nId,...rows.slice(1).map(function(r){return Number(r[0])||0;}))+1;
+  const old=index>0?String(rows[index][4]||''):'';
+  const preserved=[BANNER_MARKER,TICKER_ONLY_MARKER].filter(function(m){return old.indexOf(m)>=0;});
+  const rx=old.match(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/);
+  if(rx)preserved.push(rx[0]);
+  let det=String(n.det||'').split(BANNER_MARKER).join('').split(TICKER_ONLY_MARKER).join('')
+    .replace(/\[\[MIHBARA_REACTIONS:[^\]]*\]\]/g,'').trim();
+  det=[det,...preserved].filter(Boolean).join('\n');
+  const date=index>0?rows[index][5]:Utilities.formatDate(new Date(),'Asia/Muscat','dd/MM/yyyy HH:mm');
+  const image=String(n.img||'');
+  // Plain text titles/details, including text that begins with spreadsheet formula syntax.
+  const safeText=function(s){return /^[=+\-@]/.test(s)?"'"+s:s;};
+  const record=[id,type,cls,safeText(title),safeText(det),date,image];
+  if(index>0)sheet.getRange(index+1,1,1,7).setValues([record]);
+  else {
+    sheet.insertRowBefore(2);
+    sheet.getRange(2,1,1,7).setValues([record]);
+    updateSetting('nId',Number(id)+1);
+  }
+  return {status:'success',id:id};
 }
