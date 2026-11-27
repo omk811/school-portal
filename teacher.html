@@ -313,11 +313,12 @@ a { text-decoration: none; color: inherit; }
 }
 </style>
 
-<link rel="stylesheet" href="identity.css?v=20261127f">
+<link rel="stylesheet" href="identity.css?v=20261127g">
 <link rel="icon" href="brand.svg" type="image/svg+xml">
 <script defer src="timetable-data.js?v=20261127b"></script>
 <script defer src="schedule.js?v=20261127f"></script>
 <script src="notice-meta.js?v=1"></script>
+<script src="read-more.js?v=1"></script>
 </head>
 <body class="mh-teacher">
 
@@ -780,7 +781,7 @@ function renderNotices() {
       <div class="notice-title">${escHtml(displayNoticeTitle(n.title))}</div>
       ${noticeMetaBadges(n)}
       <div class="mh-edit-row"><button type="button" class="mh-button" onclick="editNotice(${Number(n.id)})"><i class="fa fa-pen"></i> تعديل</button></div>
-      ${stripBannerMarker(n.det) ? `<div class="notice-det">${makeLinks(escHtml(stripBannerMarker(n.det)))}</div>` : ''}
+      ${MihbaraReadMore.render(stripBannerMarker(n.det),'teacher-'+n.id,'notice-det',v=>makeLinks(escHtml(v)))}
       ${n.img ? `<img class="notice-img" src="${n.img}" loading="lazy">` : ''}
       ${renderNoticeReactions(n)}
     </div>`).join('');

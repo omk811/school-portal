@@ -119,3 +119,7 @@ body.mh-print-schedule #mhPrintSheet{display:block!important;direction:rtl;font:
 #mhPrintSheet .mh-week .mh-subject{font-size:10pt}#mhPrintSheet .mh-week .mh-teacher-name{font-size:8.5pt}#mhPrintSheet .mh-week .mh-time{font-size:8pt}#mhPrintSheet .mh-current{outline:none}
 }
 @media(max-width:480px){.mh-nav-mobile a{font-size:clamp(.58rem,2.3vw,.75rem)}.mh-nav-mobile svg{width:19px;height:19px}.mh-cal-grid{gap:3px}.mh-meta-fields .m-row{grid-template-columns:1fr}}
+
+/* قراءة النص كاملًا — النص والصور والتعليقات تبقى مستقلة */
+.mh-readmore{min-width:0;overflow-wrap:anywhere}.mh-readmore [hidden]{display:none!important}.mh-readmore-btn{min-height:44px;padding:6px 12px;margin:8px 0 4px;border:1px solid var(--mh-border);border-radius:9px;color:var(--mh-green);background:#eef5ef;font:inherit;font-size:.84rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px}.mh-readmore-btn:hover{background:#dceee3}.mh-readmore-btn:focus-visible{outline:3px solid #b1853f;outline-offset:2px}.mh-readmore .notice-det,.mh-readmore .announcement-details{overflow-wrap:anywhere;white-space:pre-wrap}
+@media print{.mh-readmore .mh-text-preview,.mh-readmore .mh-readmore-btn{display:none!important}.mh-readmore .mh-text-full[hidden]{display:block!important}}
